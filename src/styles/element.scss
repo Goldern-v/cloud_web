@@ -1,0 +1,232 @@
+// cover some element-plus styles
+.el-menu {
+  border-right: none !important;
+}
+
+.el-menu-item,
+.el-sub-menu__title {
+  color: var(--theme-menu-text-color) !important;
+  height: 50px !important;
+  overflow: hidden;
+}
+
+.el-menu.el-menu--horizontal {
+  border-bottom: none !important;
+}
+
+.el-menu-item {
+  height: 50px !important;
+  line-height: 50px !important;
+  --el-menu-item-font-size: 12px;
+}
+
+.el-menu-item a,
+.el-menu-item a:hover,
+.el-menu-item i,
+.el-sub-menu__title i {
+  color: inherit;
+  text-decoration: none;
+}
+
+.el-menu-item .svg-icon,
+.el-sub-menu .svg-icon {
+  font-size: 16px !important;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5px;
+  // width: 24px;
+  text-align: center;
+}
+
+.el-sub-menu.is-active > :first-child {
+  overflow: hidden;
+  // color: var(--theme-menu-hover-color) !important; // 设置 选中后的父菜单
+}
+// 取消横向菜单下拉图标
+.el-menu--horizontal > .el-sub-menu .el-sub-menu__icon-arrow {
+  display: none;
+}
+.el-menu-item.is-active {
+  // border-bottom: 2px solid var(--theme-menu-border-color);
+  position: relative;
+  right: 1px;
+  overflow: hidden;
+  color: var(--theme-menu-hover-color) !important;
+  background-color: var(--theme-menu-hover-bg-color) !important;
+  &:hover{
+    background-color: var(--theme-menu-hover-bg-color) !important;
+  }
+}
+
+.el-sub-menu.is-active.is-opened {
+  .el-sub-menu__title {
+    background-color: unset !important;
+    color: var(--theme-menu-hover-color);
+  }
+}
+
+// 鼠标 hover 时
+.el-menu-item:hover,
+.el-sub-menu__title:hover {
+  background-color: $gray2-light !important;
+  // color: var(--theme-menu-hover-color) !important;
+}
+
+.el-pagination {
+  --el-pagination-font-size: 12px;
+  margin-top: 15px;
+  justify-content: flex-end;
+}
+
+.el-form--inline .el-form-item {
+  margin-right: 16px !important;
+}
+
+.el-drawer .el-drawer__header {
+  display: flex;
+  align-items: center;
+  height: var(--theme-header-height);
+  padding: 0 15px;
+  margin-bottom: 0 !important;
+  font-size: 15px;
+  border-bottom: 1px solid var(--el-border-color);
+  color: var(--el-text-color-primary);
+}
+.el-card.is-always-shadow {
+  box-shadow: none !important;
+}
+// 输入框、下拉框高度设置
+.el-input {
+  height: 34px;
+}
+// 设置表单域标签大小
+.el-form-item--default .el-form-item__label {
+  width: 100px;
+  margin-right: 10px;
+}
+.el-form-item--default {
+  margin-bottom: 20px;
+}
+.el-form {
+  padding: 0;
+}
+
+// 修改水平分割线上下边距
+.el-divider--horizontal {
+  margin: 16px 0;
+}
+//弹窗标题和底部加分割线
+.el-dialog__header {
+  padding: 15px 20px !important;
+  font-weight: bolder;
+  box-sizing: border-box;
+}
+.el-dialog__footer {
+  border-top: 1px solid #ccc;
+  padding: 15px;
+}
+.el-dialog__body {
+  padding: 0 20px 15px !important;
+}
+// 删除tabs灰色分割线
+.el-tabs__nav-wrap.is-top::after {
+  height: 0;
+}
+// 修改switch激活圆点位置
+.el-switch.is-checked .el-switch__core .el-switch__action {
+  margin-left: 0;
+}
+// 修改列表字体大小
+.el-table .cell.el-tooltip {
+  font-size: $defaultFontSize;
+}
+// form表单调整必填和非必填 标签文本左对齐
+.el-form-item.is-required:not(.is-no-asterisk).asterisk-left>.el-form-item__label:before {
+  content: "*";
+  width: 4px;
+  color: var(--el-color-danger);
+  margin-right: 4px;
+}
+.el-form-item.asterisk-left>.el-form-item__label:before {
+  content: "";
+  width: 4px;
+  color: var(--el-color-danger);
+  margin-right: 4px;
+}
+// 修改按钮字体大小
+.el-button {
+  --el-font-size-base: 12px;
+}
+//消息弹出窗确认按钮
+.is-message-box{
+  .el-button--primary{
+    background-color: var(--el-color-primary) !important;
+  }
+  .el-button--primary:hover{
+    background-color:var(--el-button-hover-border-color) !important;
+  }
+}
+
+// 修改单选框按钮字体大小
+.el-radio-button__inner {
+  --el-radio-button-checked-bg-color: var(--el-color-primary-light-9);
+  --el-radio-button-checked-text-color: var(--el-color-primary);
+  --el-font-size-base: 12px;
+}
+// 单选框字体大小
+.el-radio__label {
+  --el-radio-font-size: 12px;
+}
+// 修改多选框字体大小
+.el-checkbox__label {
+  --el-checkbox-font-size: 12px;
+}
+// 修改表单标签文本字体大小
+.el-form-item__label {
+  --el-form-label-font-size: 12px;
+}
+// 修改select弹框字体大小
+.el-select-dropdown__item {
+  --el-font-size-base: 12px;
+}
+// 修改tabs字体大小
+.el-tabs__item {
+  --el-font-size-base: 12px;
+}
+// 修改菜单字体大小
+.el-sub-menu__title {
+  --el-menu-item-font-size: 12px;
+}
+// 修改面包屑字体大小
+.el-breadcrumb {
+  font-size: 12px;
+}
+// 修改下拉菜单字体大小
+.el-dropdown-menu__item {
+  --el-font-size-base: 12px;
+  border-bottom: 1px solid $componentStroke; // 下拉菜单下划线
+}
+// 修改弹窗表单标题字体
+.el-dialog__title {
+  --el-dialog-title-font-size: 14px;
+}
+// 下拉菜单内边距
+.el-dropdown-menu {
+  padding: 0;
+}
+// 日期选择修改字体
+.el-date-editor .el-range-input{
+  --el-font-size-base: 12px;
+}
+// 修改复选框
+.el-checkbox__inner {
+  --el-checkbox-input-border: 1px solid #C5C5C5;
+}
+
+.el-text{
+  font-size: 12px;
+}
+//文字输入框提示字大小
+.el-textarea__inner {
+  font-size: 12px !important;
+}

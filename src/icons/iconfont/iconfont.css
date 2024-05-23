@@ -1,0 +1,59 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 2621026 */
+  src: url('iconfont.woff2?t=1635924032221') format('woff2'),
+      url('iconfont.woff?t=1635924032221') format('woff'),
+      url('iconfont.ttf?t=1635924032221') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+/** 失败*/ 
+.module-fail:before {
+  content: "\e617";
+}
+/** 启用*/
+.module-enabled:before {
+  content: "\e616";
+}
+/** 等待*/
+.module-wait:before {
+  content: "\e606";
+}
+/** 禁用*/
+.module-forbidden:before {
+  content: "\e658";
+}
+/** 闭眼*/
+.module-close-eyes:before {
+  content: "\e622";
+}
+/** 消息成功*/
+.module-success:before {
+  content: "\e71b";
+}
+/** */
+.module-loading:before {
+  content: "\e600";
+}
+/** 开始*/
+.module-start:before {
+  content: "\e61f";
+}
+/** 警告*/
+.module-warning:before {
+  content: "\e688";
+}
+/** 绑定*/
+.module-banding:before {
+  content: "\e615";
+}
+/** 关机*/
+.module-shutdown:before {
+  content: "\e64f";
+}
+

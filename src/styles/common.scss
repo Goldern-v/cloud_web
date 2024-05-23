@@ -1,0 +1,252 @@
+// 弹性伸缩-横向
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+// 弹性伸缩-纵向
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+// 主界面
+.ideal-main-container {
+  background-color: white;
+  margin: $largeSize;
+  box-shadow:0 0 5px 2px rgba($color: #333333, $alpha: 0.03);
+}
+// 列表界面
+.ideal-table-list__container {
+  width: 100%;
+  background-color: white;
+  padding: $middleSize 0 0;
+  box-sizing: border-box;
+}
+// 正文 默认
+.ideal-default-text {
+  font-size: $defaultFontSize;
+  height: 22px;
+  line-height: 22px;
+}
+// 正文 中
+.ideal-medium-text {
+  font-size: $mediumFontSize;
+  height: 24px;
+  line-height: 24px;
+}
+// 正文 大
+.ideal-large-text {
+  font-size: $largeFontSize;
+  height: 26px;
+  line-height: 26px;
+}
+// 弹框标题、数字
+.ideal-popup-title__container {
+  font-size: 18px;
+  height: 26px;
+  line-height: 26px;
+  border-bottom:1px solid #ccc;
+  margin:0px;
+}
+// 文本标题
+.ideal-text-head__container {
+  font-size: 36px;
+  height: 54px;
+  line-height: 54px;
+}
+// 数字、面额
+.ideal-content--small__container {
+  font-size: 20px;
+  height: 30px;
+  line-height: 30px;
+}
+.ideal-content--medium__container {
+  font-size: 24px;
+  height: 36px;
+  line-height: 36px;
+}
+.ideal-content--big__container {
+  font-size: 32px;
+  height: 48px;
+  line-height: 48px;
+}
+// 自定义灰色背景
+.ideal-gray-background__container {
+  border-radius: $circleRadiusSize;
+  background-color: $gray1-light;
+  align-items: center;
+  padding: $defaultSize;
+  margin-bottom: $defaultSize;
+}
+// 表单输入框
+.custom-input {
+  width: $formInputWidth;
+}
+// 提示文字
+.ideal-tip-text {
+  color: $gray7-light;
+  font-size: $defaultFontSize;
+}
+// 提示文字-warning
+.ideal-warning-text {
+  color: #f3ad3c;
+  font-size: $defaultFontSize;
+}
+// 提示文字-error
+.ideal-error-text {
+  color: $error6-light;
+  font-size: $defaultFontSize;
+}
+// 提示文字-主题色
+.ideal-theme-text {
+  color: var(--el-color-primary);
+  font-size: $defaultFontSize;
+}
+// 表格操作列表竖线
+.ideal-vertical-line {
+  color: #e5e6eb;
+}
+// 表格居中
+.ideal-table-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+// 矢量图组件右边距
+.ideal-svg-margin-right {
+  margin-right: 5px;
+}
+// 矢量图组件左边距
+.ideal-svg-margin-left {
+  margin-left: 5px;
+}
+//弹窗底部按钮加分割线
+.ideal-submit-button {
+  margin-top: $middleSize;
+  justify-content: flex-end;
+  align-items: center;
+}
+// 标题容器
+.ideal-header-container {
+  justify-content: flex-start;
+  align-items: center;
+  background-color: $gray1-light;
+  padding: 0 $defaultSize;
+  height: $headerContainerHeight;
+  line-height: $headerContainerHeight;
+  border-radius: $circleRadiusSize;
+}
+// 常用边距
+.ideal-default-margin {
+  margin: $defaultSize;
+}
+.ideal-middle-margin {
+  margin: $middleSize;
+}
+.ideal-large-margin {
+  margin: $largeSize;
+}
+.ideal-default-padding {
+  padding: $defaultSize;
+}
+.ideal-middle-padding {
+  padding: $middleSize;
+}
+.ideal-large-padding {
+  padding: $largeSize;
+}
+// 默认右边距
+.ideal-default-margin-right {
+  margin-right: $defaultSize;
+}
+// 中号右边距
+.ideal-middle-margin-right {
+  margin-right: $middleSize;
+}
+// 大号右边距
+.ideal-large-margin-right {
+  margin-right: $largeSize;
+}
+// 默认顶边距
+.ideal-default-margin-top {
+  margin-top: $defaultSize;
+}
+// 中号顶边距
+.ideal-middle-margin-top {
+  margin-top: $middleSize;
+}
+// 大号顶边距
+.ideal-large-margin-top {
+  margin-top: $largeSize;
+}
+// 默认左边距
+.ideal-default-margin-left {
+  margin-left: $defaultSize;
+}
+// 中号左边距
+.ideal-middle-margin-left {
+  margin-left: $middleSize;
+}
+// 大号左边距
+.ideal-large-margin-left {
+  margin-left: $largeSize;
+}
+//  默认底边距
+.ideal-default-margin-bottom {
+  margin-bottom: $defaultSize;
+}
+//  中号底边距
+.ideal-middle-margin-bottom {
+  margin-bottom: $middleSize;
+}
+//  大号底边距
+.ideal-large-margin-bottom {
+  margin-bottom: $largeSize;
+}
+// 默认右内边距
+.ideal-default-padding-right {
+  padding-right: $defaultSize;
+}
+// 中号右内边距
+.ideal-middle-padding-right {
+  padding-right: $middleSize;
+}
+// 大号右内边距
+.ideal-large-padding-right {
+  padding-right: $largeSize;
+}
+// 默认顶内边距
+.ideal-default-padding-top {
+  padding-top: $defaultSize;
+}
+// 中号顶内边距
+.ideal-middle-padding-top {
+  padding-top: $middleSize;
+}
+// 大号顶内边距
+.ideal-large-padding-top {
+  padding-top: $largeSize;
+}
+// 默认左内边距
+.ideal-default-padding-left {
+  padding-left: $defaultSize;
+}
+// 中号左内边距
+.ideal-middle-padding-left {
+  padding-left: $middleSize;
+}
+// 大号左内边距
+.ideal-large-padding-left {
+  padding-left: $largeSize;
+}
+//  默认底内边距
+.ideal-default-padding-bottom {
+  padding-bottom: $defaultSize;
+}
+//  中号底内边距
+.ideal-middle-padding-bottom {
+  padding-bottom: $middleSize;
+}
+//  大号底内边距
+.ideal-large-padding-bottom {
+  padding-bottom: $largeSize;
+}

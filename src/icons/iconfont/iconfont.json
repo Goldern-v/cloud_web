@@ -1,0 +1,86 @@
+{
+  "id": "2621026",
+  "name": "template",
+  "font_family": "iconfont",
+  "css_prefix_text": "module-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "3101163",
+      "name": "失败",
+      "font_class": "shibai",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "5638798",
+      "name": "启用",
+      "font_class": "qiyong",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
+      "icon_id": "5800408",
+      "name": "等待",
+      "font_class": "dengdai",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "6536709",
+      "name": "禁用",
+      "font_class": "jinyong",
+      "unicode": "e658",
+      "unicode_decimal": 58968
+    },
+    {
+      "icon_id": "12407437",
+      "name": "眼睛",
+      "font_class": "biyan",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "7674919",
+      "name": "成功",
+      "font_class": "xiaoxi-chenggong",
+      "unicode": "e71b",
+      "unicode_decimal": 59163
+    },
+    {
+      "icon_id": "98045",
+      "name": "loading",
+      "font_class": "loading",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "15297033",
+      "name": "开始",
+      "font_class": "kaishi",
+      "unicode": "e61f",
+      "unicode_decimal": 58911
+    },
+    {
+      "icon_id": "8311301",
+      "name": "异常管理",
+      "font_class": "yichangguanli",
+      "unicode": "e688",
+      "unicode_decimal": 59016
+    },
+    {
+      "icon_id": "10199180",
+      "name": "绑定",
+      "font_class": "bangding",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "13614063",
+      "name": "关机",
+      "font_class": "guanji",
+      "unicode": "e64f",
+      "unicode_decimal": 58959
+    }
+  ]
+}

@@ -1,0 +1,130 @@
+.report-form {
+  width: 100%;
+  min-height: calc(
+    100vh - var(--theme-header-height) - var(--navigation-bar-height) - 40px
+  );
+  :deep(.el-divider--vertical) {
+    border-left: 2px var(--el-color-primary) var(--el-border-style);
+  }
+  .report-form-left {
+    width: 20%;
+    border-right: 1px $gray1-light solid;
+    background-color: white;
+
+    .report-form__title,
+    .report-form__btn {
+      padding: 10px 0;
+      border-bottom: 1px $gray1-light solid;
+    }
+    .report-form__title {
+      justify-content: flex-start;
+      align-items: center;
+      font-size: 15px;
+      font-weight: 600;
+      height: 30px;
+    }
+    .report-form__btn {
+      justify-content: center;
+    }
+    .el-menu__level .el-menu-item {
+      width: 50%;
+    }
+  }
+
+  .report-form-right {
+    width: 80%;
+    .report-form__file-title {
+      border-bottom: 1px $gray1-light solid;
+      align-items: center;
+      padding: 12px;
+      justify-content: space-between;
+      background-color: white;
+    }
+    .el-select {
+      margin-right: 10px;
+      width: 100px;
+    }
+    .report-form__file-content {
+      padding: 20px 20px 0 20px;
+      .report-form__file-content-title {
+        background-image: linear-gradient(to right, #96bbf8, #3c79f1);
+        border-radius: 5px;
+        font-size: 30px;
+        text-align: center;
+        color: #fff;
+        padding: 20px;
+      }
+      .report-form__file-content-date {
+        padding: 20px 0;
+        justify-content: space-between;
+        align-items: center;
+        .data-text {
+          background-color: #fff;
+          padding: 5px 10px;
+          border-radius: $circleRadiusSize;
+          align-items: center;
+          color: var(--el-color-primary);
+        }
+      }
+      .report-form__file-content-data {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        .file-content-panel {
+          width: 32%;
+          background-color: #fff;
+          border-radius: 5px;
+          text-align: center;
+          line-height: 40px;
+          padding: 10px 0;
+          margin-bottom: 20px;
+          .panel-title {
+            font-weight: 500;
+            font-size: 14px;
+          }
+        }
+      }
+      .panel-text {
+        color: var(--el-color-primary);
+        font-weight: 600;
+      }
+      .report-form__file-chart {
+        .report-form__file-chart-item {
+          background-color: white;
+          width: 49%;
+          border-radius: 5px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+          .chart-text {
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 40px;
+            padding-left: 20px;
+          }
+        }
+      }
+    }
+  }
+
+  /* 自定义的按钮 */
+  .folder-button,
+  .analyze-button,
+  .operate-button {
+    border-radius: $circleRadiusSize;
+    cursor: pointer;
+    align-items: center;
+    text-align: center;
+    padding: 8px 12px;
+    margin-right: 10px;
+  }
+  .folder-button {
+    color: var(--el-color-primary);
+    border: 1px solid var(--el-color-primary);
+  }
+  .analyze-button {
+    color: #fff;
+    background-color: var(--el-color-primary);
+    // border: 1px solid var(--el-color-primary);
+  }
+  .operate-button {
+    border: 1px solid $gray4-light;
+  }
+}

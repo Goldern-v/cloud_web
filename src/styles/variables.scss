@@ -1,0 +1,28 @@
+:root {
+  --theme-header-height: 50px;
+  --theme-border-color-light: #f1f2f3;
+  --theme-logo-text-color: var(--el-color-primary);
+
+  --theme-menu-text-color: #333333;
+  --theme-menu-bg-color: #ffffff;
+  --theme-menu-border-color: var(--el-color-primary);
+  --theme-menu-hover-color: var(--el-color-primary);
+  --theme-menu-hover-bg-color: var(--el-color-primary-light-9); // 悬浮背景色
+
+  --theme-header-bg-color: #ffffff;
+  --theme-header-text-color: #444444;
+  --theme-header-hover-color: rgba(0, 0, 0, 0.1);
+
+  --theme-main-bg-color: #f0f2f5;
+  --navigation-bar-height: 50px; // 导航栏高度
+  --navigation-bar-background: #181818;
+
+  --background-box-gray: #f0f2f8; // 灰色背景
+
+  --custom-information-bg-color: var(--el-color-primary-light-9); // 警告信息背景色
+  --breadcrumb-height: 12px; // 面包屑文本高度
+  --menu-header-height: 52px;
+}
+div {
+  font-size: $defaultFontSize; // 设置div默认字体大小
+}
