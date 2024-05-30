@@ -76,10 +76,7 @@ const detailData = ref<DetailPanelProps[]>([
     ]
   }
 ])
-const detailInfo: any = ref({
-  name: 'test',
-  uuid: '123456789'
-})
+const detailInfo: any = ref({})
 
 const editInfo = () => {}
 
