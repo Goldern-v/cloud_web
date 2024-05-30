@@ -111,7 +111,6 @@ const getVdcQuota = () => {
       quotaData.value = []
     })
 }
-
 // 上一步
 const clickPrevious = () => {
   if (stepsIndex.value === 0) {
