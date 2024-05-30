@@ -139,6 +139,16 @@ const tableHeaders: IdealTableColumnHeaders[] = [
   { label: 'ipv6网段', prop: 'ipv6Gateway', useSlot: true },
   { label: '状态', prop: 'status', useSlot: true }
 ]
+
+// 关联子网
+const associateSubnet = () => {
+  rowData.value = detailInfo.value
+  showDialog.value = true
+  dialogType.value = OperateEventEnum.associate
+}
+// 子网详情
+const clickRedirectDetail = (row: any) => {}
+
 // 弹框
 const showDialog = ref(false)
 const dialogType = ref<OperateEventEnum | string>()
@@ -149,15 +159,6 @@ const clickRefreshEvent = () => {
   showDialog.value = false
   queryDetailInfo()
 }
-
-// 关联子网
-const associateSubnet = () => {
-  rowData.value = detailInfo.value
-  showDialog.value = true
-  dialogType.value = OperateEventEnum.associate
-}
-// 子网详情
-const clickRedirectDetail = (row: any) => {}
 </script>
 
 <style scoped lang="scss">
