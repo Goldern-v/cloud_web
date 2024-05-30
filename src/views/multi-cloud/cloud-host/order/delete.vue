@@ -89,7 +89,6 @@ const emit = defineEmits<EventEmits>()
 const cancelForm = () => {
   emit(EventEnum.cancel)
 }
-
 const submitForm = () => {
   recycleCloudHost({ uuid: props.rowData.uuid }).then((res: any) => {
     const { code, data } = res
