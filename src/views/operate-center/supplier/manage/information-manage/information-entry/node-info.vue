@@ -1,8 +1,8 @@
 <template>
   <div class="node-info">
     <el-form ref="formRef" :model="form" :rules="rules" label-address="left">
+      <!-- 单节点创建或编辑 -->
       <el-form-item v-if="nodeOnly" label="节点名称" prop="name">
-        <!-- 单节点创建或编辑 -->
         <el-input
           v-model="form.name"
           class="custom-input"
