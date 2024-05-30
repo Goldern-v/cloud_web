@@ -33,7 +33,7 @@
 
 <script setup lang="ts">
 import type { FormInstance, FormRules } from 'element-plus'
-import { getUserList } from '@/api/java/business-center'
+import { getSupplierList } from '@/api/java/operate-center'
 import { ElMessage } from 'element-plus'
 
 const form: { [key: string]: any } = reactive({
@@ -55,13 +55,9 @@ onMounted(() => {
 const supplierList: any = ref([])
 
 const querySupplier = async () => {
-  const params = {
-    pageNum: 1,
-    pageSize: 100
-  }
   try {
-    const res = await getUserList(params)
-    supplierList.value = res.data.data
+    const res = await getSupplierList()
+    supplierList.value = res.data
     if (isEditSupplier.value) {
       form.vendorId = parseInt(route.query?.vendorId as string)
     }

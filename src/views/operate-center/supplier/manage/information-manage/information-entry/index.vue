@@ -109,7 +109,7 @@ import { showLoading, hideLoading } from '@/utils/tool'
 import {
   portUnderEquipmentList,
   informationEntry,
-  supplierDetail,
+  supplierInfoDetail,
   informationUpdate
 } from '@/api/java/operate-center'
 import { ElMessage } from 'element-plus'
@@ -160,7 +160,7 @@ const entryPorts: any = ref([])
 //查询供应商详情
 const queryDetail = async () => {
   try {
-    const res = await supplierDetail(id)
+    const res = await supplierInfoDetail(id)
     detailInfo.value = res.data.supplierNodeDetail?.ports
     form.type = detailInfo.value[0].portType || 'SPECIALIZED'
     if (form.type === 'CLOUD') {

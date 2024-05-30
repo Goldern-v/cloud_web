@@ -58,7 +58,7 @@
 
 <script setup lang="ts">
 import { DetailPanelProps } from './interface'
-import { supplierDetail } from '@/api/java/operate-center'
+import { supplierInfoDetail } from '@/api/java/operate-center'
 import { ElMessage } from 'element-plus'
 import store from '@/store'
 
@@ -113,7 +113,7 @@ const queryDetail = async () => {
     Azure: 'Azure端口'
   }
   try {
-    const res = await supplierDetail(id)
+    const res = await supplierInfoDetail(id)
     detailInfo.value = res.data
     if (detailInfo.value) {
       detailData.value.push({

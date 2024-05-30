@@ -9,7 +9,7 @@ export interface NodeBasic {
 
 export interface DeviceBasic {
   uBits?: any[]
-  cabinetList?: any[]
+  cabinetList?: any[] | undefined
   netPlaneList?: any[]
   supplierList?: any[]
   nodeList?: any[]

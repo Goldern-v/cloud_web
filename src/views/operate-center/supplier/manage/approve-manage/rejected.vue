@@ -56,7 +56,7 @@ import type {
   IdealTextProp
 } from '@/types'
 import { ElMessageBox, ElMessage, dayjs } from 'element-plus'
-import { supplierList, approveDelete } from '@/api/java/operate-center'
+import { supplierInfoList, approveDelete } from '@/api/java/operate-center'
 import store from '@/store'
 
 const typeArray = ref<IdealSearch[]>([
@@ -75,7 +75,7 @@ const onClickSearch = (v: IdealTextProp[]) => {
 }
 
 const state: IHooksOptions = reactive({
-  dataListUrl: supplierList,
+  dataListUrl: supplierInfoList,
   dataList: [] as any[],
   deleteUrl: '',
   queryForm: {

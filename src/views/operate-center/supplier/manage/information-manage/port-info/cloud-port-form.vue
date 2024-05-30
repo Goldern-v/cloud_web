@@ -88,6 +88,16 @@
         </el-select>
       </el-form-item>
 
+      <el-form-item label="端口ID" prop="uuid">
+        <el-input
+          v-model="form.uuid"
+          class="custom-input"
+          placeholder="请输入端口名称"
+          :disabled="isForbidden || isApproved"
+        >
+        </el-input>
+      </el-form-item>
+
       <el-form-item v-if="isALi" label="实例ID" prop="instanceId">
         <el-input
           v-model="form.instanceId"
@@ -235,11 +245,11 @@ import { EventEnum } from '@/utils/enum'
 import { isSupplierManager } from '@/utils/role'
 import store from '@/store'
 import { ElMessage } from 'element-plus'
-import { getUserList } from '@/api/java/business-center'
 import {
   getNodeList,
   getEquipmentList,
-  getPortGroup
+  getPortGroup,
+  getSupplierList
 } from '@/api/java/operate-center'
 import { clearForm } from '../common'
 
@@ -345,13 +355,9 @@ onMounted(() => {
 })
 
 const querySupplier = async () => {
-  const params = {
-    pageNum: 1,
-    pageSize: 100
-  }
   try {
-    const res = await getUserList(params)
-    state.supplierList = res.data.data
+    const res = await getSupplierList()
+    state.supplierList = res.data
   } catch (err: any) {
     ElMessage.error(err)
   }

@@ -8,9 +8,9 @@
           class="custom-input"
           placeholder="请输入节点名称"
         ></el-input>
-        <!-- 信息录入 -->
       </el-form-item>
 
+      <!-- 信息录入 -->
       <el-form-item v-else label="节点名称" prop="nodeId">
         <el-select
           v-model="form.nodeId"
@@ -29,6 +29,15 @@
             :value="item.id"
           />
         </el-select>
+      </el-form-item>
+
+      <el-form-item label="节点ID" prop="uuid">
+        <el-input
+          v-model="form.uuid"
+          class="custom-input"
+          placeholder="请输入节点ID"
+          :disabled="isApproved || isSelect"
+        ></el-input>
       </el-form-item>
 
       <el-form-item
@@ -86,6 +95,7 @@
 
       <el-form-item label="城市" prop="cityId">
         <el-select
+          v-if="cityCount < 3000"
           v-model="form.cityId"
           placeholder="请选择节点所属的城市"
           class="custom-input"
@@ -98,6 +108,13 @@
             :value="item.rcId"
           />
         </el-select>
+
+        <el-cascader
+          v-else
+          v-model="selectedCitys"
+          :props="cascaderProps"
+          class="custom-input"
+        ></el-cascader>
       </el-form-item>
 
       <el-form-item label="机房名称" prop="equipmentRoom">
@@ -110,7 +127,7 @@
         </el-input>
       </el-form-item>
 
-      <el-form-item label="经度" prop="longitude">
+      <el-form-item label="经度">
         <el-input
           v-model="form.longitude"
           class="custom-input"
@@ -120,7 +137,7 @@
         </el-input>
       </el-form-item>
 
-      <el-form-item label="维度" prop="latitude">
+      <el-form-item label="维度">
         <el-input
           v-model="form.latitude"
           class="custom-input"
@@ -184,7 +201,12 @@
 </template>
 
 <script setup lang="ts">
-import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
+import {
+  ElMessage,
+  type FormInstance,
+  type FormRules,
+  type CascaderProps
+} from 'element-plus'
 import { NodeBasic } from './interface'
 import { EventEnum } from '@/utils/enum'
 import store from '@/store'
@@ -193,9 +215,9 @@ import {
   nodeAdd,
   getRegionList,
   getNodeList,
-  getCabinetList
+  getCabinetList,
+  getSupplierList
 } from '@/api/java/operate-center'
-import { getUserList } from '@/api/java/business-center'
 import { isSupplierManager } from '@/utils/role'
 import { hideLoading, showLoading } from '@/utils/tool'
 import { clearForm } from '../common'
@@ -228,6 +250,7 @@ const isEditSupplier = computed(() => route.query?.type === 'edit') //编辑供�
 const formRef = ref<FormInstance>() // 校验表单
 let form: { [key: string]: any } = reactive({
   name: '',
+  uuid: '',
   nodeId: '',
   vendorId: '',
   areaId: '',
@@ -252,6 +275,7 @@ let regionForm = reactive({
 
 const rules = reactive<FormRules>({
   name: [{ required: true, message: '请输入节点名称', trigger: 'blur' }],
+  uuid: [{ required: true, message: '请输入节点ID', trigger: 'blur' }],
   nodeId: [
     { required: true, message: '请输入或选择节点名称', trigger: 'blur' }
   ],
@@ -265,13 +289,11 @@ const rules = reactive<FormRules>({
     { required: true, message: '请选择节点所属的国家', trigger: 'change' }
   ],
   cityId: [
-    { required: true, message: '请选择节点所属的城市', trigger: 'change' }
+    { required: true, message: '请选择节点所属的城市', trigger: 'blur' }
   ],
   equipmentRoom: [
     { required: true, message: '请输入机房名称', trigger: 'blur' }
   ],
-  longitude: [{ required: true, message: '请输入经度数据', trigger: 'blur' }],
-  latitude: [{ required: true, message: '请输入维度数据', trigger: 'blur' }],
   address: [{ required: true, message: '请输入地理位置', trigger: 'blur' }],
   dataCenter: [
     { required: true, message: '请输入数据中心名称', trigger: 'blur' }
@@ -313,13 +335,9 @@ onMounted(() => {
 })
 //查询供应商
 const querySupplier = async () => {
-  const params = {
-    pageNum: 1,
-    pageSize: 100
-  }
   try {
-    const res = await getUserList(params)
-    state.supplierList = res.data.data
+    const res = await getSupplierList()
+    state.supplierList = res.data
   } catch (err: any) {
     ElMessage.error(err)
   }
@@ -356,6 +374,8 @@ const queryCountries = async (areaId: any) => {
     ElMessage.error(err)
   }
 }
+
+const cityCount = ref(0)
 watch(
   () => [form.countryId, state.countryList],
   ([val, arr]) => {
@@ -365,6 +385,7 @@ watch(
       )
       regionForm.countryCode = countryInfo.bssId
       regionForm.countryName = countryInfo.name
+      cityCount.value = countryInfo.cityCount
       queryCities(form.areaId, val)
     }
   }
@@ -377,11 +398,57 @@ const areaChange = () => {
 const countryChange = () => {
   form.cityId = ''
 }
+
+const selectedCitys = ref([])
+const cascaderProps: CascaderProps = {
+  lazy: true,
+  lazyLoad: async (node, resolve) => {
+    const { level, value } = node
+    let nodes = []
+    if (node.level === 0) {
+      const res = await getRegionList({ resType: 4, parentId: form.countryId })
+      nodes = res.data.map((item: any) => {
+        return {
+          value: item.rcId,
+          label: item.name,
+          leaf: level >= 1
+        }
+      })
+    } else {
+      const res = await getRegionList({
+        resType: 2,
+        provinceId: value
+      })
+      state.cityList = res.data
+      nodes = res.data.map((item: any) => {
+        return {
+          value: item.rcId,
+          label: item.name,
+          leaf: level >= 1
+        }
+      })
+    }
+    resolve(nodes)
+  }
+}
+
+watch(
+  () => selectedCitys.value,
+  (val: any) => {
+    if (val.length) {
+      form.cityId = val[val.length - 1]
+    }
+  },
+  { deep: true }
+)
 //查询城市
 const queryCities = async (areaId: string, countryId: string) => {
   try {
-    const res = await getRegionList({ resType: 2, parentId: countryId })
-    state.cityList = res.data
+    //当城市数量较少时直接查询所有城市，城市数量过多时通过州划分城市
+    if (cityCount.value < 3000) {
+      const res = await getRegionList({ resType: 2, parentId: countryId })
+      state.cityList = res.data
+    }
   } catch (err: any) {
     ElMessage.error(err)
   }

@@ -32,6 +32,15 @@
         </el-select>
       </el-form-item>
 
+      <el-form-item label="设备ID" prop="uuid">
+        <el-input
+          v-model="form.uuid"
+          class="custom-input"
+          placeholder="请输入设备ID"
+        >
+        </el-input>
+      </el-form-item>
+
       <template v-if="deviceOnly">
         <el-form-item
           v-if="!isSupplierManager"
@@ -58,6 +67,7 @@
             v-model="form.nodeId"
             placeholder="请选择所属节点"
             class="custom-input"
+            :disabled="isApproved || isSelect"
             @change="nodeChange"
           >
             <el-option
@@ -147,13 +157,13 @@ import { EventEnum } from '@/utils/enum'
 import { isSupplierManager } from '@/utils/role'
 import { ElMessage } from 'element-plus'
 import store from '@/store'
-import { getUserList } from '@/api/java/business-center'
 import {
   equipmentAdd,
   equipmentEdit,
   getCabinetList,
   getNodeList,
-  getEquipmentList
+  getEquipmentList,
+  getSupplierList
 } from '@/api/java/operate-center'
 import { hideLoading, showLoading } from '@/utils/tool'
 import { clearForm } from '../common'
@@ -186,6 +196,7 @@ const isEditSupplier = computed(() => route.query?.type === 'edit') //编辑供�
 
 const form: { [key: string]: any } = reactive({
   equipmentId: '',
+  uuid: '',
   name: '',
   vendorId: '', //供应商
   nodeId: '', //节点
@@ -200,6 +211,7 @@ const formRef = ref<FormInstance>()
 
 const rules = reactive<FormRules>({
   name: [{ required: true, message: '请输入设备名称', trigger: 'blur' }],
+  uuid: [{ required: true, message: '请输入设备ID', trigger: 'blur' }],
   equipmentId: [
     { required: true, message: '请输入或选择设备名称', trigger: 'blur' }
   ],
@@ -242,13 +254,9 @@ onMounted(() => {
  * 平台管理员角色单节点创建
  */
 const querySupplier = async () => {
-  const params = {
-    pageNum: 1,
-    pageSize: 100
-  }
   try {
-    const res = await getUserList(params)
-    state.supplierList = res.data.data
+    const res = await getSupplierList()
+    state.supplierList = res.data
   } catch (err: any) {
     ElMessage.error(err)
   }
