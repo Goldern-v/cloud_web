@@ -29,7 +29,7 @@
       :show-pagination="false"
     >
       <template #select>
-        <el-table-column width="50" align="center">
+        <el-table-column width="50">
           <template #header>
             <el-checkbox v-model="checkAll" @change="selectAll"></el-checkbox
           ></template>
@@ -49,7 +49,9 @@
       </template>
     </ideal-table-list>
 
-    <div class="ideal-default-margin-top">已选子网({{ selectSubnets.length }})</div>
+    <div class="ideal-default-margin-top">
+      已选子网({{ selectSubnets.length }})
+    </div>
 
     <div class="flex-row associate-subnet-button">
       <el-button type="info" @click="cancelForm">{{ t('cancel') }}</el-button>
