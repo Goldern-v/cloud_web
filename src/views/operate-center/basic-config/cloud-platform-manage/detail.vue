@@ -69,8 +69,6 @@ onMounted(() => {
 })
 
 const initComponents = () => {
-  
-
   if (isPublicHuawei) {
     activeName.value = 'publicHuaweiCloud'
     tabControllers.value[0].name = 'publicHuaweiCloud'
