@@ -89,7 +89,6 @@ onMounted(() => {
     getEditData()
   }
 })
-
 // 编辑数据
 const getEditData = () => {
   selectCloudType.value = (route.query.cloudType as string)
