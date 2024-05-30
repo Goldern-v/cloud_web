@@ -56,10 +56,12 @@ const props = withDefaults(defineProps<basicConfig>(), {
   basicInfo: () => ({}),
   price: 0
 })
+
 const basicData: any = ref([])
 const isPackage = computed(
   () => props.basicInfo.billingMode === BillingEnum.PACKAGE
 )
+
 watch(
   () => [props.basicInfo, props.price],
   ([value, price]) => {
