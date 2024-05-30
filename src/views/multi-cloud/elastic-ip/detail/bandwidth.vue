@@ -36,15 +36,6 @@
         </div>
       </template>
     </ideal-detail-info>
-    <!-- <div class="basic-info_monitor">
-      <div class="flex-row basic-info_monitor-title">
-        <span>监控信息</span>
-        <el-tooltip effect="dark" placement="right" content="">
-          <svg-icon icon="question-icon"></svg-icon>
-        </el-tooltip>
-      </div>
-      <monitor></monitor>
-    </div> -->
   </div>
 </template>
 <script lang="ts" setup>
