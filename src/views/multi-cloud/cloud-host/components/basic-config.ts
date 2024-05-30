@@ -85,7 +85,6 @@ export const useBasic = (options: IHooksBasic) => {
   const state = mergeDefaultOptions(defaultOptions, options)
 
   const { resourcePool } = storeToRefs(store.resourceStore)
-
   // 区域、可用区、项目
   const { regionList, availableZoneList, projectList } = useRegion(form)
 
