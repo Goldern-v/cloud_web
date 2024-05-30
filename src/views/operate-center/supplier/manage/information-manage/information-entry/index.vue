@@ -124,7 +124,7 @@ const firstStep = ref(0)
 const stepsArray = ref<IdealSteps[]>()
 
 onMounted(() => {
-  //假设admin账号为运营商角色
+  //平台管理员角色
   if (!isSupplierManager.value) {
     stepsArray.value = stepsOptions
     firstStep.value = 0
@@ -146,7 +146,6 @@ const stepsOptions: IdealSteps[] = [
 /**
  * 云端口
  */
-
 //供应商录入信息
 const route = useRoute()
 const isEditSupplier = computed(() => route.query?.type === 'edit') //编辑供应商录入信息
