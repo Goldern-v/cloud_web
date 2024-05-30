@@ -1,7 +1,7 @@
 <template>
   <div class="information-detail">
     <el-card>
-      <el-collapse v-model="activeNames" @change="handleChange">
+      <el-collapse v-model="activeNames">
         <el-collapse-item
           v-for="(item, index) in detailData"
           :key="index"
@@ -27,11 +27,6 @@
 <script setup lang="ts">
 import { DetailPanelProps } from '../information-manage/interface'
 const activeNames = ref(['basic', 'node', 'device', 'port'])
-
-const labelArray = ref([
-  { label: '名称', prop: 'name', isEdit: true },
-  { label: 'ID', prop: 'uuid', isCopy: true }
-])
 
 const detailData = ref<DetailPanelProps[]>([
   {
@@ -77,8 +72,6 @@ const detailData = ref<DetailPanelProps[]>([
   }
 ])
 const detailInfo: any = ref({})
-
-const editInfo = () => {}
 
 const handleChange = () => {}
 </script>
