@@ -73,12 +73,15 @@ const cancelForm = () => {
   emit(EventEnum.cancel)
 }
 const submitForm = () => {
-  if (!rowData.value) { return ElMessage.warning('请选择云管用户') }
+  if (!rowData.value) { 
+    ElMessage.warning('请选择云管用户')
+    return
+  }
   const params = {
     authAccountId: props.rowData?.id, // 授权账户id
     userId: rowData.value?.id, // 云管用户id
     vdcId: store.userStore.user.vdcId,
-    cloudPlatformId, // 云平台id
+    cloudPlatformId // 云平台id
   }
   cloudPlatformAuthBindAccount(params).then((res: any) => {
     const { code } = res
