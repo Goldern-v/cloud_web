@@ -73,9 +73,4 @@ const handleComplete = () => {
 }
 </script>
 
-<style scoped lang="scss">
-// .step-footer-box {
-//   position: fixed;
-//   bottom: 40px;
-// }
-</style>
+<style scoped lang="scss"></style>
