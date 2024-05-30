@@ -1,6 +1,7 @@
 <template>
   <div class="specific-port">
     <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
+      <!-- 单端口创建或编辑 -->
       <template v-if="portOnly">
         <el-form-item
           v-if="!isSupplierManager"
@@ -57,8 +58,8 @@
         </el-form-item>
       </template>
 
+      <!-- 单端口创建或编辑 -->
       <el-form-item v-if="portOnly" label="端口名称" prop="name">
-        <!-- 单端口创建或编辑 -->
         <el-input
           v-model="form.name"
           class="custom-input"
