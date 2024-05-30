@@ -9,10 +9,9 @@
           placeholder="请输入设备名称"
         >
         </el-input>
-
-        <!-- 信息录入 -->
       </el-form-item>
 
+      <!-- 信息录入 -->
       <el-form-item v-else label="设备名称" prop="equipmentId">
         <el-select
           v-model="form.equipmentId"
