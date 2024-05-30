@@ -15,21 +15,12 @@
 </template>
 
 <script setup lang="ts">
-import publicAliyun from './public/aliyun.vue'
-import publicAmazon from './public/amazon.vue'
-import publicAzure from './public/azure.vue'
-import publicGoogle from './public/google.vue'
-import publicZenlayer from './public/zenlayer.vue'
-
+import publicGeneral from './public/general.vue'
 import type { TabsPaneContext } from 'element-plus'
 
 // 标签页组件
 const tabs = shallowRef<any>({
-  publicAliyun,
-  publicAmazon,
-  publicAzure,
-  publicGoogle,
-  publicZenlayer
+  publicGeneral
 })
 
 onMounted(() => {
@@ -50,35 +41,19 @@ const initComponents = () => {
   // 公有云 zenlayer
   const isPublicZenlayer = RegExp(/ZENLAYER/).test(cloudType) && RegExp(/PUBLIC/).test(cloudCategory)
 
-  if (isPublicAliyun) {
-    activeName.value = 'publicAliyun'
-    tabControllers.value[0].name = 'publicAliyun'
-    active.value = publicAliyun
-  } else if (isPublicAmazon) {
-    activeName.value = 'publicAmazon'
-    tabControllers.value[0].name = 'publicAmazon'
-    active.value = publicAmazon
-  } else if (isPublicAzure) {
-    activeName.value = 'publicAzure'
-    tabControllers.value[0].name = 'publicAzure'
-    active.value = publicAzure
-  } else if (isPublicGoogle) {
-    activeName.value = 'publicGoogle'
-    tabControllers.value[0].name = 'publicGoogle'
-    active.value = publicGoogle
-  } else if (isPublicZenlayer) {
-    activeName.value = 'publicZenlayer'
-    tabControllers.value[0].name = 'publicZenlayer'
-    active.value = publicZenlayer
+  if (isPublicAliyun || isPublicAmazon || isPublicAzure || isPublicGoogle || isPublicZenlayer) {
+    activeName.value = 'publicGeneral'
+    tabControllers.value[0].name = 'publicGeneral'
+    active.value = publicGeneral
   }
 }
 
 const tabControllers = ref([
-  { label: '概览', name: 'publicAliyun' }
+  { label: '概览', name: 'publicGeneral' }
 ])
 
-const activeName = ref('publicAliyun')
-const active = shallowRef<any>(publicAliyun)
+const activeName = ref('publicGeneral')
+const active = shallowRef<any>(publicGeneral)
 
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   active.value = tabs.value[tab.paneName!]

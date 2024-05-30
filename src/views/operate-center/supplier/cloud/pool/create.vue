@@ -5,32 +5,8 @@
     </div>
 
     <div v-else>
-      <publicAliyun
-        v-if="isPublicAliyun"
-        :cloud-category="category"
-        :cloud-type="selectCloudType"
-      />
-
-      <publicAmazon
-        v-else-if="isPublicAmazon"
-        :cloud-category="category"
-        :cloud-type="selectCloudType"
-      />
-
-      <publicAzure
-        v-else-if="isPublicAzure"
-        :cloud-category="category"
-        :cloud-type="selectCloudType"
-      />
-
-      <publicGoogle
-        v-else-if="isPublicGoogle"
-        :cloud-category="category"
-        :cloud-type="selectCloudType"
-      />
-
-      <public-zenlayer 
-        v-else-if="isPublicZenlayer"
+      <public-general
+        v-if="isPublic"
         :cloud-category="category"
         :cloud-type="selectCloudType"
       />
@@ -40,11 +16,7 @@
 
 <script setup lang="ts">
 import cloudType from './cloud-type.vue'
-import publicAliyun from './public/aliyun.vue'
-import publicAmazon from './public/amazon.vue'
-import publicAzure from './public/azure.vue'
-import publicGoogle from './public/google.vue'
-import publicZenlayer from './public/zenlayer.vue'
+import publicGeneral from './public/general.vue'
 import { isEmpty, isUnDef } from '@/utils/is'
 
 const route = useRoute()
@@ -98,6 +70,9 @@ const isPublicZenlayer = computed(
     RegExp(/ZENLAYER/).test(selectCloudType.value) &&
     RegExp(/PUBLIC/).test(category.value)
 )
+
+const isPublic = computed(() => isPublicAliyun.value || isPublicAmazon.value || isPublicAzure.value || isPublicGoogle.value || isPublicZenlayer.value)
+
 // 云平台类型选择
 const clickCloudSelect = (value: any, row: any) => {
   if (value) {
