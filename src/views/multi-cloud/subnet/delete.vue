@@ -46,6 +46,7 @@ const props = withDefaults(defineProps<SubnetProps>(), {
 })
 
 const { t } = useI18n()
+
 //公共参数
 const commonParams = () => {
   const params = {
