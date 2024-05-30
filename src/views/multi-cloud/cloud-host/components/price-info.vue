@@ -130,15 +130,15 @@ const getInquiry = () => {
   }
   // 数据盘
   if (props.basicData.dataDisks?.length) {
-    let arr: any = []
+    const arr: any = []
     props.basicData.dataDisks.forEach((item: any) => {
-      let obj = {
+      const obj = {
         code: item.type,
         specs: item.size
       }
       arr.push(obj)
     })
-    let ebsSpecs = {
+    const ebsSpecs = {
       resourceType: 'EBS',
       itemsList: arr
     }
