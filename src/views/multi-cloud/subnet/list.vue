@@ -162,8 +162,9 @@ onMounted(() => {
     }
   }
 })
+
 /**
- * 搜索类型
+ * 搜索
  */
 const exitSearchResult: any = ref([])
 const typeArray = ref<IdealSearch[]>([
