@@ -42,11 +42,6 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
 }
 // 当前组件需要的传参
 const currentProps = ref()
-watch(activeName, value => {
-  if (value === 'basicInfo') {
-    currentProps.value = { uuid: 'test' }
-  }
-})
 </script>
 
 <style scoped lang="scss">
