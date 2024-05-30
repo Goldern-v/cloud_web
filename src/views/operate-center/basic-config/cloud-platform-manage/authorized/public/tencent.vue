@@ -43,7 +43,6 @@
 import type { FormRules, FormInstance } from 'element-plus'
 import { EventEnum } from '@/utils/enum'
 
-
 const { t } = useI18n()
 
 const formRef = ref<FormInstance>()
@@ -87,12 +86,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
     return
   }
   formEl.validate(valid => {
-    if (valid) {
-      handleAdd()
-    } else {
-      console.log('error submit!')
-      return false
+    if (!valid) {
+      return
     }
+
+    handleAdd()
   })
 }
 const handleAdd = () => {

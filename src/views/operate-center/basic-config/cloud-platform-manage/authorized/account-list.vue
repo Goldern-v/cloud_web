@@ -93,8 +93,6 @@ const clickRefreshEvent = () => {
   showDialog.value = false
   getDataList()
 }
-
-
 </script>
 
 <style scoped lang="scss">
