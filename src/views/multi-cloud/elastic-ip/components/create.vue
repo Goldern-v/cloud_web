@@ -42,9 +42,10 @@ onMounted(() => {
   orderInfo.basic = basicConfigRef.value.eipForm
 })
 
+//是否包年包月
 const isPackage = computed(
   () => orderInfo.basic.billingMode === BillingEnum.PACKAGE
-) //是否包年包月
+)
 
 const stepsIndex = ref(1)
 const clickPrevious = () => {
@@ -76,6 +77,7 @@ const checkForm = (formEl: FormInstance | undefined) => {
 }
 
 const { resourcePool } = store.resourceStore
+//公共参数
 const commonParams = () => {
   const params = {
     resourcePoolId: resourcePool.resourcePoolId,
@@ -89,6 +91,7 @@ const commonParams = () => {
 }
 
 const router = useRouter()
+//创建
 const clickComplete = async () => {
   const params: { [key: string]: any } = {
     eipType: orderInfo.basic.line,
