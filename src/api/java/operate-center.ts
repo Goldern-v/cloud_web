@@ -99,6 +99,7 @@ const Api = {
   ANNOUNCEMENT_OPERATE: `${info}/announcement`, // post:公告新增 put:编辑 delete:删除 get:详情
   ANNOUNCEMENT_PUBLISH: `${info}/announcement/publish`, // 发布公告
   ANNOUNCEMENT_BATCH: `${info}/announcement/batch`, // put:批量下架 delete:批量删除
+  SUPPLIER_LIST: `${iams}/sys/user/suppliers`, // 供应商用户列表
   NODE_PAGE: `${api}/supplier/node/inner/page`, // 供应商管理节点信息列表
   NODE_LIST: `${api}/supplier/node/query`, // 供应商管理节点信息（不分页）供应商ID获取
   NODE_OPERATE: `${api}/supplier/node`, //post添加节点 delete删除节点 put编辑
@@ -108,16 +109,16 @@ const Api = {
   PORT_PAGE: `${api}/supplier/port/inner/page`, //供应商管理端口列表
   PORT_LIST: `${api}/supplier/port/inner/list`, //供应商管理端口列表不分页
   PORT_LIST_UNDER_EQUIPMENT: `${api}/supplier/port/query`, //端口列表不分页
-  REGION_AREAS: `${api}/region/areas`, //获取区域列表
-  REGION_COUNTIES: `${api}/region/countries`, //获取国家列表
-  REGION_CITIES: `${api}/region/cities`, //获取城市列表
+  REGION_AREAS: `${api}/region/areas`, //获取区域列表(弃用)
+  REGION_COUNTIES: `${api}/region/countries`, //获取国家列表(弃用)
+  REGION_CITIES: `${api}/region/cities`, //获取城市列表(弃用)
   REGION_LIST: `${api}/supplier/tp/regions`, //获取国家、区域、城市列表
   CABINET_LIST: `${api}/supplier/cabinet`, //获取机柜列表
   PORT_OPERATE: `${api}/supplier/port`, //添加端口
   AZURE_PORT_OPERATE: `${api}/supplier/port/azure`, //post 添加azure端口  put编辑azure端口 get详情
   INFORMATION_ENTRY: `${api}/supplier/approval/record`, //供应商管理信息录入
   INFORMATION_UPDATE: `${api}/supplier/approval/update`, //修改供应商管理录入信息
-  SUPPLIER_LIST: `${api}/supplier/approval/query`, //供应商列表
+  SUPPLIER_INFORMATION_LIST: `${api}/supplier/approval/query`, //供应商信息录入列表
   PORT_GROUP: `${api}/supplier/port/portGroups`, //随机生成的端口组序号(用于azure端口成组录入)
   SUPPLIER_DETAIL: `${api}/supplier/approval/detail`, //供应商详情
   SUPPLIER_OFF_SHELVES: `${api}/supplier/approval/offShelves`, //下架供应商
@@ -664,6 +665,10 @@ export const announcementBatchDelete = (data: any) => {
 /**
  * 供应商管理
  */
+
+export const getSupplierList = () => {
+  return service.get(Api.SUPPLIER_LIST)
+}
 //节点信息
 export const nodePageUrl = Api.NODE_PAGE
 export const getNodeList = (params: any) => {
@@ -695,6 +700,7 @@ export const getRegionCities = (params: any) => {
 export const getRegionList = (params: any) => {
   return service.get(Api.REGION_LIST, { params })
 }
+
 //获取机柜/机架列表
 export const getCabinetList = (params: any) => {
   return service.get(Api.CABINET_LIST, { params })
@@ -753,9 +759,9 @@ export const informationUpdate = (data: any) => {
 }
 
 //供应商列表
-export const supplierList = Api.SUPPLIER_LIST
+export const supplierInfoList = Api.SUPPLIER_INFORMATION_LIST
 //供应商详情
-export const supplierDetail = (id: string) => {
+export const supplierInfoDetail = (id: string) => {
   return service.get(`${Api.SUPPLIER_DETAIL}/${id}`)
 }
 //删除供应商
