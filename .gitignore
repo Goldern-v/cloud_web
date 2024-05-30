@@ -20,6 +20,5 @@ node_modules
 package-lock.json
 # 分析视图
 stats.html
-/package-lock.json
 dist
 dist.*
