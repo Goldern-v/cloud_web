@@ -122,26 +122,6 @@ const headerArray: IdealTableColumnHeaders[] = [
 const { sizeChangeHandle, currentChangeHandle, getDataList, deleteHandle } =
   useCrud(state)
 
-const leftButtons: IdealButtonEventProp[] = [
-  {
-    title: '创建',
-    prop: 'create',
-    type: 'primary'
-  }
-]
-
-const clickLeftEvent = (command: string | number | object) => {
-  if (command === 'create') {
-    showDialog.value = true
-    dialogType.value = 'createNode'
-  }
-}
-
-const operateButtons: IdealTableColumnOperate[] = [
-  { title: '编辑', prop: 'edit' },
-  { title: '删除', prop: 'delete' }
-]
-
 watch(
   () => state.dataList,
   (arr: any) => {
@@ -155,6 +135,25 @@ watch(
   },
   { immediate: true }
 )
+
+const leftButtons: IdealButtonEventProp[] = [
+  {
+    title: '创建',
+    prop: 'create',
+    type: 'primary'
+  }
+]
+const clickLeftEvent = (command: string | number | object) => {
+  if (command === 'create') {
+    showDialog.value = true
+    dialogType.value = 'createNode'
+  }
+}
+
+const operateButtons: IdealTableColumnOperate[] = [
+  { title: '编辑', prop: 'edit' },
+  { title: '删除', prop: 'delete' }
+]
 
 const newOperate = (ele: any): IdealTableColumnOperate[] => {
   let resultArr: IdealTableColumnOperate[] = []
