@@ -21,6 +21,18 @@
             </el-table-column>
           </template>
 
+          <template #portId>
+            <el-table-column label="端口ID" width="200">
+              <template #default="props">
+                <el-input
+                  v-model="props.row.portId"
+                  placeholder="请输入端口名称"
+                  :disabled="props.row.disabled"
+                />
+              </template>
+            </el-table-column>
+          </template>
+
           <template #speed>
             <el-table-column label="速率" width="200">
               <template #default="props">
@@ -139,12 +151,12 @@ import store from '@/store'
 import { showLoading, hideLoading } from '@/utils/tool'
 import { ElMessage } from 'element-plus'
 import { isSupplierManager } from '@/utils/role'
-import { getUserList } from '@/api/java/business-center'
 import {
   getNodeList,
   getEquipmentList,
   portAdd,
-  portEdit
+  portEdit,
+  getSupplierList
 } from '@/api/java/operate-center'
 
 interface PortProps {
@@ -179,7 +191,7 @@ const form: { [key: string]: any } = reactive({
 
 const validatePort = (rule: any, value: any, callback: (e?: Error) => any) => {
   const flag = value.some((item: any) => {
-    return item.portSpeed == undefined || item.portName == undefined
+    return !item.portSpeed || !item.portName || !item.portId
   })
   if (flag && value.length == 1) {
     callback(new Error('请至少输入一条端口信息'))
@@ -205,6 +217,7 @@ const rules = reactive<FormRules>({
 
 const tableHeaders: IdealTableColumnHeaders[] = [
   { label: '端口名称', prop: 'name', useSlot: true },
+  { label: '端口ID', prop: 'portId', useSlot: true },
   { label: '速率', prop: 'speed', useSlot: true }
 ]
 
@@ -234,7 +247,8 @@ onMounted(() => {
     form.portData = [
       {
         portName: props.rowData.name,
-        portSpeed: props.rowData.speed
+        portSpeed: props.rowData.speed,
+        portId: props.rowData.portId
       }
     ]
     form.nodeId = props.rowData.nodeId
@@ -243,13 +257,9 @@ onMounted(() => {
   }
 })
 const querySupplier = async () => {
-  const params = {
-    pageNum: 1,
-    pageSize: 100
-  }
   try {
-    const res = await getUserList(params)
-    state.supplierList = res.data.data
+    const res = await getSupplierList()
+    state.supplierList = res.data
   } catch (err: any) {
     ElMessage.error(err)
   }
@@ -357,6 +367,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
       if (isEdit.value) {
         params.name = form.portData[0].portName
         params.speed = form.portData[0].portSpeed
+        params.portId = form.portData[0].portId
         params.id = props.rowData.id
         portEdit(params)
           .then((res: any) => {

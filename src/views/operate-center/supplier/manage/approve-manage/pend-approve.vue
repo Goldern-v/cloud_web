@@ -68,7 +68,7 @@ import type {
   IdealTextProp
 } from '@/types'
 import dialogBox from './dialog-box.vue'
-import { supplierList } from '@/api/java/operate-center'
+import { supplierInfoList } from '@/api/java/operate-center'
 
 const typeArray = ref<IdealSearch[]>([
   { label: '名称', prop: 'name', type: FiltrateEnum.input }
@@ -86,7 +86,7 @@ const onClickSearch = (v: IdealTextProp[]) => {
 }
 
 const state: IHooksOptions = reactive({
-  dataListUrl: supplierList,
+  dataListUrl: supplierInfoList,
   dataList: [] as any[],
   deleteUrl: '',
   queryForm: {

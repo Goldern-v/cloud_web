@@ -74,7 +74,7 @@ import type {
 import store from '@/store'
 import { dayjs } from 'element-plus'
 import {
-  supplierList,
+  supplierInfoList,
   supplierDelete,
   approveAgain
 } from '@/api/java/operate-center'
@@ -95,7 +95,7 @@ const onClickSearch = (v: IdealTextProp[]) => {
 }
 
 const state: IHooksOptions = reactive({
-  dataListUrl: supplierList,
+  dataListUrl: supplierInfoList,
   dataList: [] as any[],
   deleteUrl: '',
   queryForm: {},

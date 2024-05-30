@@ -30,6 +30,16 @@
         </el-select>
       </el-form-item>
 
+      <el-form-item label="端口ID" prop="uuid">
+        <el-input
+          v-model="form.uuid"
+          class="custom-input"
+          placeholder="请输入端口ID"
+          :disabled="isApproved || isSelect"
+        >
+        </el-input>
+      </el-form-item>
+
       <template v-if="portOnly">
         <el-form-item
           v-if="!isSupplierManager"
@@ -165,9 +175,9 @@ import {
   getNodeList,
   getEquipmentList,
   portAdd,
-  portEdit
+  portEdit,
+  getSupplierList
 } from '@/api/java/operate-center'
-import { getUserList } from '@/api/java/business-center'
 import { speedList } from '../common'
 
 interface PortProps {
@@ -197,6 +207,7 @@ const isSupplierEntry = computed(() => route.query?.type === 'entry')
 const formRef = ref<FormInstance>() // 校验表单
 const form: { [key: string]: any } = reactive({
   name: '',
+  uuid: '',
   vendorId: '',
   nodeId: '',
   equipmentId: '',
@@ -209,6 +220,7 @@ const form: { [key: string]: any } = reactive({
 
 const rules = reactive<FormRules>({
   name: [{ required: true, message: '请输入端口名称', trigger: 'blur' }],
+  uuid: [{ required: true, message: '请输入端口ID', trigger: 'blur' }],
   portId: [{ required: true, message: '请输入端口名称', trigger: 'blur' }],
   vendorId: [{ required: true, message: '请选择供应商', trigger: 'change' }],
   nodeId: [{ required: true, message: '请选择所属节点', trigger: 'change' }],
@@ -246,13 +258,9 @@ onMounted(() => {
   }
 })
 const querySupplier = async () => {
-  const params = {
-    pageNum: 1,
-    pageSize: 100
-  }
   try {
-    const res = await getUserList(params)
-    state.supplierList = res.data.data
+    const res = await getSupplierList()
+    state.supplierList = res.data
   } catch (err: any) {
     ElMessage.error(err)
   }
