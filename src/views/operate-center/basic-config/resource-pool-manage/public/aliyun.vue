@@ -498,7 +498,7 @@ const handleCreate = () => {
     networkType: form.networkType
   }
   resourcePoolCreate(params).then((res: any) => {
-    let { code } = res
+    const { code } = res
     if (code === 200) {
       ElMessage.success('创建成功')
       router.push({
@@ -527,7 +527,7 @@ const handleEdit = () => {
   params.name = form.name
 
   resourcePoolEdit(params).then((res: any) => {
-    let { code } = res
+    const { code } = res
     if (code === 200) {
       ElMessage.success('编辑成功')
       router.push({
