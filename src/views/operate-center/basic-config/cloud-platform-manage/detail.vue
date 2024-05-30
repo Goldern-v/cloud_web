@@ -36,7 +36,6 @@ import authorized from './authorized/list.vue'
 import { useCommon } from './common'
 import type { TabsPaneContext } from 'element-plus'
 
-
 // 标签页组件
 const tabs = shallowRef<any>({
   publicHuaweiCloud,
