@@ -155,18 +155,6 @@ export const customMenu = [
     }
   },
   {
-    path: 'supplier/manage/approve-manage-detail',
-    component: () =>
-      import(
-        '@/views/operate-center/supplier/manage/approve-manage/detail.vue'
-      ),
-    name: 'supplier-manage-approve-detail',
-    meta: {
-      title: '审批管理详情',
-      breadcrumb: ['运营商管理', '审批管理详情']
-    }
-  },
-  {
     path: 'supplier/manage/information-entry',
     component: () =>
       import(
@@ -216,7 +204,8 @@ export const customMenu = [
   },
   {
     path: 'supplier/platform/create',
-    component: () => import('@/views/operate-center/supplier/cloud/platform/create.vue'),
+    component: () =>
+      import('@/views/operate-center/supplier/cloud/platform/create.vue'),
     name: 'supplier-platform-create',
     meta: {
       title: '创建云平台',
@@ -225,7 +214,8 @@ export const customMenu = [
   },
   {
     path: 'supplier/platform/detail',
-    component: () => import('@/views/operate-center/supplier/cloud/platform/detail.vue'),
+    component: () =>
+      import('@/views/operate-center/supplier/cloud/platform/detail.vue'),
     name: 'supplier-platform-detail',
     meta: {
       title: '云平台详情',
@@ -234,7 +224,8 @@ export const customMenu = [
   },
   {
     path: 'supplier/pool/create',
-    component: () => import('@/views/operate-center/supplier/cloud/pool/create.vue'),
+    component: () =>
+      import('@/views/operate-center/supplier/cloud/pool/create.vue'),
     name: 'supplier-pool-create',
     meta: {
       title: '创建资源池',
@@ -243,7 +234,8 @@ export const customMenu = [
   },
   {
     path: 'supplier/pool/detail',
-    component: () => import('@/views/operate-center/supplier/cloud/pool/detail.vue'),
+    component: () =>
+      import('@/views/operate-center/supplier/cloud/pool/detail.vue'),
     name: 'supplier-pool-detail',
     meta: {
       title: '资源池详情',
@@ -252,7 +244,10 @@ export const customMenu = [
   },
   {
     path: 'supplier/resource/aliyun/detail',
-    component: () => import('@/views/operate-center/supplier/cloud/resource/aliyun/detail.vue'),
+    component: () =>
+      import(
+        '@/views/operate-center/supplier/cloud/resource/aliyun/detail.vue'
+      ),
     name: 'supplier-resource-aliyun-detail',
     meta: {
       title: '阿里云资源详情',
@@ -261,7 +256,10 @@ export const customMenu = [
   },
   {
     path: 'supplier/resource/amazon/detail',
-    component: () => import('@/views/operate-center/supplier/cloud/resource/amazon/detail.vue'),
+    component: () =>
+      import(
+        '@/views/operate-center/supplier/cloud/resource/amazon/detail.vue'
+      ),
     name: 'supplier-resource-amazon-detail',
     meta: {
       title: '阿里云资源详情',
@@ -270,7 +268,8 @@ export const customMenu = [
   },
   {
     path: 'supplier/account/role/auth',
-    component: () => import('@/views/operate-center/supplier/account/role/auth.vue'),
+    component: () =>
+      import('@/views/operate-center/supplier/account/role/auth.vue'),
     name: 'supplier-account-role-auth',
     meta: {
       title: '阿里云资源详情',
