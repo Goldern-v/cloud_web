@@ -196,13 +196,6 @@ const props = withDefaults(defineProps<RouteProps>(), {
   detailInfo: () => ({})
 })
 
-watch(
-  () => props.detailInfo,
-  val => {
-    console.log(val, 'detailInfo')
-  }
-)
-
 const { t } = useI18n()
 
 const form = reactive({
