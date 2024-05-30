@@ -111,6 +111,7 @@ const statusList: any = [
   { label: '已下架', value: 'offShelves' }
 ]
 onMounted(() => {
+  //平台管理员角色
   if (!isSupplierManager.value) {
     tableHeaders.value = headerArray
     typeArray.value = [
@@ -120,7 +121,9 @@ onMounted(() => {
         type: FiltrateEnum.input
       }
     ]
-  } else {
+  }
+  //供应商角色
+  else {
     tableHeaders.value = headerArray.filter(
       (item: any) => item.prop !== 'name' && item.prop !== 'account'
     )
