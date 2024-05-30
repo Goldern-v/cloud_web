@@ -3,9 +3,10 @@
     <div class="delete-route-table">
       <div></div>
       <div class="flex-row warning_desc">
-        {{ exitSubnet ? '无法' : '即将' }}删除路由表<span class="ideal-default-margin-left">{{
-          props.rowData.name
-        }}</span>
+        {{ exitSubnet ? '无法' : '即将' }}删除路由表<span
+          class="ideal-default-margin-left"
+          >{{ props.rowData.name }}</span
+        >
       </div>
       <div v-if="exitSubnet || isDefault">
         <el-alert type="error" show-icon>
@@ -62,7 +63,7 @@
 </template>
 
 <script setup lang="ts">
-import { ElMessageBox, ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { routeTableDelete } from '@/api/java/network'
 import { EventEnum } from '@/utils/enum'
 import type { IdealTableColumnHeaders } from '@/types'
