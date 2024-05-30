@@ -520,7 +520,6 @@ const tableHeaders: IdealTableColumnHeaders[] = [
   { label: '内网收发包', prop: 'private', useSlot: true },
   { label: '规格参考价', prop: 'price', useSlot: true }
 ]
-
 // 是否是业务场景选择
 const isBusinessScene = computed(() => basicData.form.instance === '2')
 // 显示规格提示
