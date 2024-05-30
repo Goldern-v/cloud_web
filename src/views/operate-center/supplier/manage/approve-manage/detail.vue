@@ -72,8 +72,6 @@ const detailData = ref<DetailPanelProps[]>([
   }
 ])
 const detailInfo: any = ref({})
-
-const handleChange = () => {}
 </script>
 
 <style scoped lang="scss">
