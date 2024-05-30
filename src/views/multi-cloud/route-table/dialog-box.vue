@@ -138,7 +138,6 @@ const showDeleteRoute = computed(
   () => props.type === 'deleteRoute' || props.type === 'batchDeleteRoute'
 ) //删除路由表中路由
 
-const showOpenIpv6 = computed(() => props.type === 'openIpv6') //开启ipv6
 // 关闭弹框
 const handleClose = () => {
   dialogVisible.value = false
