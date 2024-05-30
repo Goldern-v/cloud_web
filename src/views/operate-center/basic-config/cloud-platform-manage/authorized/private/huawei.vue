@@ -59,7 +59,6 @@
 import type { FormRules, FormInstance } from 'element-plus'
 import { EventEnum } from '@/utils/enum'
 
-
 const { t } = useI18n()
 
 const formRef = ref<FormInstance>()
@@ -89,7 +88,6 @@ const typeList = [
   { label: '普通的授权账户', value: 'NORMAL' },
   { label: '必须存在的授权账户', value: 'ESSENTIAL' }
 ]
-
 // 点击事件
 interface EventEmits {
   (e: EventEnum.cancel): void
@@ -109,12 +107,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
     return
   }
   formEl.validate(valid => {
-    if (valid) {
-      handleAdd()
-    } else {
-      console.log('error submit!')
-      return false
+    if (!valid) {
+      return
     }
+
+    handleAdd()
   })
 }
 const handleAdd = () => {
