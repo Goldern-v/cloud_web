@@ -7,16 +7,16 @@
       :rules="rules"
       label-position="left"
     >
-      <el-form-item prop="username" label="供应商名称">
-        <el-input v-model="form.username" placeholder="请输入供应商名称" />
+      <el-form-item prop="realName" label="供应商名称">
+        <el-input v-model="form.realName" placeholder="请输入供应商名称" />
       </el-form-item>
 
       <el-form-item prop="code" label="供应商编码">
         <el-input v-model="form.code" placeholder="请输入供应商BSS编码" />
       </el-form-item>
 
-      <el-form-item prop="realName" label="用户账号">
-        <el-input v-model="form.realName" placeholder="请输入用户账号" />
+      <el-form-item prop="username" label="用户账号">
+        <el-input v-model="form.username" placeholder="请输入用户账号" />
       </el-form-item>
 
       <el-form-item prop="mobile" label="手机号">
@@ -80,13 +80,13 @@ const { t } = useI18n()
 const formRef = ref<FormInstance>()
 
 const form = reactive({
-  username: '', // 供应商名称
+  realName: '', // 供应商名称
   code: '', // 供应商编码
-  realName: '', // 用户账号
+  username: '', // 用户账号
   mobile: '', // 手机号
   email: '', // 用户邮箱
   password: '', // 登录密码
-  againPassword: '', // 确认密码
+  againPassword: '' // 确认密码
 })
 //手机号码校验
 const validPhone = (rule: any, value: any, callback: (e?: Error) => any) => {
@@ -111,9 +111,9 @@ const validateConfirmPassword = (
   }
 }
 const rules = ref<FormRules>({
-  username: [{ required: true, message: '请输入供应商名称', trigger: 'blur' }],
+  realName: [{ required: true, message: '请输入供应商名称', trigger: 'blur' }],
   code: [{ required: true, message: '请输入供应商编码', trigger: 'blur' }],
-  realName: [{ required: true, message: '请输入用户账号', trigger: 'blur' }],
+  username: [{ required: true, message: '请输入用户账号', trigger: 'blur' }],
   mobile: [{ required: true, validator: validPhone, trigger: 'blur' }],
   email: [{ required: true, validator: validateEmail, trigger: 'blur' }],
   password: [{ required: true, validator: validatePassword, trigger: 'blur' }],
@@ -190,7 +190,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   })
 }
 
-const createParams = (): {[key: string]: any} => {
+const createParams = (): { [key: string]: any } => {
   return Object.assign(form, {
     status: true, // 启用状态，默认启用
     roleType: 3, // 3供应商
@@ -198,12 +198,12 @@ const createParams = (): {[key: string]: any} => {
     superAdmin: 0 // 超级管理员 0：否(默认) 1：是
   })
 }
-const handleEdit = (): {[key: string]: any} => {
+const handleEdit = (): { [key: string]: any } => {
   return {
     id: props.rowData.id,
-    username: form.username,
-    code: form.code,
     realName: form.realName,
+    code: form.code,
+    username: form.username,
     mobile: form.mobile,
     email: form.email
   }

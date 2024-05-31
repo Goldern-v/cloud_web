@@ -2,12 +2,8 @@
   <el-dropdown class="avatar-container" trigger="hover">
     <div class="avatar-wrapper">
       <!-- <el-divider direction="vertical" /> -->
-      <span>{{ store.userStore.user.username }}</span>
-      <el-avatar
-        shape="circle"
-        :size="30"
-        :src="userAvatar"
-      ></el-avatar>
+      <span>{{ store.userStore.user.realName }}</span>
+      <el-avatar shape="circle" :size="30" :src="userAvatar"></el-avatar>
     </div>
     <template #dropdown>
       <el-dropdown-menu class="user-dropdown">

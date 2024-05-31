@@ -30,6 +30,28 @@
       @clickCurrentChange="currentChangeHandle"
       @handleSelectionChange="selectionChangeHandle"
     >
+      <template #realName>
+        <el-table-column label="供应商名称">
+          <template #default="props">
+            <div
+              style="cursor: pointer"
+              @mouseenter="value => (props.row.showCopy = true)"
+              @mouseleave="value => (props.row.showCopy = false)"
+            >
+              <el-text type="primary" class="ideal-default-margin-right">{{
+                props.row.realName
+              }}</el-text>
+              <svg-icon
+                v-if="props.row.realName && props.row.showCopy"
+                icon="copy-icon"
+                class-name="copy-svg"
+                @click="clickCopy(props.row.realName)"
+              />
+            </div>
+          </template>
+        </el-table-column>
+      </template>
+
       <template #username>
         <el-table-column label="供应商名称">
           <template #default="props">
@@ -38,7 +60,9 @@
               @mouseenter="value => (props.row.showCopy = true)"
               @mouseleave="value => (props.row.showCopy = false)"
             >
-              <el-text type="primary" class="ideal-default-margin-right">{{ props.row.username }}</el-text>
+              <span class="ideal-default-margin-right">{{
+                props.row.username
+              }}</span>
               <svg-icon
                 v-if="props.row.username && props.row.showCopy"
                 icon="copy-icon"
@@ -53,7 +77,9 @@
       <template #bindRole>
         <el-table-column label="绑定角色">
           <template #default="props">
-            <div v-for="(item, index) of props.row.sysRoleList" :key="index">{{ item.name }}</div>
+            <div v-for="(item, index) of props.row.sysRoleList" :key="index">
+              {{ item.name }}
+            </div>
           </template>
         </el-table-column>
       </template>
@@ -88,9 +114,7 @@ import { useCrud } from '@/hooks'
 import { IHooksOptions } from '@/hooks/interface'
 import { clickCopy } from '@/utils/tool'
 import { OperateEventEnum, FiltrateEnum } from '@/utils/enum'
-import {
-  getUserListUrl
-} from '@/api/java/business-center'
+import { getUserListUrl } from '@/api/java/business-center'
 import type {
   IdealButtonEventProp,
   IdealTableColumnHeaders,
@@ -101,7 +125,7 @@ import type {
 
 // 搜索
 const typeArray = ref<IdealSearch[]>([
-  { label: '供应商名称', prop: 'username', type: FiltrateEnum.input }
+  { label: '供应商名称', prop: 'realName', type: FiltrateEnum.input }
 ])
 const onClickSearch = (v: IdealSearchResult[]) => {
   state.queryForm = {}
@@ -213,9 +237,9 @@ const clickLeftEvent = (value: string | number | object) => {
 }
 // 表头
 const tableHeaders: IdealTableColumnHeaders[] = [
-  { label: '供应商名称', prop: 'username', useSlot: true },
+  { label: '供应商名称', prop: 'realName', useSlot: true },
   { label: '供应商编码', prop: 'code' },
-  { label: '用户账号', prop: 'realName' },
+  { label: '用户账号', prop: 'username', useSlot: true },
   { label: '用户状态', prop: 'statusText' },
   { label: '手机号', prop: 'mobile' },
   { label: '用户邮箱', prop: 'email' },
