@@ -53,7 +53,7 @@
       </template>
 
       <template #username>
-        <el-table-column label="供应商名称">
+        <el-table-column label="用户账号">
           <template #default="props">
             <div
               style="cursor: pointer"
