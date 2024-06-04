@@ -54,8 +54,9 @@ interface EventEmits {
 }
 const emit = defineEmits<EventEmits>()
 //取消
+const router = useRouter()
 const handleCancel = () => {
-  emit(EventType.cancel)
+  router.back()
 }
 // 上一步
 const handlePrevious = () => {

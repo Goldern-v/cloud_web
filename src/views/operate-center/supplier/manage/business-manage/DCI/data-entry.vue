@@ -55,7 +55,7 @@
           <template #bandwidth>
             <el-table-column label="带宽大小" width="200px">
               <template #default="props">
-                <el-row :gutter="2">
+                <el-row :gutter="2" style="align-items: center">
                   <el-col :span="7"
                     ><el-input v-model="props.row.minBandwidth"
                   /></el-col>

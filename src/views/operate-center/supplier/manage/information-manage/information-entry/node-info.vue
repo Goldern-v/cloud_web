@@ -76,7 +76,7 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="国家" prop="countryId">
+      <el-form-item label="国家">
         <el-select
           v-model="form.countryId"
           placeholder="请选择节点所属区国家"
@@ -383,9 +383,9 @@ watch(
       const countryInfo = state.countryList?.find(
         (item: any) => item.rcId === val
       )
-      regionForm.countryCode = countryInfo.bssId
-      regionForm.countryName = countryInfo.name
-      cityCount.value = countryInfo.cityCount
+      regionForm.countryCode = countryInfo?.bssId
+      regionForm.countryName = countryInfo?.name
+      cityCount.value = countryInfo?.cityCount
       queryCities(form.areaId, val)
     }
   }
@@ -458,8 +458,8 @@ watch(
   ([val, arr]) => {
     if (val && arr.length) {
       const cityInfo = state.cityList?.find((item: any) => item.rcId === val)
-      regionForm.cityCode = cityInfo.bssId
-      regionForm.cityName = cityInfo.name
+      regionForm.cityCode = cityInfo?.bssId
+      regionForm.cityName = cityInfo?.name
     }
   }
 )

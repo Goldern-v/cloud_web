@@ -118,7 +118,8 @@ const Api = {
   AZURE_PORT_OPERATE: `${api}/supplier/port/azure`, //post 添加azure端口  put编辑azure端口 get详情
   INFORMATION_ENTRY: `${api}/supplier/approval/record`, //供应商管理信息录入
   INFORMATION_UPDATE: `${api}/supplier/approval/update`, //修改供应商管理录入信息
-  SUPPLIER_INFORMATION_LIST: `${api}/supplier/approval/query`, //供应商信息录入列表
+  SUPPLIER_INFORMATION_LIST: `${api}/supplier/approval/list`, //供应商信息录入列表
+  SUPPLIER_INFORMATION_QUERY_LIST: `${api}/supplier/approval/query`, //供应商信息录入列表(用于搜索过滤的查询接口)
   PORT_GROUP: `${api}/supplier/port/portGroups`, //随机生成的端口组序号(用于azure端口成组录入)
   SUPPLIER_DETAIL: `${api}/supplier/approval/detail`, //供应商详情
   SUPPLIER_OFF_SHELVES: `${api}/supplier/approval/offShelves`, //下架供应商
@@ -760,6 +761,7 @@ export const informationUpdate = (data: any) => {
 
 //供应商列表
 export const supplierInfoList = Api.SUPPLIER_INFORMATION_LIST
+export const supplierInfoQueryList = Api.SUPPLIER_INFORMATION_QUERY_LIST
 //供应商详情
 export const supplierInfoDetail = (id: string) => {
   return service.get(`${Api.SUPPLIER_DETAIL}/${id}`)

@@ -4,6 +4,7 @@
       class="information-entry-steps"
       :data-array="stepsArray"
       :current-step="stepsIndex"
+      :minus-step="firstStep"
     />
 
     <el-card>

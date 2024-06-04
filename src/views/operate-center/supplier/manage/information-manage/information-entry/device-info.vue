@@ -36,6 +36,7 @@
           v-model="form.uuid"
           class="custom-input"
           placeholder="请输入设备ID"
+          :disabled="isApproved || isSelect"
         >
         </el-input>
       </el-form-item>

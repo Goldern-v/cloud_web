@@ -56,7 +56,11 @@ import type {
   IdealTextProp
 } from '@/types'
 import { ElMessageBox, ElMessage, dayjs } from 'element-plus'
-import { supplierInfoList, supplierOffShelves } from '@/api/java/operate-center'
+import {
+  supplierInfoList,
+  supplierInfoQueryList,
+  supplierOffShelves
+} from '@/api/java/operate-center'
 import store from '@/store'
 
 const typeArray = ref<IdealSearch[]>([
@@ -71,6 +75,9 @@ const onClickSearch = (v: IdealTextProp[]) => {
       const temp = item.label.split('：')
       state.queryForm[item.prop] = temp[1]
     })
+    state.dataListUrl = supplierInfoQueryList
+  } else {
+    state.dataListUrl = supplierInfoList
   }
   getDataList()
 }

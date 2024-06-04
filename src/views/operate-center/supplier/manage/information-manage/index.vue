@@ -75,6 +75,7 @@ import store from '@/store'
 import { dayjs } from 'element-plus'
 import {
   supplierInfoList,
+  supplierInfoQueryList,
   supplierDelete,
   approveAgain
 } from '@/api/java/operate-center'
@@ -90,6 +91,9 @@ const onClickSearch = (v: IdealTextProp[]) => {
     v.forEach((item: IdealTextProp) => {
       state.queryForm[item.prop] = item.value
     })
+    state.dataListUrl = supplierInfoQueryList
+  } else {
+    state.dataListUrl = supplierInfoList
   }
   getDataList()
 }
@@ -183,6 +187,8 @@ const newOperate = (ele: any): IdealTableColumnOperate[] => {
   const tempArr = JSON.parse(JSON.stringify(operateButtons))
   if (ele.approvalStatus.toUpperCase() === 'PASS') {
     resultArr = setOperateBtns(true, tempArr)
+  } else if (ele.approvalStatus.toUpperCase() === 'OFFSHELVES') {
+    resultArr = setEditDisabled(true, tempArr)
   } else {
     resultArr = tempArr
   }
@@ -201,6 +207,17 @@ const setOperateBtns = (
   })
   return arr
 }
+
+const setEditDisabled = (
+  disabled: boolean,
+  array: IdealTableColumnOperate[]
+) => {
+  const index = array.findIndex((item: any) => item.prop === 'edit')
+  array[index].disabled = disabled
+  array[index].disabledText = '已下架的不支持修改操作'
+  return array
+}
+
 watch(
   () => state.dataList,
   (arr: any) => {
