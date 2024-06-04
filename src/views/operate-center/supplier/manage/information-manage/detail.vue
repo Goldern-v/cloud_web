@@ -82,7 +82,7 @@ const nodeData = [
 ]
 const deviceData = [
   { label: '设备名称', prop: 'name' },
-  { label: '所属机架', prop: 'cabinetName' },
+  { label: '所属机柜', prop: 'cabinetName' },
   { label: '所属U位', prop: 'uType' },
   { label: '网络平面', prop: 'planarNetwork' }
 ]

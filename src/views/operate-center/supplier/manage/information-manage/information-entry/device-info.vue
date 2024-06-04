@@ -80,10 +80,10 @@
         </el-form-item>
       </template>
 
-      <el-form-item label="所属机架" prop="cabinetId">
+      <el-form-item label="所属机柜" prop="cabinetId">
         <el-select
           v-model="form.cabinetId"
-          placeholder="请选择机架"
+          placeholder="请选择机柜"
           value-key="id"
           class="custom-input"
           :disabled="isApproved || isSelect"
@@ -200,8 +200,8 @@ const form: { [key: string]: any } = reactive({
   name: '',
   vendorId: '', //供应商
   nodeId: '', //节点
-  cabinetId: '', //所属机架
-  cabinetName: '', //所属机架
+  cabinetId: '', //所属机柜
+  cabinetName: '', //所属机柜
   uType: '',
   planarNetwork: '',
   ip: ''

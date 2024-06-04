@@ -111,7 +111,7 @@ const headerArray: IdealTableColumnHeaders[] = [
   { label: '状态', prop: 'status', useSlot: true },
   { label: '所属供应商', prop: 'vendorName' },
   { label: '所属节点', prop: 'nodeName' },
-  { label: '所属机架', prop: 'cabinetName' },
+  { label: '所属机柜', prop: 'cabinetName' },
   { label: '所属U位', prop: 'uType' },
   { label: '网络平面', prop: 'planarNetwork' },
   { label: 'IP地址', prop: 'ip' }
