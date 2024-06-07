@@ -123,7 +123,7 @@ const submitForm = () => {
       emit(EventEnum.success)
       ElMessage.success('删除安全组成功')
     } else {
-      ElMessage.success('删除安全组失败')
+      ElMessage.error('删除安全组失败')
     }
   })
 }

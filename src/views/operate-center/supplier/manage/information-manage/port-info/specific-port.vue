@@ -10,7 +10,7 @@
           :is-multiple="isInfoEntry"
         >
           <template #name>
-            <el-table-column label="端口名称" width="200">
+            <el-table-column label="端口名称" width="150px">
               <template #default="props">
                 <el-input
                   v-model="props.row.portName"
@@ -21,12 +21,12 @@
             </el-table-column>
           </template>
 
-          <template #portId>
-            <el-table-column label="端口ID" width="200">
+          <template #uuid>
+            <el-table-column label="端口ID" width="150px">
               <template #default="props">
                 <el-input
-                  v-model="props.row.portId"
-                  placeholder="请输入端口名称"
+                  v-model="props.row.uuid"
+                  placeholder="请输入端口ID"
                   :disabled="props.row.disabled"
                 />
               </template>
@@ -34,7 +34,7 @@
           </template>
 
           <template #speed>
-            <el-table-column label="速率" width="200">
+            <el-table-column label="速率" width="150px">
               <template #default="props">
                 <el-select
                   v-model="props.row.portSpeed"
@@ -53,7 +53,7 @@
           </template>
 
           <template v-if="!isEdit" #operation>
-            <el-table-column width="185" fixed="right">
+            <el-table-column width="120" fixed="right">
               <template #header
                 >操作<svg-icon
                   icon="circle-add"
@@ -191,7 +191,7 @@ const form: { [key: string]: any } = reactive({
 
 const validatePort = (rule: any, value: any, callback: (e?: Error) => any) => {
   const flag = value.some((item: any) => {
-    return !item.portSpeed || !item.portName || !item.portId
+    return !item.portSpeed || !item.portName || !item.uuid
   })
   if (flag && value.length == 1) {
     callback(new Error('请至少输入一条端口信息'))
@@ -217,7 +217,7 @@ const rules = reactive<FormRules>({
 
 const tableHeaders: IdealTableColumnHeaders[] = [
   { label: '端口名称', prop: 'name', useSlot: true },
-  { label: '端口ID', prop: 'portId', useSlot: true },
+  { label: '端口ID', prop: 'uuid', useSlot: true },
   { label: '速率', prop: 'speed', useSlot: true }
 ]
 
@@ -248,7 +248,7 @@ onMounted(() => {
       {
         portName: props.rowData.name,
         portSpeed: props.rowData.speed,
-        portId: props.rowData.portId
+        uuid: props.rowData.uuid
       }
     ]
     form.nodeId = props.rowData.nodeId
@@ -367,7 +367,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
       if (isEdit.value) {
         params.name = form.portData[0].portName
         params.speed = form.portData[0].portSpeed
-        params.portId = form.portData[0].portId
+        params.uuid = form.portData[0].uuid
         params.id = props.rowData.id
         portEdit(params)
           .then((res: any) => {
@@ -383,7 +383,13 @@ const submitForm = (formEl: FormInstance | undefined) => {
             hideLoading()
           })
       } else {
-        params.specializedPortItems = form.portData
+        params.specializedPortItems = form.portData.map((item: any) => {
+          return {
+            portName: item.portName,
+            portSpeed: item.portSpeed,
+            portUuid: item.uuid
+          }
+        })
         showLoading('创建中...')
         portAdd(params)
           .then((res: any) => {

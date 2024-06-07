@@ -280,7 +280,7 @@ const handleDelete = (row: any) => {
           getDataList()
           ElMessage.success('删除申请信息成功')
         } else {
-          ElMessage.success('删除申请信息失败')
+          ElMessage.error('删除申请信息失败')
         }
         hideLoading()
       })
@@ -305,7 +305,7 @@ const handleApproveAgain = (row: any) => {
           getDataList()
           ElMessage.success('发起再次审批成功')
         } else {
-          ElMessage.success('发起再次审批失败')
+          ElMessage.error('发起再次审批失败')
         }
         hideLoading()
       })

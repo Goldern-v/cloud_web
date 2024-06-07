@@ -64,7 +64,8 @@ import { queryVdcQuota } from '@/api/java/public'
 import { approvalProcess } from '@/utils/tool'
 import { useResourcePool } from '@/utils/common/resource'
 
-const { isPublic, isPublicHuawei, isAliyun, isTencent, isCtyun } = useResourcePool()
+const { isPublic, isPublicHuawei, isAliyun, isTencent, isCtyun } =
+  useResourcePool()
 
 /**
  * 通用型创建, 满足公有云
@@ -329,7 +330,7 @@ const clickComplete = () => {
           }
         )
       } else {
-        ElMessage.success('创建失败')
+        ElMessage.error('创建失败')
       }
       hideLoading()
     })

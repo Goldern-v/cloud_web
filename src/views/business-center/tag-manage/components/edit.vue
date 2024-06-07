@@ -7,7 +7,10 @@
             v-model="form.color"
             color-format="hex"
           ></el-color-picker>
-          <el-input v-model="form.labelName" class="ideal-default-margin-left"></el-input>
+          <el-input
+            v-model="form.labelName"
+            class="ideal-default-margin-left"
+          ></el-input>
         </div>
       </el-form-item>
 
@@ -88,7 +91,7 @@ const submitForm = () => {
       ElMessage.success('修改成功')
       emit(EventEnum.success)
     } else {
-      ElMessage.success('修改失败')
+      ElMessage.error('修改失败')
     }
   })
 }

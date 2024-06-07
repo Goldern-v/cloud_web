@@ -112,7 +112,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
             ElMessage.success('创建成功')
             emit(EventEnum.success)
           } else {
-            ElMessage.success('创建失败')
+            ElMessage.error('创建失败')
           }
           hideLoading()
         })
@@ -133,7 +133,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
             ElMessage.success('修改成功')
             emit(EventEnum.success)
           } else {
-            ElMessage.success('修改失败')
+            ElMessage.error('修改失败')
           }
           hideLoading()
         })

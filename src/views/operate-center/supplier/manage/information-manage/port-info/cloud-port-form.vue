@@ -75,7 +75,7 @@
           v-model="form.portId"
           filterable
           clearable
-          placeholder="请输入或选择端口名称"
+          placeholder="请输入或选择端口ID"
           allow-create
           default-first-option
           class="custom-input"
@@ -271,6 +271,7 @@ let form: { [key: string]: any } = reactive({
   vendorId: '',
   portId: '',
   nodeId: '',
+  uuid: '', //端口ID
   equipmentId: '',
   name: '',
   instanceId: '',
@@ -297,9 +298,8 @@ const rules = reactive<FormRules>({
     { required: true, message: '请选择所属节点', trigger: 'change' }
   ],
   name: [{ required: true, message: '请输入端口名称', trigger: 'blur' }],
-  portId: [
-    { required: true, message: '请输入或选择端口名称', trigger: 'blur' }
-  ],
+  portId: [{ required: true, message: '请输入或选择端口ID', trigger: 'blur' }],
+  uuid: [{ required: true, message: '请输入端口ID', trigger: 'blur' }],
   instanceId: [{ required: true, message: '请输入实例ID', trigger: 'blur' }],
   connectionId: [{ required: true, message: '请输入互连ID', trigger: 'blur' }],
   area: [{ required: true, message: '请输入区域', trigger: 'blur' }],
@@ -476,9 +476,6 @@ defineExpose({ formRef, form })
   :deep(.el-form) {
     padding: 0;
   }
-  // .custom-input {
-  //   width: 100%;
-  // }
   .ideal-table-list__container {
     padding: 0;
   }

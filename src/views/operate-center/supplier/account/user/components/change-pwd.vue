@@ -1,11 +1,6 @@
 <template>
   <div class="create-or-edit">
-    <el-form
-      ref="formRef"
-      :model="form"
-      :rules="rules"
-      label-position="left"
-    >
+    <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item prop="password" label="新密码">
         <el-input
           v-model="form.password"
@@ -54,11 +49,7 @@ const form = reactive({
   againPassword: '' // 确认密码
 })
 // 密码验证
-const checkPwd = (
-  rule: any,
-  value: any,
-  callback: (e?: Error) => any
-) => {
+const checkPwd = (rule: any, value: any, callback: (e?: Error) => any) => {
   if (!value) {
     callback(new Error('请输入密码'))
   } else if (value.length < 4 || value.length > 20) {
@@ -82,9 +73,7 @@ const checkConfirmPwd = (
   }
 }
 const rules = ref<FormRules>({
-  password: [
-    { required: true, validator: checkPwd, trigger: 'blur' }
-  ],
+  password: [{ required: true, validator: checkPwd, trigger: 'blur' }],
   againPassword: [
     { required: true, validator: checkConfirmPwd, trigger: 'blur' }
   ]
@@ -126,7 +115,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
           ElMessage.success('修改密码成功')
           emit(EventEnum.success)
         } else {
-          ElMessage.success('修改密码失败')
+          ElMessage.error('修改密码失败')
         }
         hideLoading()
       })

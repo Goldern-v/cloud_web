@@ -7,6 +7,7 @@ export const getCloudPortParams = () => {
     const {
       name,
       nodeId,
+      uuid,
       equipmentId,
       speed,
       instanceId,
@@ -19,6 +20,7 @@ export const getCloudPortParams = () => {
       cloudPortType: 'aliyun',
       name,
       nodeId,
+      uuid,
       equipmentId,
       speed,
       instanceId,
@@ -29,11 +31,12 @@ export const getCloudPortParams = () => {
     return params
   }
 
-  //创建阿里云端口参数
+  //创建亚马逊端口参数
   const createAwsPortParams = () => {
     const form = cloudFormRef.value[0].form
     const {
       name,
+      uuid,
       nodeId,
       equipmentId,
       speed,
@@ -46,6 +49,7 @@ export const getCloudPortParams = () => {
       portType: 'CLOUD',
       cloudPortType: 'aws',
       name,
+      uuid,
       nodeId,
       equipmentId,
       speed,

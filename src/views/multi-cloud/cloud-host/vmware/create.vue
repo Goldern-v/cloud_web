@@ -62,7 +62,7 @@ import { queryVdcQuota } from '@/api/java/public'
 
 /**
  * 通用型创建, 满足公有云
-*/
+ */
 
 const stepsIndex = ref(0)
 const stepsArray: IdealSteps[] = [
@@ -229,7 +229,7 @@ const clickComplete = () => {
       if (code === 200) {
         emit(EventEnum.success)
       } else {
-        ElMessage.success('创建失败')
+        ElMessage.error('创建失败')
       }
       hideLoading()
     })

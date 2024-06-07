@@ -428,6 +428,9 @@ const cascaderProps: CascaderProps = {
         }
       })
     }
+    if (isEdit.value) {
+      selectedCitys.value = [props.rowData.provinceId, props.rowData.cityId]
+    }
     resolve(nodes)
   }
 }
@@ -522,6 +525,7 @@ watch(
             form[key] = nodeInfo[key]
           }
         })
+        selectedCitys.value = [nodeInfo.provinceId, nodeInfo.cityId]
         queryCabinet(val)
       } else {
         isSelect.value = false

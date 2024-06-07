@@ -103,7 +103,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
           ElMessage.success('修改密码成功')
           emit(EventEnum.success)
         } else {
-          ElMessage.success('修改密码失败')
+          ElMessage.error('修改密码失败')
         }
         hideLoading()
       })

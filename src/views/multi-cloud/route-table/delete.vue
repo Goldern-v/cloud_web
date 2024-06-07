@@ -118,7 +118,7 @@ const submitForm = () => {
       ElMessage.success('删除路由表成功')
       emit(EventEnum.success)
     } else {
-      ElMessage.success('删除路由表失败')
+      ElMessage.error('删除路由表失败')
     }
   })
 }

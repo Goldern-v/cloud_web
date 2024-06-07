@@ -43,7 +43,10 @@
       </el-form-item>
 
       <el-form-item label="可用区" prop="availableZone">
-        <el-radio-group v-model="createForm.availableZone" class="ideal-default-margin-right">
+        <el-radio-group
+          v-model="createForm.availableZone"
+          class="ideal-default-margin-right"
+        >
           <el-radio-button
             v-for="(item, index) of state.availableZoneList"
             :key="index"
@@ -82,9 +85,7 @@
           ></ideal-ip-input>
 
           <div class="ideal-tip-text">可用IP数：251</div>
-          <div class="ideal-warning-text">
-            子网创建完成后，子网网段无法修改
-          </div>
+          <div class="ideal-warning-text">子网创建完成后，子网网段无法修改</div>
         </div>
       </el-form-item>
 
@@ -396,7 +397,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             ElMessage.success('创建成功')
             emit(EventEnum.success)
           } else {
-            ElMessage.success('创建失败')
+            ElMessage.error('创建失败')
           }
           hideLoading()
         })

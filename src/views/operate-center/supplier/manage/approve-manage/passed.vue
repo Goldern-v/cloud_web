@@ -161,7 +161,7 @@ const clickOperateEvent = (command: string | number, row: any) => {
             getDataList()
             ElMessage.success('下架供应商成功')
           } else {
-            ElMessage.success('下架供应商失败')
+            ElMessage.error('下架供应商失败')
           }
         })
       })

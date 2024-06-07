@@ -178,7 +178,7 @@ const handleDelete = (row: any) => {
           getDataList()
           ElMessage.success('删除云端口信息成功')
         } else {
-          ElMessage.success('删除云端口信息失败')
+          ElMessage.error('删除云端口信息失败')
         }
       })
     })

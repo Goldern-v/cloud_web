@@ -243,7 +243,8 @@ onMounted(() => {
 //查询云端口
 const queryNode = async () => {
   const res = await getPortList({
-    portType: 'CLOUD'
+    // portType: 'CLOUD'
+    searchType: 1
   })
   portList.value = res.data
 }

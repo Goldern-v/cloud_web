@@ -154,7 +154,7 @@ const clickOperateEvent = (command: string | number, row: any) => {
           getDataList()
           ElMessage.success('删除供应商信息成功')
         } else {
-          ElMessage.success('删除供应商信息失败')
+          ElMessage.error('删除供应商信息失败')
         }
       })
     })

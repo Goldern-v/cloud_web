@@ -143,7 +143,7 @@ const clickOperateEvent = (command: string | number, row: any) => {
               getDataList()
               ElMessage.success('删除成本中心成功')
             } else {
-              ElMessage.success('删除成本中心失败')
+              ElMessage.error('删除成本中心失败')
             }
           }
         )

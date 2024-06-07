@@ -115,7 +115,7 @@ const initDialog = () => {
   dialogWidth.value = props.type?.includes('Azure')
     ? '60%'
     : props.type?.includes('Specific')
-    ? '40%'
+    ? '45%'
     : '30%'
 }
 
