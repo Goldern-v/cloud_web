@@ -3,6 +3,7 @@ import { useAccountLoginApi, useMobileLoginApi, useLogoutApi } from '@/api/auth'
 import { useUserInfoApi } from '@/api/sys/user'
 import cache from '@/utils/cache'
 import { useAuthorityListApi } from '@/api/sys/menu'
+import cookie from '@/utils/cookie'
 
 export const userStore = defineStore('userStore', {
   state: () => ({
@@ -15,7 +16,7 @@ export const userStore = defineStore('userStore', {
     // 权限列表
     authorityList: [],
     // 登录token
-    token: cache.getToken()
+    token: cache.getToken() || cookie.getToken()
   }),
   actions: {
     setUser(val: any) {
@@ -51,6 +52,7 @@ export const userStore = defineStore('userStore', {
 
       // 移除 token
       this.setToken(null)
+      cookie.removeToken()
     }
   }
 })
