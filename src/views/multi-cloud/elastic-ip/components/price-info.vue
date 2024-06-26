@@ -35,6 +35,7 @@
 </template>
 
 <script setup lang="ts" name="priceInfo">
+// import { timeValues } from './common'
 import store from '@/store'
 import { BillingEnum } from '@/utils/enum'
 import { queryInquiry } from '@/api/java/public'
@@ -84,6 +85,7 @@ const isPackage = computed(
 
 const { resourcePool } = storeToRefs(store.resourceStore)
 
+const price = ref(0)
 //创建参数
 const createParams = () => {
   const item = {
@@ -141,8 +143,6 @@ const renewParams = () => {
   }
   return params
 }
-
-const price = ref(0)
 // 询价
 const getInquiry = () => {
   let params: { [key: string]: any } = {}

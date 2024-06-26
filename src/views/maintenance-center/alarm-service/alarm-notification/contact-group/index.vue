@@ -278,7 +278,7 @@ const batchDeleteContactGroup = () => {
           getDataList()
           ElMessage.success('批量删除联系组成功')
         } else {
-          ElMessage.error('批量删除联系组失败')
+          ElMessage.success('批量删除联系组失败')
         }
       })
     })
@@ -311,7 +311,7 @@ const unbindContact = (internalRow: any, externalRow: any) => {
           getDataList()
           ElMessage.success('移出联系人成功')
         } else {
-          ElMessage.error('移出联系人失败')
+          ElMessage.success('移出联系人失败')
         }
       })
     })

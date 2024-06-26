@@ -16,7 +16,11 @@ export const userStore = defineStore('userStore', {
     // 权限列表
     authorityList: [],
     // 登录token
-    token: cache.getToken() || cookie.getToken()
+    token: cache.getToken() || cookie.getToken(),
+    // 首次登录
+    firstLogin: false,
+    // 登录界面返回的id,用于首次登录跳转重置密码
+    id: ''
   }),
   actions: {
     setUser(val: any) {
@@ -26,10 +30,18 @@ export const userStore = defineStore('userStore', {
       this.token = val
       cache.setToken(val)
     },
+    setFirstLogin(val: any) {
+      this.firstLogin = val
+    },
+    setId(val: any) {
+      this.id = val
+    },
     // 账号登录
     async accountLoginAction(loginForm: any) {
       const { data } = await useAccountLoginApi(loginForm)
       this.setToken(data.access_token)
+      this.setFirstLogin(data.skip)
+      this.setId(data.id)
     },
     // 手机号登录
     async mobileLoginAction(loginForm: any) {
@@ -48,11 +60,16 @@ export const userStore = defineStore('userStore', {
     },
     // 用户退出
     async logoutAction() {
-      await useLogoutApi()
-
+      const { data } = await useLogoutApi()
       // 移除 token
-      this.setToken(null)
       cookie.removeToken()
+      this.setToken(null)
+
+      if (data) {
+        window.open(data, '_self')
+      } else {
+        location.reload()
+      }
     }
   }
 })

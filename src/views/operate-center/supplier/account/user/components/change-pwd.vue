@@ -1,6 +1,11 @@
 <template>
   <div class="create-or-edit">
-    <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
+    <el-form
+      ref="formRef"
+      :model="form"
+      :rules="rules"
+      label-position="left"
+    >
       <el-form-item prop="password" label="新密码">
         <el-input
           v-model="form.password"
@@ -32,6 +37,7 @@ import type { FormRules, FormInstance } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import { EventEnum } from '@/utils/enum'
 import { showLoading, hideLoading } from '@/utils/tool'
+import { passwordRule } from '@/utils/validate'
 import { editUserPwd } from '@/api/java/business-center'
 
 interface DialogProps {
@@ -49,14 +55,17 @@ const form = reactive({
   againPassword: '' // 确认密码
 })
 // 密码验证
-const checkPwd = (rule: any, value: any, callback: (e?: Error) => any) => {
-  if (!value) {
-    callback(new Error('请输入密码'))
-  } else if (value.length < 4 || value.length > 20) {
-    callback(new Error('密码长度4-20个字符'))
-  } else {
-    callback()
+const checkPwd = (
+  rule: any,
+  value: any,
+  callback: (e?: Error) => any
+) => {
+  const cnReg = /[\u4e00-\u9fa5]+/
+  if (cnReg.test(value)) {
+    callback(new Error('请不要输入中文'))
   }
+
+  passwordRule(rule,value,callback)
 }
 // 确认密码验证
 const checkConfirmPwd = (
@@ -64,6 +73,10 @@ const checkConfirmPwd = (
   value: any,
   callback: (e?: Error) => any
 ) => {
+  const cnReg = /[\u4e00-\u9fa5]+/
+  if (cnReg.test(value)) {
+    callback(new Error('请不要输入中文'))
+  } 
   if (!value) {
     callback(new Error('请确认密码'))
   } else if (value !== form.password) {
@@ -73,7 +86,9 @@ const checkConfirmPwd = (
   }
 }
 const rules = ref<FormRules>({
-  password: [{ required: true, validator: checkPwd, trigger: 'blur' }],
+  password: [
+    { required: true, validator: checkPwd, trigger: 'blur' }
+  ],
   againPassword: [
     { required: true, validator: checkConfirmPwd, trigger: 'blur' }
   ]
@@ -115,7 +130,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
           ElMessage.success('修改密码成功')
           emit(EventEnum.success)
         } else {
-          ElMessage.error('修改密码失败')
+          ElMessage.success('修改密码失败')
         }
         hideLoading()
       })
@@ -130,6 +145,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
   width: 100%;
   :deep(.el-form) {
     padding: 0;
+  }
+  :deep(.el-form-item__error) {
+    position: static;
   }
 }
 </style>

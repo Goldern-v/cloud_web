@@ -175,6 +175,7 @@ const onClickSearch = (v: IdealSearchResult[]) => {
   }
   getDataList()
 }
+
 onMounted(() => {
   platformCategory()
 })

@@ -76,6 +76,8 @@ const nodeData = [
   { label: '国家', prop: 'countryName' },
   { label: '城市', prop: 'cityName' },
   { label: '机房名称', prop: 'equipmentRoom' },
+  { label: '经度', prop: 'longitudeDMSFormatter' },
+  { label: '纬度', prop: 'latitudeDMSFormatter' },
   { label: '地理位置', prop: 'address' },
   { label: '数据中心名称', prop: 'dataCenter' },
   { label: '机柜号', prop: 'cabinets' }

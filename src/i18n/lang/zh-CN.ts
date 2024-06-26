@@ -18,7 +18,7 @@ export default {
   updateTime: '更新时间',
   required: '必填项不能为空',
   app: {
-    title: '理想云',
+    title: '生态互联中心',
     description:
       '助力企业落地云战略提供一站式的云管理解决方案',
     logoText: '生态互联中心',
@@ -27,6 +27,7 @@ export default {
     password: '密码',
     captcha: '验证码',
     signIn: '登录',
+    reset: '重置',
     accountSignIn: '账号密码登录',
     mobileSignIn: '手机短信登录',
     mobile: '手机号',

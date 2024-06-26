@@ -62,7 +62,7 @@ const handleClose = () => {
   emit(EventEnum.close)
 }
 
-// 类型变化
+// 类型变化,
 watch(
   () => props.type,
   () => {

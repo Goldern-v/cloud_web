@@ -21,7 +21,7 @@
           <template v-if="item.arrowDown">
             <svg-icon icon="down-arrow" class="ideal-svg-margin-right"></svg-icon>
           </template>
-          
+
           <template v-else>
             <svg-icon icon="up-arrow" class="ideal-svg-margin-right"></svg-icon>
           </template>
@@ -38,7 +38,7 @@
         >
           <el-image
             style="width: 200px; height: 120px"
-            :src="v.url"
+            :src="`/images/${v.url}`"
             :crossorigin="null"
             fit="fill"
           />

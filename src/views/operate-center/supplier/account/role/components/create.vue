@@ -1,13 +1,8 @@
 <template>
   <div class="create-or-edit">
-    <el-form
-      ref="formRef"
-      :model="form"
-      :rules="rules"
-      label-position="left"
-    >
+    <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item prop="name" label="角色名称">
-        <el-input v-model="form.name" placeholder="请输入供应商名称" />
+        <el-input v-model="form.name" placeholder="请输入角色名称" />
       </el-form-item>
 
       <el-form-item label="描述">

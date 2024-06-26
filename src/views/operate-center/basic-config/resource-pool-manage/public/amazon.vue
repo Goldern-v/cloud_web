@@ -445,15 +445,16 @@ const submitForm = (formEl: FormInstance | undefined) => {
     return
   }
   formEl.validate(valid => {
-    if (!valid) {
-      return
-    }
-
-    // changeImage: true 选择或重选图标, 需重新上传
-    if (changeImage.value) {
-      uploadIcon()
+    if (valid) {
+      // changeImage: true 选择或重选图标, 需重新上传
+      if (changeImage.value) {
+        uploadIcon()
+      } else {
+        handleEvent()
+      }
     } else {
-      handleEvent()
+      console.log('error submit!')
+      return false
     }
   })
 }
@@ -499,7 +500,7 @@ const handleCreate = () => {
     networkType: form.networkType
   }
   resourcePoolCreate(params).then((res: any) => {
-    const { code } = res
+    let { code } = res
     if (code === 200) {
       ElMessage.success('创建成功')
       router.push({
@@ -528,7 +529,7 @@ const handleEdit = () => {
   params.name = form.name
 
   resourcePoolEdit(params).then((res: any) => {
-    const { code } = res
+    let { code } = res
     if (code === 200) {
       ElMessage.success('编辑成功')
       router.push({

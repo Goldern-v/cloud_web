@@ -233,7 +233,7 @@ const batchDeleteContactGroup = () => {
           getDataList()
           ElMessage.success('批量删除联系人成功')
         } else {
-          ElMessage.error('批量删除联系人失败')
+          ElMessage.success('批量删除联系人失败')
         }
       })
     })

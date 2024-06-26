@@ -435,15 +435,16 @@ const submitForm = (formEl: FormInstance | undefined) => {
     return
   }
   formEl.validate(valid => {
-    if (!valid) {
-      return
-    }
-
-    // changeImage: true 选择或重选图标, 需重新上传
-    if (changeImage.value) {
-      uploadIcon()
+    if (valid) {
+      // changeImage: true 选择或重选图标, 需重新上传
+      if (changeImage.value) {
+        uploadIcon()
+      } else {
+        handleEvent()
+      }
     } else {
-      handleEvent()
+      console.log('error submit!')
+      return false
     }
   })
 }

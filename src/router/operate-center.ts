@@ -151,7 +151,7 @@ export const customMenu = [
     name: 'supplier-manage-information-detail',
     meta: {
       title: '信息管理详情',
-      breadcrumb: ['运营商管理', '信息管理详情']
+      breadcrumb: ['供应商管理', '信息管理详情']
     }
   },
   {
@@ -163,7 +163,7 @@ export const customMenu = [
     name: 'supplier-manage-information-entry',
     meta: {
       title: '信息录入',
-      breadcrumb: ['运营商管理', '信息录入']
+      breadcrumb: ['供应商管理', '信息录入']
     }
   },
   {
@@ -175,7 +175,7 @@ export const customMenu = [
     name: 'supplier-manage-node-info',
     meta: {
       title: '节点信息',
-      breadcrumb: ['运营商管理', '节点信息']
+      breadcrumb: ['供应商管理', '节点信息']
     }
   },
   {
@@ -187,7 +187,7 @@ export const customMenu = [
     name: 'supplier-manage-device-info',
     meta: {
       title: '设备信息',
-      breadcrumb: ['运营商管理', '设备信息']
+      breadcrumb: ['供应商管理', '设备信息']
     }
   },
   {
@@ -199,7 +199,7 @@ export const customMenu = [
     name: 'supplier-manage-port-info',
     meta: {
       title: '端口信息',
-      breadcrumb: ['运营商管理', '端口信息']
+      breadcrumb: ['供应商管理', '端口信息']
     }
   },
   {

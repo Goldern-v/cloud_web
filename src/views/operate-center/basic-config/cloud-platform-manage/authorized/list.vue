@@ -72,6 +72,7 @@ import {
   cloudPlatformAuthListUrl
 } from '@/api/java/operate-center'
 
+
 const route = useRoute()
 const cloudPlatformId = route.query.id as string
 const cloudCategory = route.query.cloudCategory as string
@@ -185,6 +186,8 @@ const clickRefreshEvent = () => {
   showDialog.value = false
   getDataList()
 }
+
+
 </script>
 
 <style scoped lang="scss">

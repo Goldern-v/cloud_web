@@ -153,6 +153,7 @@ onMounted(() => {
 
 /**
  * 搜索类型
+ * @type {IdealSearch[]}
  */
 const searchRef = ref()
 const typeArray = ref<IdealSearch[]>([

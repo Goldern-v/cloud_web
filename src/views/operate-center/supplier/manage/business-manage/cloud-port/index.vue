@@ -27,7 +27,7 @@
       @clickCurrentChange="currentChangeHandle"
     >
       <template #operation>
-        <el-table-column label="操作" width="185" fixed="right">
+        <el-table-column label="操作" width="120" fixed="right">
           <template #default="props">
             <ideal-table-operate
               :buttons="props.row.operate"
@@ -89,8 +89,8 @@ const tableHeaders: IdealTableColumnHeaders[] = [
   { label: '端口名称', prop: 'port.name' },
   { label: '数据来源', prop: 'source' },
   { label: '带宽', prop: 'bandwidth' },
-  { label: '价格/NRC', prop: 'nrc' },
-  { label: '价格/MRC', prop: 'mrc' },
+  { label: '价格/NRC', prop: 'nrcStr' },
+  { label: '价格/MRC', prop: 'mrcStr' },
   { label: '交付工期', prop: 'deliveryPeriod' },
   { label: '录入时间', prop: 'createTime.date' }
 ]
@@ -113,6 +113,8 @@ watch(
         item.source = item.dataResource === 'static' ? '静态录入' : 'API对接'
         item.bandwidth = `${item.minBandwidth}-${item.maxBandwidth}M`
         item.deliveryPeriod = `${item.deliveryDuration}天`
+        item.nrcStr = `${item.nrc}$`
+        item.mrcStr = `${item.mrc}$`
       })
     }
   }

@@ -141,7 +141,7 @@ const submitForm = () => {
         ElMessage.success('删除成功')
         emit(EventEnum.success)
       } else {
-        ElMessage.error('删除失败')
+        ElMessage.success('删除失败')
       }
       hideLoading()
     })

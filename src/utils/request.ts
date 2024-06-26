@@ -3,6 +3,7 @@ import qs from 'qs'
 import store from '@/store'
 import cache from '@/utils/cache'
 import { ElMessage } from 'element-plus/es'
+import cookie from '@/utils/cookie'
 
 // axios实例
 const service = axios.create({
@@ -55,8 +56,8 @@ service.interceptors.response.use(
 
     const res = response.data
     if (Object.prototype.toString.call(res) === '[object Blob]') {
-			return response
-		}
+      return response
+    }
 
     // 响应成功
     if (res.code === 200) {
@@ -66,12 +67,13 @@ service.interceptors.response.use(
     // 没有权限，如：未登录、登录过期等，需要跳转到登录页
     if (res.code === 401) {
       store.userStore?.setToken('')
+      cookie.removeToken()
       location.reload()
     }
 
     // 错误提示
     ElMessage.error(res.msg || res.data)
-    
+
     return Promise.reject(new Error(res.msg || 'Error'))
   },
   error => {

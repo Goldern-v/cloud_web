@@ -50,7 +50,7 @@ const formLoading = ref(false) // 表单的加载中：提交的按钮禁用
 const formData = ref({
   assigneeUserId: ''
 })
-const userList = ref<any>([])
+let userList = ref<any>([])
 const formRules = reactive({
   assigneeUserId: [
     { required: true, message: '请选择新的审批人', trigger: 'blur' }
@@ -85,7 +85,7 @@ const submitForm = async () => {
   }
   // 提交请求
   formLoading.value = true
-  const params = {
+  let params = {
     assigneeUserId: formData.value.assigneeUserId,
     id: props.rowData.id
   }

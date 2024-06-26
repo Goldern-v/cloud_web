@@ -75,7 +75,7 @@
           v-model="form.portId"
           filterable
           clearable
-          placeholder="请输入或选择端口ID"
+          placeholder="请输入或选择端口名称"
           allow-create
           default-first-option
           class="custom-input"
@@ -93,7 +93,7 @@
         <el-input
           v-model="form.uuid"
           class="custom-input"
-          placeholder="请输入端口名称"
+          placeholder="请输入端口ID"
           :disabled="isForbidden || isApproved"
         >
         </el-input>

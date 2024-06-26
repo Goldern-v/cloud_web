@@ -36,6 +36,7 @@ import authorized from './authorized/list.vue'
 import { useCommon } from './common'
 import type { TabsPaneContext } from 'element-plus'
 
+
 // 标签页组件
 const tabs = shallowRef<any>({
   publicHuaweiCloud,
@@ -69,6 +70,8 @@ onMounted(() => {
 })
 
 const initComponents = () => {
+  
+
   if (isPublicHuawei) {
     activeName.value = 'publicHuaweiCloud'
     tabControllers.value[0].name = 'publicHuaweiCloud'

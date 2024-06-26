@@ -64,6 +64,7 @@ const labelArray = ref([
   { label: '创建时间', prop: 'createTime', useSlot: true },
   { label: '描述', prop: 'description', isEdit: true }
 ])
+// 详情
 
 // 标签页组件
 const tabs: any = { routeList }

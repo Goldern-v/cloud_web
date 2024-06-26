@@ -147,6 +147,7 @@ watch(
     })
   }
 )
+
 const newOperate = (item: any, index: number): IdealTableColumnOperate[] => {
   let resultArr: IdealTableColumnOperate[] = []
   const tempArr = JSON.parse(JSON.stringify(operateBtns))
@@ -157,7 +158,6 @@ const newOperate = (item: any, index: number): IdealTableColumnOperate[] => {
   resultArr = tempArr
   return resultArr
 }
-
 const showIpDetail = (row: any, index: number) => {
   if (index) {
     return

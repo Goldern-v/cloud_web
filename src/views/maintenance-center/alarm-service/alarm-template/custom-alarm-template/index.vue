@@ -257,7 +257,7 @@ const clickOperateEvent = (command: string | number, row: any) => {
             getDataList()
             ElMessage.success('删除自定义模板成功')
           } else {
-            ElMessage.error('删除自定义模板失败')
+            ElMessage.success('删除自定义模板失败')
           }
         })
       })

@@ -8,5 +8,5 @@ import store from '@/store'
  * 3：供应商
  */
 export const isSupplierManager = computed(() =>
-  store.userStore.user.roleTypeList.includes('3')
+  store.userStore.user.roleTypeList?.includes('3')
 ) //供应商管理员角色

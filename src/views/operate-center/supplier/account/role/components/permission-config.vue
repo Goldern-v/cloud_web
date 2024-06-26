@@ -60,7 +60,10 @@ import { IHooksOptions } from '@/hooks/interface'
 import { showLoading, hideLoading } from '@/utils/tool'
 import type { IdealTableColumnHeaders, IdealButtonEventProp } from '@/types'
 import { useAllMenuNavApi } from '@/api/sys/menu'
-import { queryRoleConfigTemplate, createRole } from '@/api/java/business-center'
+import {
+  queryRoleConfigTemplate,
+  createRole
+} from '@/api/java/business-center'
 
 onMounted(() => {
   queryMenuCatalog()
@@ -78,7 +81,7 @@ const dataSource = ref<Tree[]>([])
 const queryMenuCatalog = async () => {
   const params = {
     type: 0,
-    platformType: '1'
+    platformType: '1',
   }
   const { data } = await useAllMenuNavApi(params)
   dataSource.value = data.filter((item: any) => item.children?.length > 0)
@@ -150,12 +153,7 @@ const state: IHooksOptions = reactive({
   },
   createdIsNeed: false
 })
-const {
-  getDataList,
-  sizeChangeHandle,
-  currentChangeHandle,
-  selectionChangeHandle
-} = useCrud(state)
+const { getDataList, sizeChangeHandle, currentChangeHandle, selectionChangeHandle } = useCrud(state)
 
 /**
  * 列表上方左侧按钮
@@ -175,10 +173,7 @@ watch(
   () => state.dataList,
   data => {
     data?.forEach((item: any) => {
-      multipleTableRef.value.IdealTableList.toggleRowSelection(
-        item,
-        item.bindOrNot
-      )
+      multipleTableRef.value.IdealTableList.toggleRowSelection(item, item.bindOrNot)
     })
   }
 )
@@ -218,7 +213,7 @@ const submit = () => {
         ElMessage.success('授权成功')
         router.back()
       } else {
-        ElMessage.error('授权失败')
+        ElMessage.success('授权失败')
       }
       hideLoading()
     })

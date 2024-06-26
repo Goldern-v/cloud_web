@@ -385,7 +385,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
               ElMessage.success('绑定成功')
               emit(EventEnum.success)
             } else {
-              ElMessage.error('绑定失败')
+              ElMessage.success('绑定失败')
             }
             hideLoading()
           })

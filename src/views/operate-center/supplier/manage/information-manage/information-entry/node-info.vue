@@ -99,6 +99,7 @@
           v-model="form.cityId"
           placeholder="请选择节点所属的城市"
           class="custom-input"
+          filterable
           :disabled="isApproved || isSelect"
         >
           <el-option
@@ -399,7 +400,7 @@ const countryChange = () => {
   form.cityId = ''
 }
 
-const selectedCitys = ref([])
+const selectedCitys: any = ref([])
 const cascaderProps: CascaderProps = {
   lazy: true,
   lazyLoad: async (node, resolve) => {

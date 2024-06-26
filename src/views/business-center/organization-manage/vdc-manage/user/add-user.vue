@@ -91,7 +91,7 @@ const clickSuccess = async () => {
       ElMessage.success('添加成功')
       emit(EventEnum.success)
     } else {
-      ElMessage.error('添加失败')
+      ElMessage.success('添加失败')
     }
   }
 }

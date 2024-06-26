@@ -35,7 +35,7 @@
       </template>
 
       <template #operation>
-        <el-table-column label="操作" width="185" fixed="right">
+        <el-table-column label="操作" width="120" fixed="right">
           <template #default="props">
             <ideal-table-operate
               :buttons="props.row.operate"
@@ -104,7 +104,7 @@ const { sizeChangeHandle, currentChangeHandle, getDataList, deleteHandle } =
 
 const tableHeaders = ref<IdealTableColumnHeaders[]>()
 onMounted(() => {
-  //运营商角色
+  //供应商角色
   if (!isSupplierManager.value) {
     tableHeaders.value = headerArray
   } else {

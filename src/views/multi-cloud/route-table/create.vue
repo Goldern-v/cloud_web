@@ -248,9 +248,7 @@ const state = reactive({
 })
 
 const vpcDetailSwitch = computed(() => Object.keys(props.detailInfo).length > 0) //是否vpc详情页新建路由
-
 const { resourcePool } = store.resourceStore
-
 onMounted(() => {
   if (vpcDetailSwitch.value) {
     form.resourcePoolId = props.detailInfo?.resourcePoolId

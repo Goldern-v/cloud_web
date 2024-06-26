@@ -237,7 +237,7 @@ const handleDelete = (row: any, index: number) => {
 }
 
 onMounted(() => {
-  //运营商管理员角色
+  //供应商管理员角色
   if (isSupplierManager.value) {
     form.vendorId = store.userStore.user.id
   } else if (portOnly.value) {

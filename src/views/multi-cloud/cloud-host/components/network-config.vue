@@ -408,7 +408,7 @@ const checkSafeGroup = (rule: any, value: any, callback: (e?: Error) => any) => 
     callback(new Error('请选择安全组'))
   }
   callback()
-}
+} 
 
 const formRef = ref<FormInstance>() // 校验表单
 const rules = reactive<FormRules>({

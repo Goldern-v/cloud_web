@@ -128,7 +128,6 @@ export const useBasic = (options: IHooksBasic) => {
       }
     })
   }
-
   watch(
     () => [eipForm.bandwidthType, eipForm.line],
     ([bandwidthType, line]) => {

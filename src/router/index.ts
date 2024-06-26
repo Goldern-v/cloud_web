@@ -4,6 +4,7 @@ import 'nprogress/nprogress.css'
 import store from '@/store'
 import { i18n } from '@/i18n'
 import { isExternalLink, pathToCamel } from '@/utils/tool'
+import cookie from '@/utils/cookie'
 
 NProgress.configure({ showSpinner: false })
 /**
@@ -17,7 +18,6 @@ import { businessCenterMenu } from './business-center'
 const businessCenterRoute = businessCenterMenu()
 import { maintenanceCenterMenu } from './maintenance-center'
 const maintenanceCenterRoute = maintenanceCenterMenu()
-
 
 import { bpmMenu } from './bpm'
 const bpmRouter = bpmMenu()
@@ -39,7 +39,6 @@ const constantRoutes: RouteRecordRaw[] = [
   },
   {
     path: '/login',
-    // component: () => import('../views/login/index.vue')
     component: () => import('../views/operate-center/supplier/login/index.vue')
   },
   {
@@ -130,6 +129,7 @@ router.beforeEach(async (to, from, next) => {
         } catch (error) {
           // 请求异常，则跳转到登录页
           store.userStore?.setToken('')
+          cookie.removeToken()
           next('/login')
           return Promise.reject(error)
         }

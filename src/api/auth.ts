@@ -6,7 +6,8 @@ const Api = {
   AUTH_SEND_CODE: `${iams}/sys/auth/send/code`, // 发送验证码
   AUTH_LOGIN: `${iams}/sys/auth/login`, // 账号登录
   AUTH_LOGIN_MOBILE: `${iams}/sys/auth/mobile`, // 手机号登录
-  AUTH_LOGOUT: `${iams}/sys/auth/logout` // 退出
+  AUTH_LOGOUT: `${iams}/sys/auth/logout`, // 退出
+  AUTH_RESET: `${iams}/sys/user/supplier/password` // 供应商修改密码
 }
 
 export const useCaptchaApi = () => {
@@ -27,4 +28,8 @@ export const useMobileLoginApi = (data: any) => {
 
 export const useLogoutApi = () => {
   return service.post(Api.AUTH_LOGOUT)
+}
+
+export const useAccountResetApi = (data: any) => {
+  return service.put(Api.AUTH_RESET, data)
 }

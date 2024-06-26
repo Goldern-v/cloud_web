@@ -37,7 +37,7 @@
         >
           <el-image
             style="width: 200px; height: 120px"
-            :src="v.url"
+            :src="`/images/${v.url}`"
             :crossorigin="null"
             fit="fill"
           />

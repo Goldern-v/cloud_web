@@ -29,6 +29,7 @@
 </template>
 
 <script setup lang="ts">
+import { ElMessage } from 'element-plus/es'
 import dialogBox from './dialog-box.vue'
 import { useCrud } from '@/hooks'
 import { IHooksOptions } from '@/hooks/interface'
@@ -93,6 +94,8 @@ const clickRefreshEvent = () => {
   showDialog.value = false
   getDataList()
 }
+
+
 </script>
 
 <style scoped lang="scss">

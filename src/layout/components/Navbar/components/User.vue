@@ -2,7 +2,7 @@
   <el-dropdown class="avatar-container" trigger="hover">
     <div class="avatar-wrapper">
       <!-- <el-divider direction="vertical" /> -->
-      <span>{{ store.userStore.user.realName }}</span>
+      <span>{{ store.userStore.user.username }}</span>
       <el-avatar shape="circle" :size="30" :src="userAvatar"></el-avatar>
     </div>
     <template #dropdown>
@@ -28,12 +28,7 @@ import defaultAvatar from '@/assets/default-avatar.png'
 const userAvatar = computed(() => store.userStore.user.avatar || defaultAvatar)
 
 const logout = () => {
-  store.userStore.logoutAction().then(() => {
-    // router.push({ path: '/login' })
-
-    // 刷新页面
-    location.reload()
-  })
+  store.userStore.logoutAction()
 }
 </script>
 

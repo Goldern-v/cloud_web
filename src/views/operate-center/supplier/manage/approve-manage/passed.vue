@@ -31,7 +31,7 @@
       </template>
 
       <template #operation>
-        <el-table-column label="操作" width="185" fixed="right">
+        <el-table-column label="操作" width="90" fixed="right">
           <template #default="props">
             <ideal-table-operate
               :buttons="props.row.operate"

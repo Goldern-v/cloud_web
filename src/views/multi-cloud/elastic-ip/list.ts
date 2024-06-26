@@ -17,7 +17,7 @@ export const eipList = () => {
   })
 
   /**
-   * 搜索
+   * 搜索类型
    */
   const typeArray = ref<IdealSearch[]>([
     { label: '名称', prop: 'name', type: FiltrateEnum.input },
@@ -32,7 +32,6 @@ export const eipList = () => {
     }
     getDataList()
   }
-
   /**
    * 列表
    */

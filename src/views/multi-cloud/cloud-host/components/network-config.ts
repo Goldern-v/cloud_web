@@ -51,6 +51,7 @@ export const useNetwork = (options: IHooksNetwork) => {
   }
   // 覆盖默认值
   const state = mergeDefaultOptions(defaultOptions, options)
+
   // storeToRefs防止右上角切换资源池时数据未同步响应
   const { resourcePool } = storeToRefs(store.resourceStore)
 

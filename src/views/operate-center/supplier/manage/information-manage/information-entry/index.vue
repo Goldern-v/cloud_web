@@ -394,7 +394,6 @@ const getParams = () => {
   let equipment: { [key: string]: any } = {}
   const equipObj = {
     cabinetName,
-    cabinetId,
     nodeId,
     uType,
     planarNetwork,
@@ -408,7 +407,7 @@ const getParams = () => {
       }
     } //编辑录入信息时支持对选择的设备更改
     else {
-      equipment = { id: equipmentId, name, ...equipObj }
+      equipment = { id: equipmentId, name, cabinetId, ...equipObj }
     }
   } //手动输入新的设备信息
   else {

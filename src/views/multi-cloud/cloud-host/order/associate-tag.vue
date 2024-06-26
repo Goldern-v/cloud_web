@@ -133,6 +133,7 @@ const clickPutIn = () => {
   // 未选
   const unselected = existTags.value.filter((item: any) => !item.selected)
   existTags.value = unselected
+
   selected.forEach((item: any) => {
     selectedTags.value.push(item)
   })

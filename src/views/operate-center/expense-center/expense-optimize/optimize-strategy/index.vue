@@ -225,7 +225,7 @@ const clickOperateEvent = (command: string | number, row: any) => {
             getDataList()
             ElMessage.success('删除优化策略成功')
           } else {
-            ElMessage.error('删除优化策略失败')
+            ElMessage.success('删除优化策略失败')
           }
         })
       })

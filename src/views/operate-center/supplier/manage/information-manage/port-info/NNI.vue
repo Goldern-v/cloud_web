@@ -35,7 +35,7 @@
       </template>
 
       <template #operation>
-        <el-table-column label="操作" width="185" fixed="right">
+        <el-table-column label="操作" width="120" fixed="right">
           <template #default="props">
             <ideal-table-operate
               :buttons="props.row.operate"
@@ -101,7 +101,7 @@ const state: IHooksOptions = reactive({
 
 const tableHeaders = ref<IdealTableColumnHeaders[]>()
 onMounted(() => {
-  //运营商角色
+  //供应商角色
   if (!isSupplierManager.value) {
     tableHeaders.value = headerArray
   } else {
@@ -113,14 +113,14 @@ onMounted(() => {
 const headerArray: IdealTableColumnHeaders[] = [
   { label: '端口名称', prop: 'name' },
   { label: '状态', prop: 'status', useSlot: true },
-  { label: '所属供应商', prop: 'equipmentName' },
+  { label: '所属供应商', prop: 'equipmentName', width: '120' },
   { label: '所属节点', prop: 'nodeName' },
   { label: '所属设备', prop: 'equipmentName' },
   { label: '速率', prop: 'speed' },
   { label: '线路带宽', prop: 'bandwidth' },
   { label: '对端端口', prop: 'remotePort' },
   { label: '对端设备', prop: 'remoteDevice' },
-  { label: '可分配VLAN段', prop: 'vlan' }
+  { label: '可分配VLAN段', prop: 'vlan', width: '120' }
 ]
 
 const { sizeChangeHandle, currentChangeHandle, getDataList, deleteHandle } =

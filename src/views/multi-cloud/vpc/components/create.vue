@@ -110,7 +110,7 @@ const clickNext = () => {
           stepsIndex.value++
           submitRef.value.startTimer()
         } else {
-          ElMessage.error('创建失败')
+          ElMessage.success('创建失败')
         }
         hideLoading()
       })

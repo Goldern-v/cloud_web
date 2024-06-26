@@ -12,7 +12,7 @@ import { createHtmlPlugin } from 'vite-plugin-html'
 import externalGlobals from 'rollup-plugin-external-globals'
 // import fs from 'fs'
 
-const requestUrl = 'http://192.168.101.202:18881'
+const requestUrl = 'http://192.168.101.212:18881'
 
 // 参考：https://cn.vitejs.dev/config/
 export default defineConfig({
@@ -154,6 +154,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: path => path.replace(/^\/info/, '/info')
       },
+      '/images': {
+        target: requestUrl,
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/images/, '/images')
+      }
     }
   },
 })

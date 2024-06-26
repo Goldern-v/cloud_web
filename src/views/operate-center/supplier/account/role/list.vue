@@ -72,15 +72,15 @@ const builtInRoles: any = [
   { label: '是', value: true }
 ]
 const typeArray = ref<IdealSearch[]>([
-  { label: '角色', prop: 'name', type: FiltrateEnum.input },
-  {
-    label: '自定义角色',
-    prop: 'type',
-    type: FiltrateEnum.list,
-    array: builtInRoles,
-    arrayProp: 'label',
-    arrayKey: 'value'
-  }
+  { label: '角色名称', prop: 'name', type: FiltrateEnum.input },
+  // {
+  //   label: '自定义角色',
+  //   prop: 'type',
+  //   type: FiltrateEnum.list,
+  //   array: builtInRoles,
+  //   arrayProp: 'label',
+  //   arrayKey: 'value'
+  // }
 ])
 const onClickSearch = (v: IdealSearchResult[]) => {
   state.queryForm = {

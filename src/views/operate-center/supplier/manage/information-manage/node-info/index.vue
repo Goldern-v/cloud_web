@@ -97,7 +97,7 @@ const state: IHooksOptions = reactive({
 
 const tableHeaders = ref<IdealTableColumnHeaders[]>()
 onMounted(() => {
-  //运营商管理员角色
+  //供应商管理员角色
   if (!isSupplierManager.value) {
     tableHeaders.value = headerArray
   } else {
@@ -109,13 +109,13 @@ onMounted(() => {
 const headerArray: IdealTableColumnHeaders[] = [
   { label: '节点名称', prop: 'name' },
   { label: '状态', prop: 'status', useSlot: true },
-  { label: '所属供应商', prop: 'vendorName' },
+  { label: '所属供应商', prop: 'vendorName', width: '120' },
   { label: '区域', prop: 'areaName' },
   { label: '国家', prop: 'countryName' },
   { label: '城市', prop: 'cityName' },
   { label: '机房名称', prop: 'equipmentRoom' },
   { label: '地理位置', prop: 'address' },
-  { label: '数据中心名称', prop: 'dataCenter' },
+  { label: '数据中心名称', prop: 'dataCenter', width: '150' },
   { label: '机柜号', prop: 'cabinets' }
 ]
 

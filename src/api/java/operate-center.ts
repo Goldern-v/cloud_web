@@ -135,7 +135,9 @@ const Api = {
   DCI_UPDATE: `${api}/business/manage/dataCenterInternet/update`, //DCI数据编辑
   DCI_DELETE: `${api}/business/manage/dataCenterInternet/delete`, //DCI数据删除
   APPROVE_AGAIN: `${api}/supplier/approval/approvalAgain`, //再次审批
-  APPROVE_DELETE: `${api}/supplier/approval/delete` //再次审批
+  APPROVE_DELETE: `${api}/supplier/approval/delete`, //再次审批
+  SUPPLIER_REGISTER: `${api}/supplier`, // 供应商注册信息
+  SUPPLIER_TYPE_LIST: `${api}/supplier/type` // 供应商类型下拉列表
 }
 
 /**
@@ -815,4 +817,18 @@ export const dciDataUpdate = (data: any) => {
 //DCI数据删除
 export const dciDataDelete = (data: any) => {
   return service.post(Api.DCI_DELETE, data)
+}
+// 供应商注册信息分页查询
+export const supplierRegisterPageUrl = `${Api.SUPPLIER_REGISTER}/page`
+// 新增供应商注册信息
+export const supplierRegisterCreate = (data: any) => {
+  return service.post(Api.SUPPLIER_REGISTER, data)
+}
+// 编辑供应商注册信息
+export const supplierRegisterUpdate = (data: any) => {
+  return service.put(Api.SUPPLIER_REGISTER, data)
+}
+// 供应商类型下拉列表
+export const supplierTypeList = () => {
+  return service.get(Api.SUPPLIER_TYPE_LIST)
 }

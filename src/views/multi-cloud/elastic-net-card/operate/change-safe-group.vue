@@ -212,7 +212,7 @@ const submitForm = () => {
           ElMessage.success('更换安全组成功')
           emit(EventEnum.success)
         } else {
-          ElMessage.error('更换安全组失败')
+          ElMessage.success('更换安全组失败')
         }
         hideLoading()
       })
@@ -233,7 +233,7 @@ const submitForm = () => {
           ElMessage.success('更换安全组成功')
           emit(EventEnum.success)
         } else {
-          ElMessage.error('更换安全组失败')
+          ElMessage.success('更换安全组失败')
         }
         hideLoading()
       })

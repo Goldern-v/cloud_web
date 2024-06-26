@@ -42,7 +42,7 @@
         <el-table-column label="云平台类型">
           <template #default="props">
             <el-image
-              :src="props.row?.cloudTypeImageUrl"
+              :src="`/images/${props.row?.cloudTypeImageUrl}`"
               :crossorigin="null"
               style="width: 40px; height: 40px"
             />

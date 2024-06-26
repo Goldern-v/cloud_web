@@ -216,7 +216,7 @@ const initEditData = () => {
       form.status = data?.status
       form.cloudPlatform = data?.cloudPlatform?.id
       form.region = data?.region.length ? data?.region : 'all' // region空 则代表选择的区域是全部
-      fileUrl.value = data?.imageUrl
+      fileUrl.value = `/images/${data?.imageUrl}`
 
       getRegionList(data?.cloudPlatform?.id)
       originDic.value = Object.assign({}, form)
