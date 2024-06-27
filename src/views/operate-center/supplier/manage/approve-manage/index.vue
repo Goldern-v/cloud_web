@@ -31,7 +31,6 @@ import type { TabsPaneContext } from 'element-plus'
 const tabs: any = { passed, rejected }
 // tabs标签页
 const tabControllers = ref([
-  // { label: '待审批', name: 'pendApprove' },
   { label: '已通过', name: 'passed' },
   { label: '已驳回', name: 'rejected' }
 ])
