@@ -36,6 +36,7 @@ interface PowerOnProps {
   rowData?: any // 行数据
 }
 const props = withDefaults(defineProps<PowerOnProps>(), {
+  dialogType: '',
   rowData: () => ({})
 })
 
