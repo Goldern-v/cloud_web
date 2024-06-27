@@ -126,7 +126,6 @@ watch(
   (arr: any) => {
     if (arr.length) {
       arr.forEach((ele: any) => {
-        ele.operate = newOperate(ele)
         ele.source = ele.dataResource === 'static' ? '静态录入' : 'API对接'
         ele.bandwidth = `${ele.minBandwidth}-${ele.maxBandwidth}M`
         ele.deliveryPeriod = `${ele.deliveryDuration}天`
