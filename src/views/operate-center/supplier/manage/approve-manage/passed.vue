@@ -97,12 +97,6 @@ const operateButtons: IdealTableColumnOperate[] = [
   { title: '下架', prop: 'delist' }
 ]
 
-const newOperate = (ele: any): IdealTableColumnOperate[] => {
-  let resultArr: IdealTableColumnOperate[] = []
-  const tempArr = JSON.parse(JSON.stringify(operateButtons))
-  resultArr = tempArr
-  return resultArr
-}
 watch(
   () => state.dataList,
   (arr: any) => {
