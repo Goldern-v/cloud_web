@@ -354,7 +354,7 @@ onMounted(() => {
     })
   }
 })
-
+//查询供应商
 const querySupplier = async () => {
   try {
     const res = await getSupplierList()
