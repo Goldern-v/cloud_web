@@ -118,10 +118,10 @@
               ></svg-icon>
             </el-tooltip>
           </template>
-          <template class="flex-column">
+          <div class="flex-column">
             <el-input v-model="form.interval" class="custom-input"></el-input>
             <div class="ideal-tip-text">取值范围1~50</div>
-          </template>
+          </div>
         </el-form-item>
 
         <el-form-item prop="timeout">
@@ -139,10 +139,10 @@
               ></svg-icon>
             </el-tooltip>
           </template>
-          <template class="flex-column">
+          <div class="flex-column">
             <el-input v-model="form.timeout" class="custom-input"></el-input>
             <div class="ideal-tip-text">取值范围1~50</div>
-          </template>
+          </div>
         </el-form-item>
 
         <el-form-item prop="time">
@@ -160,10 +160,10 @@
               ></svg-icon>
             </el-tooltip>
           </template>
-          <template class="flex-column">
+          <div class="flex-column">
             <el-input v-model="form.time" class="custom-input"></el-input>
             <div class="ideal-tip-text">取值范围1~10</div>
-          </template>
+          </div>
         </el-form-item>
 
         <el-form-item prop="code">
@@ -181,10 +181,10 @@
               ></svg-icon>
             </el-tooltip>
           </template>
-          <template class="flex-column">
+          <div class="flex-column">
             <el-input v-model="form.code" class="custom-input"></el-input>
             <div class="ideal-tip-text">输入范围2XX-5XX</div>
-          </template>
+          </div>
         </el-form-item>
       </template>
     </el-form>
