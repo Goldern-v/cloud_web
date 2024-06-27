@@ -15,7 +15,6 @@
       </el-form-item>
 
       <template v-if="form.type === 'server'">
-        
         <el-form-item label="证书来源">
           <div class="flex-column">
             <el-radio-group v-model="form.source">
