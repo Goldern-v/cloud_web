@@ -69,10 +69,15 @@
 
 <script lang="ts" setup>
 import { ElMessageBox } from 'element-plus'
-const props = defineProps({
-  id: String,
-  type: String
+interface ElementProps {
+  id?: string
+  type?: string
+}
+const props = withDefaults(defineProps<ElementProps>(), {
+  id: '',
+  type: ''
 })
+
 const prefix = inject('prefix')
 // const width = inject('width')
 
