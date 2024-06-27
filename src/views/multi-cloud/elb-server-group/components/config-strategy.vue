@@ -53,7 +53,9 @@
                   icon="refresh-icon"
                   class="ideal-svg-margin-left"
                 ></svg-icon>
-                <el-text type="primary" class="ideal-default-margin-left">查看负载均衡</el-text>
+                <el-text type="primary" class="ideal-default-margin-left"
+                  >查看负载均衡</el-text
+                >
               </div>
             </div>
           </el-form-item>
@@ -101,8 +103,13 @@
               :value="item"
             ></el-option>
           </el-select>
-          <svg-icon icon="refresh-icon" class="ideal-svg-margin-left"></svg-icon>
-          <el-text type="primary" class="ideal-default-margin-left">查看负载均衡</el-text>
+          <svg-icon
+            icon="refresh-icon"
+            class="ideal-svg-margin-left"
+          ></svg-icon>
+          <el-text type="primary" class="ideal-default-margin-left"
+            >查看负载均衡</el-text
+          >
         </el-form-item>
 
         <el-form-item label="名称" prop="name">
@@ -126,8 +133,13 @@
               :value="item.value"
             ></el-option>
           </el-select>
-          <svg-icon icon="refresh-icon" class="ideal-svg-margin-left"></svg-icon>
-          <el-text type="primary" class="ideal-default-margin-left">查看虚拟私有云</el-text>
+          <svg-icon
+            icon="refresh-icon"
+            class="ideal-svg-margin-left"
+          ></svg-icon>
+          <el-text type="primary" class="ideal-default-margin-left"
+            >查看虚拟私有云</el-text
+          >
         </el-form-item>
 
         <el-form-item label="后端协议" prop="protocol">
@@ -161,7 +173,10 @@
           >
             <div class="flex-column">
               <span>
-                <el-switch v-model="form.session" class="ideal-default-margin-right"></el-switch>
+                <el-switch
+                  v-model="form.session"
+                  class="ideal-default-margin-right"
+                ></el-switch>
                 <el-tooltip
                   popper-class="custom-tooltip"
                   effect="dark"
@@ -188,13 +203,13 @@
           </el-form-item>
 
           <el-form-item prop="interval" label="会话保持时间（分钟）">
-            <template class="flex-column">
+            <div class="flex-column">
               <el-input
                 v-model="form.sessionTime"
                 class="custom-input"
               ></el-input>
               <div class="ideal-tip-text">取值范围1~1440</div>
-            </template>
+            </div>
           </el-form-item>
         </template>
 
@@ -208,7 +223,10 @@
         >
           <div class="flex-column">
             <span>
-              <el-switch v-model="form.slowStart" class="ideal-default-margin-right"></el-switch>
+              <el-switch
+                v-model="form.slowStart"
+                class="ideal-default-margin-right"
+              ></el-switch>
               <el-tooltip
                 popper-class="custom-tooltip"
                 effect="dark"
@@ -222,13 +240,13 @@
         </el-form-item>
 
         <el-form-item v-if="form.slowStart" label="慢启动时间（秒）">
-          <template class="flex-column">
+          <div class="flex-column">
             <el-input
               v-model="form.slowStartTime"
               class="custom-input"
             ></el-input>
             <div class="ideal-tip-text">取值范围30~1200</div>
-          </template>
+          </div>
         </el-form-item>
 
         <el-form-item label="描述" prop="remark">
