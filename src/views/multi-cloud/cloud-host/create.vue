@@ -15,6 +15,7 @@
 <script setup lang="ts">
 import generalCreate from './components/create.vue'
 import vmwareCreate from './vmware/create.vue'
+
 import { useResourcePool } from '@/utils/common/resource'
 
 const {
