@@ -35,9 +35,9 @@ export const input = (app: App) => {
 const handleFloat = (value: string, decimal: number) : string => {
   const reg = new RegExp(`^\\d*(\\.?\\d{0,${decimal}})`)
   const arr =  value
-    .replace(/[^\d^\.]+/g, "") // 第二步：把不是数字，不是小数点的过滤掉
-    .replace(/^0+(\d)/, "$1") // 第三步：第一位0开头，0后面为数字，则过滤掉，取后面的数字
-    .replace(/^\./, "0.") // 第四步：如果输入的第一位为小数点，则替换成 0. 实现自动补全
+    .replace(/[^\d^\.]+/g, "") // 第二步:把不是数字，不是小数点的过滤掉
+    .replace(/^0+(\d)/, "$1") // 第三步:第一位0开头，0后面为数字，则过滤掉，取后面的数字
+    .replace(/^\./, "0.") // 第四步:如果输入的第一位为小数点，则替换成 0. 实现自动补全
     .match(reg)
   return arr?.length ? arr[0] : ''
 }
