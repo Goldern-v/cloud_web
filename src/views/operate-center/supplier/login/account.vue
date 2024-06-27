@@ -2,19 +2,31 @@
   <div class="login-container">
     <div class="flex-row login-header">
       <div class="flex-row login-title">
-        <img src="../../../../assets/supplier/logo.jpg" class="login-logo" alt=""/>
+        <img
+          src="../../../../assets/supplier/logo.jpg"
+          class="login-logo"
+          alt=""
+        />
         <div class="login-label">CTG-EMCP</div>
       </div>
 
       <div class="flex-row login-set">
-        <svg-icon icon="network"/>
-        <div style="margin-left: 5px;">Intl-简体中文</div>
+        <svg-icon icon="network" />
+        <div style="margin-left: 5px">Intl-简体中文</div>
       </div>
     </div>
 
     <div class="flex-column login-content">
-      <img src="@/assets/supplier/title.png" class="login-content-title" alt=""/>
-      <img src="@/assets/supplier/gradient-bg.png" class="login-content-bg" alt=""/>
+      <img
+        src="@/assets/supplier/title.png"
+        class="login-content-title"
+        alt=""
+      />
+      <img
+        src="@/assets/supplier/gradient-bg.png"
+        class="login-content-bg"
+        alt=""
+      />
     </div>
 
     <div class="flex-column login-form">
@@ -24,8 +36,15 @@
         :rules="loginRules"
         @keyup.enter="onLogin"
       >
-        <div class="flex-column" style="align-items: center;margin-bottom: 10px;">
-          <img class="login-form-logo" src="@/assets/supplier/logo-title.png" alt=""></img>
+        <div
+          class="flex-column"
+          style="align-items: center; margin-bottom: 10px"
+        >
+          <img
+            class="login-form-logo"
+            src="@/assets/supplier/logo-title.png"
+            alt=""
+          />
           <div class="login-form-title">账号登录</div>
         </div>
         <el-form-item prop="username">
@@ -46,7 +65,7 @@
             v-model="loginForm.captcha"
             :placeholder="$t('app.captcha')"
           ></el-input>
-          <img :src="captchaBase64" alt="" @click="onCaptcha"/>
+          <img :src="captchaBase64" alt="" @click="onCaptcha" />
         </el-form-item>
         <el-form-item class="login-button">
           <el-button type="primary" @click="onLogin()">{{
@@ -81,11 +100,7 @@ const loginForm = reactive({
   captcha: ''
 })
 
-const checkUsername= (
-  rule: any,
-  value: any,
-  callback: (e?: Error) => any
-) => {
+const checkUsername = (rule: any, value: any, callback: (e?: Error) => any) => {
   const cnReg = /[\u4e00-\u9fa5]+/
   if (cnReg.test(value)) {
     callback(new Error('请不要输入中文'))
@@ -95,11 +110,7 @@ const checkUsername= (
   }
   callback()
 }
-const checkPassword = (
-  rule: any,
-  value: any,
-  callback: (e?: Error) => any
-) => {
+const checkPassword = (rule: any, value: any, callback: (e?: Error) => any) => {
   const cnReg = /[\u4e00-\u9fa5]+/
   if (cnReg.test(value)) {
     callback(new Error('请不要输入中文'))
@@ -136,7 +147,9 @@ const onLogin = () => {
       .accountLoginAction(loginForm)
       .then(() => {
         if (!store.userStore.firstLogin) {
-          router.push({ path: '/operate-center/supplier/manage/information-manage/index' })
+          router.push({
+            path: '/operate-center/supplier/manage/information-manage/index'
+          })
         }
       })
       .catch(() => {
@@ -180,7 +193,7 @@ const onLogin = () => {
       }
     }
     .login-set {
-      background-color: #DCDCDC;
+      background-color: #dcdcdc;
       height: 32px;
       line-height: 32px;
       margin-right: 7%;
@@ -212,7 +225,7 @@ const onLogin = () => {
     flex: 0 1 auto;
     padding: 20px 40px;
     border-radius: 6px;
-    box-shadow: 1px 1px 8px #DCDCDC;
+    box-shadow: 1px 1px 8px #dcdcdc;
     box-sizing: border-box;
     :deep(.el-input) {
       height: 45px;
