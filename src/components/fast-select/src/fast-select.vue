@@ -3,7 +3,7 @@
     :model-value="modelValue + ''"
     :placeholder="placeholder"
     :clearable="clearable"
-    @change="$emit('update:modelValue', $event)"
+    @change="changeModelValue($event)"
   >
     <el-option
       v-for="data in dataList"
@@ -39,6 +39,14 @@ const props = defineProps({
     default: () => ''
   }
 })
+const changeModelValue = (event: any) => {
+  emit('update:modelValue', event)
+}
+// 方法
+interface EventEmits {
+  (e: 'update:modelValue', v: any): void
+}
+const emit = defineEmits<EventEmits>()
 
 const dataList = getDictDataList(store.appStore.dictList, props.dictType)
 </script>
