@@ -29,7 +29,6 @@
 </template>
 
 <script setup lang="ts">
-
 import { EventEnum } from '@/utils/enum'
 interface dialogProps {
   rowData?: any
