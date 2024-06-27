@@ -29,10 +29,15 @@ import UserTask from './task-components/UserTask.vue'
 import ScriptTask from './task-components/ScriptTask.vue'
 import ReceiveTask from './task-components/ReceiveTask.vue'
 
-const props = defineProps({
-  id: String,
-  type: String
+interface ElementProps {
+  id?: string
+  type?: string
+}
+const props = withDefaults(defineProps<ElementProps>(), {
+  id: '',
+  type: ''
 })
+
 const taskConfigForm = ref({
   asyncAfter: false,
   asyncBefore: false,
