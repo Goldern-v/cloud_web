@@ -118,7 +118,7 @@ const state: IHooksOptions = reactive({
   dataListUrl: getUserListUrl,
   deleteUrl: subAccountDelete,
   queryForm: {
-    master: '0' // 0：子账户；1主账号
+    master: '0' // 0:子账户；1主账号
   }
 })
 const {
