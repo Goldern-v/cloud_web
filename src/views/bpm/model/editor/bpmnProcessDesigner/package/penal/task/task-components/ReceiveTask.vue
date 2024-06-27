@@ -53,10 +53,15 @@
 <script lang="ts" setup>
 import { ElMessage } from 'element-plus/es'
 
-const props = defineProps({
-  id: String,
-  type: String
+interface ElementProps {
+  id?: string
+  type?: string
+}
+const props = withDefaults(defineProps<ElementProps>(), {
+  id: '',
+  type: ''
 })
+
 
 const bindMessageId = ref('')
 const newMessageForm = ref<any>({})
