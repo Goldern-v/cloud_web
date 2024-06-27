@@ -54,7 +54,7 @@ const dialogVisible = ref(true)
 const dialogWidth = ref('30%')
 
 const showPass = computed(() => props.type === 'pass') //通过
-const showReject = computed(() => props.type === 'reject') //通过
+const showReject = computed(() => props.type === 'reject') //拒绝
 
 onMounted(() => {
   initDialog()
