@@ -199,9 +199,7 @@ const clickOperateEvent = (command: string | number | object, row: any) => {
     dialogTitle.value = `删除配置`
     dialogWidth.value = '50%'
     dialogType.value = 'delete'
-  }
-  console.log(command);
-  
+  }  
 }
 </script>
 
