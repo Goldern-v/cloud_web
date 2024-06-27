@@ -2,19 +2,31 @@
   <div class="register-container">
     <div class="flex-row register-header">
       <div class="flex-row register-title">
-        <img src="../../../../assets/supplier/logo.png" class="register-logo" alt=""/>
+        <img
+          src="../../../../assets/supplier/logo.png"
+          class="register-logo"
+          alt=""
+        />
         <div class="register-label">生态互联中心</div>
       </div>
 
       <div class="flex-row register-set">
-        <svg-icon icon="network"/>
-        <div style="margin-left: 5px;">Intl-简体中文</div>
+        <svg-icon icon="network" />
+        <div style="margin-left: 5px">Intl-简体中文</div>
       </div>
     </div>
 
     <div class="flex-column register-content">
-      <img src="@/assets/supplier/title.png" class="register-content-title" alt=""/>
-      <img src="@/assets/supplier/gradient-bg.png" class="register-content-bg" alt=""/>
+      <img
+        src="@/assets/supplier/title.png"
+        class="register-content-title"
+        alt=""
+      />
+      <img
+        src="@/assets/supplier/gradient-bg.png"
+        class="register-content-bg"
+        alt=""
+      />
     </div>
 
     <div class="flex-column register-form">
@@ -24,8 +36,15 @@
         :rules="rules"
         @keyup.enter="onReset"
       >
-        <div class="flex-column" style="align-items: center;margin-bottom: 10px;">
-          <img class="register-form-logo" src="@/assets/supplier/logo.png" alt=""></img>
+        <div
+          class="flex-column"
+          style="align-items: center; margin-bottom: 10px"
+        >
+          <img
+            class="register-form-logo"
+            src="@/assets/supplier/logo.png"
+            alt=""
+          />
           <div class="register-form-title">重置密码</div>
         </div>
         <el-form-item prop="password">
@@ -67,17 +86,13 @@ const form = reactive({
   againPassword: ''
 })
 // 密码验证
-const checkPwd = (
-  rule: any,
-  value: any,
-  callback: (e?: Error) => any
-) => {
+const checkPwd = (rule: any, value: any, callback: (e?: Error) => any) => {
   const cnReg = /[\u4e00-\u9fa5]+/
   if (cnReg.test(value)) {
     callback(new Error('请不要输入中文'))
   }
 
-  passwordRule(rule,value,callback)
+  passwordRule(rule, value, callback)
 }
 // 确认密码验证
 const checkConfirmPwd = (
@@ -88,7 +103,7 @@ const checkConfirmPwd = (
   const cnReg = /[\u4e00-\u9fa5]+/
   if (cnReg.test(value)) {
     callback(new Error('请不要输入中文'))
-  } 
+  }
   if (!value) {
     callback(new Error('请确认密码'))
   } else if (value !== form.password) {
@@ -99,9 +114,10 @@ const checkConfirmPwd = (
 }
 const rules = ref({
   password: [{ required: true, validator: checkPwd, trigger: 'blur' }],
-  againPassword: [{ required: true, validator: checkConfirmPwd, trigger: 'blur' }]
+  againPassword: [
+    { required: true, validator: checkConfirmPwd, trigger: 'blur' }
+  ]
 })
-
 
 const onReset = () => {
   formRef.value.validate((valid: boolean) => {
@@ -158,7 +174,7 @@ const onReset = () => {
       }
     }
     .register-set {
-      background-color: #DCDCDC;
+      background-color: #dcdcdc;
       height: 32px;
       line-height: 32px;
       margin-right: 7%;
@@ -190,7 +206,7 @@ const onReset = () => {
     flex: 0 1 auto;
     padding: 20px 40px;
     border-radius: 6px;
-    box-shadow: 1px 1px 8px #DCDCDC;
+    box-shadow: 1px 1px 8px #dcdcdc;
     box-sizing: border-box;
     :deep(.el-form-item__error) {
       position: static;
