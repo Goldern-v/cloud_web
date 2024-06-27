@@ -44,6 +44,7 @@ interface DialogProps {
   rowData?: any // 行数据
 }
 const props = withDefaults(defineProps<DialogProps>(), {
+  type: '',
   rowData: null
 })
 
