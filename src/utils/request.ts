@@ -64,7 +64,7 @@ service.interceptors.response.use(
       return res
     }
 
-    // 没有权限，如：未登录、登录过期等，需要跳转到登录页
+    // 没有权限，如:未登录、登录过期等，需要跳转到登录页
     if (res.code === 401) {
       store.userStore?.setToken('')
       cookie.removeToken()
