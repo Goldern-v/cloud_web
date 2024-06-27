@@ -2,16 +2,19 @@
   <div class="expand">
     <div class="expand-original">
       <div class="flex-row expand__tip">
-        <svg-icon icon="info-warning" color="#F3AD3C" class="ideal-svg-margin-right"></svg-icon>
-        <span
-          >以下弹性云主机将进行扩容云硬盘操作</span
-        >
+        <svg-icon
+          icon="info-warning"
+          color="#F3AD3C"
+          class="ideal-svg-margin-right"
+        ></svg-icon>
+        <span>以下弹性云主机将进行扩容云硬盘操作</span>
       </div>
 
       <ideal-table-list
         :table-data="originalData"
         :table-headers="originalHeader"
-        :show-pagination="false">
+        :show-pagination="false"
+      >
         <template #name>
           <el-table-column label="名称/ID" show-overflow-tooltip>
             <template #default="props">
@@ -23,18 +26,15 @@
       </ideal-table-list>
     </div>
 
-    <el-form
-      ref="formRef"
-      :model="form"
-      :rules="rules"
-      label-position="left">
+    <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="云硬盘">
         <ideal-table-list
           row-key="name"
           :table-data="state.dataList"
           :table-headers="tableHeaders"
           :is-radio="true"
-          :show-pagination="false">
+          :show-pagination="false"
+        >
           <template #status>
             <el-table-column label="状态">
               <template #default="props">
@@ -56,12 +56,10 @@
     <div class="flex-row footer-button">
       <div>配置费用: <span class="footer-button-price">32323.00元</span></div>
       <div class="flex-row">
-        <el-button @click="cancelForm(formRef)"
-          >{{ t('cancel') }}</el-button
-        >
-        <el-button type="primary" @click="submitForm(formRef)"
-          >{{ t('confirm') }}</el-button
-        >
+        <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
+        <el-button type="primary" @click="submitForm(formRef)">{{
+          t('confirm')
+        }}</el-button>
       </div>
     </div>
   </div>
@@ -84,7 +82,12 @@ const props = withDefaults(defineProps<ExpandProps>(), {
 // 原有规格数据
 const originalData: any = ref([
   // props.rowData
-  { name: 'est1.1', id: '3435335355ss', spec: 's6.2xlarge.2', config: '8核｜16G' }
+  {
+    name: 'est1.1',
+    id: '3435335355ss',
+    spec: 's6.2xlarge.2',
+    config: '8核｜16G'
+  }
 ])
 const originalHeader: IdealTableColumnHeaders[] = [
   { label: '云主机名称/ID', prop: 'name', useSlot: true },
@@ -108,9 +111,33 @@ const state: IHooksOptions = reactive({
 })
 const { getDataList } = useCrud(state)
 state.dataList = [
-  { name: 'ebs-1hve', status: '已挂载', statusIcon: 'status-success', size: '16', volumeType: '高速IO', diskMode: '系统盘', createTime: '2023-03-30 16:18:54' },
-  { name: 'ebs-2hve', status: '已挂载', statusIcon: 'status-success', size: '4', volumeType: '普通IO', diskMode: '系统盘', createTime: '2023-04-10 13:18:04' },
-  { name: 'ebs-3hve', status: '已挂载', statusIcon: 'status-success', size: '32', volumeType: '高速IO', diskMode: '系统盘', createTime: '2023-03-29 10:24:24' }
+  {
+    name: 'ebs-1hve',
+    status: '已挂载',
+    statusIcon: 'status-success',
+    size: '16',
+    volumeType: '高速IO',
+    diskMode: '系统盘',
+    createTime: '2023-03-30 16:18:54'
+  },
+  {
+    name: 'ebs-2hve',
+    status: '已挂载',
+    statusIcon: 'status-success',
+    size: '4',
+    volumeType: '普通IO',
+    diskMode: '系统盘',
+    createTime: '2023-04-10 13:18:04'
+  },
+  {
+    name: 'ebs-3hve',
+    status: '已挂载',
+    statusIcon: 'status-success',
+    size: '32',
+    volumeType: '高速IO',
+    diskMode: '系统盘',
+    createTime: '2023-03-29 10:24:24'
+  }
 ]
 // 升级表头
 const tableHeaders: IdealTableColumnHeaders[] = [
@@ -140,14 +167,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      console.log('submit!')
-      emit(EventEnum.success)
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    console.log('submit!')
+    emit(EventEnum.success)
   })
 }
 </script>
@@ -158,7 +183,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   .expand-original {
     padding: 0 17px;
     .expand__tip {
-      background-color: #FEFBED;
+      background-color: #fefbed;
       padding: 20px;
       align-items: center;
       margin: 10px 0;
@@ -175,5 +200,4 @@ const submitForm = (formEl: FormInstance | undefined) => {
     width: 100px;
   }
 }
-
 </style>

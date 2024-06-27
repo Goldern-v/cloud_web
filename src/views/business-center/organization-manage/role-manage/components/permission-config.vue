@@ -370,12 +370,11 @@ const checkForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      submit()
-    } else {
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    submit()
   })
 }
 

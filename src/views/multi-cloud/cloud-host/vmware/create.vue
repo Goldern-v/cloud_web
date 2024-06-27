@@ -62,7 +62,7 @@ import { queryVdcQuota } from '@/api/java/public'
 
 /**
  * 通用型创建, 满足公有云
-*/
+ */
 
 const stepsIndex = ref(0)
 const stepsArray: IdealSteps[] = [
@@ -134,14 +134,12 @@ const checkForm = (formEl: FormInstance | undefined) => {
     return
   }
 
-  formEl.validate(valid => {
-    if (valid) {
-      console.log('submit!')
-      stepsIndex.value++
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    console.log('submit!')
+    stepsIndex.value++
   })
 }
 

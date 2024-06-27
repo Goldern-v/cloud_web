@@ -88,7 +88,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   }
   formEl.validate((valid: boolean) => {
     if (!valid) {
-      return false
+      return
     }
     const params = {
       id: props.rowData.id,

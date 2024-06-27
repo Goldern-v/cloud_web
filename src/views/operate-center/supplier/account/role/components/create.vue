@@ -79,7 +79,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   }
   formEl.validate((valid: boolean) => {
     if (!valid) {
-      return false
+      return
     }
     if (props.isEdit) {
       handleEdit()

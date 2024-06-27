@@ -2,11 +2,11 @@
   <div>
     <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="子登录名">
-        <el-input v-model="form.username" disabled/>
+        <el-input v-model="form.username" disabled />
       </el-form-item>
 
       <el-form-item label="子用户名">
-        <el-input v-model="form.realName" disabled/>
+        <el-input v-model="form.realName" disabled />
       </el-form-item>
 
       <el-form-item label="云平台" prop="cloudPlatformIds">
@@ -29,7 +29,7 @@
       </el-form-item>
 
       <el-form-item label="密码" prop="password">
-        <el-input v-model="form.password" show-password/>
+        <el-input v-model="form.password" show-password />
       </el-form-item>
     </el-form>
 
@@ -47,7 +47,10 @@ import { EventEnum } from '@/utils/enum'
 import { ElMessage } from 'element-plus/es'
 import type { FormInstance, FormRules } from 'element-plus'
 import { passwordRule } from '@/utils/validate'
-import { subAccountAuth, subAccountUnbindPlatform } from '@/api/java/business-center'
+import {
+  subAccountAuth,
+  subAccountUnbindPlatform
+} from '@/api/java/business-center'
 
 const { t } = useI18n()
 const formRef = ref<FormInstance>()
@@ -66,7 +69,9 @@ const checkPwd = (rule: any, value: any, callback: (e?: Error) => any) => {
   passwordRule(rule, value, callback)
 }
 const rules = reactive<FormRules>({
-  cloudPlatformIds: [{ required: true, message: '请选择云平台', trigger: 'blur' }],
+  cloudPlatformIds: [
+    { required: true, message: '请选择云平台', trigger: 'blur' }
+  ],
   password: [{ required: true, validator: checkPwd, trigger: 'blur' }]
 })
 
@@ -80,16 +85,18 @@ onMounted(() => {
 
 const cloudPlatformIdsList = ref<any[]>([])
 const getUnbindPlatform = () => {
-  subAccountUnbindPlatform(detailInfo.id).then((res: any) => {
-    const { code, data } = res
-    if (code === 200) {
-      cloudPlatformIdsList.value = data
-    } else {
+  subAccountUnbindPlatform(detailInfo.id)
+    .then((res: any) => {
+      const { code, data } = res
+      if (code === 200) {
+        cloudPlatformIdsList.value = data
+      } else {
+        cloudPlatformIdsList.value = []
+      }
+    })
+    .catch(_ => {
       cloudPlatformIdsList.value = []
-    }
-  }).catch(_ => {
-    cloudPlatformIdsList.value = []
-  })
+    })
 }
 // 方法
 interface EventEmits {
@@ -110,13 +117,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
     return
   }
 
-  formEl.validate(valid => {
-    if (valid) {
-      handleCreate()
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    handleCreate()
   })
 }
 const handleCreate = () => {
@@ -137,6 +142,4 @@ const handleCreate = () => {
 }
 </script>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

@@ -8,13 +8,17 @@
           class="ideal-svg-margin-right"
         ></svg-icon>
         <span
-          >请提供腾讯云访问密钥Access Key信息来进行验证。Access Key由ID和密钥Secret构成，您可以在腾讯云控制台的“云产品”中，进入“管理与审计”的”云API密钥“，请查看相关信息。</span
+          >请提供腾讯云访问密钥Access Key信息来进行验证。Access
+          Key由ID和密钥Secret构成，您可以在腾讯云控制台的“云产品”中，进入“管理与审计”的”云API密钥“，请查看相关信息。</span
         >
       </div>
 
       <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
         <el-form-item>
-          <div class="flex-row ideal-header-container ideal-middle-margin-top" style="width: 100%">
+          <div
+            class="flex-row ideal-header-container ideal-middle-margin-top"
+            style="width: 100%"
+          >
             <el-divider direction="vertical" />
             <div>基本信息</div>
           </div>
@@ -41,11 +45,11 @@
         </el-form-item>
 
         <el-form-item label="专属云">
-          <el-checkbox v-model="form.exclusive"/>
+          <el-checkbox v-model="form.exclusive" />
         </el-form-item>
 
         <el-form-item v-if="form.exclusive" label="代理地址">
-          <el-input v-model="form.proxyAddress"/>
+          <el-input v-model="form.proxyAddress" />
         </el-form-item>
 
         <el-form-item label="只读模式">
@@ -230,8 +234,8 @@ const initEditData = () => {
       form.enableMonitor = !!data?.enableMonitor
       form.billConfig = data?.costConfig
       form.billSyncConfig = data?.costSyncConfig
-      form.exclusive = data?.exclusive,
-      form.proxyAddress = data?.proxyAddress
+      ;(form.exclusive = data?.exclusive),
+        (form.proxyAddress = data?.proxyAddress)
 
       originDic.value = Object.assign({}, form)
     }
@@ -293,16 +297,14 @@ const clickSave = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      if (isEdit) {
-        handleEdit()
-      } else {
-        handleCreate()
-      }
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
+    }
+    if (isEdit) {
+      handleEdit()
     } else {
-      console.log('error submit!')
-      return false
+      handleCreate()
     }
   })
 }

@@ -1,15 +1,8 @@
 <template>
   <div class="ideal-large-margin create">
-    <el-form
-      ref="formRef"
-      :model="form"
-      :rules="rules"
-      label-position="left"
-    >
+    <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="类型">
-        <el-radio-group
-          v-model="form.type"
-        >
+        <el-radio-group v-model="form.type">
           <el-radio-button
             v-for="(item, index) in typeList"
             :key="index"
@@ -21,7 +14,7 @@
       </el-form-item>
 
       <el-form-item label="名称" prop="name">
-        <el-input v-model="form.name" style="width: 30%;"/>
+        <el-input v-model="form.name" style="width: 30%" />
       </el-form-item>
 
       <el-form-item label="是否启用">
@@ -35,9 +28,7 @@
             :key="index"
             class="flex-row"
             :class="
-              backupTimeIndex === index
-                ? 'list-item-active'
-                : 'list-item'
+              backupTimeIndex === index ? 'list-item-active' : 'list-item'
             "
             @click="clickBackupTime(index)"
           >
@@ -59,8 +50,8 @@
       <el-form-item label="备份周期">
         <div class="flex-row">
           <el-radio-group v-model="form.cycle">
-            <el-radio label="week" style="width: 100%;">按周</el-radio>
-            <el-radio label="day" style="width: 100%;">按天</el-radio>
+            <el-radio label="week" style="width: 100%">按周</el-radio>
+            <el-radio label="day" style="width: 100%">按天</el-radio>
           </el-radio-group>
 
           <div class="flex-row backup-cycle">
@@ -68,13 +59,15 @@
               v-for="(item, index) of backupCycles"
               :key="index"
               class="flex-row"
-              :class="backupCycleIndex === index ? 'list-item-active' : 'list-item'"
+              :class="
+                backupCycleIndex === index ? 'list-item-active' : 'list-item'
+              "
               @click="clickBackupCycle(index)"
             >
               <div class="flex-row backup-cycle-label">
                 {{ item.label }}
               </div>
-              
+
               <div class="top-right-tick">
                 <svg-icon
                   v-if="backupCycleIndex === index"
@@ -90,16 +83,16 @@
       <el-form-item label="保留规则">
         <div class="flex-row">
           <el-radio-group v-model="form.rule">
-            <el-radio label="number" style="width: 100%;">按数量</el-radio>
-            <el-radio label="time" style="width: 100%;">按时间</el-radio>
-            <el-radio label="perpetual" style="width: 100%;">永久保留</el-radio>
+            <el-radio label="number" style="width: 100%">按数量</el-radio>
+            <el-radio label="time" style="width: 100%">按时间</el-radio>
+            <el-radio label="perpetual" style="width: 100%">永久保留</el-radio>
           </el-radio-group>
 
           <el-select
             v-model="form.saveTime"
             placeholder="请选择"
             class="custom-width"
-            style="margin-top: 32px;"
+            style="margin-top: 32px"
           >
             <el-option
               v-for="(item, idx) of saveTimeList"
@@ -114,12 +107,12 @@
     </el-form>
 
     <div class="flex-row footer-button">
-      <el-button type="info" @click="cancelForm(formRef)"
-        >{{ t('cancel') }}</el-button
-      >
-      <el-button type="primary" @click="submitForm(formRef)"
-        >{{ t('confirm') }}</el-button
-      >
+      <el-button type="info" @click="cancelForm(formRef)">{{
+        t('cancel')
+      }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -138,7 +131,7 @@ const form = reactive({
   time: '', // 备份时间
   cycle: '', // 备份周期
   rule: '', // 保留规则
-  saveTime: '', // 保留规则时间
+  saveTime: '' // 保留规则时间
 })
 const rules = reactive<FormRules>({
   name: [{ required: true, message: '请输入名称', trigger: 'blur' }]
@@ -196,17 +189,23 @@ const clickBackupCycle = (index: number) => {
   backupCycleIndex.value = index
 }
 // 监听
-watch(() => form.cycle, value => {
-  backupCycleIndex.value = -1
-  if (value === 'week') {
-    backupCycleIndex.value = 0
+watch(
+  () => form.cycle,
+  value => {
+    backupCycleIndex.value = -1
+    if (value === 'week') {
+      backupCycleIndex.value = 0
+    }
   }
-})
-watch(() => form.rule, value => {
-  if (value) {
-    form.saveTime = ''
+)
+watch(
+  () => form.rule,
+  value => {
+    if (value) {
+      form.saveTime = ''
+    }
   }
-})
+)
 // 点击事件
 interface EventEmits {
   (e: EventEnum.cancel): void
@@ -226,14 +225,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      console.log('submit!')
-      emit(EventEnum.success)
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    console.log('submit!')
+    emit(EventEnum.success)
   })
 }
 </script>

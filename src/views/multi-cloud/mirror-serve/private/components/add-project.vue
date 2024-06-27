@@ -15,12 +15,8 @@
 
     <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="账号" prop="account">
-        <div class="flex-column" style="width: 100%;">
-          <el-input
-            v-model="form.account"
-            type="textarea"
-            style="width: 70%;"
-          />
+        <div class="flex-column" style="width: 100%">
+          <el-input v-model="form.account" type="textarea" style="width: 70%" />
 
           <!-- <div>镜像可共享租户配额为256，该镜像还可以共享给256个租户。</div> -->
         </div>
@@ -70,10 +66,10 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
+  formEl.validate((valid: boolean) => {
     if (valid) {
       const route = useRoute()
-      const imageId = (route.query.id as string)
+      const imageId = route.query.id as string
       const params = {
         id: imageId,
         projectIds: form.account.split(',')
@@ -87,9 +83,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
           ElMessage.error('添加失败')
         }
       })
-    } else {
-      console.log('error submit!')
-      return false
     }
   })
 }

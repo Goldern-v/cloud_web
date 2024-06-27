@@ -12,7 +12,11 @@
         <div>基本信息</div>
       </div>
 
-      <el-form-item label="个人预算" prop="budget" class="ideal-large-margin-top">
+      <el-form-item
+        label="个人预算"
+        prop="budget"
+        class="ideal-large-margin-top"
+      >
         <el-input v-model.number="form.budget" class="vbf-item" clearable>
           <template #prepend>￥</template>
         </el-input>
@@ -89,12 +93,13 @@
             </template>
           </el-table-column>
         </template>
-        
+
         <template #role>
           <el-table-column label="角色">
             <template #default="props">
-              <div v-for="(item,index) of props.row?.sysRoleList" :key="index">
-              {{ item.name }}</div>
+              <div v-for="(item, index) of props.row?.sysRoleList" :key="index">
+                {{ item.name }}
+              </div>
             </template>
           </el-table-column>
         </template>
@@ -215,9 +220,24 @@ const leftButtons = ref<IdealButtonEventProp[]>([
     icon: 'circle-add',
     iconColor: 'white'
   },
-  { title: '添加用户', prop: 'addUser', disabled: true, disabledText: '请选择用户' },
-  { title: '移除用户', prop: 'removeUser', disabled: true, disabledText: '请选择用户' },
-  { title: '关联角色', prop: 'relateRole', disabled: true, disabledText: '请选择用户' }
+  {
+    title: '添加用户',
+    prop: 'addUser',
+    disabled: true,
+    disabledText: '请选择用户'
+  },
+  {
+    title: '移除用户',
+    prop: 'removeUser',
+    disabled: true,
+    disabledText: '请选择用户'
+  },
+  {
+    title: '关联角色',
+    prop: 'relateRole',
+    disabled: true,
+    disabledText: '请选择用户'
+  }
 ])
 const clickLeftEvent = (value: string | number | object) => {
   if (value === 'create') {
@@ -244,24 +264,27 @@ const clickLeftEvent = (value: string | number | object) => {
     dialogType.value = 'relateRole'
   }
 }
-watch(() => state.dataListSelections, value => {
-  leftButtons.value.forEach((item: any, index: number) => {
-    if (index === 0) {
+watch(
+  () => state.dataListSelections,
+  value => {
+    leftButtons.value.forEach((item: any, index: number) => {
+      if (index === 0) {
         item.disabled = false
       } else {
         item.disabled = true
         item.disabledText = '请选择用户'
       }
-  })
-
-  if (value?.length) {
-    leftButtons.value?.forEach((item: any, index: number) => {
-      if (index !== 0) {
-        item.disabled = false
-      }
     })
+
+    if (value?.length) {
+      leftButtons.value?.forEach((item: any, index: number) => {
+        if (index !== 0) {
+          item.disabled = false
+        }
+      })
+    }
   }
-})
+)
 // 列表行数据操作事件
 const operateBtns: IdealTableColumnOperate[] = [
   { type: 'primary', title: '角色', prop: 'role' },
@@ -346,16 +369,14 @@ const clickSubmit = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      if (form.id) {
-        editInfo()
-      } else {
-        addInfo()
-      }
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
+    }
+    if (form.id) {
+      editInfo()
     } else {
-      console.log('error submit!')
-      return false
+      addInfo()
     }
   })
 }

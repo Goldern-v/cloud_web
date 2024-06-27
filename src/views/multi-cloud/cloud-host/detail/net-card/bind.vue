@@ -5,9 +5,10 @@
       :model="form"
       :rules="rules"
       label-position="left"
-      class="bind-form">
+      class="bind-form"
+    >
       <el-form-item label="云服务器名称">
-        <div>{{ detail.name }}</div>
+        <div>{{ detailInfo.name }}</div>
       </el-form-item>
 
       <el-form-item label="选择网卡">
@@ -40,7 +41,8 @@
           :table-data="nicList"
           :table-headers="nicTableHeaders"
           :is-radio="true"
-          :show-pagination="false">
+          :show-pagination="false"
+        >
         </ideal-table-list>
       </el-form-item>
 
@@ -51,7 +53,11 @@
 
         <el-form-item label="所属子网">
           <div class="flex-row">
-            <el-select v-model="form.subnet" placeholder="请选择" class="ideal-default-margin-right">
+            <el-select
+              v-model="form.subnet"
+              placeholder="请选择"
+              class="ideal-default-margin-right"
+            >
               <el-option
                 v-for="(item, index) of subnetList"
                 :key="index + 'subnet'"
@@ -60,14 +66,21 @@
               >
               </el-option>
             </el-select>
-            <svg-icon icon="refresh-icon" class="ideal-default-margin-right"></svg-icon>
+            <svg-icon
+              icon="refresh-icon"
+              class="ideal-default-margin-right"
+            ></svg-icon>
             <el-button link type="primary">查看已有子网</el-button>
           </div>
         </el-form-item>
 
         <el-form-item label="私有IP地址">
           <div class="flex-row">
-            <el-select v-model="form.privateIp" placeholder="请选择" class="ideal-default-margin-right">
+            <el-select
+              v-model="form.privateIp"
+              placeholder="请选择"
+              class="ideal-default-margin-right"
+            >
               <el-option
                 v-for="(item, index) of privateIpList"
                 :key="index + 'privateIp'"
@@ -76,17 +89,27 @@
               >
               </el-option>
             </el-select>
-            <svg-icon icon="refresh-icon" class="ideal-default-margin-right"></svg-icon>
+            <svg-icon
+              icon="refresh-icon"
+              class="ideal-default-margin-right"
+            ></svg-icon>
             <el-button link type="primary">查看已使用IP地址</el-button>
           </div>
         </el-form-item>
 
         <el-form-item label="安全组">
-          <div class="flex-column" style="width: 100%;">
-            <div class="flex-row" style="justify-content: space-between;">
-              <el-input v-model="form.elasticNetCard" placeholder="请输入内容" style="width: 80%;">
+          <div class="flex-column" style="width: 100%">
+            <div class="flex-row" style="justify-content: space-between">
+              <el-input
+                v-model="form.elasticNetCard"
+                placeholder="请输入内容"
+                style="width: 80%"
+              >
                 <template #prepend>
-                  <el-select v-model="elasticNetCardSelect" placeholder="请选择">
+                  <el-select
+                    v-model="elasticNetCardSelect"
+                    placeholder="请选择"
+                  >
                     <el-option
                       v-for="(item, index) of elasticNetCardSelects"
                       :key="index + 'select'"
@@ -109,7 +132,8 @@
               :table-data="safeState.dataList"
               :table-headers="safeTableHeaders"
               :is-multiple="true"
-              :show-pagination="false">
+              :show-pagination="false"
+            >
             </ideal-table-list>
           </div>
         </el-form-item>
@@ -117,12 +141,10 @@
     </el-form>
 
     <div class="flex-row footer-button">
-      <el-button @click="cancelForm(formRef)"
-        >{{ t('cancel') }}</el-button
-      >
-      <el-button type="primary" @click="submitForm(formRef)"
-        >{{ t('confirm') }}</el-button
-      >
+      <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -168,35 +190,40 @@ const elasticNetCardSelects = [{ label: '名称', prop: 'name' }]
 const subnetList: any = ref([])
 const privateIpList: any = ref([])
 
-watch(() => form.networkCard, value => {
-  if (value === 'already') {
-    getNicList()
-  } else {
+watch(
+  () => form.networkCard,
+  value => {
+    if (value === 'already') {
+      getNicList()
+    } else {
+    }
   }
-})
+)
 
 const route = useRoute()
-const detail = JSON.parse(route.query.detail as any)
+const detailInfo = JSON.parse(route.query.detail as any)
 
 const nicList = ref<any[]>([])
 const getNicList = () => {
   const params = {
-    resourcePoolId: detail.pool.id,
-    instanceUuid: detail.uuid,
-    regionId: detail.regionId,
-    projectId: detail.project.id,
+    resourcePoolId: detailInfo.pool.id,
+    instanceUuid: detailInfo.uuid,
+    regionId: detailInfo.regionId,
+    projectId: detailInfo.project.id,
     resourceStatus: 'DOWN'
   }
-  queryNetCardList(params).then((res: any) => {
-    const { code, data } = res
-    if (code === 200) {
-      nicList.value = data
-    } else {
+  queryNetCardList(params)
+    .then((res: any) => {
+      const { code, data } = res
+      if (code === 200) {
+        nicList.value = data
+      } else {
+        nicList.value = []
+      }
+    })
+    .catch(_ => {
       nicList.value = []
-    }
-  }).catch(_ => {
-    nicList.value = []
-  })
+    })
 }
 // 弹性网卡列表
 const cardState: IHooksOptions = reactive({
@@ -206,9 +233,30 @@ const cardState: IHooksOptions = reactive({
 })
 const { getDataList } = useCrud(cardState)
 cardState.dataList = [
-  { name: 'eip-0717', id: 'ec3370c5-7', subnet: 'subnet-default', privateIp: '192.168.0.143', bindIp: '10.3.2.4', safeGroup: 1 },
-  { name: 'eip-0401', id: 'ec3370c5-7', subnet: 'subnet-default', privateIp: '192.168.0.143', bindIp: '10.3.2.4', safeGroup: 2 },
-  { name: 'eip-0211', id: 'ec3370c5-7', subnet: 'subnet-default', privateIp: '192.168.0.143', bindIp: '10.3.2.4', safeGroup: 3 }
+  {
+    name: 'eip-0717',
+    id: 'ec3370c5-7',
+    subnet: 'subnet-default',
+    privateIp: '192.168.0.143',
+    bindIp: '10.3.2.4',
+    safeGroup: 1
+  },
+  {
+    name: 'eip-0401',
+    id: 'ec3370c5-7',
+    subnet: 'subnet-default',
+    privateIp: '192.168.0.143',
+    bindIp: '10.3.2.4',
+    safeGroup: 2
+  },
+  {
+    name: 'eip-0211',
+    id: 'ec3370c5-7',
+    subnet: 'subnet-default',
+    privateIp: '192.168.0.143',
+    bindIp: '10.3.2.4',
+    safeGroup: 3
+  }
 ]
 // 已有弹性网卡表头
 const nicTableHeaders: IdealTableColumnHeaders[] = [
@@ -228,9 +276,30 @@ const safeState: IHooksOptions = reactive({
 const safeCrud = useCrud(safeState)
 // safeCrud.getDataList()
 safeState.dataList = [
-  { name: 'eip-0717', id: 'ec3370c5-7', subnet: 'subnet-default', privateIp: '192.168.0.143', bindIp: '10.3.2.4', safeGroup: 1 },
-  { name: 'eip-0401', id: 'ec3370c5-7', subnet: 'subnet-default', privateIp: '192.168.0.143', bindIp: '10.3.2.4', safeGroup: 2 },
-  { name: 'eip-0211', id: 'ec3370c5-7', subnet: 'subnet-default', privateIp: '192.168.0.143', bindIp: '10.3.2.4', safeGroup: 3 }
+  {
+    name: 'eip-0717',
+    id: 'ec3370c5-7',
+    subnet: 'subnet-default',
+    privateIp: '192.168.0.143',
+    bindIp: '10.3.2.4',
+    safeGroup: 1
+  },
+  {
+    name: 'eip-0401',
+    id: 'ec3370c5-7',
+    subnet: 'subnet-default',
+    privateIp: '192.168.0.143',
+    bindIp: '10.3.2.4',
+    safeGroup: 2
+  },
+  {
+    name: 'eip-0211',
+    id: 'ec3370c5-7',
+    subnet: 'subnet-default',
+    privateIp: '192.168.0.143',
+    bindIp: '10.3.2.4',
+    safeGroup: 3
+  }
 ]
 // 安全组表头
 const safeTableHeaders: IdealTableColumnHeaders[] = [
@@ -256,14 +325,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      console.log('submit!')
-      emit(EventEnum.success)
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    console.log('submit!')
+    emit(EventEnum.success)
   })
 }
 </script>

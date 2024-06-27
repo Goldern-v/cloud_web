@@ -2,7 +2,7 @@
   <div class="create">
     <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="主用户">
-        <el-input v-model="masterUser" disabled/>
+        <el-input v-model="masterUser" disabled />
       </el-form-item>
 
       <el-form-item v-if="!isEdit" label="云平台" prop="cloudPlatformIds">
@@ -25,11 +25,11 @@
       </el-form-item>
 
       <el-form-item label="子登录名" prop="username">
-        <el-input v-model="form.username" :disabled="isEdit"/>
+        <el-input v-model="form.username" :disabled="isEdit" />
       </el-form-item>
 
       <el-form-item label="子用户名" prop="realName">
-        <el-input v-model="form.realName" :disabled="isEdit"/>
+        <el-input v-model="form.realName" :disabled="isEdit" />
       </el-form-item>
 
       <el-form-item label="手机号" prop="mobile">
@@ -41,19 +41,19 @@
       </el-form-item>
 
       <el-form-item v-if="!isEdit" label="登录密码" prop="password">
-        <el-input v-model="form.password" show-password/>
+        <el-input v-model="form.password" show-password />
       </el-form-item>
 
       <el-form-item v-if="!isEdit" label="确认密码" prop="password">
-        <el-input v-model="form.againPassword" show-password/>
+        <el-input v-model="form.againPassword" show-password />
       </el-form-item>
 
       <el-form-item label="企业微信">
-        <el-input v-model="form.enterpriseWechat"/>
+        <el-input v-model="form.enterpriseWechat" />
       </el-form-item>
 
       <el-form-item label="钉钉号">
-        <el-input v-model="form.dingTalk"/>
+        <el-input v-model="form.dingTalk" />
       </el-form-item>
     </el-form>
 
@@ -94,16 +94,18 @@ onMounted(() => {
 const cloudPlatformIdsList = ref<any[]>([])
 // 云平台
 const getPlatform = () => {
-  cloudPlatformList({ cloudCategory: 'PUBLIC' }).then((res: any) => {
-    const { code, data } = res
-    if (code === 200) {
-      cloudPlatformIdsList.value = data
-    } else {
+  cloudPlatformList({ cloudCategory: 'PUBLIC' })
+    .then((res: any) => {
+      const { code, data } = res
+      if (code === 200) {
+        cloudPlatformIdsList.value = data
+      } else {
+        cloudPlatformIdsList.value = []
+      }
+    })
+    .catch(_ => {
       cloudPlatformIdsList.value = []
-    }
-  }).catch(_ => {
-    cloudPlatformIdsList.value = []
-  })
+    })
 }
 // 表单深拷贝, 比较表单是否修改
 const originDic = ref()
@@ -164,13 +166,17 @@ const validateAgainPwd = (
   }
 }
 const rules = reactive<FormRules>({
-  cloudPlatformIds: [{ required: true, message: '请选择云平台', trigger: 'blur' }],
+  cloudPlatformIds: [
+    { required: true, message: '请选择云平台', trigger: 'blur' }
+  ],
   username: [{ required: true, message: '请输入子登录名', trigger: 'blur' }],
   realName: [{ required: true, message: '请输入子用户名', trigger: 'blur' }],
   mobile: [{ required: true, validator: validPhone, trigger: 'blur' }],
   email: [{ required: true, validator: validateEmail, trigger: 'blur' }],
   password: [{ required: true, validator: checkPwd, trigger: 'blur' }],
-  againPassword: [{ required: true, validator: validateAgainPwd, trigger: 'blur' }],
+  againPassword: [
+    { required: true, validator: validateAgainPwd, trigger: 'blur' }
+  ]
 })
 
 // 方法
@@ -192,16 +198,14 @@ const submitForm = (formEl: FormInstance | undefined) => {
     return
   }
 
-  formEl.validate((valid: any) => {
-    if (valid) {
-      if (props.isEdit) {
-        handleEdit()
-      } else {
-        handleCreate()
-      }
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
+    }
+    if (props.isEdit) {
+      handleEdit()
     } else {
-      console.log('error submit!')
-      return false
+      handleCreate()
     }
   })
 }

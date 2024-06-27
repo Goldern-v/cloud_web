@@ -9,7 +9,9 @@
       <span>仅支持区域内共享镜像。</span>
     </div>
 
-    <div class="ideal-middle-margin-top ideal-middle-margin-bottom">已选去{{ selectionList?.length }}个可共享镜像。</div>
+    <div class="ideal-middle-margin-top ideal-middle-margin-bottom">
+      已选去{{ selectionList?.length }}个可共享镜像。
+    </div>
 
     <ideal-table-list
       class="ideal-middle-margin-bottom"
@@ -21,7 +23,9 @@
       @handleSelectionChange="selectionChangeHandle"
     ></ideal-table-list>
 
-    <div class="ideal-middle-margin-top ideal-middle-margin-bottom">请输入接受者的账号，接受者接受相关信息后，可以使用系统镜像创建云服务器和使用数据盘镜像创建数据盘。</div>
+    <div class="ideal-middle-margin-top ideal-middle-margin-bottom">
+      请输入接受者的账号，接受者接受相关信息后，可以使用系统镜像创建云服务器和使用数据盘镜像创建数据盘。
+    </div>
 
     <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="项目ID" prop="projectId">
@@ -35,7 +39,9 @@
 
     <div class="flex-row ideal-submit-button">
       <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
-      <el-button type="primary" @click="submitForm(formRef)">{{ t('confirm') }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -43,7 +49,7 @@
 <script setup lang="ts">
 import type { FormRules, FormInstance } from 'element-plus'
 import { EventEnum } from '@/utils/enum'
-import type { IdealTableColumnHeaders, } from '@/types'
+import type { IdealTableColumnHeaders } from '@/types'
 
 const { t } = useI18n()
 
@@ -71,7 +77,7 @@ const tableHeaders: IdealTableColumnHeaders[] = [
 // 多选镜像
 const selectionList = ref<any[]>([])
 // 多选时镜像列表
-const selectionChangeHandle = (selection: any[]) =>{ 
+const selectionChangeHandle = (selection: any[]) => {
   selectionList.value = selection
 }
 // 方法
@@ -93,14 +99,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      console.log('submit!')
-      emit(EventEnum.success)
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    console.log('submit!')
+    emit(EventEnum.success)
   })
 }
 </script>

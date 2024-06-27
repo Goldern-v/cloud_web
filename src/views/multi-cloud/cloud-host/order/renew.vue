@@ -2,16 +2,19 @@
   <div class="renew">
     <div class="renew-original">
       <div class="flex-row renew__tip">
-        <svg-icon icon="info-warning" color="#F3AD3C" class="ideal-svg-margin-right"></svg-icon>
-        <span
-          >以下弹性云主机将进行续订操作</span
-        >
+        <svg-icon
+          icon="info-warning"
+          color="#F3AD3C"
+          class="ideal-svg-margin-right"
+        ></svg-icon>
+        <span>以下弹性云主机将进行续订操作</span>
       </div>
 
       <ideal-table-list
         :table-data="originalData"
         :table-headers="originalHeader"
-        :show-pagination="false">
+        :show-pagination="false"
+      >
         <template #name>
           <el-table-column label="名称/ID" show-overflow-tooltip>
             <template #default="props">
@@ -47,7 +50,8 @@
       :model="form"
       :rules="rules"
       label-position="left"
-      class="renew-form">
+      class="renew-form"
+    >
       <el-form-item label="购买时长" prop="buyTime">
         <el-slider
           v-model="form.buyTime"
@@ -97,12 +101,10 @@
     <div class="flex-row footer-button">
       <div>配置费用: <span class="footer-button-price">32323.00元</span></div>
       <div class="flex-row">
-        <el-button @click="cancelForm(formRef)"
-          >{{ t('cancel') }}</el-button
-        >
-        <el-button type="primary" @click="submitForm(formRef)"
-          >{{ t('confirm') }}</el-button
-        >
+        <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
+        <el-button type="primary" @click="submitForm(formRef)">{{
+          t('confirm')
+        }}</el-button>
       </div>
     </div>
   </div>
@@ -128,7 +130,11 @@ const props = withDefaults(defineProps<RenewProps>(), {
 })
 // 原有规格数据
 const originalData = ref<any[]>([])
-const publicAliyun = computed(() => RegExp(/ALI/).test(props.rowData?.pool?.cloudType) && RegExp(/PUBLIC/).test(props.rowData?.pool?.cloudCategory))
+const publicAliyun = computed(
+  () =>
+    RegExp(/ALI/).test(props.rowData?.pool?.cloudType) &&
+    RegExp(/PUBLIC/).test(props.rowData?.pool?.cloudCategory)
+)
 onMounted(() => {
   originalData.value = [props.rowData]
   queryDetailData()
@@ -191,8 +197,9 @@ const queryDetailData = () => {
           item.share = item.shareable ? '是' : '否'
         })
         state.dataList = data.volumeList
-        state.dataList?.forEach((item: any) => diskTableListRef.value.IdealTableList.toggleRowSelection(item, true))
-        
+        state.dataList?.forEach((item: any) =>
+          diskTableListRef.value.IdealTableList.toggleRowSelection(item, true)
+        )
       } else {
         state.dataList = []
       }
@@ -220,18 +227,16 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      console.log('submit!')
-      handleRenew()
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    console.log('submit!')
+    handleRenew()
   })
 }
 const handleRenew = () => {
-  const params: {[key: string]: any} = {
+  const params: { [key: string]: any } = {
     resourceIdList: [
       {
         resourceUuid: props.rowData?.uuid, // 云主机
@@ -239,9 +244,9 @@ const handleRenew = () => {
       }
     ],
     unsubscribeType: 1,
-    resourceType: "ECS",
-    billType: "PACKAGE",
-    type: "RENEW",
+    resourceType: 'ECS',
+    billType: 'PACKAGE',
+    type: 'RENEW',
     resourcePoolId: props.rowData?.pool?.id,
     regionId: props.rowData?.regionId,
     projectId: props.rowData?.project?.id,
@@ -280,7 +285,7 @@ const handleRenew = () => {
   .renew-original {
     padding: 0 17px;
     .renew__tip {
-      background-color: #FEFBED;
+      background-color: #fefbed;
       padding: 20px;
       align-items: center;
     }
@@ -298,5 +303,4 @@ const handleRenew = () => {
     }
   }
 }
-
 </style>

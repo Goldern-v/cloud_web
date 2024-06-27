@@ -107,7 +107,7 @@ const handleSave = () => {
 /** 提交表单 */
 const submitForm = async () => {
   // 校验表单
-  if (!formRef) {
+  if (!formRef.value) {
     return
   }
   const valid = await formRef.value.validate()

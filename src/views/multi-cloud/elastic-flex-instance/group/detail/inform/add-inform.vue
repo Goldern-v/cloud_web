@@ -15,7 +15,7 @@
           v-model="form.theme"
           placeholder="请选择"
           class="ideal-default-margin-right"
-          style="width: 50%;"
+          style="width: 50%"
         >
           <el-option
             v-for="item in themeList"
@@ -25,15 +25,19 @@
           />
         </el-select>
 
-        <svg-icon icon="refresh-icon"/>
+        <svg-icon icon="refresh-icon" />
 
         <el-button link type="primary">新建主题</el-button>
       </el-form-item>
     </el-form>
 
     <div class="flex-row footer-button">
-      <el-button type="info" @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
-      <el-button type="primary" @click="submitForm(formRef)">{{ t('confirm') }}</el-button>
+      <el-button type="info" @click="cancelForm(formRef)">{{
+        t('cancel')
+      }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -77,14 +81,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      console.log('submit!')
-      emit(EventEnum.success)
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    console.log('submit!')
+    emit(EventEnum.success)
   })
 }
 </script>

@@ -65,13 +65,12 @@ const checkForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      orderInfo.price = priceInfoRef.value.price
-      stepsIndex.value++
-    } else {
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    orderInfo.price = priceInfoRef.value.price
+    stepsIndex.value++
   })
 }
 

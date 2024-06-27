@@ -75,7 +75,11 @@ import { ElMessage } from 'element-plus/es'
 import { nameRuleThree } from '@/utils/validate'
 import { compareDiffDictionary } from '@/utils/tool'
 import { EventEnum } from '@/utils/enum'
-import { supplierTypeList, supplierRegisterCreate, supplierRegisterUpdate } from '@/api/java/operate-center'
+import {
+  supplierTypeList,
+  supplierRegisterCreate,
+  supplierRegisterUpdate
+} from '@/api/java/operate-center'
 
 interface CreateProps {
   isEdit?: boolean
@@ -108,7 +112,9 @@ const checkCloudName = (
 }
 const rules = reactive<FormRules>({
   name: [{ required: true, validator: checkCloudName, trigger: 'blur' }],
-  supplierType: [{ required: true, message: '请选择供应商类型', trigger: 'blur' }],
+  supplierType: [
+    { required: true, message: '请选择供应商类型', trigger: 'blur' }
+  ],
   ak: [{ required: true, message: '请输入访问密钥ID', trigger: 'blur' }],
   sk: [{ required: true, message: '请输入访问密钥', trigger: 'blur' }]
 })
@@ -121,16 +127,18 @@ onMounted(() => {
   }
 })
 const getTypeList = () => {
-  supplierTypeList().then((res: any) => {
-    const { code, data } = res
-    if (code === 200) {
-      typeList.value = data
-    } else {
+  supplierTypeList()
+    .then((res: any) => {
+      const { code, data } = res
+      if (code === 200) {
+        typeList.value = data
+      } else {
+        typeList.value = []
+      }
+    })
+    .catch(_ => {
       typeList.value = []
-    }
-  }).catch(_ => {
-    typeList.value = []
-  })
+    })
 }
 
 // 表单深拷贝, 比较表单是否修改
@@ -163,7 +171,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
     return
   }
 
-  formEl.validate(valid => {
+  formEl.validate((valid: boolean) => {
     if (!valid) {
       return
     }

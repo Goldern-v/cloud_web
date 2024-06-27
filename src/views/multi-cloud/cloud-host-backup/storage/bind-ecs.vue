@@ -5,9 +5,7 @@
     </div>
     <div>
       Linux:
-      <el-text type="primary"
-        >Linux弹性云服务器优化，Cloud-init工具</el-text
-      >
+      <el-text type="primary">Linux弹性云服务器优化，Cloud-init工具</el-text>
     </div>
     <div>
       Windows:
@@ -38,7 +36,11 @@
           <el-col :span="14">
             <div>
               <div class="flex-row" style="justify-content: flex-end">
-                <el-select v-model="status" placeholder="请选择" class="ideal-default-margin-right">
+                <el-select
+                  v-model="status"
+                  placeholder="请选择"
+                  class="ideal-default-margin-right"
+                >
                   <el-option
                     v-for="item of statusList"
                     :key="item.value"
@@ -48,7 +50,10 @@
                   </el-option>
                 </el-select>
 
-                <el-input v-model="searchValue" class="bind-search ideal-default-margin-right">
+                <el-input
+                  v-model="searchValue"
+                  class="bind-search ideal-default-margin-right"
+                >
                   <template #prefix>
                     <el-select v-model="searchType" placeholder="请选择">
                       <el-option
@@ -62,12 +67,16 @@
                     <el-divider direction="vertical" />
                   </template>
                   <template #suffix>
-                    <svg-icon icon="search-icon" style="cursor:pointer;" @click="clickSearch"/>
+                    <svg-icon
+                      icon="search-icon"
+                      style="cursor: pointer"
+                      @click="clickSearch"
+                    />
                   </template>
                 </el-input>
 
                 <el-button class="bind-refresh" @click="clickReset">
-                  <svg-icon icon="refresh-icon"/>
+                  <svg-icon icon="refresh-icon" />
                 </el-button>
               </div>
 
@@ -82,10 +91,7 @@
                 @handleSelectionChange="selectionChangeHandle"
               >
                 <template #name>
-                  <el-table-column
-                    label="名称/ID"
-                    show-overflow-tooltip
-                  >
+                  <el-table-column label="名称/ID" show-overflow-tooltip>
                     <template #default="props">
                       <el-button link type="primary">{{
                         props.row.name
@@ -117,7 +123,10 @@
               <div class="flex-row" style="justify-content: flex-end">
                 <el-input v-model="selectedSearch" class="bind-search">
                   <template #prefix>
-                    <el-select v-model="selectedSearchType" placeholder="请选择">
+                    <el-select
+                      v-model="selectedSearchType"
+                      placeholder="请选择"
+                    >
                       <el-option
                         v-for="item of searchList"
                         :key="item.value"
@@ -129,7 +138,7 @@
                     <el-divider direction="vertical" />
                   </template>
                   <template #suffix>
-                    <svg-icon icon="search-icon" style="cursor:pointer;"/>
+                    <svg-icon icon="search-icon" style="cursor: pointer" />
                   </template>
                 </el-input>
               </div>
@@ -141,10 +150,7 @@
                 :show-pagination="false"
               >
                 <template #name>
-                  <el-table-column
-                    label="名称/ID"
-                    show-overflow-tooltip
-                  >
+                  <el-table-column label="名称/ID" show-overflow-tooltip>
                     <template #default="props">
                       <el-button link type="primary">{{
                         props.row.name
@@ -174,8 +180,12 @@
     </el-form>
 
     <div class="flex-row footer-button">
-      <el-button type="info" @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
-      <el-button type="primary" @click="submitForm(formRef)">{{ t('confirm') }}</el-button>
+      <el-button type="info" @click="cancelForm(formRef)">{{
+        t('cancel')
+      }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -286,14 +296,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      console.log('submit!')
-      emit(EventEnum.success)
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    console.log('submit!')
+    emit(EventEnum.success)
   })
 }
 </script>

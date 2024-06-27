@@ -17,7 +17,10 @@
       </el-form-item>
 
       <el-form-item label="指标类型" required>
-        <el-radio-group v-model="form.metricType" class="ideal-default-margin-right">
+        <el-radio-group
+          v-model="form.metricType"
+          class="ideal-default-margin-right"
+        >
           <el-radio-button
             v-for="(item, index) of indexTypeList"
             :key="index"
@@ -180,7 +183,11 @@
         </el-form-item>
 
         <el-form-item label="多指标规则触发配置" required>
-          <el-radio-group v-model="form.triggerType" class="ideal-default-margin-right" required>
+          <el-radio-group
+            v-model="form.triggerType"
+            class="ideal-default-margin-right"
+            required
+          >
             <el-radio
               v-for="(item, index) of triggerConfigList"
               :key="index"
@@ -233,7 +240,6 @@ const props = withDefaults(defineProps<ruleProps>(), {
   indicatorList: () => [],
   rowData: null,
   operateType: undefined
-
 })
 
 const isEdit = computed(() => {
@@ -408,7 +414,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
+  formEl.validate((valid: boolean) => {
     if (form.metricType === 'SINGLE_METRIC') {
       checkSingleData()
     } else {

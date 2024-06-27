@@ -150,7 +150,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   }
   formEl.validate((valid: boolean) => {
     if (!valid) {
-      return false
+      return
     }
     delete dataForm.againPassword
     let params = {}

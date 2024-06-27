@@ -478,7 +478,7 @@ export const createData = () => {
     if (!formEl) {
       return
     }
-    formEl.validate(valid => {
+    formEl.validate((valid: boolean) => {
       if (valid) {
         if (isEdit.value) {
           const params = Object.assign(getCreateParams(), {

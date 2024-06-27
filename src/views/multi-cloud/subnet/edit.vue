@@ -39,12 +39,12 @@
     </el-form>
 
     <div class="flex-row subnet-button--edit">
-      <el-button type="primary" @click="cancelForm(editFormRef)"
-        >{{ t('cancel') }}</el-button
-      >
-      <el-button type="primary" @click="submitForm(editFormRef)"
-        >{{ t('confirm') }}</el-button
-      >
+      <el-button type="primary" @click="cancelForm(editFormRef)">{{
+        t('cancel')
+      }}</el-button>
+      <el-button type="primary" @click="submitForm(editFormRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -65,7 +65,7 @@ const editForm = reactive({
 const checkName = (rule: any, value: any, callback: (e?: Error) => any) => {
   if (!value.length) {
     callback(new Error('请输入子网名称'))
-  } 
+  }
   nameRuleOne({ maxLength: 20, minLength: 1 }, value, callback)
 }
 const rules = reactive<FormRules>({
@@ -90,14 +90,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      console.log('submit!')
-      emit(EventEnum.success)
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    console.log('submit!')
+    emit(EventEnum.success)
   })
 }
 </script>

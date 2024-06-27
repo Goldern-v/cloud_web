@@ -159,12 +159,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(async (valid: any) => {
-    if (valid) {
-      editVpc()
-    } else {
-      return false
+  formEl.validate(async (valid: boolean) => {
+    if (!valid) {
+      return
     }
+    editVpc()
   })
 }
 </script>

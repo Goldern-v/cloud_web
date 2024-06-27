@@ -1,11 +1,6 @@
 <template>
   <div class="key-pair-create">
-    <el-form
-      ref="formRef"
-      :model="form"
-      :rules="rules"
-      label-position="left"
-    >
+    <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="区域" prop="regionId">
         <el-select v-model="form.regionId" style="width: 100%">
           <el-option
@@ -27,38 +22,47 @@
           />
         </el-select>
       </el-form-item>
-      
+
       <el-form-item label="名称" prop="name">
-        <el-input v-model="form.name" clearable style="width: 100%"/>
+        <el-input v-model="form.name" clearable style="width: 100%" />
       </el-form-item>
 
       <el-form-item label="公钥" prop="publicKey">
-        <el-input v-model="form.publicKey" type="textarea" style="width: 100%"/>
+        <el-input
+          v-model="form.publicKey"
+          type="textarea"
+          style="width: 100%"
+        />
       </el-form-item>
 
       <el-form-item>
-        <div class="flex-column" style="width: 100%;">
+        <div class="flex-column" style="width: 100%">
           <div class="flex-row key-pair-create__tip">
-            <svg-icon icon="info-warning" color="#F3AD3C" class="ideal-svg-margin-right"></svg-icon>
+            <svg-icon
+              icon="info-warning"
+              color="#F3AD3C"
+              class="ideal-svg-margin-right"
+            ></svg-icon>
             <span
               >未开通账号密钥对的用户该参数无效，默认会创建SSH_RSA_2048的密钥对。当前仅RSA算法支持windows系统，其他算法不支持windows获取密码。</span
             >
           </div>
 
           <div class="flex-row">
-            <el-checkbox v-model="form.agree" label="我同意将密钥对公钥托管到理想多云。" />
+            <el-checkbox
+              v-model="form.agree"
+              label="我同意将密钥对公钥托管到理想多云。"
+            />
           </div>
         </div>
       </el-form-item>
     </el-form>
 
     <div class="flex-row footer-button">
-      <el-button @click="cancelForm(formRef)"
-        >{{ t('cancel') }}</el-button
-      >
-      <el-button type="primary" @click="submitForm(formRef)"
-        >{{ t('confirm') }}</el-button
-      >
+      <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -91,10 +95,10 @@ const checkName = (rule: any, value: any, callback: (e?: Error) => any) => {
   }
 }
 const rules = reactive<FormRules>({
-  regionId: [ { required: true, message: '请选择区域', trigger: 'blur' }],
-  projectId: [ { required: true, message: '请选择项目', trigger: 'blur' }],
-  name: [ { required: true, validator: checkName, trigger: 'blur' }],
-  publicKey: [ { required: true, message: '请输入公钥', trigger: 'blur' }]
+  regionId: [{ required: true, message: '请选择区域', trigger: 'blur' }],
+  projectId: [{ required: true, message: '请选择项目', trigger: 'blur' }],
+  name: [{ required: true, validator: checkName, trigger: 'blur' }],
+  publicKey: [{ required: true, message: '请输入公钥', trigger: 'blur' }]
 })
 
 // 区域、项目
@@ -119,16 +123,15 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      if (!form.agree) {
-        return ElMessage.warning('请阅读协议并勾选同意。')
-      }
-      handleCreate()
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    if (!form.agree) {
+      ElMessage.warning('请阅读协议并勾选同意。')
+      return
+    }
+    handleCreate()
   })
 }
 const { resourcePool } = storeToRefs(store.resourceStore)
@@ -166,7 +169,7 @@ const handleCreate = () => {
     width: 70%;
   }
   .key-pair-create__tip {
-    background-color: #FEFBED;
+    background-color: #fefbed;
     padding: 10px 20px;
     margin-top: 10px;
   }

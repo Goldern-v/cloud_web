@@ -1,17 +1,12 @@
 <template>
   <div class="account-create">
-    <el-form
-      ref="formRef"
-      :model="form"
-      :rules="rules"
-      label-position="left"
-    >
+    <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="名称" prop="name">
-        <el-input v-model="form.name" clearable class="input-width"/>
+        <el-input v-model="form.name" clearable class="input-width" />
       </el-form-item>
 
       <el-form-item label="密钥对类型">
-        <div class="flex-column" style="width: 100%;">
+        <div class="flex-column" style="width: 100%">
           <el-select v-model="form.type" class="input-width">
             <el-option
               v-for="(item, index) of typeList"
@@ -22,14 +17,21 @@
           </el-select>
 
           <div class="flex-row account-create__tip">
-            <svg-icon icon="info-warning" color="#F3AD3C" class="ideal-svg-margin-right"></svg-icon>
+            <svg-icon
+              icon="info-warning"
+              color="#F3AD3C"
+              class="ideal-svg-margin-right"
+            ></svg-icon>
             <span
               >未开通账号密钥对的用户该参数无效，默认会创建SSH_RSA_2048的密钥对。当前仅RSA算法支持windows系统，其他算法不支持windows获取密码。</span
             >
           </div>
 
           <div class="flex-row">
-            <el-checkbox v-model="form.collocation" label="我同意讲密钥对私钥托管到理想多云。" />
+            <el-checkbox
+              v-model="form.collocation"
+              label="我同意讲密钥对私钥托管到理想多云。"
+            />
             <div class="ideal-theme-text">了解详情</div>
           </div>
           <div class="flex-row">
@@ -41,12 +43,10 @@
     </el-form>
 
     <div class="flex-row footer-button">
-      <el-button @click="cancelForm(formRef)"
-        >{{ t('cancel') }}</el-button
-      >
-      <el-button type="primary" @click="submitForm(formRef)"
-        >{{ t('confirm') }}</el-button
-      >
+      <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -95,14 +95,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      console.log('submit!')
-      emit(EventEnum.success)
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    console.log('submit!')
+    emit(EventEnum.success)
   })
 }
 </script>
@@ -119,7 +117,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
     width: 70%;
   }
   .account-create__tip {
-    background-color: #FEFBED;
+    background-color: #fefbed;
     padding: 10px 20px;
     align-items: center;
     margin-top: 10px;

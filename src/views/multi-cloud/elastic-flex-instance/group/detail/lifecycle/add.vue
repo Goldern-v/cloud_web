@@ -2,7 +2,7 @@
   <div class="add">
     <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="挂钩名称">
-        <el-input v-model="form.name" style="width: 50%;"/>
+        <el-input v-model="form.name" style="width: 50%" />
       </el-form-item>
 
       <el-form-item label="挂钩类型">
@@ -22,7 +22,10 @@
       </el-form-item>
 
       <el-form-item label="默认回调操作">
-        <el-radio-group v-model="form.callback" class="ideal-default-margin-right">
+        <el-radio-group
+          v-model="form.callback"
+          class="ideal-default-margin-right"
+        >
           <el-radio-button label="1">继续</el-radio-button>
           <el-radio-button label="2">停止</el-radio-button>
         </el-radio-group>
@@ -38,7 +41,7 @@
       </el-form-item>
 
       <el-form-item label="超时时间(秒)">
-        <el-input v-model="form.timeOut" style="width: 50%;"/>
+        <el-input v-model="form.timeOut" style="width: 50%" />
 
         <el-tooltip
           popper-class="custom-tooltip"
@@ -81,8 +84,12 @@
     </el-form>
 
     <div class="flex-row footer-button">
-      <el-button type="info" @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
-      <el-button type="primary" @click="submitForm(formRef)">{{ t('confirm') }}</el-button>
+      <el-button type="info" @click="cancelForm(formRef)">{{
+        t('cancel')
+      }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -123,14 +130,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      console.log('submit!')
-      emit(EventEnum.success)
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    console.log('submit!')
+    emit(EventEnum.success)
   })
 }
 </script>

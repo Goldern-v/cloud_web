@@ -135,7 +135,9 @@
     </ideal-table-list>
 
     <div class="flex-row footer-button">
-      <el-button type="primary" @click="submitForm(formRef)">{{ t('save') }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('save')
+      }}</el-button>
       <el-button @click="cancelForm(formRef)">{{ t('back') }}</el-button>
     </div>
   </div>
@@ -184,11 +186,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
   })
 }

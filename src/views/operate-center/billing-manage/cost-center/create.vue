@@ -28,7 +28,9 @@
 
     <div class="flex-row ideal-submit-button">
       <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
-      <el-button type="primary" @click="submitForm(formRef)">{{ t('confirm') }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -123,38 +125,36 @@ const submitForm = (formEl: FormInstance | undefined) => {
     remark: form.remark,
     vdcList: arr
   }
-  formEl.validate(valid => {
-    if (valid) {
-      if (props.isEdit) {
-        params.id = props.rowData.id
-        params.version = props.rowData.version
-        editBillCost(params).then((res: any) => {
-          let { code } = res
-          if (code === 200) {
-            setTimeout(() => {
-              emit(EventEnum.success)
-            }, 3000)
-            ElMessage.success('编辑成本中心成功')
-          } else {
-            ElMessage.error('编辑成本中心失败')
-          }
-        })
-      } else {
-        addBillCost(params).then((res: any) => {
-          let { code } = res
-          if (code === 200) {
-            setTimeout(() => {
-              emit(EventEnum.success)
-            }, 3000)
-            ElMessage.success('创建成本中心成功')
-          } else {
-            ElMessage.error('创建成本中心失败')
-          }
-        })
-      }
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
+    }
+    if (props.isEdit) {
+      params.id = props.rowData.id
+      params.version = props.rowData.version
+      editBillCost(params).then((res: any) => {
+        let { code } = res
+        if (code === 200) {
+          setTimeout(() => {
+            emit(EventEnum.success)
+          }, 3000)
+          ElMessage.success('编辑成本中心成功')
+        } else {
+          ElMessage.error('编辑成本中心失败')
+        }
+      })
     } else {
-      console.log('error submit!')
-      return false
+      addBillCost(params).then((res: any) => {
+        let { code } = res
+        if (code === 200) {
+          setTimeout(() => {
+            emit(EventEnum.success)
+          }, 3000)
+          ElMessage.success('创建成本中心成功')
+        } else {
+          ElMessage.error('创建成本中心失败')
+        }
+      })
     }
   })
 }

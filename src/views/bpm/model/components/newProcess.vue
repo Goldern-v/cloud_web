@@ -90,39 +90,37 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      formLoading.value = true
-      try {
-        const data: any = newForm
-        createModel(data)
-          .then((res: any) => {
-            let data = res
-            if (data.code === 200) {
-              const content =
-                '<p><span style="font-weight: 600">新建模型成功！</span>后续需要执行如下 4 个步骤:<br/>' +
-                '1. 点击【修改流程】按钮，配置流程的分类、表单信息<br/>' +
-                '2. 点击【设计流程】按钮，绘制流程图<br/>' +
-                '3. 点击【分配规则】按钮，设置每个用户任务的审批人<br/>' +
-                '4. 点击【发布流程】按钮，完成流程的最终发布<br/>' +
-                '另外，每次流程修改后，都需要点击【发布流程】按钮，才能正式生效！！！</p>'
-              ElMessageBox.alert(content, '重要提示', {
-                type: 'success',
-                dangerouslyUseHTMLString: true
-              })
-              ElMessage.success('新建模型成功')
-              emit(EventEnum.success)
-            }
-          })
-          .catch((err: any) => {
-            console.log('新建模型失败')
-          })
-      } finally {
-        formLoading.value = false
-      }
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
+    }
+    formLoading.value = true
+    try {
+      const data: any = newForm
+      createModel(data)
+        .then((res: any) => {
+          let data = res
+          if (data.code === 200) {
+            const content =
+              '<p><span style="font-weight: 600">新建模型成功！</span>后续需要执行如下 4 个步骤:<br/>' +
+              '1. 点击【修改流程】按钮，配置流程的分类、表单信息<br/>' +
+              '2. 点击【设计流程】按钮，绘制流程图<br/>' +
+              '3. 点击【分配规则】按钮，设置每个用户任务的审批人<br/>' +
+              '4. 点击【发布流程】按钮，完成流程的最终发布<br/>' +
+              '另外，每次流程修改后，都需要点击【发布流程】按钮，才能正式生效！！！</p>'
+            ElMessageBox.alert(content, '重要提示', {
+              type: 'success',
+              dangerouslyUseHTMLString: true
+            })
+            ElMessage.success('新建模型成功')
+            emit(EventEnum.success)
+          }
+        })
+        .catch((err: any) => {
+          console.log('新建模型失败')
+        })
+    } finally {
+      formLoading.value = false
     }
   })
 }

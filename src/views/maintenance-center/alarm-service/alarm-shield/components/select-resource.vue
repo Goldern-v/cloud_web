@@ -151,15 +151,14 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      store.commonStore.setCloudCategory(form.category)
-      store.commonStore.setCloudType(form.type)
-      store.commonStore.setResourcePool(form.resourceBundleId)
-      emit(EventEnum.success)
-    } else {
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    store.commonStore.setCloudCategory(form.category)
+    store.commonStore.setCloudType(form.type)
+    store.commonStore.setResourcePool(form.resourceBundleId)
+    emit(EventEnum.success)
   })
 }
 </script>

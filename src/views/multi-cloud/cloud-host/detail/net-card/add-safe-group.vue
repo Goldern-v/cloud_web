@@ -1,10 +1,6 @@
 <template>
   <div class="add">
-    <el-form
-      ref="formRef"
-      :model="form"
-      :rules="rules"
-      label-position="left">
+    <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="云服务器名称">
         <div>{{ detail.name }}</div>
       </el-form-item>
@@ -22,16 +18,27 @@
       </el-form-item>
 
       <el-form-item label="选择安全组">
-        <div style="width: 100%;">
+        <div style="width: 100%">
           <div class="flex-row add-safe-search">
-            <div class="flex-row" style="align-items: center;">
-              <el-input v-model="searchValue" placeholder="请输入安全组名称搜索">
+            <div class="flex-row" style="align-items: center">
+              <el-input
+                v-model="searchValue"
+                placeholder="请输入安全组名称搜索"
+              >
                 <template #suffix>
-                  <svg-icon icon="search-icon" style="cursor: pointer;" @click="clickSearch"/>
+                  <svg-icon
+                    icon="search-icon"
+                    style="cursor: pointer"
+                    @click="clickSearch"
+                  />
                 </template>
               </el-input>
-              <el-button style="margin-left: 10px;">
-                <svg-icon icon="refresh-icon" style="cursor: pointer;" @click="clickRefresh"/>
+              <el-button style="margin-left: 10px">
+                <svg-icon
+                  icon="refresh-icon"
+                  style="cursor: pointer"
+                  @click="clickRefresh"
+                />
               </el-button>
             </div>
           </div>
@@ -49,20 +56,22 @@
 
           <div v-if="showTip" class="flex-row">
             <div>已选安全组：</div>
-            <div v-for="(item,idx) of state.dataListSelections" :key="idx">{{ item.name }}</div>
+            <div v-for="(item, idx) of state.dataListSelections" :key="idx">
+              {{ item.name }}
+            </div>
           </div>
-          <div v-if="showTip">为了更好的网络性能，建议单个网卡最多绑定5个安全组。</div>
+          <div v-if="showTip">
+            为了更好的网络性能，建议单个网卡最多绑定5个安全组。
+          </div>
         </div>
       </el-form-item>
     </el-form>
 
     <div class="flex-row ideal-submit-button">
-      <el-button @click="cancelForm(formRef)"
-        >{{ t('cancel') }}</el-button
-      >
-      <el-button type="primary" @click="submitForm(formRef)"
-        >{{ t('confirm') }}</el-button
-      >
+      <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -74,7 +83,10 @@ import { EventEnum, OperateEventEnum } from '@/utils/enum'
 import { IHooksOptions } from '@/hooks/interface'
 import { useCrud } from '@/hooks'
 import type { IdealTableColumnHeaders } from '@/types'
-import { safeGroupListByInstanceUrl, safeGroupBindGroups } from '@/api/java/network'
+import {
+  safeGroupListByInstanceUrl,
+  safeGroupBindGroups
+} from '@/api/java/network'
 
 interface AddSafeGroupProps {
   type?: OperateEventEnum | string | undefined
@@ -85,7 +97,9 @@ const props = withDefaults(defineProps<AddSafeGroupProps>(), {
   detail: () => ({})
 })
 
-const showTip = computed(() => props.type === 'addSafeGroup' || props.type === 'removeSafeGroup')
+const showTip = computed(
+  () => props.type === 'addSafeGroup' || props.type === 'removeSafeGroup'
+)
 
 const { t } = useI18n()
 
@@ -100,7 +114,9 @@ const netCards = ref<any[]>([])
 onMounted(() => {
   if (props.detail?.nicList) {
     netCards.value = props.detail?.nicList
-    const result = props.detail?.nicList.find((item: any) => item.mainCard === '1') // 获取主网卡
+    const result = props.detail?.nicList.find(
+      (item: any) => item.mainCard === '1'
+    ) // 获取主网卡
     if (result) {
       form.netCard = result.id
     } else {
@@ -108,7 +124,10 @@ onMounted(() => {
     }
   }
   // 阿里公有云查询安全组需vpc uuid
-  if (props.detail?.pool?.cloudType === 'ALI_CLOUD' && props.detail?.pool?.cloudCategory === 'PUBLIC') {
+  if (
+    props.detail?.pool?.cloudType === 'ALI_CLOUD' &&
+    props.detail?.pool?.cloudCategory === 'PUBLIC'
+  ) {
     state.queryForm.vpcId = props.detail?.vpc.uuid
   }
   query()
@@ -126,30 +145,33 @@ const clickRefresh = () => {
 }
 // 列表
 const state: IHooksOptions = reactive({
-    dataListUrl: safeGroupListByInstanceUrl,
-    isPage: false,
-    createdIsNeed: false,
-    primaryKey: 'uuid',
-    queryForm: {
-      resourcePoolId: props.detail?.pool?.id,
-      regionId: props.detail?.regionId,
-      projectId: props.detail?.project?.id,
-      instanceUuid: props.detail?.uuid
-    }
-  })
-const { selectionChangeHandle, query } = useCrud(state)
-const tableRef = ref()
-watch(() => state.dataList, value => {
-  if (value?.length) {
-    value?.forEach(item => {
-      // bindFlag 1已绑定
-      tableRef.value.IdealTableList.toggleRowSelection(
-        item,
-        item.bindFlag === '1'
-      )
-    })
+  dataListUrl: safeGroupListByInstanceUrl,
+  isPage: false,
+  createdIsNeed: false,
+  primaryKey: 'uuid',
+  queryForm: {
+    resourcePoolId: props.detail?.pool?.id,
+    regionId: props.detail?.regionId,
+    projectId: props.detail?.project?.id,
+    instanceUuid: props.detail?.uuid
   }
 })
+const { selectionChangeHandle, query } = useCrud(state)
+const tableRef = ref()
+watch(
+  () => state.dataList,
+  value => {
+    if (value?.length) {
+      value?.forEach(item => {
+        // bindFlag 1已绑定
+        tableRef.value.IdealTableList.toggleRowSelection(
+          item,
+          item.bindFlag === '1'
+        )
+      })
+    }
+  }
+)
 const tableHeaders: IdealTableColumnHeaders[] = [
   { label: '安全组名称', prop: 'name' },
   { label: '描述', prop: 'description' }
@@ -173,14 +195,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      console.log('submit!')
-      handleEvent()
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    console.log('submit!')
+    handleEvent()
   })
 }
 const handleEvent = () => {

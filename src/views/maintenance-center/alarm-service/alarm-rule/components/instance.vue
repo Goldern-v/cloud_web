@@ -316,7 +316,7 @@ const nextStep = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
+  formEl.validate((valid: boolean) => {
     if (valid && currentStep.value < steps.length - 1) {
       currentStep.value += 1
       state.queryForm.resourcePoolId = ruleForm.resourceBundleId

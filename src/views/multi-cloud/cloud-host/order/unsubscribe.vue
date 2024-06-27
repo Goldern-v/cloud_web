@@ -204,7 +204,9 @@ const publicTencent = ref(false)
 onMounted(() => {
   originalData.value = [props.rowData]
   queryDetailData()
-  publicTencent.value = RegExp(/TENCENT/).test(props.rowData?.pool?.cloudType) && RegExp(/PUBLIC/).test(props.rowData?.pool?.cloudCategory)
+  publicTencent.value =
+    RegExp(/TENCENT/).test(props.rowData?.pool?.cloudType) &&
+    RegExp(/PUBLIC/).test(props.rowData?.pool?.cloudCategory)
 })
 const originalHeader: IdealTableColumnHeaders[] = [
   { label: '名称/ID', prop: 'name', useSlot: true },
@@ -237,7 +239,9 @@ const queryDetailData = () => {
           }
         })
         diskState.dataList = data.volumeList
-        diskState.dataList?.forEach((item: any) => diskTableListRef.value.IdealTableList.toggleRowSelection(item, true))
+        diskState.dataList?.forEach((item: any) =>
+          diskTableListRef.value.IdealTableList.toggleRowSelection(item, true)
+        )
         eipState.dataList = eipList
         detailData.value = data
       } else {
@@ -305,7 +309,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
+  formEl.validate((valid: boolean) => {
     if (valid) {
       let resourceIdList: any = [
         { resourceUuid: props.rowData.uuid, mainResource: true }
@@ -349,9 +353,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
           ElMessage.error(data.msg || '退订失败')
         }
       })
-    } else {
-      console.log('error submit!')
-      return false
     }
   })
 }

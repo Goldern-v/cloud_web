@@ -95,7 +95,7 @@ watch(
 const selectArray = ref<any[]>([])
 
 onMounted(() => {
-  if (showReplace) {
+  if (showReplace.value) {
     // rowData有值则是点击行数据操作,否则就是多选
     if (props.rowData) {
       selectArray.value = [props.rowData]

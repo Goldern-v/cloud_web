@@ -5,31 +5,34 @@
       :model="form"
       :rules="rules"
       label-position="left"
-      class="create-form">
+      class="create-form"
+    >
       <el-form-item v-if="isEdit" label="ID">
-        <el-input v-model="form.ID" disabled/>
+        <el-input v-model="form.ID" disabled />
       </el-form-item>
 
       <el-form-item label="平台名称" prop="name">
-        <el-input v-model="form.name"/>
+        <el-input v-model="form.name" />
       </el-form-item>
 
       <el-form-item label="平台类型" prop="type" :required="!isEdit">
-        <el-input v-model="form.type" disabled/>
+        <el-input v-model="form.type" disabled />
       </el-form-item>
 
       <el-form-item label="平台ID" prop="id">
-        <el-input v-model="form.id"/>
+        <el-input v-model="form.id" />
       </el-form-item>
 
       <el-form-item label="登出URL" prop="url">
-        <el-input v-model="form.url"/>
+        <el-input v-model="form.url" />
       </el-form-item>
     </el-form>
 
     <div class="flex-row ideal-submit-button">
       <el-button @click="clickCancel(formRef)">{{ t('cancel') }}</el-button>
-      <el-button type="primary" @click="clickSave(formRef)">{{ t('confirm') }}</el-button>
+      <el-button type="primary" @click="clickSave(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -39,7 +42,7 @@ import type { FormRules, FormInstance } from 'element-plus'
 import { EventEnum } from '@/utils/enum'
 
 interface PlatformProps {
-  rowData?: any,
+  rowData?: any
   isEdit?: boolean
 }
 
@@ -76,13 +79,11 @@ const clickSave = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(async (valid: any) => {
-    if (valid) {
-    } else {
-      console.log('error submit!')
-      emit(EventEnum.success)
-      return false
+  formEl.validate(async (valid: boolean) => {
+    if (!valid) {
+      return
     }
+    emit(EventEnum.success)
   })
 }
 const clickCancel = (formEl: FormInstance | undefined) => {

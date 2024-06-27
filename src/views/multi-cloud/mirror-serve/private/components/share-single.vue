@@ -1,16 +1,31 @@
 <template>
   <div class="share-single">
     <el-descriptions title="镜像详情" :column="1">
-      <el-descriptions-item label="镜像名称">{{ rowData.name }}</el-descriptions-item>
-      <el-descriptions-item label="操作系统类型">{{ rowData.osType }}</el-descriptions-item>
-      <el-descriptions-item label="操作系统">{{ rowData.osVersion }}</el-descriptions-item>
-      <el-descriptions-item label="镜像大小">{{ rowData.minDisk }}</el-descriptions-item>
+      <el-descriptions-item label="镜像名称">{{
+        rowData.name
+      }}</el-descriptions-item>
+      <el-descriptions-item label="操作系统类型">{{
+        rowData.osType
+      }}</el-descriptions-item>
+      <el-descriptions-item label="操作系统">{{
+        rowData.osVersion
+      }}</el-descriptions-item>
+      <el-descriptions-item label="镜像大小">{{
+        rowData.minDisk
+      }}</el-descriptions-item>
     </el-descriptions>
 
     <el-tabs v-model="activeName">
       <el-tab-pane label="共享镜像" name="share">
-        <div class="ideal-middle-margin-bottom">请输入共享镜像接受者的项目ID。如果输入多个项目ID，请使用英文逗号间隔。</div>
-        <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
+        <div class="ideal-middle-margin-bottom">
+          请输入共享镜像接受者的项目ID。如果输入多个项目ID，请使用英文逗号间隔。
+        </div>
+        <el-form
+          ref="formRef"
+          :model="form"
+          :rules="rules"
+          label-position="left"
+        >
           <el-form-item label="项目ID" prop="projectId">
             <el-input
               v-model="form.projectId"
@@ -21,7 +36,9 @@
         </el-form>
       </el-tab-pane>
       <el-tab-pane label="取消共享" name="cancel">
-        <div class="ideal-middle-margin-bottom">取消共享后，该镜像将不再共享给选中的租户。</div>
+        <div class="ideal-middle-margin-bottom">
+          取消共享后，该镜像将不再共享给选中的租户。
+        </div>
         <ideal-table-list
           :loading="state.dataListLoading"
           :table-data="state.dataList"
@@ -48,7 +65,9 @@
 
     <div class="flex-row ideal-submit-button">
       <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
-      <el-button type="primary" @click="submitForm(formRef)">{{ t('confirm') }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -61,7 +80,11 @@ import { IHooksOptions } from '@/hooks/interface'
 import type { IdealTableColumnHeaders } from '@/types'
 import { EventEnum } from '@/utils/enum'
 import { RESOURCE_STATUS, RESOURCE_STATUS_ICON } from '@/utils/dictionary'
-import { mirrorShare, mirrorShareRelationUrl, mirrorShareCancel } from '@/api/java/compute'
+import {
+  mirrorShare,
+  mirrorShareRelationUrl,
+  mirrorShareCancel
+} from '@/api/java/compute'
 
 interface ShareProps {
   rowData?: any // 行数据
@@ -136,13 +159,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
     if (!formEl) {
       return
     }
-    formEl.validate(valid => {
-      if (valid) {
-        handleShare()
-      } else {
-        console.log('error submit!')
-        return false
+    formEl.validate((valid: boolean) => {
+      if (!valid) {
+        return
       }
+      handleShare()
     })
   } else {
     handleCancel()
@@ -150,7 +171,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
 }
 // 共享镜像
 const handleShare = () => {
-  const params: {[key: string]: any} = {}
+  const params: { [key: string]: any } = {}
   if (props.rowData) {
     params.id = props.rowData.id
     params.projectIds = form.projectId.split(',')
@@ -167,7 +188,7 @@ const handleShare = () => {
 }
 // 取消镜像
 const handleCancel = () => {
-  const params: {[key: string]: any} = {}
+  const params: { [key: string]: any } = {}
   if (props.rowData && state?.dataListSelections) {
     params.id = props.rowData.id
     params.projectIds = state.dataListSelections

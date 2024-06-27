@@ -1,16 +1,18 @@
 <template>
   <div class="copy">
-    <copy-single 
+    <copy-single
       v-if="rowData"
-      :row-data="rowData" 
+      :row-data="rowData"
       @clickCancelEvent="cancelForm"
-      @clickSuccessEvent="submitForm"/>
+      @clickSuccessEvent="submitForm"
+    />
 
-    <copy-multi 
-      v-else 
+    <copy-multi
+      v-else
       :select-data="selectData"
       @clickCancelEvent="cancelForm"
-      @clickSuccessEvent="submitForm"/>
+      @clickSuccessEvent="submitForm"
+    />
   </div>
 </template>
 
@@ -19,7 +21,6 @@ import copySingle from './copy-single.vue'
 import copyMulti from './copy-multi.vue'
 import type { FormInstance } from 'element-plus'
 import { EventEnum } from '@/utils/enum'
-
 
 interface ShareProps {
   rowData?: any // 行数据
@@ -41,19 +42,8 @@ const cancelForm = () => {
   emit(EventEnum.cancel)
 }
 
-const submitForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) {
-    return
-  }
-  formEl.validate(valid => {
-    if (valid) {
-      console.log('submit!')
-      emit(EventEnum.success)
-    } else {
-      console.log('error submit!')
-      return false
-    }
-  })
+const submitForm = () => {
+  emit(EventEnum.success)
 }
 </script>
 

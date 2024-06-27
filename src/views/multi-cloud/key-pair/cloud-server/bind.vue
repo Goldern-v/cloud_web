@@ -14,7 +14,10 @@
     <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item v-if="isMultiple" label="操作类型">
         <div class="flex-column">
-          <el-radio-group v-model="form.type" class="ideal-default-margin-right">
+          <el-radio-group
+            v-model="form.type"
+            class="ideal-default-margin-right"
+          >
             <el-radio-button label="1">一键绑定</el-radio-button>
             <el-radio-button label="2">单独绑定</el-radio-button>
           </el-radio-group>
@@ -133,7 +136,9 @@
 
     <div class="flex-row footer-button">
       <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
-      <el-button type="primary" @click="submitForm(formRef)">{{ t('confirm') }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -167,8 +172,8 @@ const rules = reactive<FormRules>({
 const isMultiple = computed(() => props.dataList.length > 1)
 // 密钥对
 const keyPairList: any = ref([
-  { label: '1', value: '1'},
-  { label: '2', value: '2'}
+  { label: '1', value: '1' },
+  { label: '2', value: '2' }
 ])
 
 const collocation = ref(false)
@@ -205,17 +210,20 @@ table.headers = [
   { label: '端口', prop: 'port', useSlot: true },
   { label: '关闭', prop: 'close', useSlot: true }
 ]
-watch(() => [form.keyPair, form.root, form.port], (newValue, oldValue) => {
-  if (newValue[0] !== oldValue[0]) {
-    table.dataArray.forEach((item: any) => item.keyPair = newValue[0])
+watch(
+  () => [form.keyPair, form.root, form.port],
+  (newValue, oldValue) => {
+    if (newValue[0] !== oldValue[0]) {
+      table.dataArray.forEach((item: any) => (item.keyPair = newValue[0]))
+    }
+    if (newValue[1] !== oldValue[1]) {
+      table.dataArray.forEach((item: any) => (item.root = newValue[1]))
+    }
+    if (newValue[2] !== oldValue[2]) {
+      table.dataArray.forEach((item: any) => (item.port = newValue[2]))
+    }
   }
-  if (newValue[1] !== oldValue[1]) {
-    table.dataArray.forEach((item: any) => item.root = newValue[1])
-  }
-  if (newValue[2] !== oldValue[2]) {
-    table.dataArray.forEach((item: any) => item.port = newValue[2])
-  }
-})
+)
 // 方法
 interface EventEmits {
   (e: EventEnum.cancel): void
@@ -235,14 +243,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      console.log('submit!')
-      emit(EventEnum.success)
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    console.log('submit!')
+    emit(EventEnum.success)
   })
 }
 </script>

@@ -2,16 +2,19 @@
   <div class="renew">
     <div class="renew-original">
       <div class="flex-row renew__tip">
-        <svg-icon icon="info-warning" color="#F3AD3C" class="ideal-svg-margin-right"></svg-icon>
-        <span
-          >以下云硬盘将进行续订操作</span
-        >
+        <svg-icon
+          icon="info-warning"
+          color="#F3AD3C"
+          class="ideal-svg-margin-right"
+        ></svg-icon>
+        <span>以下云硬盘将进行续订操作</span>
       </div>
 
       <ideal-table-list
         :table-data="originalData"
         :table-headers="originalHeader"
-        :show-pagination="false">
+        :show-pagination="false"
+      >
         <template #name>
           <el-table-column label="名称/ID" show-overflow-tooltip>
             <template #default="props">
@@ -38,7 +41,8 @@
       :model="form"
       :rules="rules"
       label-position="left"
-      class="renew-form">
+      class="renew-form"
+    >
       <el-form-item label="购买时长" prop="buyTime">
         <el-slider
           v-model="form.buyTime"
@@ -50,14 +54,14 @@
     </el-form>
 
     <div class="flex-row footer-button">
-      <div>配置费用: <span class="footer-button-price">{{ price }}元</span></div>
+      <div>
+        配置费用: <span class="footer-button-price">{{ price }}元</span>
+      </div>
       <div class="flex-row">
-        <el-button @click="cancelForm(formRef)"
-          >{{ t('cancel') }}</el-button
-        >
-        <el-button type="primary" @click="submitForm(formRef)"
-          >{{ t('confirm') }}</el-button
-        >
+        <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
+        <el-button type="primary" @click="submitForm(formRef)">{{
+          t('confirm')
+        }}</el-button>
       </div>
     </div>
   </div>
@@ -114,11 +118,14 @@ const buyTimeMarks: { [key: number]: string } = {
   13: '2年',
   14: '3年'
 }
-watch(() => form.buyTime, value => {
-  if (value) {
-    getInquiry()
+watch(
+  () => form.buyTime,
+  value => {
+    if (value) {
+      getInquiry()
+    }
   }
-})
+)
 const price = ref(0)
 // 询价
 const getInquiry = () => {
@@ -147,16 +154,18 @@ const getInquiry = () => {
     params.cycleNum = form.buyTime - 11
   }
 
-  queryInquiry(params).then((res: any) => {
-    const { code, data } = res
-    if (code === 200) {
-      price.value = data.finalPrices
-    } else {
+  queryInquiry(params)
+    .then((res: any) => {
+      const { code, data } = res
+      if (code === 200) {
+        price.value = data.finalPrices
+      } else {
+        price.value = 0
+      }
+    })
+    .catch(_ => {
       price.value = 0
-    }
-  }).catch(_ => {
-    price.value = 0
-  })
+    })
 }
 // 点击事件
 interface EventEmits {
@@ -177,17 +186,15 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      handleRenew()
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    handleRenew()
   })
 }
 const handleRenew = () => {
-  const params: { [key: string]: any} = {
+  const params: { [key: string]: any } = {
     resourceType: 'EBS', // 资源类型
     instanceResourceId: props.rowData?.uuid, // 云硬盘uuid
     instanceResourceName: props.rowData?.name, // 云硬盘名称
@@ -195,7 +202,7 @@ const handleRenew = () => {
     size: props.rowData?.size, // 云硬盘大小
     type: 'RENEW', // 操作类型
     billType: 'PACKAGE', // 计费类型
-    resourcePoolId: props.rowData?.resourcePoolId, 
+    resourcePoolId: props.rowData?.resourcePoolId,
     poolTypeUuid: props.rowData?.cloudResourcePool?.cloudType,
     regionId: props.rowData?.regionId,
     projectId: props.rowData?.projectId,
@@ -234,7 +241,7 @@ const handleRenew = () => {
   .renew-original {
     padding: 0 17px;
     .renew__tip {
-      background-color: #FEFBED;
+      background-color: #fefbed;
       padding: 20px;
       align-items: center;
     }
@@ -253,5 +260,4 @@ const handleRenew = () => {
     }
   }
 }
-
 </style>

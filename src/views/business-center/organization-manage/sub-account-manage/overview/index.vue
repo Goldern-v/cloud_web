@@ -8,19 +8,19 @@
       class="overview-form"
     >
       <el-form-item label="用户账户" prop="username">
-        <el-input v-model="form.username" style="width: 30%"/>
+        <el-input v-model="form.username" style="width: 30%" />
       </el-form-item>
 
       <el-form-item label="真实姓名" prop="realName">
-        <el-input v-model="form.realName" style="width: 30%"/>
+        <el-input v-model="form.realName" style="width: 30%" />
       </el-form-item>
 
       <el-form-item label="用户邮箱" prop="email">
-        <el-input v-model="form.email" style="width: 30%"/>
+        <el-input v-model="form.email" style="width: 30%" />
       </el-form-item>
 
       <el-form-item label="手机号" prop="mobile">
-        <el-input v-model="form.mobile" style="width: 30%"/>
+        <el-input v-model="form.mobile" style="width: 30%" />
       </el-form-item>
     </el-form>
 
@@ -48,7 +48,7 @@ const form = reactive({
   password: '', // 密码
   realName: '', // 真实姓名
   email: '', // 用户邮箱
-  mobile: '', // 手机号
+  mobile: '' // 手机号
 })
 const checkPwd = (rule: any, value: any, callback: (e?: Error) => any) => {
   if (!value) {
@@ -101,7 +101,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(async (valid: any) => {
+  formEl.validate(async (valid: boolean) => {
     if (valid) {
       const params = Object.assign(form, {
         id: detailInfo.id
@@ -120,9 +120,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
           ElMessage.error('保存失败')
         }
       })
-    } else {
-      console.log('error submit!')
-      return false
     }
   })
 }

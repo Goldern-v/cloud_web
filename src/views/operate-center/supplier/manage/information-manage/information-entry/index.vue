@@ -240,17 +240,15 @@ const checkForm = (formEl: FormInstance | undefined) => {
     return
   }
 
-  formEl.validate(valid => {
-    if (valid) {
-      console.log('submit!')
-      if (stepsIndex.value < 3) {
-        stepsIndex.value++
-      } else {
-        onClickInfoEntry()
-      }
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
+    }
+    console.log('submit!')
+    if (stepsIndex.value < 3) {
+      stepsIndex.value++
     } else {
-      console.log('error submit!')
-      return false
+      onClickInfoEntry()
     }
   })
 }

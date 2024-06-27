@@ -35,7 +35,7 @@ const props = withDefaults(defineProps<DialogProps>(), {
 })
 
 const instanceId = ref<string>('')
-const processDefinitionId = ref<string>('')
+const processDefinitionid = ref<string>('')
 
 let currentRow = ref()
 let approveTaskLog = ref()
@@ -69,7 +69,7 @@ const getFormData = () => {
         let formDetail = res.data.processDefinition
         currentRow.value.conf = formDetail.formConf
         currentRow.value.fields = formDetail.formFields
-        processDefinitionId.value = res.data.processDefinition.id
+        processDefinitionid.value = res.data.processDefinition.id
         getApproveData()
         getModelData()
         getModelXmlData()
@@ -125,7 +125,7 @@ const getModelData = () => {
 
 // 获取审批模型Xml
 const getModelXmlData = () => {
-  bpmMyprocessModelXml({ id: processDefinitionId.value }).then((res: any) => {
+  bpmMyprocessModelXml({ id: processDefinitionid.value }).then((res: any) => {
     if (res.code === 200) {
       modelXml.value = res.data
     }

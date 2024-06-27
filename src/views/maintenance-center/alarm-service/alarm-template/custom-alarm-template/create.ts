@@ -164,7 +164,7 @@ export const createData = () => {
     if (!formEl) {
       return
     }
-    formEl.validate(valid => {
+    formEl.validate((valid: boolean) => {
       if (valid) {
         let rules: any = []
         const ruleData = ruleDescriptionRef.value.ruleData

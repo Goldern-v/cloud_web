@@ -36,7 +36,9 @@
 
     <div class="flex-row ideal-submit-button">
       <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
-      <el-button type="primary" @click="submitForm(formRef)">{{ t('confirm') }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -90,7 +92,9 @@ const rules = reactive<FormRules>({
   key: [
     { required: true, message: '请填写计费项单元，不可为空', trigger: 'blur' }
   ],
-  unit: [{ required: true, message: '请填写计费单位，不可为空', trigger: 'blur' }]
+  unit: [
+    { required: true, message: '请填写计费单位，不可为空', trigger: 'blur' }
+  ]
 })
 onMounted(() => {
   if (props.isEdit) {
@@ -128,16 +132,14 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      if (props.isEdit) {
-        handleEdit()
-      } else {
-        handleCreate()
-      }
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
+    }
+    if (props.isEdit) {
+      handleEdit()
     } else {
-      console.log('error submit!')
-      return false
+      handleCreate()
     }
   })
 }

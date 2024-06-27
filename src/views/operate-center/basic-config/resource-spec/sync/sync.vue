@@ -1,11 +1,6 @@
 <template>
   <div class="sync-spec">
-    <el-form
-      ref="formRef"
-      :model="form"
-      :rules="rules"
-      label-position="left"
-    >
+    <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="云平台类别" prop="cloudPlatformCategory">
         <el-select
           v-model="form.cloudPlatformCategory"
@@ -105,16 +100,18 @@ const categories: any = ref([])
 // 获取资源池列表
 const resourcePool = () => {
   const vdcId = store.userStore.user.vdcId
-  resourcePoolGrade({ vdcId }).then((res: any) => {
-    const { data, code } = res
-    if (code === 200) {
-      categories.value = data
-    } else {
+  resourcePoolGrade({ vdcId })
+    .then((res: any) => {
+      const { data, code } = res
+      if (code === 200) {
+        categories.value = data
+      } else {
+        categories.value = []
+      }
+    })
+    .catch(_ => {
       categories.value = []
-    }
-  }).catch(_ => {
-    categories.value = []
-  })
+    })
 }
 // 云平台类型
 const types: any = ref([])
@@ -127,7 +124,9 @@ watch(
       form.cloudPlatformType = ''
       form.resourcePoolId = ''
 
-      const result = categories.value.find((item: any) => item.cloudCategory === value)
+      const result = categories.value.find(
+        (item: any) => item.cloudCategory === value
+      )
       types.value = result?.cloudPlatformTypes
     }
   }
@@ -165,13 +164,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      submitEvent()
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    submitEvent()
   })
 }
 const submitEvent = () => {

@@ -59,9 +59,9 @@ const tableHeaders: IdealTableColumnHeaders[] = [
   { label: '用户名称', prop: 'name' },
   { label: 'id', prop: 'id' }
 ]
-const rowData = ref()
+const rowItem = ref()
 const clickTableCellRow = (row: any) => {
-  rowData.value = row
+  rowItem.value = row
 }
 // 点击事件
 interface EventEmits {
@@ -73,12 +73,14 @@ const cancelForm = () => {
   emit(EventEnum.cancel)
 }
 const submitForm = () => {
-  if (!rowData.value) { return ElMessage.warning('请选择云管用户') }
+  if (!rowItem.value) {
+    return ElMessage.warning('请选择云管用户')
+  }
   const params = {
     authAccountId: props.rowData?.id, // 授权账户id
-    userId: rowData.value?.id, // 云管用户id
+    userId: rowItem.value?.id, // 云管用户id
     vdcId: store.userStore.user.vdcId,
-    cloudPlatformId, // 云平台id
+    cloudPlatformId // 云平台id
   }
   cloudPlatformAuthBindAccount(params).then((res: any) => {
     const { code } = res
@@ -90,7 +92,6 @@ const submitForm = () => {
     }
   })
 }
-
 </script>
 
 <style scoped lang="scss">

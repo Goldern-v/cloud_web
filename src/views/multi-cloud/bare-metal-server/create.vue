@@ -7,10 +7,7 @@
       :minus-step="1"
     />
 
-    <basic-config
-      v-show="stepsIndex === 1"
-      ref="basicConfigRef"
-    />
+    <basic-config v-show="stepsIndex === 1" ref="basicConfigRef" />
 
     <network-config v-show="stepsIndex === 2" ref="networkConfigRef" />
 
@@ -33,7 +30,6 @@
       @clickNext="clickNext"
       @clickComplete="clickComplete"
     />
-
   </div>
 </template>
 
@@ -100,14 +96,12 @@ const checkForm = (formEl: FormInstance | undefined) => {
     return
   }
 
-  formEl.validate(valid => {
-    if (valid) {
-      console.log('submit!')
-      stepsIndex.value++
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    console.log('submit!')
+    stepsIndex.value++
   })
 }
 
@@ -115,9 +109,7 @@ const clickStep = (index: number) => {
   stepsIndex.value = index
 }
 
-const { resourcePoolInfo, projectId } = storeToRefs(
-  store.resourceStore
-)
+const { resourcePoolInfo, projectId } = storeToRefs(store.resourceStore)
 
 const clickComplete = () => {
   if (stepsIndex.value === 5) {
@@ -128,8 +120,7 @@ const clickComplete = () => {
   const highInfo = highConfigRef.value.form
   const confirmInfo = confirmConfigRef.value.form
 
-  const params: { [key: string]: any } = {
-  }
+  const params: { [key: string]: any } = {}
 
   // showLoading('创建中...')
   // cloudHostCreate(params)

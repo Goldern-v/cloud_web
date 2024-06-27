@@ -7,10 +7,7 @@
       label-position="left"
     >
       <el-form-item label="名称" prop="name">
-        <el-input
-          v-model="createForm.name"
-          clearable
-        />
+        <el-input v-model="createForm.name" clearable />
       </el-form-item>
 
       <el-form-item label="描述">
@@ -23,12 +20,12 @@
     </el-form>
 
     <div class="flex-row ideal-submit-button">
-      <el-button @click="cancelForm(createFormRef)"
-        >{{ t('cancel') }}</el-button
-      >
-      <el-button type="primary" @click="submitForm(createFormRef)"
-        >{{ t('confirm') }}</el-button
-      >
+      <el-button @click="cancelForm(createFormRef)">{{
+        t('cancel')
+      }}</el-button>
+      <el-button type="primary" @click="submitForm(createFormRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -68,14 +65,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      console.log('submit!')
-      emit(EventEnum.success)
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    console.log('submit!')
+    emit(EventEnum.success)
   })
 }
 </script>

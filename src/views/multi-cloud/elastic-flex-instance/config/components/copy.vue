@@ -12,25 +12,27 @@
           content="计费模式"
           placement="right"
         >
-          <svg-icon icon="question-icon" class="ideal-svg-margin-left"/>
+          <svg-icon icon="question-icon" class="ideal-svg-margin-left" />
         </el-tooltip>
       </el-form-item>
 
       <el-form-item label="名称" prop="name">
         <div>
-          <el-input v-model="form.name"/>
-          <div class="ideal-tip-text">使用该配置创建的云服务器名称为伸缩配置名称加八位随机码。</div>
+          <el-input v-model="form.name" />
+          <div class="ideal-tip-text">
+            使用该配置创建的云服务器名称为伸缩配置名称加八位随机码。
+          </div>
         </div>
       </el-form-item>
 
       <el-form-item label="规格" required>
-        <div style="width: 100%;">
-          <div class="flex-row" style="width: 100%;">
+        <div style="width: 100%">
+          <div class="flex-row" style="width: 100%">
             <el-select
               v-model="specType"
               placeholder="请选择"
               class="ideal-default-margin-right"
-              style="width: 20%;"
+              style="width: 20%"
             >
               <el-option
                 v-for="(item, index) of specTypes"
@@ -40,11 +42,11 @@
               />
             </el-select>
 
-            <div class="flex-row" style="width: 30%;">
-              <div style="width: 100px;">规格名称</div>
+            <div class="flex-row" style="width: 30%">
+              <div style="width: 100px">规格名称</div>
               <el-input v-model="specName">
                 <template #suffix>
-                  <svg-icon icon="search-icon"/>
+                  <svg-icon icon="search-icon" />
                 </template>
               </el-input>
             </div>
@@ -62,19 +64,26 @@
               @clickTableCellRow="clickTableCellRow"
               @clickSizeChange="sizeChangeHandle"
               @clickCurrentChange="currentChangeHandle"
-              @handleSelectionChange="selectionChangeHandle">
+              @handleSelectionChange="selectionChangeHandle"
+            >
               <template #vCPUs>
-                <el-table-column label="vCPUs" >
+                <el-table-column label="vCPUs">
                   <template #default="props">
-                    <div>{{ props.row.vcpus }}vCPUs | {{ props.row.memory }}GiB</div>
+                    <div>
+                      {{ props.row.vcpus }}vCPUs | {{ props.row.memory }}GiB
+                    </div>
                   </template>
                 </el-table-column>
               </template>
 
               <template #standard>
-                <el-table-column label="基准/最大带宽" >
+                <el-table-column label="基准/最大带宽">
                   <template #default="props">
-                    <div>{{ props.row.standard }}/{{ props.row.maxBandwidth }}Gbit/s</div>
+                    <div>
+                      {{ props.row.standard }}/{{
+                        props.row.maxBandwidth
+                      }}Gbit/s
+                    </div>
                   </template>
                 </el-table-column>
               </template>
@@ -132,10 +141,7 @@
               </el-select>
             </el-form-item>
 
-            <el-button
-              v-if="form.mirrorType === 'private'"
-              text
-              type="primary"
+            <el-button v-if="form.mirrorType === 'private'" text type="primary"
               >新建私有镜像</el-button
             >
           </div>
@@ -171,10 +177,7 @@
               :min="150"
               :max="1000"
             />
-            <el-button
-              link
-              type="primary"
-              @click="clickDeleteDataDisk(index)"
+            <el-button link type="primary" @click="clickDeleteDataDisk(index)"
               >删除</el-button
             >
           </div>
@@ -206,7 +209,7 @@
           />
         </el-select>
 
-        <svg-icon icon="refresh-icon"/>
+        <svg-icon icon="refresh-icon" />
 
         <el-button link type="primary">新建安全组</el-button>
 
@@ -216,14 +219,18 @@
           content="安全组"
           placement="right"
         >
-          <svg-icon icon="question-icon" class="ideal-svg-margin-left"/>
+          <svg-icon icon="question-icon" class="ideal-svg-margin-left" />
         </el-tooltip>
       </el-form-item>
     </el-form>
 
     <div class="flex-row footer-button">
-      <el-button type="info" @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
-      <el-button type="primary" @click="submitForm(formRef)">{{ t('confirm') }}</el-button>
+      <el-button type="info" @click="cancelForm(formRef)">{{
+        t('cancel')
+      }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -241,7 +248,7 @@ const formRef = ref<FormInstance>()
 const form = reactive({
   billingMode: '', // 计费模式
   name: 'as-config-' + generateCode(8), // 名称
-  spec: '',  // 规格
+  spec: '', // 规格
   mirrorType: '', // 镜像类型
   system: '', // 镜像操作系统
   mirror: '', // 镜像
@@ -344,14 +351,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      console.log('submit!')
-      emit(EventEnum.success)
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    console.log('submit!')
+    emit(EventEnum.success)
   })
 }
 </script>

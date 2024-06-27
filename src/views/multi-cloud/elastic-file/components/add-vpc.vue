@@ -11,8 +11,15 @@
           />
         </el-select>
 
-        <svg-icon icon="refresh-icon" class="ideal-svg-margin-right ideal-svg-margin-left" style="cursor: pointer;" @click="clickRefresh"/>
-        <el-button link type="primary" @click="clickCreateVpc">新建VPC</el-button>
+        <svg-icon
+          icon="refresh-icon"
+          class="ideal-svg-margin-right ideal-svg-margin-left"
+          style="cursor: pointer"
+          @click="clickRefresh"
+        />
+        <el-button link type="primary" @click="clickCreateVpc"
+          >新建VPC</el-button
+        >
       </el-form-item>
 
       <el-form-item label="权限组" prop="permission">
@@ -29,7 +36,9 @@
 
     <div class="flex-row ideal-submit-button">
       <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
-      <el-button type="primary" @click="submitForm(formRef)">{{ t('confirm') }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -75,13 +84,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      emit(EventEnum.success)
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    emit(EventEnum.success)
   })
 }
 </script>

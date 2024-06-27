@@ -14,7 +14,10 @@
 
       <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
         <el-form-item>
-          <div class="flex-row ideal-header-container ideal-middle-margin-top" style="width: 100%">
+          <div
+            class="flex-row ideal-header-container ideal-middle-margin-top"
+            style="width: 100%"
+          >
             <el-divider direction="vertical" />
             <div>基本信息</div>
           </div>
@@ -80,10 +83,7 @@
                 icon="circle-add"
                 class="ideal-svg-margin-right"
               ></svg-icon>
-              <el-button
-                link
-                type="primary"
-                @click="addDomain"
+              <el-button link type="primary" @click="addDomain"
                 >添加域名</el-button
               >
             </div>
@@ -108,7 +108,7 @@
         </el-form-item>
 
         <el-form-item label="云版本">
-          <el-input v-model="form.cloudVersion"/>
+          <el-input v-model="form.cloudVersion" />
         </el-form-item>
 
         <el-form-item label="只读模式">
@@ -275,12 +275,8 @@ const checkCloudName = (
 }
 const rules = reactive<FormRules>({
   name: [{ required: true, validator: checkCloudName, trigger: 'blur' }],
-  account: [
-    { required: true, message: '请输入用户', trigger: 'blur' }
-  ],
-  password: [
-    { required: true, message: '请输入用户密码', trigger: 'blur' }
-  ]
+  account: [{ required: true, message: '请输入用户', trigger: 'blur' }],
+  password: [{ required: true, message: '请输入用户密码', trigger: 'blur' }]
 })
 
 const route = useRoute()
@@ -372,16 +368,14 @@ const clickSave = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      if (isEdit) {
-        handleEdit()
-      } else {
-        handleCreate()
-      }
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
+    }
+    if (isEdit) {
+      handleEdit()
     } else {
-      console.log('error submit!')
-      return false
+      handleCreate()
     }
   })
 }

@@ -54,7 +54,11 @@
             <svg-icon icon="question-icon"></svg-icon>
           </el-tooltip>
         </template>
-        <el-input-number v-model="form.sort" controls-position="right" :min="1"/>
+        <el-input-number
+          v-model="form.sort"
+          controls-position="right"
+          :min="1"
+        />
       </el-form-item>
     </el-form>
 
@@ -69,7 +73,13 @@
 
 <script setup lang="ts">
 import { ElMessage, genFileId } from 'element-plus/es'
-import type { UploadProps, UploadInstance, UploadRawFile, FormInstance, FormRules } from 'element-plus'
+import type {
+  UploadProps,
+  UploadInstance,
+  UploadRawFile,
+  FormInstance,
+  FormRules
+} from 'element-plus'
 import { EventEnum } from '@/utils/enum'
 import { nameRuleThree } from '@/utils/validate'
 import { convertImageToBase64 } from '@/utils/tool'
@@ -128,8 +138,10 @@ const handleChange: UploadProps['onChange'] = (file: any) => {
     imageUrl.value = a.target.result
   }
 }
-const handleExceed: UploadProps['onExceed'] = (files) => {
-  if (!upload.value) { return }
+const handleExceed: UploadProps['onExceed'] = files => {
+  if (!upload.value) {
+    return
+  }
   upload.value.clearFiles()
   const file = files[0] as UploadRawFile
   file.uid = genFileId()
@@ -154,17 +166,15 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      // changeImage: true 选择或重选图标, 需重新上传
-      if (changeImage.value) {
-        uploadIcon()
-      } else {
-        handleEvent()
-      }
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
+    }
+    // changeImage: true 选择或重选图标, 需重新上传
+    if (changeImage.value) {
+      uploadIcon()
     } else {
-      console.log('error submit!')
-      return false
+      handleEvent()
     }
   })
 }

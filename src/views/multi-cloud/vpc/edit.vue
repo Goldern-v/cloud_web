@@ -7,19 +7,23 @@
       label-position="left"
     >
       <div class="flex-row vpc--edit__tip">
-        <svg-icon icon="info-warning" color="var(--el-color-primary)"></svg-icon>
+        <svg-icon
+          icon="info-warning"
+          color="var(--el-color-primary)"
+        ></svg-icon>
         <span>IPV4拓展网段不能与高阶服务规划的子网网段冲突。</span>
       </div>
 
       <ideal-table-list
         :table-data="editForm.dataList"
         :table-headers="tableHeaders"
-        :show-pagination="false">
+        :show-pagination="false"
+      >
         <template #ipv4Gateway>
           <el-table-column label="IPV4网段">
             <template #default="props">
               <div v-if="props.$index === 0">{{ props.row.ipv4Gateway }}</div>
-              <el-input v-else v-model="props.row.ipv4Gateway"/>
+              <el-input v-else v-model="props.row.ipv4Gateway" />
             </template>
           </el-table-column>
         </template>
@@ -27,7 +31,11 @@
         <template #operation>
           <el-table-column label="操作">
             <template #default="props">
-              <el-button link :disabled="props.$index===0" @click="handleNetworkCardDelete(props.$index)">
+              <el-button
+                link
+                :disabled="props.$index === 0"
+                @click="handleNetworkCardDelete(props.$index)"
+              >
                 <svg-icon icon="delete-icon"></svg-icon>
               </el-button>
             </template>
@@ -42,12 +50,12 @@
     </el-button>
 
     <div class="flex-row vpc-button--edit">
-      <el-button type="info" @click="cancelForm(editFormRef)"
-        >{{ t('cancel') }}</el-button
-      >
-      <el-button type="primary" @click="submitForm(editFormRef)"
-        >{{ t('confirm') }}</el-button
-      >
+      <el-button type="info" @click="cancelForm(editFormRef)">{{
+        t('cancel')
+      }}</el-button>
+      <el-button type="primary" @click="submitForm(editFormRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -96,14 +104,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      console.log('submit!')
-      emit(EventEnum.success)
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    console.log('submit!')
+    emit(EventEnum.success)
   })
 }
 </script>

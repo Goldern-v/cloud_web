@@ -3,8 +3,10 @@
     <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="允许的来源" prop="source">
         <div>
-          <el-input v-model="form.source" type="textarea"/>
-          <div class="ideal-tip-text">允许的来源可以设置多个，多个来源之间换行隔开，每行最多可填写一个*符号。</div>
+          <el-input v-model="form.source" type="textarea" />
+          <div class="ideal-tip-text">
+            允许的来源可以设置多个，多个来源之间换行隔开，每行最多可填写一个*符号。
+          </div>
         </div>
       </el-form-item>
 
@@ -20,26 +22,32 @@
 
       <el-form-item label="允许的头域">
         <div>
-          <el-input v-model="form.allowHeader" type="textarea"/>
-          <div class="ideal-tip-text">允许的头域可设置多个，多个头域之间换行隔开，每行最多可填写一个*符号，不支持&、:、&lt;、空格以及中文字符。</div>
+          <el-input v-model="form.allowHeader" type="textarea" />
+          <div class="ideal-tip-text">
+            允许的头域可设置多个，多个头域之间换行隔开，每行最多可填写一个*符号，不支持&、:、&lt;、空格以及中文字符。
+          </div>
         </div>
       </el-form-item>
 
       <el-form-item label="补充头域">
         <div>
-          <el-input v-model="form.supplementHeader" type="textarea"/>
-          <div class="ideal-tip-text">补充头域可设置多个，多个头域之间换行隔开，不支持*、&、:、&lt;、空格以及中文字符。</div>
+          <el-input v-model="form.supplementHeader" type="textarea" />
+          <div class="ideal-tip-text">
+            补充头域可设置多个，多个头域之间换行隔开，不支持*、&、:、&lt;、空格以及中文字符。
+          </div>
         </div>
       </el-form-item>
 
       <el-form-item label="缓存时间(秒)">
-        <el-input-number v-model="form.cacheTime" :min="1" :max="1000"/>
+        <el-input-number v-model="form.cacheTime" :min="1" :max="1000" />
       </el-form-item>
     </el-form>
 
     <div class="flex-row ideal-submit-button">
       <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
-      <el-button type="primary" @click="submitForm(formRef)">{{ t('confirm') }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -83,7 +91,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
     return
   }
 
-  formEl.validate(valid => {
+  formEl.validate((valid: boolean) => {
     if (!valid) {
       return
     }
@@ -92,6 +100,4 @@ const submitForm = (formEl: FormInstance | undefined) => {
 }
 </script>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

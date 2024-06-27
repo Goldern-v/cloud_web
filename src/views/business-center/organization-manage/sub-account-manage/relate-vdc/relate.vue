@@ -90,7 +90,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   }
   const detailInfo = JSON.parse(route.query.detail as any)
   const userId = detailInfo.id
-  formEl.validate(async (valid: any) => {
+  formEl.validate(async (valid: boolean) => {
     if (valid) {
       showLoading('关联VDC中...')
       userRelateVdc(userId, { vdcId: form.vdcId })
@@ -107,9 +107,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
         .catch(err => {
           hideLoading()
         })
-    } else {
-      console.log('error submit!')
-      return false
     }
   })
 }

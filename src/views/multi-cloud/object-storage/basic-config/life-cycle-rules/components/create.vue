@@ -1,8 +1,14 @@
 <template>
   <div class="create">
     <div class="flex-row create-tip ideal-middle-margin-bottom">
-      <svg-icon icon="info-warning" class-name="info-warning" class="ideal-svg-margin-right"/>
-      <div>若对象在生命周期规则作用下，存储时间少于最低存储时间，需要补足剩余天数的存储费用。目前低频访问存储、归档存储的最低存储时间为30天、90天。</div>
+      <svg-icon
+        icon="info-warning"
+        class-name="info-warning"
+        class="ideal-svg-margin-right"
+      />
+      <div>
+        若对象在生命周期规则作用下，存储时间少于最低存储时间，需要补足剩余天数的存储费用。目前低频访问存储、归档存储的最低存储时间为30天、90天。
+      </div>
     </div>
 
     <div class="ideal-tip-text ideal-middle-margin-bottom">
@@ -26,11 +32,11 @@
       </el-form-item>
 
       <el-form-item label="规则名称">
-        <el-input v-model="form.name" style="width: 40%;"/>
+        <el-input v-model="form.name" style="width: 40%" />
       </el-form-item>
 
       <el-form-item label="前缀">
-        <el-input v-model="form.prefix" style="width: 40%;"/>
+        <el-input v-model="form.prefix" style="width: 40%" />
       </el-form-item>
 
       <el-divider />
@@ -39,22 +45,24 @@
 
       <el-form-item label="转换为低频访问存储天数">
         <div class="flex-row">
-          <el-checkbox v-model="form.lowsCheck" style="margin-right: 10px;"/>
-          <el-input v-model="form.lows" :disabled="!form.lowsCheck"/>
+          <el-checkbox v-model="form.lowsCheck" style="margin-right: 10px" />
+          <el-input v-model="form.lows" :disabled="!form.lowsCheck" />
         </div>
       </el-form-item>
 
       <el-form-item label="转换为归档存储天数">
         <div class="flex-row">
-          <el-checkbox v-model="form.archiveCheck" style="margin-right: 10px;"/>
-          <el-input v-model="form.archive" :disabled="!form.archiveCheck"/>
+          <el-checkbox v-model="form.archiveCheck" style="margin-right: 10px" />
+          <el-input v-model="form.archive" :disabled="!form.archiveCheck" />
         </div>
       </el-form-item>
     </el-form>
-    
+
     <div class="flex-row ideal-submit-button">
       <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
-      <el-button type="primary" @click="submitForm(formRef)">{{ t('confirm') }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -92,7 +100,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   }
   formEl.validate((valid: boolean) => {
     if (!valid) {
-      return false
+      return
     }
     emit(EventEnum.success)
   })
@@ -108,11 +116,11 @@ const emit = defineEmits<EventEmits>()
 
 <style scoped lang="scss">
 .create {
-  :deep(.el-form-item--default .el-form-item__label ) {
+  :deep(.el-form-item--default .el-form-item__label) {
     width: 130px;
   }
   :deep(.info-warning) {
-    color: var(--el-color-primary)
+    color: var(--el-color-primary);
   }
   .create-tip {
     background-color: var(--el-color-primary-light-9);
@@ -120,5 +128,4 @@ const emit = defineEmits<EventEmits>()
     padding: 10px;
   }
 }
-
 </style>

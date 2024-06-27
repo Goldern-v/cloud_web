@@ -1,10 +1,6 @@
 <template>
   <div class="apply-virtual-ip">
-    <el-form
-      ref="formRef"
-      :model="form"
-      :rules="rules"
-      label-position="left">
+    <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="虚拟私有云" prop="name">
         <div class="flex-column">
           <div>subnet-default</div>
@@ -14,9 +10,7 @@
 
       <el-form-item label="创建方式" prop="createMode">
         <div class="flex-column">
-          <el-radio-group
-            v-model="form.createMode"
-          >
+          <el-radio-group v-model="form.createMode">
             <el-radio-button
               v-for="(item, index) in createModeList"
               :key="index"
@@ -38,16 +32,15 @@
           </template>
         </div>
       </el-form-item>
-
     </el-form>
 
     <div class="flex-row apply-virtual-ip-button">
-      <el-button type="info" @click="cancelForm(formRef)"
-        >{{ t('cancel') }}</el-button
-      >
-      <el-button type="primary" @click="submitForm(formRef)"
-        >{{ t('confirm') }}</el-button
-      >
+      <el-button type="info" @click="cancelForm(formRef)">{{
+        t('cancel')
+      }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -61,7 +54,7 @@ const formRef = ref<FormInstance>()
 const form = reactive({
   vpc: '', // 虚拟私有云
   createMode: '', // 创建方式
-  manualIp: '', // 手动分配
+  manualIp: '' // 手动分配
 })
 const createModeList: any = ref([
   { label: '1', value: '自动分配' },
@@ -94,14 +87,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      console.log('submit!')
-      emit(EventEnum.success)
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    console.log('submit!')
+    emit(EventEnum.success)
   })
 }
 </script>

@@ -621,7 +621,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
+  formEl.validate((valid: boolean) => {
     if (valid) {
       let params: { [key: string]: any } = handleParams()
       if (isEdit) {

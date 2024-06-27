@@ -74,9 +74,7 @@
           :max="10"
         />
 
-        <div class="ideal-tip-text">
-          该弹性网卡还可以创建16个辅助弹性网卡。
-        </div>
+        <div class="ideal-tip-text">该弹性网卡还可以创建16个辅助弹性网卡。</div>
       </el-form-item>
 
       <el-form-item label="私有IP地址">
@@ -91,7 +89,10 @@
 
       <el-form-item label="IPv4地址">
         <div class="flex-column">
-          <el-radio-group v-model="form.ipMode" class="ideal-default-margin-right">
+          <el-radio-group
+            v-model="form.ipMode"
+            class="ideal-default-margin-right"
+          >
             <el-radio-button
               v-for="(item, index) in netCardState.ipModeList"
               :key="index"
@@ -426,7 +427,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate((valid: any) => {
+  formEl.validate((valid: boolean) => {
     if (valid) {
       const securityGroups = state.dataListSelections?.map(item => {
         return {
@@ -479,9 +480,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
             hideLoading()
           })
       }
-    } else {
-      console.log('error submit!')
-      return false
     }
   })
 }

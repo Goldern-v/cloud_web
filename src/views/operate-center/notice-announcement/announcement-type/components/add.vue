@@ -1,23 +1,20 @@
 <template>
   <div>
-    <el-form
-      ref="formRef"
-      :model="form"
-      :rules="rules"
-      label-position="left"
-    >
+    <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="名称" prop="name">
-        <el-input v-model="form.name"/>
+        <el-input v-model="form.name" />
       </el-form-item>
 
       <el-form-item label="备注">
-        <el-input v-model="form.remark" type="textarea"/>
+        <el-input v-model="form.remark" type="textarea" />
       </el-form-item>
     </el-form>
 
     <div class="flex-row ideal-submit-button">
       <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
-      <el-button type="primary" @click="submitForm(formRef)">{{ t('confirm') }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -28,7 +25,10 @@ import type { FormRules, FormInstance } from 'element-plus'
 import { EventEnum } from '@/utils/enum'
 import { compareDiffDictionary } from '@/utils/tool'
 import { nameRuleThree } from '@/utils/validate'
-import { announcementTypeAdd, announcementTypeEdit } from '@/api/java/operate-center'
+import {
+  announcementTypeAdd,
+  announcementTypeEdit
+} from '@/api/java/operate-center'
 
 const { t } = useI18n()
 
@@ -47,11 +47,7 @@ const form = reactive({
   name: '',
   remark: ''
 })
-const checkName = (
-  rule: any,
-  value: any,
-  callback: (e?: Error) => any
-) => {
+const checkName = (rule: any, value: any, callback: (e?: Error) => any) => {
   if (!value.length) {
     callback(new Error('请输入姓名'))
   }
@@ -93,7 +89,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
+  formEl.validate((valid: boolean) => {
     if (valid) {
       handleSubmit()
     }
@@ -107,7 +103,7 @@ const handleSubmit = () => {
   }
 }
 const add = () => {
-  const params = {...form}
+  const params = { ...form }
   announcementTypeAdd(params).then((res: any) => {
     const { code } = res
     if (code === 200) {
@@ -137,6 +133,4 @@ const edit = () => {
 }
 </script>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

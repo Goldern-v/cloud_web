@@ -14,7 +14,10 @@
 
       <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
         <el-form-item>
-          <div class="flex-row ideal-header-container ideal-middle-margin-top" style="width: 100%">
+          <div
+            class="flex-row ideal-header-container ideal-middle-margin-top"
+            style="width: 100%"
+          >
             <el-divider direction="vertical" />
             <div>基本信息</div>
           </div>
@@ -152,16 +155,14 @@ const clickSave = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      if (isEdit) {
-        handleEdit()
-      } else {
-        handleCreate()
-      }
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
+    }
+    if (isEdit) {
+      handleEdit()
     } else {
-      console.log('error submit!')
-      return false
+      handleCreate()
     }
   })
 }
@@ -176,7 +177,7 @@ const handleCreate = () => {
       ak: form.accessKeyId,
       sk: form.secretAccessKey
     },
-    mode: 0, // 只读模式 0：读写、1：只读
+    mode: 0 // 只读模式 0：读写、1：只读
   }
   cloudPlatformCreate(params).then((res: any) => {
     const { code } = res

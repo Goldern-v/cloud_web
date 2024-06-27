@@ -382,7 +382,9 @@ const changeRegion = (regionId: string) => {
 const cloudGatewayIds: any = []
 const resourceGroups = ref<any[]>([])
 const getResourceGroup = () => {
-  if (form.region.includes('all')) { return }
+  if (form.region.includes('all')) {
+    return
+  }
   const params = {
     // cloudResourcePoolId: val.cloudResourcePoolId,
     regionId: form.region
@@ -443,17 +445,15 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      // changeImage: true 选择或重选图标, 需重新上传
-      if (changeImage.value) {
-        uploadIcon()
-      } else {
-        handleEvent()
-      }
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
+    }
+    // changeImage: true 选择或重选图标, 需重新上传
+    if (changeImage.value) {
+      uploadIcon()
     } else {
-      console.log('error submit!')
-      return false
+      handleEvent()
     }
   })
 }

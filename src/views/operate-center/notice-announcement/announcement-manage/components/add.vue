@@ -1,23 +1,22 @@
 <template>
   <div>
-    <el-form
-      ref="formRef"
-      :model="form"
-      :rules="rules"
-      label-position="left"
-    >
+    <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="标题" prop="title">
-        <el-input v-model="form.title" placeholder="请输入标题"/>
+        <el-input v-model="form.title" placeholder="请输入标题" />
       </el-form-item>
 
       <el-form-item label="公告正文" prop="content">
-        <el-input v-model="form.content" placeholder="请输入公告正文"/>
+        <el-input v-model="form.content" placeholder="请输入公告正文" />
       </el-form-item>
 
       <el-form-item label="公告类型" required>
-        <div class="flex-row" style="width: 100%;">
-          <el-form-item prop="announcementTypeId" style="width: 30%;">
-            <el-select v-model="form.announcementTypeId" placeholder="请选择公告类型" class="ideal-default-margin-right">
+        <div class="flex-row" style="width: 100%">
+          <el-form-item prop="announcementTypeId" style="width: 30%">
+            <el-select
+              v-model="form.announcementTypeId"
+              placeholder="请选择公告类型"
+              class="ideal-default-margin-right"
+            >
               <el-option
                 v-for="(item, idx) of typeList"
                 :key="idx"
@@ -29,7 +28,7 @@
           </el-form-item>
 
           <div class="ideal-default-margin-right">定时发送</div>
-          <el-checkbox v-model="timing" label="是否开启"/>
+          <el-checkbox v-model="timing" label="是否开启" />
 
           <el-date-picker
             v-if="timing"
@@ -37,7 +36,7 @@
             type="datetime"
             placeholder="请选择定时发送时间"
             class="ideal-default-margin-left"
-            style="width: 35%;"
+            style="width: 35%"
           />
         </div>
       </el-form-item>
@@ -55,7 +54,9 @@
 
     <div class="flex-row ideal-submit-button">
       <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
-      <el-button type="primary" @click="submitForm(formRef)">{{ t('confirm') }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -65,7 +66,11 @@ import { ElMessage } from 'element-plus'
 import type { FormRules, FormInstance } from 'element-plus'
 import { EventEnum } from '@/utils/enum'
 import { compareDiffDictionary } from '@/utils/tool'
-import { announcementTypeList, announcementManageAdd, announcementManageEdit } from '@/api/java/operate-center'
+import {
+  announcementTypeList,
+  announcementManageAdd,
+  announcementManageEdit
+} from '@/api/java/operate-center'
 
 const { t } = useI18n()
 
@@ -90,7 +95,9 @@ const form = reactive({
 const rules = reactive<FormRules>({
   title: [{ required: true, message: '请输入标题', trigger: 'blur' }],
   content: [{ required: true, message: '请输入公告正文', trigger: 'blur' }],
-  announcementTypeId: [{ required: true, message: '请选择公告类型', trigger: 'blur' }],
+  announcementTypeId: [
+    { required: true, message: '请选择公告类型', trigger: 'blur' }
+  ],
   duration: [{ required: true, message: '请输入公示时间', trigger: 'blur' }]
 })
 const timing = ref(false) // 定时发送是否开启
@@ -103,16 +110,18 @@ onMounted(() => {
 // 公告类型
 const typeList = ref<any[]>([])
 const getTypeList = () => {
-  announcementTypeList().then((res: any) => {
-    const { code, data } = res
-    if (code === 200) {
-      typeList.value = data
-    } else {
+  announcementTypeList()
+    .then((res: any) => {
+      const { code, data } = res
+      if (code === 200) {
+        typeList.value = data
+      } else {
+        typeList.value = []
+      }
+    })
+    .catch(_ => {
       typeList.value = []
-    }
-  }).catch(_ => {
-    typeList.value = []
-  })
+    })
 }
 // 表单深拷贝, 比较表单是否修改
 const originDic = ref()
@@ -146,7 +155,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
+  formEl.validate((valid: boolean) => {
     if (valid) {
       handleSubmit()
     }
@@ -160,7 +169,7 @@ const handleSubmit = () => {
   }
 }
 const add = () => {
-  const params = {...form}
+  const params = { ...form }
   announcementManageAdd(params).then((res: any) => {
     const { code } = res
     if (code === 200) {
@@ -190,6 +199,4 @@ const edit = () => {
 }
 </script>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

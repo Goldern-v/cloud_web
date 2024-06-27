@@ -130,28 +130,26 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      formLoading.value = true
-      try {
-        const data: any = editForm
-        updateModel(data)
-          .then((res: any) => {
-            let data = res
-            if (data.code === 200) {
-              ElMessage.success('编辑模型成功')
-              emit(EventEnum.success)
-            }
-          })
-          .catch((err: any) => {
-            console.log('编辑模型失败')
-          })
-      } finally {
-        formLoading.value = false
-      }
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
+    }
+    formLoading.value = true
+    try {
+      const data: any = editForm
+      updateModel(data)
+        .then((res: any) => {
+          let data = res
+          if (data.code === 200) {
+            ElMessage.success('编辑模型成功')
+            emit(EventEnum.success)
+          }
+        })
+        .catch((err: any) => {
+          console.log('编辑模型失败')
+        })
+    } finally {
+      formLoading.value = false
     }
   })
 }

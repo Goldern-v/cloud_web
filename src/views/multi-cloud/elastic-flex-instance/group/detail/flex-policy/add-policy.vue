@@ -2,7 +2,7 @@
   <div class="add">
     <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="策略名称">
-        <el-input v-model="form.name" style="width: 20%;"/>
+        <el-input v-model="form.name" style="width: 20%" />
       </el-form-item>
 
       <el-form-item label="策略类型">
@@ -17,7 +17,9 @@
             </el-radio-button>
           </el-radio-group>
 
-          <div class="ideal-warning-text">伸缩带宽策略受告警规则状态影响，中途停用或处于停用状态下的告警规则会导致该伸缩策略失效。</div>
+          <div class="ideal-warning-text">
+            伸缩带宽策略受告警规则状态影响，中途停用或处于停用状态下的告警规则会导致该伸缩策略失效。
+          </div>
         </div>
       </el-form-item>
 
@@ -34,7 +36,7 @@
       </el-form-item>
 
       <el-form-item label="告警规则名称">
-        <el-input v-model="form.alarmRuleName" style="width: 20%;"/>
+        <el-input v-model="form.alarmRuleName" style="width: 20%" />
       </el-form-item>
 
       <el-form-item label="监控类型">
@@ -56,7 +58,7 @@
               v-model="form.triggerType"
               placeholder="请选择"
               class="ideal-default-margin-right"
-              style="width: 25%;"
+              style="width: 25%"
             >
               <el-option
                 v-for="(item, index) of selectData.triggerTypes"
@@ -70,7 +72,7 @@
               v-model="form.valueType"
               placeholder="请选择"
               class="ideal-default-margin-right"
-              style="width: 20%;"
+              style="width: 20%"
             >
               <el-option
                 v-for="(item, index) of selectData.valueTypes"
@@ -80,7 +82,12 @@
               />
             </el-select>
 
-            <el-select v-model="form.symbol" placeholder="请选择" class="ideal-default-margin-right" style="width: 10%;">
+            <el-select
+              v-model="form.symbol"
+              placeholder="请选择"
+              class="ideal-default-margin-right"
+              style="width: 10%"
+            >
               <el-option
                 v-for="(item, index) of selectData.symbols"
                 :key="index"
@@ -89,7 +96,11 @@
               />
             </el-select>
 
-            <el-input v-model="form.triggerSize" class="ideal-default-margin-right" style="width: 10%;"/>
+            <el-input
+              v-model="form.triggerSize"
+              class="ideal-default-margin-right"
+              style="width: 10%"
+            />
 
             <el-select
               v-if="selectCase.isTriggerBandwidth"
@@ -109,7 +120,9 @@
           </div>
 
           <div class="ideal-tip-text">不同操作系统的监控指标有所不同。</div>
-          <div class="ideal-tip-text">如果使用Agent监控指标，请确认伸缩组中实例均已安装了Agent插件。</div>
+          <div class="ideal-tip-text">
+            如果使用Agent监控指标，请确认伸缩组中实例均已安装了Agent插件。
+          </div>
         </div>
       </el-form-item>
 
@@ -118,7 +131,7 @@
           v-model="form.monitorCycle"
           placeholder="请选择"
           class="ideal-default-margin-right"
-          style="width: 20%;"
+          style="width: 20%"
         >
           <el-option
             v-for="(item, index) of selectData.monitorCycles"
@@ -130,7 +143,7 @@
       </el-form-item>
 
       <el-form-item label="连续出现次数">
-        <el-input v-model="form.continuous" style="width: 20%;"/>
+        <el-input v-model="form.continuous" style="width: 20%" />
 
         <el-tooltip
           popper-class="custom-tooltip"
@@ -138,7 +151,7 @@
           content="连续出现次数指探测结果连续几次符合您设置的规则，才会触发告警。例如设置为3，则表示连续3次超过阈值后才会触发告警。"
           placement="right"
         >
-          <svg-icon icon="question-icon" class="ideal-svg-margin-left"/>
+          <svg-icon icon="question-icon" class="ideal-svg-margin-left" />
         </el-tooltip>
       </el-form-item>
 
@@ -156,8 +169,12 @@
           />
         </el-select>
 
-        <el-input v-model="form.actionSize" class="ideal-default-margin-right" style="width: 20%;"/>
-        
+        <el-input
+          v-model="form.actionSize"
+          class="ideal-default-margin-right"
+          style="width: 20%"
+        />
+
         <el-select
           v-model="form.actionTypeUnit"
           placeholder="请选择"
@@ -174,8 +191,12 @@
     </el-form>
 
     <div class="flex-row footer-button">
-      <el-button type="info" @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
-      <el-button type="primary" @click="submitForm(formRef)">{{ t('confirm') }}</el-button>
+      <el-button type="info" @click="cancelForm(formRef)">{{
+        t('cancel')
+      }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -209,10 +230,7 @@ const rules = reactive<FormRules>({
   // vpc: [{ required: true, message: '请选择虚拟私有云', trigger: 'blur' }],
 })
 
-const { 
-  selectCase,
-  selectData
-} = useCreate(form)
+const { selectCase, selectData } = useCreate(form)
 
 // 点击事件
 interface EventEmits {
@@ -233,14 +251,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      console.log('submit!')
-      emit(EventEnum.success)
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    console.log('submit!')
+    emit(EventEnum.success)
   })
 }
 </script>

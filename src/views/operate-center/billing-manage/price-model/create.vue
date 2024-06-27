@@ -561,70 +561,68 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      let billItemArr: any = []
-      form.billItems?.forEach(ele => {
-        if (ele.chargeType === 'FIXED') {
-          billItemArr.push({
-            billableItemsId: ele.billableItems.id,
-            unit: ele.unit,
-            priceType: ele.chargeType,
-            unitPrice: ele.unitPrice
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
+    }
+    let billItemArr: any = []
+    form.billItems?.forEach(ele => {
+      if (ele.chargeType === 'FIXED') {
+        billItemArr.push({
+          billableItemsId: ele.billableItems.id,
+          unit: ele.unit,
+          priceType: ele.chargeType,
+          unitPrice: ele.unitPrice
+        })
+      } else {
+        billItemArr.push({
+          billableItemsId: ele.billableItems.id,
+          unit: ele.unit,
+          priceType: ele.chargeType,
+          tieredPrices: ele.priceList
+        })
+      }
+    })
+    let params: any = {
+      name: form.name,
+      cloudPlatformId: form.platform,
+      enabled: form.enabled,
+      expenseTypeId: form.costType,
+      billType: form.billingMode,
+      billCycle: form.cycle,
+      settlementFrequency: form.frequency,
+      billableItemsPrices: billItemArr
+    }
+    if (billDemand.value) {
+      params.discount = form.discount
+    } else {
+      params.tieredDiscounts = discountData.value
+    }
+    if (isEdit.value) {
+      params.id = currentRow.value.id
+      editBillPrice(params).then((res: any) => {
+        let { code } = res
+        if (code === 200) {
+          ElMessage.success('编辑定价模型成功')
+          router.push({
+            path: '/operate-center/billing-manage/price-model/list'
           })
         } else {
-          billItemArr.push({
-            billableItemsId: ele.billableItems.id,
-            unit: ele.unit,
-            priceType: ele.chargeType,
-            tieredPrices: ele.priceList
-          })
+          ElMessage.error('编辑定价模型失败')
         }
       })
-      let params: any = {
-        name: form.name,
-        cloudPlatformId: form.platform,
-        enabled: form.enabled,
-        expenseTypeId: form.costType,
-        billType: form.billingMode,
-        billCycle: form.cycle,
-        settlementFrequency: form.frequency,
-        billableItemsPrices: billItemArr
-      }
-      if (billDemand.value) {
-        params.discount = form.discount
-      } else {
-        params.tieredDiscounts = discountData.value
-      }
-      if (isEdit.value) {
-        params.id = currentRow.value.id
-        editBillPrice(params).then((res: any) => {
-          let { code } = res
-          if (code === 200) {
-            ElMessage.success('编辑定价模型成功')
-            router.push({
-              path: '/operate-center/billing-manage/price-model/list'
-            })
-          } else {
-            ElMessage.error('编辑定价模型失败')
-          }
-        })
-      } else {
-        addBillPrice(params).then((res: any) => {
-          let { code } = res
-          if (code === 200) {
-            ElMessage.success('创建定价模型成功')
-            router.push({
-              path: '/operate-center/billing-manage/price-model/list'
-            })
-          } else {
-            ElMessage.error('创建定价模型失败')
-          }
-        })
-      }
     } else {
-      console.log('error submit!')
-      return false
+      addBillPrice(params).then((res: any) => {
+        let { code } = res
+        if (code === 200) {
+          ElMessage.success('创建定价模型成功')
+          router.push({
+            path: '/operate-center/billing-manage/price-model/list'
+          })
+        } else {
+          ElMessage.error('创建定价模型失败')
+        }
+      })
     }
   })
 }

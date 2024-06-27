@@ -59,14 +59,13 @@
 import type { FormRules, FormInstance } from 'element-plus'
 import { EventEnum } from '@/utils/enum'
 
-
 const { t } = useI18n()
 
 const formRef = ref<FormInstance>()
 const form = reactive({
   name: '', // 租户名称
   account: '', // 授权账户账号
-  password: '',// 授权账户密码
+  password: '', // 授权账户密码
   ak: '', // accesskey
   sk: '', // secret
   type: '', // 类型
@@ -77,12 +76,18 @@ const form = reactive({
 const rules = reactive<FormRules>({
   name: [{ required: true, message: '请输入租户名称', trigger: 'blur' }],
   account: [{ required: true, message: '请输入授权账户账号', trigger: 'blur' }],
-  password: [{ required: true, message: '请输入授权账户密码', trigger: 'blur' }],
+  password: [
+    { required: true, message: '请输入授权账户密码', trigger: 'blur' }
+  ],
   ak: [{ required: true, message: '请输入accesskey', trigger: 'blur' }],
   sk: [{ required: true, message: '请输入secret', trigger: 'blur' }],
   type: [{ required: true, message: '请选择类型', trigger: 'blur' }],
-  projectDomainName: [{ required: true, message: '请输入项目域名', trigger: 'blur' }],
-  userDomainName: [{ required: true, message: '请输入用户域名', trigger: 'blur' }]
+  projectDomainName: [
+    { required: true, message: '请输入项目域名', trigger: 'blur' }
+  ],
+  userDomainName: [
+    { required: true, message: '请输入用户域名', trigger: 'blur' }
+  ]
 })
 
 const typeList = [
@@ -93,7 +98,7 @@ const typeList = [
 // 点击事件
 interface EventEmits {
   (e: EventEnum.cancel): void
-  (e: EventEnum.success, v: {[key: string]: any}): void
+  (e: EventEnum.success, v: { [key: string]: any }): void
 }
 const emit = defineEmits<EventEmits>()
 
@@ -108,17 +113,15 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      handleAdd()
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    handleAdd()
   })
 }
 const handleAdd = () => {
-  const params: {[key: string]: any} = {
+  const params: { [key: string]: any } = {
     name: form.name,
     account: form.account,
     password: form.password,

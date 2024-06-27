@@ -2,7 +2,11 @@
   <div class="openstack">
     <div class="openstack__container">
       <div class="flex-row openstack__tip">
-        <svg-icon icon="info-warning" color="var(--el-color-primary)" class="ideal-svg-margin-right"></svg-icon>
+        <svg-icon
+          icon="info-warning"
+          color="var(--el-color-primary)"
+          class="ideal-svg-margin-right"
+        ></svg-icon>
         <span
           >为了管理天翼云账户内的资源，需要您提供API访问地址、管理员用户名和密码等信息来访问您的天翼云。</span
         >
@@ -10,42 +14,69 @@
 
       <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
         <el-form-item>
-          <div class="flex-row ideal-header-container ideal-middle-margin-top" style="width: 100%;">
+          <div
+            class="flex-row ideal-header-container ideal-middle-margin-top"
+            style="width: 100%"
+          >
             <el-divider direction="vertical" />
             <div>基本信息</div>
           </div>
         </el-form-item>
 
         <el-form-item label="云平台名称" prop="name">
-          <el-input v-model="form.name" class="custom-input" placeholder="请输入名称"/>
+          <el-input
+            v-model="form.name"
+            class="custom-input"
+            placeholder="请输入名称"
+          />
         </el-form-item>
 
         <el-form-item label="用户" prop="userName">
-          <el-input v-model="form.userName" class="custom-input" placeholder="请输入用户"/>
+          <el-input
+            v-model="form.userName"
+            class="custom-input"
+            placeholder="请输入用户"
+          />
         </el-form-item>
 
         <el-form-item label="用户密码" prop="password">
-          <el-input v-model="form.password" class="custom-input" placeholder="请输入用户密码"/>
+          <el-input
+            v-model="form.password"
+            class="custom-input"
+            placeholder="请输入用户密码"
+          />
         </el-form-item>
 
         <el-form-item label="确认密码" prop="confirmPassword">
-          <el-input v-model="form.confirmPassword" class="custom-input" placeholder="请确认密码"/>
+          <el-input
+            v-model="form.confirmPassword"
+            class="custom-input"
+            placeholder="请确认密码"
+          />
         </el-form-item>
 
         <el-form-item label="资源池URL" prop="resourcePoolUrl">
-          <el-input v-model="form.resourcePoolUrl" class="custom-input" placeholder="请输入资源池URL"/>
+          <el-input
+            v-model="form.resourcePoolUrl"
+            class="custom-input"
+            placeholder="请输入资源池URL"
+          />
         </el-form-item>
 
         <el-form-item label="资源池地址" prop="resourcePoolAddress">
-          <el-input v-model="form.resourcePoolAddress" class="custom-input" placeholder="请输入资源池地址"/>
-        </el-form-item>        
+          <el-input
+            v-model="form.resourcePoolAddress"
+            class="custom-input"
+            placeholder="请输入资源池地址"
+          />
+        </el-form-item>
 
         <el-form-item label="只读模式" prop="readOnlyModel">
           <el-switch v-model="form.readOnlyModel" />
         </el-form-item>
 
         <el-form-item>
-          <div class="flex-row ideal-header-container" style="width: 100%;">
+          <div class="flex-row ideal-header-container" style="width: 100%">
             <el-divider direction="vertical" />
             <div>监控配置</div>
           </div>
@@ -129,9 +160,15 @@ const rules = reactive<FormRules>({
   name: [{ required: true, validator: checkCloudName, trigger: 'blur' }],
   userName: [{ required: true, message: '请输入用户名称', trigger: 'blur' }],
   password: [{ required: true, message: '请输入用户密码', trigger: 'blur' }],
-  confirmPassword: [{ required: true, message: '请输入确认密码', trigger: 'blur' }],
-  resourcePoolUrl: [{ required: true, message: '请输入资源池URL', trigger: 'blur' }],
-  readOnlyModel: [{ required: true, message: '请选择只读模式', trigger: 'blur' }],
+  confirmPassword: [
+    { required: true, message: '请输入确认密码', trigger: 'blur' }
+  ],
+  resourcePoolUrl: [
+    { required: true, message: '请输入资源池URL', trigger: 'blur' }
+  ],
+  readOnlyModel: [
+    { required: true, message: '请选择只读模式', trigger: 'blur' }
+  ]
 })
 
 const route = useRoute()
@@ -171,16 +208,14 @@ const clickSave = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      if (isEdit) {
-        handleEdit()
-      } else {
-        handleCreate()
-      }
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
+    }
+    if (isEdit) {
+      handleEdit()
     } else {
-      console.log('error submit!')
-      return false
+      handleCreate()
     }
   })
 }
@@ -190,7 +225,8 @@ const handleCreate = () => {
     cloudType: props.cloudType, // 云类型 华为云、阿里云
     cloudCategory: props.cloudCategory, // 云类别 私有云、公有云
     accessCredentialType: 0, // 云底层访问类型 0：账号密码、1：密钥
-    password: { // 账号密码
+    password: {
+      // 账号密码
       account: form.userName, // 云账户
       password: form.password, // 账户密码
       accessUrl: form.resourcePoolUrl, // 访问地址

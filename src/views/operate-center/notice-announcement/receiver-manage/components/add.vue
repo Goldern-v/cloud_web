@@ -1,35 +1,32 @@
 <template>
   <div>
-    <el-form
-      ref="formRef"
-      :model="form"
-      :rules="rules"
-      label-position="left"
-    >
+    <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="接收人姓名" prop="name">
-        <el-input v-model="form.name"/>
+        <el-input v-model="form.name" />
       </el-form-item>
 
       <el-form-item label="手机号码" prop="phone">
-        <el-input v-model="form.phone"/>
+        <el-input v-model="form.phone" />
       </el-form-item>
 
       <el-form-item label="邮箱" prop="email">
-        <el-input v-model="form.email"/>
+        <el-input v-model="form.email" />
       </el-form-item>
 
       <el-form-item label="企业微信">
-        <el-input v-model="form.wechat"/>
+        <el-input v-model="form.wechat" />
       </el-form-item>
 
       <el-form-item label="钉钉">
-        <el-input v-model="form.dingTalk"/>
+        <el-input v-model="form.dingTalk" />
       </el-form-item>
     </el-form>
 
     <div class="flex-row ideal-submit-button">
       <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
-      <el-button type="primary" @click="submitForm(formRef)">{{ t('confirm') }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -40,7 +37,10 @@ import type { FormRules, FormInstance } from 'element-plus'
 import { EventEnum } from '@/utils/enum'
 import { compareDiffDictionary } from '@/utils/tool'
 import { validateEmail, validateMobile } from '@/utils/validate'
-import { receiverManageAdd, receiverManageEdit } from '@/api/java/operate-center'
+import {
+  receiverManageAdd,
+  receiverManageEdit
+} from '@/api/java/operate-center'
 
 const { t } = useI18n()
 
@@ -110,7 +110,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
+  formEl.validate((valid: boolean) => {
     if (valid) {
       handleSubmit()
     }
@@ -124,7 +124,7 @@ const handleSubmit = () => {
   }
 }
 const add = () => {
-  const params = {...form}
+  const params = { ...form }
   receiverManageAdd(params).then((res: any) => {
     const { code } = res
     if (code === 200) {
@@ -154,6 +154,4 @@ const edit = () => {
 }
 </script>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

@@ -1,11 +1,6 @@
 <template>
   <div class="create">
-    <el-form
-      ref="formRef"
-      :model="form"
-      :rules="rules"
-      label-position="left"
-    >
+    <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="区域" prop="regionId">
         <el-select
           v-model="form.regionId"
@@ -39,7 +34,7 @@
       </el-form-item>
 
       <el-form-item label="名称" prop="name">
-        <el-input v-model="form.name" class="custom-width"/>
+        <el-input v-model="form.name" class="custom-width" />
       </el-form-item>
 
       <el-form-item label="策略" prop="policies">
@@ -60,12 +55,12 @@
     </el-form>
 
     <div class="flex-row footer-button">
-      <el-button type="info" @click="cancelForm(formRef)"
-        >{{ t('cancel') }}</el-button
-      >
-      <el-button type="primary" @click="submitForm(formRef)"
-        >{{ t('confirm') }}</el-button
-      >
+      <el-button type="info" @click="cancelForm(formRef)">{{
+        t('cancel')
+      }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -93,9 +88,7 @@ const rules = reactive<FormRules>({
   projectId: [{ required: true, message: '请选择项目', trigger: 'blur' }]
 })
 
-const policyList = [
-  { label: '反亲和性', value: 'anti-affinity' }
-]
+const policyList = [{ label: '反亲和性', value: 'anti-affinity' }]
 
 // 点击事件
 interface EventEmits {
@@ -116,13 +109,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      handleCreate()
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    handleCreate()
   })
 }
 const { resourcePool } = storeToRefs(store.resourceStore)

@@ -73,16 +73,20 @@
                   <ip-address
                     :data-array="props.row.nicList"
                     @mouseEnterPrivate="
-                      (value:any) => (props.row.nicList[0].privateIpCopy = value)
+                      (value: any) =>
+                        (props.row.nicList[0].privateIpCopy = value)
                     "
                     @mouseLeavePrivate="
-                      (value:any) => (props.row.nicList[0].privateIpCopy = value)
+                      (value: any) =>
+                        (props.row.nicList[0].privateIpCopy = value)
                     "
                     @mouseEnterPublic="
-                      (value:any) => (props.row.nicList[0].eip.publicIpCopy = value)
+                      (value: any) =>
+                        (props.row.nicList[0].eip.publicIpCopy = value)
                     "
                     @mouseLeavePublic="
-                      (value:any) => (props.row.nicList[0].eip.publicIpCopy = value)
+                      (value: any) =>
+                        (props.row.nicList[0].eip.publicIpCopy = value)
                     "
                   />
                 </template>
@@ -249,12 +253,16 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
+    }
     const instanceDtoList = state.dataListSelections?.map(item => {
       return item.uuid
     })
     if (!instanceDtoList?.length) {
-      return ElMessage.warning('请选择需要绑定的实例')
+      ElMessage.warning('请选择需要绑定的实例')
+      return
     } else {
       const params = {
         name,

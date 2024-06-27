@@ -288,7 +288,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
+  formEl.validate((valid: boolean) => {
     if (valid) {
       const params: any = {
         id: props.rowData.id,
@@ -319,9 +319,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
           ElMessage.error(data.msg || '删除失败')
         }
       })
-    } else {
-      console.log('error submit!')
-      return false
     }
   })
 }

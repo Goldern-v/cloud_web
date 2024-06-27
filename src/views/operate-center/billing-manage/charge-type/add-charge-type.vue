@@ -23,8 +23,12 @@
     </el-form>
 
     <div class="flex-row ideal-submit-button">
-      <el-button type="primary" @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
-      <el-button type="primary" @click="submitForm(formRef)">{{ t('confirm') }}</el-button>
+      <el-button type="primary" @click="cancelForm(formRef)">{{
+        t('cancel')
+      }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -92,37 +96,36 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
+    }
     let params: any = {
       name: form.name,
       resourceCategory: form.type
     }
-    if (valid) {
-      if (props.isEdit) {
-        params.id = props.rowData.id
-        editExpenseType(params).then((res: any) => {
-          let { code } = res
-          if (code === 200) {
-            ElMessage.success('修改费用类型成功')
-            emit(EventEnum.success)
-          } else {
-            ElMessage.error('修改费用类型失败')
-          }
-        })
-      } else {
-        addExpenseType(params).then((res: any) => {
-          let { code } = res
-          if (code === 200) {
-            ElMessage.success('创建费用类型成功')
-            emit(EventEnum.success)
-          } else {
-            ElMessage.error('创建费用类型失败')
-          }
-        })
-      }
+
+    if (props.isEdit) {
+      params.id = props.rowData.id
+      editExpenseType(params).then((res: any) => {
+        let { code } = res
+        if (code === 200) {
+          ElMessage.success('修改费用类型成功')
+          emit(EventEnum.success)
+        } else {
+          ElMessage.error('修改费用类型失败')
+        }
+      })
     } else {
-      console.log('error submit!')
-      return false
+      addExpenseType(params).then((res: any) => {
+        let { code } = res
+        if (code === 200) {
+          ElMessage.success('创建费用类型成功')
+          emit(EventEnum.success)
+        } else {
+          ElMessage.error('创建费用类型失败')
+        }
+      })
     }
   })
 }

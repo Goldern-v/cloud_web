@@ -1,16 +1,16 @@
 <template>
   <div class="create">
-    <el-form
-      ref="formRef"
-      :model="form"
-      :rules="rules"
-      label-position="left">
+    <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-card>
         <div class="flex-row create-notice">
           <div class="ideal-default-margin-right">快照须知</div>
           <div>
-            <div>只有可用或正在使用状态的磁盘才能创建快照。快照免费试用期间，单个磁盘最大支持创建7个快照。</div>
-            <div>加密磁盘的快照数据以加密方式存放，非加密磁盘的快照数据以非加密方式存放。</div>
+            <div>
+              只有可用或正在使用状态的磁盘才能创建快照。快照免费试用期间，单个磁盘最大支持创建7个快照。
+            </div>
+            <div>
+              加密磁盘的快照数据以加密方式存放，非加密磁盘的快照数据以非加密方式存放。
+            </div>
           </div>
         </div>
 
@@ -29,13 +29,18 @@
 
       <el-card class="ideal-large-margin-top">
         <el-form-item label="快照名称" prop="name">
-          <el-input v-model="form.name" style="width: 200px;"/>
+          <el-input v-model="form.name" style="width: 200px" />
         </el-form-item>
 
         <el-form-item label="选择磁盘" required>
-          <div style="width: 100%;">
-            <div class="flex-row" style="justify-content: flex-end;">
-              <el-select v-model="status" placeholder="请选择" style="width: 120px;" class="ideal-default-margin-right">
+          <div style="width: 100%">
+            <div class="flex-row" style="justify-content: flex-end">
+              <el-select
+                v-model="status"
+                placeholder="请选择"
+                style="width: 120px"
+                class="ideal-default-margin-right"
+              >
                 <el-option
                   v-for="item of statusList"
                   :key="item.value"
@@ -61,7 +66,8 @@
                 :page="state.page"
                 :is-radio="true"
                 :show-pagination="false"
-                @clickTableCellRow="clickTableCellRow">
+                @clickTableCellRow="clickTableCellRow"
+              >
                 <template #status>
                   <el-table-column label="状态">
                     <template #default="props">
@@ -76,8 +82,12 @@
               </ideal-table-list>
             </el-form-item>
 
-            <div v-if="form.disk" class="ideal-default-margin-top">当前选择磁盘<span class="create-select-disk">{{ diskInfo }}</span></div>
-            <el-text v-if="form.disk" type="info">该磁盘已创建0个快照，还可以创建7个快照。</el-text>
+            <div v-if="form.disk" class="ideal-default-margin-top">
+              当前选择磁盘<span class="create-select-disk">{{ diskInfo }}</span>
+            </div>
+            <el-text v-if="form.disk" type="info"
+              >该磁盘已创建0个快照，还可以创建7个快照。</el-text
+            >
           </div>
         </el-form-item>
       </el-card>
@@ -85,7 +95,9 @@
 
     <div :class="showSidebar ? 'create-footer' : 'create-footer-small'">
       <div class="flex-row create-footer-button">
-        <el-button type="primary" @click="submitForm(formRef)">立即创建</el-button>
+        <el-button type="primary" @click="submitForm(formRef)"
+          >立即创建</el-button
+        >
       </div>
     </div>
   </div>
@@ -176,9 +188,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      console.log('----')
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
   })
 }
@@ -201,7 +213,8 @@ $bottomHeight: 60px;
     font-size: 14px;
     margin-left: 10px;
   }
-  .create-footer, .create-footer-small {
+  .create-footer,
+  .create-footer-small {
     position: fixed;
     width: calc(100% - $sidebarWidth);
     bottom: 0;

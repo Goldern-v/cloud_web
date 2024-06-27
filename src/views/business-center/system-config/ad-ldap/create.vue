@@ -5,7 +5,8 @@
       :model="form"
       :rules="rules"
       label-position="left"
-      class="create-form">
+      class="create-form"
+    >
       <el-form-item>
         <div class="flex-row ideal-header-container">
           <el-divider direction="vertical" />
@@ -14,22 +15,22 @@
       </el-form-item>
 
       <el-form-item label="AD/LDAP名称" prop="name">
-        <el-input v-model="form.name" class="custom-input"/>
+        <el-input v-model="form.name" class="custom-input" />
       </el-form-item>
 
       <el-form-item label="服务器地址" prop="server">
-        <el-input v-model="form.server" class="custom-input"/>
+        <el-input v-model="form.server" class="custom-input" />
       </el-form-item>
 
       <el-form-item label="端口号" prop="port">
-        <el-input v-model="form.port" class="custom-input"/>
+        <el-input v-model="form.port" class="custom-input" />
       </el-form-item>
 
       <el-form-item label="Base DN" prop="baseDn">
-        <el-input v-model="form.baseDn" class="custom-input"/>
+        <el-input v-model="form.baseDn" class="custom-input" />
       </el-form-item>
 
-      <el-form-item label="连接方式" >
+      <el-form-item label="连接方式">
         <template #label>
           <div class="flex-row">
             <div style="margin-right: 3px">连接方式</div>
@@ -55,11 +56,11 @@
       </el-form-item>
 
       <el-form-item label="管理员DN" prop="adminDn">
-        <el-input v-model="form.adminDn" class="custom-input"/>
+        <el-input v-model="form.adminDn" class="custom-input" />
       </el-form-item>
 
       <el-form-item label="密码">
-        <el-input v-model="form.pwd" class="custom-input"/>
+        <el-input v-model="form.pwd" class="custom-input" />
       </el-form-item>
 
       <el-form-item>
@@ -69,8 +70,8 @@
         </div>
       </el-form-item>
 
-      <el-form-item label="类型选择" >
-        <el-radio-group v-model="form.type" >
+      <el-form-item label="类型选择">
+        <el-radio-group v-model="form.type">
           <el-radio label="1">AD域服务器</el-radio>
           <el-radio label="2">LDAP域服务器</el-radio>
         </el-radio-group>
@@ -83,30 +84,30 @@
         </div>
       </el-form-item>
 
-      <el-form-item label="用户名" >
-        <el-input v-model="form.userName" class="custom-input"/>
+      <el-form-item label="用户名">
+        <el-input v-model="form.userName" class="custom-input" />
       </el-form-item>
 
-      <el-form-item label="邮箱" >
-        <el-input v-model="form.email" class="custom-input"/>
+      <el-form-item label="邮箱">
+        <el-input v-model="form.email" class="custom-input" />
       </el-form-item>
 
-      <el-form-item label="手机号" >
-        <el-input v-model="form.phone" class="custom-input"/>
+      <el-form-item label="手机号">
+        <el-input v-model="form.phone" class="custom-input" />
       </el-form-item>
 
-      <el-form-item label="昵称" >
-        <el-input v-model="form.nickName" class="custom-input"/>
+      <el-form-item label="昵称">
+        <el-input v-model="form.nickName" class="custom-input" />
       </el-form-item>
     </el-form>
 
     <div class="flex-row footer-button">
-      <el-button type="info" @click="cancelForm(formRef)"
-        >{{ t('cancel') }}</el-button
-      >
-      <el-button type="primary" @click="submitForm(formRef)"
-        >{{ t('confirm') }}</el-button
-      >
+      <el-button type="info" @click="cancelForm(formRef)">{{
+        t('cancel')
+      }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -143,11 +144,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(async (valid: any) => {
-    if (valid) {
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate(async (valid: boolean) => {
+    if (!valid) {
+      return
     }
   })
 }
@@ -165,7 +164,7 @@ const cancelForm = (formEl: FormInstance | undefined) => {
   .create-form {
     background-color: white;
     padding: $idealPadding;
-    .custom-input{ 
+    .custom-input {
       width: 30%;
     }
     // 修改分割线颜色

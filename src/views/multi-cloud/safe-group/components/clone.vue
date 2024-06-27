@@ -7,23 +7,16 @@
         class="ideal-svg-margin-right"
       ></svg-icon>
       <div>
-        <div>安全组克隆时，只将原安全组出入方向规则克隆，云主机需另行关联。</div>
+        <div>
+          安全组克隆时，只将原安全组出入方向规则克隆，云主机需另行关联。
+        </div>
         <div>跨区域仅支持克隆源/目的地址是网段的规则以及是本安全组的规则。</div>
       </div>
     </div>
 
-    <el-form
-      ref="formRef"
-      :model="form"
-      :rules="rules"
-      label-position="left"
-    >
+    <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="区域" prop="area">
-        <el-select
-          v-model="form.area"
-          placeholder="请选择"
-          style="width: 70%;"
-        >
+        <el-select v-model="form.area" placeholder="请选择" style="width: 70%">
           <el-option
             v-for="(item, idx) of areaList"
             :key="idx"
@@ -36,7 +29,7 @@
       </el-form-item>
 
       <el-form-item label="名称" prop="name">
-        <el-input v-model="form.name" style="width: 70%;"/>
+        <el-input v-model="form.name" style="width: 70%" />
       </el-form-item>
 
       <el-form-item label="描述" prop="description">
@@ -52,12 +45,10 @@
     </el-form>
 
     <div class="flex-row footer-button ideal-default-margin-top">
-      <el-button @click="cancelForm(formRef)"
-        >{{ t('cancel') }}</el-button
-      >
-      <el-button type="primary" @click="submitForm(formRef)"
-        >{{ t('confirm') }}</el-button
-      >
+      <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -99,14 +90,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      console.log('submit!')
-      emit(EventEnum.success)
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    console.log('submit!')
+    emit(EventEnum.success)
   })
 }
 </script>

@@ -1,8 +1,8 @@
 <template>
   <el-dialog
     v-model="dialogVisible"
-    :title="props.dialogTitle"
-    :width="props.dialogWidth"
+    :title="dialogTitle"
+    :width="dialogWidth"
     :append-to-body="true"
     :before-close="handleClose"
   >
@@ -17,13 +17,9 @@ import detail from './detail.vue'
 // 属性值
 interface DialogProps {
   rowData?: any // 行数据
-  dialogTitle?: string
-  dialogWidth?: string
 }
 const props = withDefaults(defineProps<DialogProps>(), {
-  rowData: null,
-  dialogTitle: '详情',
-  dialogWidth: '50%'
+  rowData: null
 })
 
 // 方法
@@ -34,9 +30,9 @@ interface EventEmits {
 const emit = defineEmits<EventEmits>()
 
 // 弹框
-const dialogTitle = ref('')
+const dialogTitle = ref('详情')
 const dialogVisible = ref(true)
-const dialogWidth = ref('30%')
+const dialogWidth = ref('50%')
 
 // 关闭弹框
 const handleClose = () => {

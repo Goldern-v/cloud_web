@@ -87,34 +87,32 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      const params = {
-        name: form.name,
-        description: form.description,
-        uuid: props.rowData.uuid,
-        ...commonParams()
-      }
-      showLoading('更新中...')
-      safeGroupEdit(params)
-        .then((res: any) => {
-          const { code, data } = res
-          if (code === 200) {
-            ElMessage.success('更新安全组成功')
-            emit(EventEnum.success)
-          } else {
-            ElMessage.error('更新安全组失败')
-          }
-          hideLoading()
-        })
-        .catch(err => {
-          ElMessage.error(err)
-          hideLoading()
-        })
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    const params = {
+      name: form.name,
+      description: form.description,
+      uuid: props.rowData.uuid,
+      ...commonParams()
+    }
+    showLoading('更新中...')
+    safeGroupEdit(params)
+      .then((res: any) => {
+        const { code, data } = res
+        if (code === 200) {
+          ElMessage.success('更新安全组成功')
+          emit(EventEnum.success)
+        } else {
+          ElMessage.error('更新安全组失败')
+        }
+        hideLoading()
+      })
+      .catch(err => {
+        ElMessage.error(err)
+        hideLoading()
+      })
   })
 }
 </script>

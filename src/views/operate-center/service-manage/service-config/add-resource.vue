@@ -53,11 +53,7 @@
       </el-form-item>
 
       <el-form-item label="描述">
-        <el-input
-          v-model="form.describe"
-          type="textarea"
-          style="width: 100%"
-        />
+        <el-input v-model="form.describe" type="textarea" style="width: 100%" />
       </el-form-item>
 
       <el-form-item label="状态" prop="status">
@@ -66,15 +62,23 @@
 
       <el-form-item label="顺序" prop="sort">
         <div>
-          <el-input-number v-model="form.sort" :min="1" controls-position="right" />
-          <div class="ideal-tip-text">指定服务目录配置中的排列顺序，数值小的排序靠前</div>
+          <el-input-number
+            v-model="form.sort"
+            :min="1"
+            controls-position="right"
+          />
+          <div class="ideal-tip-text">
+            指定服务目录配置中的排列顺序，数值小的排序靠前
+          </div>
         </div>
       </el-form-item>
     </el-form>
 
     <div class="flex-row ideal-submit-button">
       <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
-      <el-button type="primary" @click="submitForm(formRef)">{{ t('confirm') }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -84,7 +88,10 @@ import { ElMessage } from 'element-plus/es'
 import type { FormInstance, FormRules } from 'element-plus'
 import { EventEnum } from '@/utils/enum'
 import { resourcePoolGrade } from '@/api/java/public'
-import { serviceConfigResourceCreate, serviceConfigResourceUpdate } from '@/api/java/operate-center'
+import {
+  serviceConfigResourceCreate,
+  serviceConfigResourceUpdate
+} from '@/api/java/operate-center'
 
 interface AddResourceProps {
   isEdit?: boolean
@@ -104,7 +111,7 @@ const form = reactive({
   cloudType: '', // 云平台类型
   resourcePool: '', // 资源池
   describe: '', // 描述
-  status: false , // 状态
+  status: false, // 状态
   sort: 1 // 顺序
 })
 const rules = reactive<FormRules>({
@@ -121,19 +128,21 @@ onMounted(() => {
 // 云平台类别、类型
 const categories = ref<any[]>([])
 const platformCategory = () => {
-  resourcePoolGrade().then((res: any) => {
-    const { code, data } = res
-    if (code === 200) {
-      categories.value = data
-      if (props.isEdit) {
-        initEditData()
+  resourcePoolGrade()
+    .then((res: any) => {
+      const { code, data } = res
+      if (code === 200) {
+        categories.value = data
+        if (props.isEdit) {
+          initEditData()
+        }
+      } else {
+        categories.value = []
       }
-    } else {
+    })
+    .catch(_ => {
       categories.value = []
-    }
-  }).catch(_ => {
-    categories.value = []
-  })
+    })
 }
 const initEditData = () => {
   form.category = props.rowData.cloudTypeDto?.value
@@ -141,33 +150,43 @@ const initEditData = () => {
   form.resourcePool = props.rowData.resourcePoolDto?.value
   form.sort = props.rowData.sort
   form.describe = props.rowData.remark
-  form.status =  props.rowData.status
+  form.status = props.rowData.status
 }
 const cloudTypes = ref<any[]>([])
-watch(() => form.category, value => {
-  // 创建时重选云平台类别 清空已选云平台类型和资源池
-  if (!props.isEdit) {
-    form.cloudType = ''
-    form.resourcePool = ''
+watch(
+  () => form.category,
+  value => {
+    // 创建时重选云平台类别 清空已选云平台类型和资源池
+    if (!props.isEdit) {
+      form.cloudType = ''
+      form.resourcePool = ''
+    }
+
+    if (value) {
+      const result = categories.value?.find(
+        (item: any) => item.cloudCategory === value
+      )
+      cloudTypes.value = result?.cloudPlatformTypes
+    }
   }
-  
-  if (value) {
-    const result = categories.value?.find((item: any) => item.cloudCategory === value)
-    cloudTypes.value = result?.cloudPlatformTypes
-  }
-})
+)
 const resourcePools = ref<any[]>([])
-watch(() => form.cloudType, value => {
-  // 创建时重选云平台类型 清空已选资源池
-  if (!props.isEdit) {
-    form.resourcePool = ''
+watch(
+  () => form.cloudType,
+  value => {
+    // 创建时重选云平台类型 清空已选资源池
+    if (!props.isEdit) {
+      form.resourcePool = ''
+    }
+
+    if (value) {
+      const result = cloudTypes.value?.find(
+        (item: any) => item.cloudType === value
+      )
+      resourcePools.value = result?.cloudResourcePools
+    }
   }
-  
-  if (value) {
-    const result = cloudTypes.value?.find((item: any) => item.cloudType === value)
-    resourcePools.value = result?.cloudResourcePools
-  }
-})
+)
 // 方法
 interface EventEmits {
   (e: EventEnum.cancel): void
@@ -190,21 +209,21 @@ const submitForm = (formEl: FormInstance | undefined) => {
     return
   }
 
-  formEl.validate(valid => {
-    if (valid) {
-      if (props.isEdit) {
-        handleUpdate()
-      } else {
-        handleCreate()
-      }
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
+    }
+    if (props.isEdit) {
+      handleUpdate()
     } else {
-      console.log('error submit!')
-      return false
+      handleCreate()
     }
   })
 }
-const getCommonParams = (): { [key: string]: any} => {
-  const cloudPlatformItem = resourcePools.value.find((item: any) => item?.id === form.resourcePool)
+const getCommonParams = (): { [key: string]: any } => {
+  const cloudPlatformItem = resourcePools.value.find(
+    (item: any) => item?.id === form.resourcePool
+  )
   return {
     serviceCategoryId,
     remark: form.describe,
@@ -259,6 +278,4 @@ const handleUpdate = () => {
 }
 </script>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

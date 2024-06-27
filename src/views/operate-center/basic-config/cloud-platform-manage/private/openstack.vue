@@ -2,7 +2,11 @@
   <div class="openstack">
     <div class="openstack__container">
       <div class="flex-row openstack__tip">
-        <svg-icon icon="info-warning" color="var(--el-color-primary)" class="ideal-svg-margin-right"></svg-icon>
+        <svg-icon
+          icon="info-warning"
+          color="var(--el-color-primary)"
+          class="ideal-svg-margin-right"
+        ></svg-icon>
         <span
           >为了管理OpenStack云账户内的资源，需要您提供API访问地址、管理员用户名和密码等信息来访问您的OpenStack。</span
         >
@@ -10,18 +14,29 @@
 
       <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
         <el-form-item>
-          <div class="flex-row ideal-header-container ideal-middle-margin-top" style="width: 100%;">
+          <div
+            class="flex-row ideal-header-container ideal-middle-margin-top"
+            style="width: 100%"
+          >
             <el-divider direction="vertical" />
             <div>基本信息</div>
           </div>
         </el-form-item>
 
         <el-form-item label="云平台名称" prop="name">
-          <el-input v-model="form.name" class="custom-input" placeholder="请输入名称"/>
+          <el-input
+            v-model="form.name"
+            class="custom-input"
+            placeholder="请输入名称"
+          />
         </el-form-item>
 
         <el-form-item label="认证URL" prop="authenticateUrl">
-          <el-input v-model="form.authenticateUrl" class="custom-input" placeholder="请输入认证URL"/>
+          <el-input
+            v-model="form.authenticateUrl"
+            class="custom-input"
+            placeholder="请输入认证URL"
+          />
         </el-form-item>
 
         <el-form-item label="API版本" prop="apiVersion">
@@ -33,17 +48,31 @@
 
         <el-form-item label="用户名" prop="userName">
           <div>
-            <el-input v-model="form.userName" class="custom-input" placeholder="请输入用户名"/>
-            <div v-if="form.apiVersion === 'version3'">租户名称需要从用户域取值。</div>
+            <el-input
+              v-model="form.userName"
+              class="custom-input"
+              placeholder="请输入用户名"
+            />
+            <div v-if="form.apiVersion === 'version3'">
+              租户名称需要从用户域取值。
+            </div>
           </div>
         </el-form-item>
 
         <el-form-item label="密码" prop="password">
-          <el-input v-model="form.password" class="custom-input" placeholder="请输入密码"/>
+          <el-input
+            v-model="form.password"
+            class="custom-input"
+            placeholder="请输入密码"
+          />
         </el-form-item>
 
         <el-form-item label="确认密码" prop="confirmPassword">
-          <el-input v-model="form.confirmPassword" class="custom-input" placeholder="请确认密码"/>
+          <el-input
+            v-model="form.confirmPassword"
+            class="custom-input"
+            placeholder="请确认密码"
+          />
         </el-form-item>
 
         <el-form-item label="只读模式" prop="readOnlyModel">
@@ -51,7 +80,7 @@
         </el-form-item>
 
         <el-form-item>
-          <div class="flex-row ideal-header-container" style="width: 100%;">
+          <div class="flex-row ideal-header-container" style="width: 100%">
             <el-divider direction="vertical" />
             <div>监控配置</div>
           </div>
@@ -133,12 +162,18 @@ const checkCloudName = (
 }
 const rules = reactive<FormRules>({
   name: [{ required: true, validator: checkCloudName, trigger: 'blur' }],
-  authenticateUrl: [{ required: true, message: '请输入认证URL', trigger: 'blur' }],
+  authenticateUrl: [
+    { required: true, message: '请输入认证URL', trigger: 'blur' }
+  ],
   apiVersion: [{ required: true, message: '请选择API版本', trigger: 'blur' }],
   userName: [{ required: true, message: '请输入用户名称', trigger: 'blur' }],
   password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-  confirmPassword: [{ required: true, message: '请输入确认密码', trigger: 'blur' }],
-  readOnlyModel: [{ required: true, message: '请选择只读模式', trigger: 'blur' }],
+  confirmPassword: [
+    { required: true, message: '请输入确认密码', trigger: 'blur' }
+  ],
+  readOnlyModel: [
+    { required: true, message: '请选择只读模式', trigger: 'blur' }
+  ]
 })
 
 const route = useRoute()
@@ -175,16 +210,14 @@ const clickSave = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      if (isEdit) {
-        handleEdit()
-      } else {
-        handleCreate()
-      }
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
+    }
+    if (isEdit) {
+      handleEdit()
     } else {
-      console.log('error submit!')
-      return false
+      handleCreate()
     }
   })
 }
@@ -200,7 +233,8 @@ const handleCreate = () => {
     //   accessUrl: '', // 访问地址
     //   accessPort: '', // 访问端口
     // },
-    secret: { // 密钥
+    secret: {
+      // 密钥
       // ak: form.accessKeyId,
       // sk: form.secretAccessKey
     }

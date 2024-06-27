@@ -12,7 +12,11 @@
         <div>基本信息</div>
       </div>
 
-      <el-form-item label="策略名称" prop="name" class="ideal-default-margin-top">
+      <el-form-item
+        label="策略名称"
+        prop="name"
+        class="ideal-default-margin-top"
+      >
         <el-input v-model="form.name" class="input-width" />
       </el-form-item>
 
@@ -67,7 +71,11 @@
         <div>同步配置</div>
       </div>
 
-      <el-form-item label="同步方式" prop="type" class="ideal-default-margin-top">
+      <el-form-item
+        label="同步方式"
+        prop="type"
+        class="ideal-default-margin-top"
+      >
         <el-radio-group v-model="form.type">
           <el-radio
             v-for="(item, index) of typeList"
@@ -346,15 +354,14 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  await formEl.validate(async (valid: any) => {
-    if (valid) {
-      if (props.rowData.id) {
-        handleEdit()
-      } else {
-        handleCreate()
-      }
+  await formEl.validate(async (valid: boolean) => {
+    if (!valid) {
+      return
+    }
+    if (props.rowData.id) {
+      handleEdit()
     } else {
-      console.log('error submit!')
+      handleCreate()
     }
   })
 }
@@ -402,10 +409,10 @@ const handleCreate = () => {
 const handleEdit = () => {
   // 筛选表单修改项
   const tempDic = compareDiffDictionary(originDic.value, form)
-  let params: {[key: string]: any} = {
+  let params: { [key: string]: any } = {
     id: props.rowData.id
   }
-  for(const key in tempDic) {
+  for (const key in tempDic) {
     if (key === 'frequency') {
       params.syncTime = form.frequency
     } else {

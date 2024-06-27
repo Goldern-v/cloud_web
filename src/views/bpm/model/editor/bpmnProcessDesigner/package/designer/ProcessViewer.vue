@@ -68,7 +68,7 @@ const initBpmnModeler = () => {
   if (bpmnModeler.value) {
     return
   }
-  bpmnModeler = new BpmnViewer({
+  bpmnModeler.value = new BpmnViewer({
     container: bpmnCanvas.value,
     bpmnRenderer: {},
     height: props.height
@@ -83,14 +83,14 @@ const createNewDiagram = async (xml: any) => {
   let xmlString = xml || DefaultEmptyXML(newId, newName, props.prefix)
   try {
     // @ts-ignore
-    let { warnings } = await bpmnModeler.importXML(xmlString)
+    let { warnings } = await bpmnModeler.value.importXML(xmlString)
     if (warnings && warnings.length) {
       warnings.forEach((warn: any) => console.warn(warn))
     }
     // 高亮流程图
     await highlightDiagram()
     // @ts-ignore
-    const canvas = bpmnModeler.get('canvas')
+    const canvas = bpmnModeler.value.get('canvas')
     canvas.zoom('fit-viewport', 'auto')
   } catch (e) {
     console.error(e)
@@ -107,12 +107,12 @@ const highlightDiagram = async () => {
   // 参考自 https://gitee.com/tony2y/RuoYi-flowable/blob/master/ruoyi-ui/src/components/Process/index.vue#L222 实现
   // 再次基础上，增加不同审批结果的颜色等等
   // @ts-ignore
-  let canvas = bpmnModeler.get('canvas')
+  let canvas = bpmnModeler.value.get('canvas')
   let todoActivity: any = activityList.find((m: any) => !m.endTime) // 找到待办的任务
   let endActivity: any = activityList[activityList.length - 1] // 获得最后一个任务
   // debugger
   // @ts-ignore
-  bpmnModeler
+  bpmnModeler.value
     // @ts-ignore
     .getDefinitions()
     .rootElements[0].flowElements?.forEach((n: any) => {
@@ -298,7 +298,8 @@ const getActivityOutgoing = (activity: any) => {
   }
   // 如果没有，则遍历获得起点为它的【bpmn:SequenceFlow】节点们。原因是：bpmn-js 的 UserTask 拿不到 outgoing
   // @ts-ignore
-  const flowElements = bpmnModeler.getDefinitions().rootElements[0].flowElements
+  const flowElements =
+    bpmnModeler.value.getDefinitions().rootElements[0].flowElements
   const outgoing: any[] = []
   flowElements.forEach((item: any) => {
     if (item.$type !== 'bpmn:SequenceFlow') {
@@ -312,7 +313,7 @@ const getActivityOutgoing = (activity: any) => {
 }
 const initModelListeners = () => {
   // @ts-ignore
-  const EventBus = bpmnModeler.get('eventBus')
+  const EventBus = bpmnModeler.value.get('eventBus')
   // 注册需要的监听事件
   EventBus.on('element.hover', function (eventObj: any) {
     let element = eventObj ? eventObj.element : null
@@ -328,7 +329,7 @@ const elementHover = (element: any) => {
   element.value = element
   !elementOverlayIds.value && (elementOverlayIds.value = {})
   // @ts-ignore
-  !overlays.value && (overlays.value = bpmnModeler.get('overlays'))
+  !overlays.value && (overlays.value = bpmnModeler.value.get('overlays'))
   // 展示信息
   console.log(activityLists.value, 'activityLists.value')
   console.log(element.value, 'element.value')
@@ -458,13 +459,13 @@ onMounted(() => {
 onBeforeUnmount(() => {
   // this.$once('hook:beforeDestroy', () => {
   // })
-  if (bpmnModeler) {
+  if (bpmnModeler.value) {
     // @ts-ignore
-    bpmnModeler.destroy()
+    bpmnModeler.value.destroy()
   }
   emit('destroy', bpmnModeler)
   // @ts-ignore
-  bpmnModeler = null
+  bpmnModeler.value = null
 })
 
 watch(

@@ -72,7 +72,9 @@
               :key="index"
             ></el-option>
           </el-select>
-          <span class="ideal-tip-text ideal-default-margin-right">当前监控数据为原始数据。</span>
+          <span class="ideal-tip-text ideal-default-margin-right"
+            >当前监控数据为原始数据。</span
+          >
           <span style="color: var(--el-color-primary)">查看更多指标详情</span>
         </div>
         <div class="monitor-chart">
@@ -217,7 +219,7 @@ const showDialog = ref(false)
 const clickCloseEvent = () => {
   showDialog.value = false
 }
-const clickRefreshEvent = (tags: any) => {
+const clickRefreshEvent = (tags?: any) => {
   showDialog.value = false
   //展示选中监控指标
   lineData.value = monitorTag.filter((item: any) =>

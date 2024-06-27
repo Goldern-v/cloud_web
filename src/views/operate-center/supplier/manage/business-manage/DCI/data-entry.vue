@@ -72,9 +72,12 @@
           <template #nrc>
             <el-table-column label="价格/NRC" width="120">
               <template #default="props">
-                <div class="flex-row" style="align-items: center;">
-                  <el-input v-model="props.row.nrc" v-input.float="{ decimal: 4 }" />
-                  <div style="margin-left: 5px;">$</div>
+                <div class="flex-row" style="align-items: center">
+                  <el-input
+                    v-model="props.row.nrc"
+                    v-input.float="{ decimal: 4 }"
+                  />
+                  <div style="margin-left: 5px">$</div>
                 </div>
               </template>
             </el-table-column>
@@ -83,9 +86,12 @@
           <template #mrc>
             <el-table-column label="价格/MRC" width="120">
               <template #default="props">
-                <div class="flex-row" style="align-items: center;">
-                  <el-input v-model="props.row.mrc" v-input.float="{ decimal: 4 }" />
-                  <div style="margin-left: 5px;">$</div>
+                <div class="flex-row" style="align-items: center">
+                  <el-input
+                    v-model="props.row.mrc"
+                    v-input.float="{ decimal: 4 }"
+                  />
+                  <div style="margin-left: 5px">$</div>
                 </div>
               </template>
             </el-table-column>
@@ -302,7 +308,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
+  formEl.validate((valid: boolean) => {
     if (valid) {
       let params: { [key: string]: any } = {}
       if (isEdit.value) {

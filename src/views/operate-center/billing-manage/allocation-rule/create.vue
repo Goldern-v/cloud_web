@@ -390,37 +390,35 @@ const submitForm = (formEl: FormInstance | undefined) => {
     vdcId: form.vdcId,
     costRelationList: arr
   }
-  formEl.validate(valid => {
-    if (valid) {
-      if (isEdit.value) {
-        params.id = currentRow.value.id
-        editAllocationRule(params).then((res: any) => {
-          let { code } = res
-          if (code === 200) {
-            ElMessage.success('编辑分摊规则成功')
-            router.push({
-              path: '/operate-center/billing-manage/allocation-rule/list'
-            })
-          } else {
-            ElMessage.error('编辑分摊规则失败')
-          }
-        })
-      } else {
-        addAllocationRule(params).then((res: any) => {
-          let { code } = res
-          if (code === 200) {
-            ElMessage.success('创建分摊规则成功')
-            router.push({
-              path: '/operate-center/billing-manage/allocation-rule/list'
-            })
-          } else {
-            ElMessage.error('创建分摊规则失败')
-          }
-        })
-      }
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
+    }
+    if (isEdit.value) {
+      params.id = currentRow.value.id
+      editAllocationRule(params).then((res: any) => {
+        let { code } = res
+        if (code === 200) {
+          ElMessage.success('编辑分摊规则成功')
+          router.push({
+            path: '/operate-center/billing-manage/allocation-rule/list'
+          })
+        } else {
+          ElMessage.error('编辑分摊规则失败')
+        }
+      })
     } else {
-      console.log('error submit!')
-      return false
+      addAllocationRule(params).then((res: any) => {
+        let { code } = res
+        if (code === 200) {
+          ElMessage.success('创建分摊规则成功')
+          router.push({
+            path: '/operate-center/billing-manage/allocation-rule/list'
+          })
+        } else {
+          ElMessage.error('创建分摊规则失败')
+        }
+      })
     }
   })
 }

@@ -8,14 +8,11 @@
       class="overview-form"
     >
       <el-form-item label="事件通知名称">
-        <el-input v-model="form.name"/>
+        <el-input v-model="form.name" />
       </el-form-item>
 
       <el-form-item label="事件">
-        <el-select
-          v-model="form.event"
-          placeholder="请选择"
-        >
+        <el-select v-model="form.event" placeholder="请选择">
           <el-option
             v-for="(item, idx) of eventList"
             :key="idx"
@@ -27,19 +24,16 @@
       </el-form-item>
 
       <el-form-item label="前缀">
-        <el-input v-model="form.prefix"/>
+        <el-input v-model="form.prefix" />
       </el-form-item>
 
       <el-form-item label="后缀">
-        <el-input v-model="form.suffix"/>
+        <el-input v-model="form.suffix" />
       </el-form-item>
 
       <el-form-item label="DIS通道">
-        <div style="width:100%;">
-          <el-select
-            v-model="form.project"
-            placeholder="请选择DIS通道所在项目"
-          >
+        <div style="width: 100%">
+          <el-select v-model="form.project" placeholder="请选择DIS通道所在项目">
             <el-option
               v-for="(item, idx) of projectList"
               :key="idx"
@@ -66,10 +60,7 @@
       </el-form-item>
 
       <el-form-item label="IAM委托">
-        <el-select
-          v-model="form.delegation"
-          placeholder="请选择"
-        >
+        <el-select v-model="form.delegation" placeholder="请选择">
           <el-option
             v-for="(item, idx) of delegations"
             :key="idx"
@@ -80,10 +71,12 @@
         </el-select>
       </el-form-item>
     </el-form>
-    
+
     <div class="flex-row ideal-submit-button">
       <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
-      <el-button type="primary" @click="submitForm(formRef)">{{ t('confirm') }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -129,7 +122,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   }
   formEl.validate((valid: boolean) => {
     if (!valid) {
-      return false
+      return
     }
     emit(EventEnum.success)
   })
@@ -145,11 +138,11 @@ const emit = defineEmits<EventEmits>()
 
 <style scoped lang="scss">
 .create {
-  :deep(.el-form-item--default .el-form-item__label ) {
+  :deep(.el-form-item--default .el-form-item__label) {
     width: 130px;
   }
   :deep(.info-warning) {
-    color: var(--el-color-primary)
+    color: var(--el-color-primary);
   }
   .create-tip {
     background-color: var(--el-color-primary-light-9);
@@ -157,5 +150,4 @@ const emit = defineEmits<EventEmits>()
     padding: 10px;
   }
 }
-
 </style>

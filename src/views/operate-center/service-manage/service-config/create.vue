@@ -37,8 +37,8 @@
           </div>
         </el-upload>
         <div class="el-upload__tip">
-            支持上传jpg/jpeg/png文件，图片大小不超过2M，照片比例为1:1时，显示效果更佳
-          </div>
+          支持上传jpg/jpeg/png文件，图片大小不超过2M，照片比例为1:1时，显示效果更佳
+        </div>
       </el-form-item>
 
       <el-form-item label="关联产品" prop="associateProduct">
@@ -241,8 +241,10 @@ const handleChange: UploadProps['onChange'] = (file: any) => {
     imageUrl.value = a.target.result
   }
 }
-const handleExceed: UploadProps['onExceed'] = (files) => {
-  if (!upload.value) { return }
+const handleExceed: UploadProps['onExceed'] = files => {
+  if (!upload.value) {
+    return
+  }
   upload.value.clearFiles()
   const file = files[0] as UploadRawFile
   file.uid = genFileId()
@@ -267,16 +269,14 @@ const submitForm = (formEl: FormInstance | undefined) => {
     return
   }
 
-  formEl.validate(valid => {
-    if (valid) {
-      if (changeImage.value) {
-        uploadIcon()
-      } else {
-        handleEvent()
-      }
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
+    }
+    if (changeImage.value) {
+      uploadIcon()
     } else {
-      console.log('error submit!')
-      return false
+      handleEvent()
     }
   })
 }

@@ -1,11 +1,6 @@
 <template>
   <div class="create-or-edit">
-    <el-form
-      ref="formRef"
-      :model="form"
-      :rules="rules"
-      label-position="left"
-    >
+    <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item prop="password" label="新密码">
         <el-input
           v-model="form.password"
@@ -55,17 +50,13 @@ const form = reactive({
   againPassword: '' // 确认密码
 })
 // 密码验证
-const checkPwd = (
-  rule: any,
-  value: any,
-  callback: (e?: Error) => any
-) => {
+const checkPwd = (rule: any, value: any, callback: (e?: Error) => any) => {
   const cnReg = /[\u4e00-\u9fa5]+/
   if (cnReg.test(value)) {
     callback(new Error('请不要输入中文'))
   }
 
-  passwordRule(rule,value,callback)
+  passwordRule(rule, value, callback)
 }
 // 确认密码验证
 const checkConfirmPwd = (
@@ -76,7 +67,7 @@ const checkConfirmPwd = (
   const cnReg = /[\u4e00-\u9fa5]+/
   if (cnReg.test(value)) {
     callback(new Error('请不要输入中文'))
-  } 
+  }
   if (!value) {
     callback(new Error('请确认密码'))
   } else if (value !== form.password) {
@@ -86,9 +77,7 @@ const checkConfirmPwd = (
   }
 }
 const rules = ref<FormRules>({
-  password: [
-    { required: true, validator: checkPwd, trigger: 'blur' }
-  ],
+  password: [{ required: true, validator: checkPwd, trigger: 'blur' }],
   againPassword: [
     { required: true, validator: checkConfirmPwd, trigger: 'blur' }
   ]
@@ -115,7 +104,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   }
   formEl.validate((valid: boolean) => {
     if (!valid) {
-      return false
+      return
     }
     const params = {
       id: props.rowData.id,

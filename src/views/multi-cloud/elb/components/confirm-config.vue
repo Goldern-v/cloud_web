@@ -59,7 +59,7 @@ watch(
         instanceType: netInfo.instanceType === 'whole' ? '独享型' : '共享型',
         propertyMode: netInfo.propertyMode ? '已开启' : '已关闭',
         count: 1,
-        price: isPackage ? price + '/小时' : '',
+        price: isPackage.value ? price + '/小时' : '',
         priceTextType: 'danger'
       }
       const bandwidthTypeText: any = {

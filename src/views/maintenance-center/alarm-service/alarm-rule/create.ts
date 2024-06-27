@@ -297,7 +297,7 @@ export const createData = () => {
     if (!formEl) {
       return
     }
-    formEl.validate(valid => {
+    formEl.validate((valid: boolean) => {
       if (valid) {
         let rules: any = []
         //自定义创建
@@ -355,7 +355,8 @@ export const createData = () => {
           effectTime
         } = form
         if (effectTime[0] && effectTime[1] && effectTime[0] === effectTime[1]) {
-          return ElMessage.error('生效时间不能为同一时间')
+          ElMessage.error('生效时间不能为同一时间')
+          return
         }
         const params: { [key: string]: any } = {
           name,

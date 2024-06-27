@@ -3,7 +3,7 @@
     <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="账号">
         <div>
-          <el-input v-model="form.account" placeholder="请输入账号ID"/>
+          <el-input v-model="form.account" placeholder="请输入账号ID" />
           <div class="ideal-tip-text">仅支持对账号配置ACL，不支持IAM用户。</div>
           <div class="ideal-warning-text">暂时仅支持输入账号ID</div>
         </div>
@@ -11,28 +11,30 @@
 
       <el-form-item label="桶访问权限">
         <el-checkbox-group v-model="form.bucketAuth">
-          <el-checkbox label="读取权限"/>
-          <el-checkbox label="写入权限"/>
+          <el-checkbox label="读取权限" />
+          <el-checkbox label="写入权限" />
         </el-checkbox-group>
       </el-form-item>
 
       <el-form-item label="对象权限">
         <el-checkbox-group v-model="form.objectAuth">
-          <el-checkbox label="对象读权限" disabled/>
+          <el-checkbox label="对象读权限" disabled />
         </el-checkbox-group>
       </el-form-item>
 
       <el-form-item label="ACL访问权限">
         <el-checkbox-group v-model="form.aclAuth">
-          <el-checkbox label="读取权限"/>
-          <el-checkbox label="写入权限"/>
+          <el-checkbox label="读取权限" />
+          <el-checkbox label="写入权限" />
         </el-checkbox-group>
       </el-form-item>
     </el-form>
 
     <div class="flex-row ideal-submit-button">
       <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
-      <el-button type="primary" @click="submitForm(formRef)">{{ t('confirm') }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -71,7 +73,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
     return
   }
 
-  formEl.validate(valid => {
+  formEl.validate((valid: boolean) => {
     if (!valid) {
       return
     }
@@ -80,6 +82,4 @@ const submitForm = (formEl: FormInstance | undefined) => {
 }
 </script>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

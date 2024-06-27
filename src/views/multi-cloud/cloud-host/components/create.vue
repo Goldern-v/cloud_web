@@ -64,7 +64,8 @@ import { queryVdcQuota } from '@/api/java/public'
 import { approvalProcess } from '@/utils/tool'
 import { useResourcePool } from '@/utils/common/resource'
 
-const { isPublic, isPublicHuawei, isAliyun, isTencent, isCtyun } = useResourcePool()
+const { isPublic, isPublicHuawei, isAliyun, isTencent, isCtyun } =
+  useResourcePool()
 
 /**
  * 通用型创建, 满足公有云
@@ -144,14 +145,12 @@ const checkForm = (formEl: FormInstance | undefined) => {
     return
   }
 
-  formEl.validate(valid => {
-    if (valid) {
-      console.log('submit!')
-      stepsIndex.value++
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    console.log('submit!')
+    stepsIndex.value++
   })
 }
 

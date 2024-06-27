@@ -251,15 +251,13 @@ const submitForm = (formEl: FormInstance | undefined) => {
     return
   }
 
-  formEl.validate(valid => {
-    if (valid) {
-      const dic = Object.assign(form, { vdcId: vdcId.value })
-      store.resourceStore.resourcePool = dic
-      emit(EventEnum.success)
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    const dic = Object.assign(form, { vdcId: vdcId.value })
+    store.resourceStore.resourcePool = dic
+    emit(EventEnum.success)
   })
 }
 defineExpose({

@@ -147,7 +147,7 @@ const initDialog = () => {
 // 方法
 interface EventEmits {
   (e: EventEnum.close): void
-  (e: EventEnum.refresh, v: any): void // 表单成功提交后刷新列表
+  (e: EventEnum.refresh): void // 表单成功提交后刷新列表
 }
 const emit = defineEmits<EventEmits>()
 // 弹框取消
@@ -156,9 +156,9 @@ const clickCancelEvent = () => {
   emit(EventEnum.close)
 }
 // 弹框成功提交
-const clickSuccessEvent = (value: any) => {
+const clickSuccessEvent = () => {
   dialogVisible.value = false
-  emit(EventEnum.refresh, value)
+  emit(EventEnum.refresh)
 }
 </script>
 

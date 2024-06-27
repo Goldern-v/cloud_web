@@ -3,31 +3,30 @@
     <div>导入公钥有两种方式：</div>
     <div>1、选择文件导入，导入成功后，可以修改公钥名称。</div>
     <div>2、复制内容到“公钥内容”文本框，手工输入公钥名称。</div>
-    <div class="ideal-error-text">说明：仅支持导入使用RSA算法的密钥，且密钥长度为1024、2048、4096（bit）</div>
+    <div class="ideal-error-text">
+      说明：仅支持导入使用RSA算法的密钥，且密钥长度为1024、2048、4096（bit）
+    </div>
 
-    <el-form
-      ref="formRef"
-      :model="form"
-      :rules="rules"
-      label-position="left"
-    >
+    <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="名称" prop="name">
         <el-input v-model="form.name" clearable />
       </el-form-item>
 
       <el-form-item label="公钥">
         <div class="flex-row">
-          <div v-if="!form.publicFile" class="key-pair-file">未选择任何文件</div>
+          <div v-if="!form.publicFile" class="key-pair-file">
+            未选择任何文件
+          </div>
           <div v-else class="key-pair-file">{{ form.publicFile }}</div>
           <div class="key-pair--upload" @click="clickUpload">
             选择文件
-            <input type="file" style="visibility: collapse; height: 0px;" />
+            <input type="file" style="visibility: collapse; height: 0px" />
           </div>
         </div>
       </el-form-item>
 
       <el-form-item label="公钥内容" prop="publicKey">
-        <div class="flex-column" style="width: 100%;">
+        <div class="flex-column" style="width: 100%">
           <el-input
             v-model="form.publicKey"
             type="textarea"
@@ -35,7 +34,10 @@
           ></el-input>
 
           <div class="flex-row">
-            <el-checkbox v-model="form.collocation" label="我同意讲密钥对私钥托管到理想多云。" />
+            <el-checkbox
+              v-model="form.collocation"
+              label="我同意讲密钥对私钥托管到理想多云。"
+            />
             <div class="ideal-theme-text">了解详情</div>
           </div>
           <div class="flex-row">
@@ -47,12 +49,10 @@
     </el-form>
 
     <div class="flex-row footer-button">
-      <el-button @click="cancelForm(formRef)"
-        >{{ t('cancel') }}</el-button
-      >
-      <el-button type="primary" @click="submitForm(formRef)"
-        >{{ t('confirm') }}</el-button
-      >
+      <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -80,7 +80,7 @@ const checkName = (rule: any, value: any, callback: (e?: Error) => any) => {
   }
 }
 const rules = reactive<FormRules>({
-  name: [ { required: true, validator: checkName, trigger: 'blur' }]
+  name: [{ required: true, validator: checkName, trigger: 'blur' }]
 })
 // 选择本地图片
 const clickUpload = () => {
@@ -114,17 +114,14 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      console.log('submit!')
-      emit(EventEnum.success)
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    console.log('submit!')
+    emit(EventEnum.success)
   })
 }
-
 </script>
 
 <style scoped lang="scss">

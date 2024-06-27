@@ -59,11 +59,7 @@ import type { FormRules, FormInstance } from 'element-plus'
 import { useUserApi } from '@/api/sys/user'
 import { useUserSubmitApi } from '@/api/java/business-center'
 import { EventEnum } from '@/utils/enum'
-import {
-  validateEmail,
-  validateMobile,
-  passwordRule
-} from '@/utils/validate'
+import { validateEmail, validateMobile, passwordRule } from '@/utils/validate'
 
 interface CreateProps {
   rowData?: any
@@ -95,17 +91,13 @@ const validPhone = (rule: any, value: any, callback: (e?: Error) => any) => {
     callback()
   }
 }
-const checkPassword = (
-  rule: any,
-  value: any,
-  callback: (e?: Error) => any
-) => {
+const checkPassword = (rule: any, value: any, callback: (e?: Error) => any) => {
   const cnReg = /[\u4e00-\u9fa5]+/
   if (cnReg.test(value)) {
     callback(new Error('请不要输入中文'))
   }
 
-  passwordRule(rule,value,callback)
+  passwordRule(rule, value, callback)
 }
 // 确认密码验证
 const checkConfirmPassword = (
@@ -179,7 +171,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   }
   formEl.validate((valid: boolean) => {
     if (!valid) {
-      return false
+      return
     }
     let params = {}
     if (!props.isEdit) {

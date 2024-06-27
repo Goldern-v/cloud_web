@@ -275,52 +275,51 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      // 构建表单
-      const form = {
-        ...editForm,
-        taskDefinitionName: undefined
-      }
-      // 将 roleIds 等选项赋值到 options 中
-      if (form.type === 10) {
-        form.options = form.roleIds
-      } else if (form.type === 20) {
-        form.options = form.deptIds
-      } else if (form.type === 22) {
-        form.options = form.postIds
-      } else if (form.type === 30 || form.type === 31 || form.type === 32) {
-        form.options = form.userIds
-      } else if (form.type === 40) {
-        form.options = form.userGroupIds
-      }
-      form.roleIds = undefined
-      form.deptIds = undefined
-      form.postIds = undefined
-      form.userIds = undefined
-      form.userGroupIds = undefined
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
+    }
+    // 构建表单
+    const form = {
+      ...editForm,
+      taskDefinitionName: undefined
+    }
+    // 将 roleIds 等选项赋值到 options 中
+    if (form.type === 10) {
+      form.options = form.roleIds
+    } else if (form.type === 20) {
+      form.options = form.deptIds
+    } else if (form.type === 22) {
+      form.options = form.postIds
+    } else if (form.type === 30 || form.type === 31 || form.type === 32) {
+      form.options = form.userIds
+    } else if (form.type === 40) {
+      form.options = form.userGroupIds
+    }
+    form.roleIds = undefined
+    form.deptIds = undefined
+    form.postIds = undefined
+    form.userIds = undefined
+    form.userGroupIds = undefined
 
-      // 提交请求
-      formLoading.value = true
-      const apiData = [createTaskAssignRule, updateTaskAssignRule]
-      try {
-        apiData[form.id ? 1 : 0](form)
-          .then((res: any) => {
-            formLoading.value = false
-            let data = res
-            if (data.code === 200) {
-              ElMessage.success(form.id ? '修改规则成功' : '新建规则成功')
-              emit(EventEnum.success)
-            }
-          })
-          .catch((err: any) => {
-            console.log(err, 'err')
-          })
-      } finally {
-        formLoading.value = false
-      }
-    } else {
-      return false
+    // 提交请求
+    formLoading.value = true
+    const apiData = [createTaskAssignRule, updateTaskAssignRule]
+    try {
+      apiData[form.id ? 1 : 0](form)
+        .then((res: any) => {
+          formLoading.value = false
+          let data = res
+          if (data.code === 200) {
+            ElMessage.success(form.id ? '修改规则成功' : '新建规则成功')
+            emit(EventEnum.success)
+          }
+        })
+        .catch((err: any) => {
+          console.log(err, 'err')
+        })
+    } finally {
+      formLoading.value = false
     }
   })
 }

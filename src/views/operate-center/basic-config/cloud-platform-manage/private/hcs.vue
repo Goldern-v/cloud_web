@@ -2,7 +2,11 @@
   <div class="hcs">
     <div class="hcs__container">
       <div class="flex-row hcs__tip">
-        <svg-icon icon="info-warning" color="var(--el-color-primary)" class="ideal-svg-margin-right"></svg-icon>
+        <svg-icon
+          icon="info-warning"
+          color="var(--el-color-primary)"
+          class="ideal-svg-margin-right"
+        ></svg-icon>
         <span
           >为了管理华为云Stack云平台内的资源，需要您提供API访问地址、管理员用户名和密码等信息来访问您的华为云Stack。</span
         >
@@ -10,7 +14,10 @@
 
       <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
         <el-form-item>
-          <div class="flex-row ideal-header-container ideal-middle-margin-top" style="width: 100%;">
+          <div
+            class="flex-row ideal-header-container ideal-middle-margin-top"
+            style="width: 100%"
+          >
             <el-divider direction="vertical" />
             <div>基本信息</div>
           </div>
@@ -36,41 +43,70 @@
         </el-form-item>
 
         <el-form-item>
-          <div class="flex-row ideal-header-container" style="width: 100%;">
+          <div class="flex-row ideal-header-container" style="width: 100%">
             <el-divider direction="vertical" />
             <div>运营侧服务配置</div>
           </div>
         </el-form-item>
 
         <el-form-item label="身份认证服务地址(IAM)" prop="iam">
-          <el-input v-model="form.iam" placeholder="请输入身份认证服务地址" class="custom-input" />
+          <el-input
+            v-model="form.iam"
+            placeholder="请输入身份认证服务地址"
+            class="custom-input"
+          />
         </el-form-item>
 
-        <el-form-item label="运营管理服务地址(ManageOne运营面)" prop="operationService">
-          <el-input v-model="form.operationService" placeholder="请输入运营管理服务地址" class="custom-input" />
+        <el-form-item
+          label="运营管理服务地址(ManageOne运营面)"
+          prop="operationService"
+        >
+          <el-input
+            v-model="form.operationService"
+            placeholder="请输入运营管理服务地址"
+            class="custom-input"
+          />
         </el-form-item>
 
         <el-form-item label="弹性云服务器地址(ECS)" prop="ecs">
-          <el-input v-model="form.ecs" placeholder="请输入弹性云服务器地址" class="custom-input" />
+          <el-input
+            v-model="form.ecs"
+            placeholder="请输入弹性云服务器地址"
+            class="custom-input"
+          />
         </el-form-item>
 
         <el-form-item>
-          <div class="flex-row ideal-header-container ideal-middle-margin-top" style="width: 100%;">
+          <div
+            class="flex-row ideal-header-container ideal-middle-margin-top"
+            style="width: 100%"
+          >
             <el-divider direction="vertical" />
             <div>认证信息</div>
           </div>
         </el-form-item>
 
         <el-form-item label="VDC管理员" prop="vdcManager">
-          <el-input v-model="form.vdcManager" placeholder="请输入VDC管理员" class="custom-input" />
+          <el-input
+            v-model="form.vdcManager"
+            placeholder="请输入VDC管理员"
+            class="custom-input"
+          />
         </el-form-item>
 
         <el-form-item label="VDC管理员密码" prop="vdcManagerPwd">
-          <el-input v-model="form.vdcManagerPwd" placeholder="请输入VDC管理员密码" class="custom-input" />
+          <el-input
+            v-model="form.vdcManagerPwd"
+            placeholder="请输入VDC管理员密码"
+            class="custom-input"
+          />
         </el-form-item>
 
         <el-form-item>
-          <div class="flex-row ideal-header-container ideal-middle-margin-top" style="width: 100%;">
+          <div
+            class="flex-row ideal-header-container ideal-middle-margin-top"
+            style="width: 100%"
+          >
             <el-divider direction="vertical" />
             <div>监控配置</div>
           </div>
@@ -95,16 +131,31 @@
           <el-checkbox v-model="form.enable" label="启用云账户监控" />
         </el-form-item>
 
-        <el-form-item label="运维侧管理服务地址(ManageOne运维面)" prop="opsServer">
-          <el-input v-model="form.opsServer" placeholder="请输入运维侧管理服务地址" class="custom-input" />
+        <el-form-item
+          label="运维侧管理服务地址(ManageOne运维面)"
+          prop="opsServer"
+        >
+          <el-input
+            v-model="form.opsServer"
+            placeholder="请输入运维侧管理服务地址"
+            class="custom-input"
+          />
         </el-form-item>
 
         <el-form-item label="运维侧管理员" prop="ops">
-          <el-input v-model="form.ops" placeholder="请输入运维侧管理员" class="custom-input" />
+          <el-input
+            v-model="form.ops"
+            placeholder="请输入运维侧管理员"
+            class="custom-input"
+          />
         </el-form-item>
 
         <el-form-item label="运维侧管理员密码" prop="opsPwd">
-          <el-input v-model="form.opsPwd" placeholder="请输入运维侧管理员密码" class="custom-input" />
+          <el-input
+            v-model="form.opsPwd"
+            placeholder="请输入运维侧管理员密码"
+            class="custom-input"
+          />
         </el-form-item>
       </el-form>
     </div>
@@ -171,14 +222,30 @@ const rules = reactive<FormRules>({
   name: [{ required: true, validator: checkCloudName, trigger: 'blur' }],
   version: [{ required: true, message: '请选择版本号', trigger: 'blur' }],
   tenant: [{ required: true, message: '请输入租户', trigger: 'blur' }],
-  iam: [{ required: true, message: '请输入身份认证服务地址(IAM)', trigger: 'blur' }],
-  operationService: [{ required: true, message: '请输入运营管理服务地址', trigger: 'blur' }],
-  ecs: [{ required: true, message: '请输入弹性云服务器地址(ECS)', trigger: 'blur' }],
+  iam: [
+    { required: true, message: '请输入身份认证服务地址(IAM)', trigger: 'blur' }
+  ],
+  operationService: [
+    { required: true, message: '请输入运营管理服务地址', trigger: 'blur' }
+  ],
+  ecs: [
+    { required: true, message: '请输入弹性云服务器地址(ECS)', trigger: 'blur' }
+  ],
   vdcManager: [{ required: true, message: '请输入VDC管理员', trigger: 'blur' }],
-  vdcManagerPwd: [{ required: true, message: '请输入VDC管理员密码', trigger: 'blur' }],
-  opsServer: [{ required: true, message: '请输入运维侧管理服务地址(ManageOne运维面)', trigger: 'blur' }],
+  vdcManagerPwd: [
+    { required: true, message: '请输入VDC管理员密码', trigger: 'blur' }
+  ],
+  opsServer: [
+    {
+      required: true,
+      message: '请输入运维侧管理服务地址(ManageOne运维面)',
+      trigger: 'blur'
+    }
+  ],
   ops: [{ required: true, message: '请输入运维侧管理员', trigger: 'blur' }],
-  opsPwd: [{ required: true, message: '请输入运维侧管理员密码', trigger: 'blur' }]
+  opsPwd: [
+    { required: true, message: '请输入运维侧管理员密码', trigger: 'blur' }
+  ]
 })
 
 const route = useRoute()
@@ -216,16 +283,14 @@ const clickSave = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      if (isEdit) {
-        handleEdit()
-      } else {
-        handleCreate()
-      }
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
+    }
+    if (isEdit) {
+      handleEdit()
     } else {
-      console.log('error submit!')
-      return false
+      handleCreate()
     }
   })
 }
@@ -235,7 +300,8 @@ const handleCreate = () => {
     cloudType: props.cloudType, // 云类型 华为云、阿里云
     cloudCategory: props.cloudCategory, // 云类别 私有云、公有云
     accessCredentialType: 0, // 云底层访问类型 0：账号密码、1：密钥
-    password: { // 账号密码
+    password: {
+      // 账号密码
       // account: form.userName, // 云账户
       // password: form.password, // 账户密码
       // accessUrl: form.resourcePoolUrl, // 访问地址

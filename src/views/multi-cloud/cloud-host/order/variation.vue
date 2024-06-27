@@ -60,7 +60,10 @@
       class="upgrade-form ideal-middle-margin-top"
     >
       <el-form-item label="CPU架构" prop="cpuArchitecture">
-        <el-radio-group v-model="form.cpuArchitecture" class="ideal-default-margin-right">
+        <el-radio-group
+          v-model="form.cpuArchitecture"
+          class="ideal-default-margin-right"
+        >
           <el-radio-button
             v-for="(item, index) of cpuArchitectureList"
             :key="index"
@@ -441,7 +444,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
+  formEl.validate((valid: boolean) => {
     if (valid) {
       const params = {
         ...commonParams()
@@ -455,9 +458,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
           ElMessage.error(data.msg || '生成变配订单失败')
         }
       })
-    } else {
-      console.log('error submit!')
-      return false
     }
   })
 }

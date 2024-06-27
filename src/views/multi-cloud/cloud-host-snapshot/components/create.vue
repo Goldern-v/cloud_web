@@ -23,18 +23,25 @@
       class="ideal-middle-margin-top"
       :model="form"
       :rules="rules"
-      label-position="left">
+      label-position="left"
+    >
       <el-form-item label="名称" prop="name">
-        <el-input v-model="form.name" style="width: 50%;"/>
+        <el-input v-model="form.name" style="width: 50%" />
       </el-form-item>
       <el-form-item label="描述">
-        <el-input v-model="form.description" type="textarea" style="width: 50%;"/>
+        <el-input
+          v-model="form.description"
+          type="textarea"
+          style="width: 50%"
+        />
       </el-form-item>
     </el-form>
 
     <div class="flex-row ideal-submit-button">
       <el-button @click="clickCancel(formRef)">{{ t('cancel') }}</el-button>
-      <el-button type="primary" @click="clickSave(formRef)">{{ t('confirm') }}</el-button>
+      <el-button type="primary" @click="clickSave(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -60,11 +67,41 @@ const {
   query
 } = useCrud(state)
 state.dataList = [
-  { name: 'ecm-1023', instanceName: 'ecm-1', status: '关机', expirationTime: '2023-12-02 15:00:00', id: '1' },
-  { name: 'ecm-a2', instanceName: 'ecm-2', status: '运行中', expirationTime: '2023-12-12 19:30:00', id: '2' },
-  { name: 'ecm-341', instanceName: 'ecm-3', status: '关机', expirationTime: '2023-12-02 10:20:00', id: '3' },
-  { name: 'ecm-90a', instanceName: 'ecm-4', status: '运行中', expirationTime: '2023-12-02 20:50:00', id: '4' },
-  { name: 'ecm-b2d', instanceName: 'ecm-5', status: '关机', expirationTime: '2023-12-02 11:40:00', id: '5' }
+  {
+    name: 'ecm-1023',
+    instanceName: 'ecm-1',
+    status: '关机',
+    expirationTime: '2023-12-02 15:00:00',
+    id: '1'
+  },
+  {
+    name: 'ecm-a2',
+    instanceName: 'ecm-2',
+    status: '运行中',
+    expirationTime: '2023-12-12 19:30:00',
+    id: '2'
+  },
+  {
+    name: 'ecm-341',
+    instanceName: 'ecm-3',
+    status: '关机',
+    expirationTime: '2023-12-02 10:20:00',
+    id: '3'
+  },
+  {
+    name: 'ecm-90a',
+    instanceName: 'ecm-4',
+    status: '运行中',
+    expirationTime: '2023-12-02 20:50:00',
+    id: '4'
+  },
+  {
+    name: 'ecm-b2d',
+    instanceName: 'ecm-5',
+    status: '关机',
+    expirationTime: '2023-12-02 11:40:00',
+    id: '5'
+  }
 ]
 const tableHeaders: IdealTableColumnHeaders[] = [
   { label: '名称', prop: 'name' },
@@ -93,11 +130,9 @@ const clickSave = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate((valid: any) => {
-    if (valid) {
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
   })
 }

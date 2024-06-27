@@ -132,7 +132,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(async (valid: any) => {
+  formEl.validate(async (valid: boolean) => {
     if (valid) {
       let params: any = {}
       if (props.isEdit) {
@@ -162,9 +162,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
           ElMessage.error('新增失败')
         }
       }
-    } else {
-      console.log('error submit!')
-      return false
     }
   })
 }

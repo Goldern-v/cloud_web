@@ -43,7 +43,10 @@
       </el-form-item>
 
       <el-form-item label="可用区" prop="availableZone">
-        <el-radio-group v-model="createForm.availableZone" class="ideal-default-margin-right">
+        <el-radio-group
+          v-model="createForm.availableZone"
+          class="ideal-default-margin-right"
+        >
           <el-radio-button
             v-for="(item, index) of state.availableZoneList"
             :key="index"
@@ -82,9 +85,7 @@
           ></ideal-ip-input>
 
           <div class="ideal-tip-text">可用IP数：251</div>
-          <div class="ideal-warning-text">
-            子网创建完成后，子网网段无法修改
-          </div>
+          <div class="ideal-warning-text">子网创建完成后，子网网段无法修改</div>
         </div>
       </el-form-item>
 
@@ -359,7 +360,7 @@ const checkForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) {
     flag = false
   } else {
-    await formEl.validate(valid => {
+    await formEl.validate((valid: boolean) => {
       flag = valid
     })
     return flag
@@ -370,7 +371,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     return
   }
   const flag = await checkForm(regionProject.value.formRef) //校验区域项目
-  formEl.validate(valid => {
+  formEl.validate((valid: boolean) => {
     if (valid && flag) {
       const commonParams = {
         regionId: createForm.regionId,
@@ -403,9 +404,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         .catch(_ => {
           hideLoading()
         })
-    } else {
-      console.log('error submit!')
-      return false
     }
   })
 }

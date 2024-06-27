@@ -1,11 +1,6 @@
 <template>
   <div class="create-container">
-    <el-form
-      ref="formRef"
-      :model="form"
-      :rules="rules"
-      label-position="left"
-    >
+    <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="名称" prop="name">
         <el-input v-model="form.name" clearable class="custom-input" />
       </el-form-item>
@@ -72,7 +67,11 @@
             </el-option>
           </el-select>
 
-          <el-button link type="primary" class="ideal-default-margin-top" @click="addSuffix"
+          <el-button
+            link
+            type="primary"
+            class="ideal-default-margin-top"
+            @click="addSuffix"
             >创建后缀</el-button
           >
         </div>
@@ -80,9 +79,7 @@
     </el-form>
 
     <div class="flex-row footer-button">
-      <el-button @click="cancelForm(formRef)">{{
-        t('cancel')
-      }}</el-button>
+      <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
       <el-button type="primary" @click="submitForm(formRef)">{{
         t('confirm')
       }}</el-button>
@@ -251,16 +248,14 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate((valid: Boolean) => {
-    if (valid) {
-      if (props.isEdit) {
-        handleEdit()
-      } else {
-        handleCreate()
-      }
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
+    }
+    if (props.isEdit) {
+      handleEdit()
     } else {
-      console.log('error submit!')
-      return false
+      handleCreate()
     }
   })
 }
@@ -284,24 +279,24 @@ const handleEdit = () => {
   // 筛选表单修改项, 编辑时只传修改项
   const tempDic = compareDiffDictionary(originDic.value, form)
 
-  const params: { [key: string]: any } = { id: props.rowData?.id } 
+  const params: { [key: string]: any } = { id: props.rowData?.id }
   for (const key in tempDic) {
     if (key === 'prefixText') {
       prefixList.value.forEach((item: any) => {
-      if (item.value === form.prefixText) {
-        const dic = {
-          name: '',
-          rule: form.prefixText
+        if (item.value === form.prefixText) {
+          const dic = {
+            name: '',
+            rule: form.prefixText
+          }
+          params.prefix = dic
+        } else {
+          const dic = {
+            name: form.prefixText,
+            rule: ''
+          }
+          params.prefix = dic
         }
-        params.prefix = dic
-      } else {
-        const dic = {
-          name: form.prefixText,
-          rule: ''
-        }
-        params.prefix = dic
-      }
-    })
+      })
     } else {
       params[key] = tempDic[key]
     }

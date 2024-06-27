@@ -5,13 +5,18 @@
       :model="form"
       :rules="rules"
       label-position="left"
-      class="bind-form">
+      class="bind-form"
+    >
       <el-form-item label="云服务器名称">
         <div>{{ detail.name }}</div>
       </el-form-item>
 
       <el-form-item label="选择网卡" prop="netCard">
-        <el-select v-model="form.netCard" placeholder="请选择" style="width: 320px">
+        <el-select
+          v-model="form.netCard"
+          placeholder="请选择"
+          style="width: 320px"
+        >
           <el-option
             v-for="(item, index) of netCardList"
             :key="index + 'select'"
@@ -23,11 +28,17 @@
       </el-form-item>
 
       <el-form-item label="选择弹性公网IP">
-        <div class="flex-column" style="width: 100%;">
-          <div class="flex-row" style="justify-content: space-between;">
-            <el-button link type="primary" @click="clickGoToEip">查看弹性公网IP</el-button>
+        <div class="flex-column" style="width: 100%">
+          <div class="flex-row" style="justify-content: space-between">
+            <el-button link type="primary" @click="clickGoToEip"
+              >查看弹性公网IP</el-button
+            >
 
-            <el-input v-model="form.eipName" placeholder="请输入内容" style="width: 50%;">
+            <el-input
+              v-model="form.eipName"
+              placeholder="请输入内容"
+              style="width: 50%"
+            >
               <template #suffix>
                 <svg-icon icon="search-icon"></svg-icon>
               </template>
@@ -41,7 +52,8 @@
             :table-headers="tableHeaders"
             :is-radio="true"
             :show-pagination="false"
-            @clickTableCellRow="clickTableCellRow">
+            @clickTableCellRow="clickTableCellRow"
+          >
             <template #shareType>
               <el-table-column label="带宽类型">
                 <template #default="props">
@@ -67,17 +79,15 @@
       </el-form-item>
 
       <el-form-item label="释放行为">
-        <el-checkbox v-model="form.behavior" label="随实例释放"/>
+        <el-checkbox v-model="form.behavior" label="随实例释放" />
       </el-form-item>
     </el-form>
 
     <div class="flex-row ideal-submit-button">
-      <el-button @click="cancelForm(formRef)"
-        >{{ t('cancel') }}</el-button
-      >
-      <el-button type="primary" @click="submitForm(formRef)"
-        >{{ t('confirm') }}</el-button
-      >
+      <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -91,7 +101,10 @@ import { EventEnum } from '@/utils/enum'
 import type { FormRules, FormInstance } from 'element-plus'
 import { eipListUrl } from '@/api/java/compute'
 import { RESOURCE_STATUS, RESOURCE_STATUS_ICON } from '@/utils/dictionary'
-import { queryUnbindNetCardList, eipRelevanceInstance } from '@/api/java/network'
+import {
+  queryUnbindNetCardList,
+  eipRelevanceInstance
+} from '@/api/java/network'
 
 interface BindProps {
   rowData?: any // 行数据
@@ -106,7 +119,6 @@ const { t } = useI18n()
 
 const route = useRoute()
 
-
 const formRef = ref<FormInstance>()
 const form = reactive({
   netCard: '', // 选择网卡
@@ -115,7 +127,7 @@ const form = reactive({
   behavior: false // 释放行为
 })
 const rules = reactive<FormRules>({
-  netCard: [{ required: true, message: '请选择网卡', trigger: 'blur' }],
+  netCard: [{ required: true, message: '请选择网卡', trigger: 'blur' }]
 })
 
 onMounted(() => {
@@ -141,8 +153,8 @@ const queryNetCard = () => {
 }
 // 规格列表选择
 const clickTableCellRow = (row: any) => {
-    form.eip = row
-  }
+  form.eip = row
+}
 // 弹性公网IP列表
 const state: IHooksOptions = reactive({
   dataListUrl: eipListUrl,
@@ -156,16 +168,16 @@ const state: IHooksOptions = reactive({
 })
 const { getDataList } = useCrud(state)
 watch(
-    () => state?.dataList,
-    value => {
-      if (value?.length) {
-        value.forEach((item: any) => {
-          item.statusText = RESOURCE_STATUS[item?.status]
-          item.statusIcon = RESOURCE_STATUS_ICON[item?.status]
-        })
-      }
+  () => state?.dataList,
+  value => {
+    if (value?.length) {
+      value.forEach((item: any) => {
+        item.statusText = RESOURCE_STATUS[item?.status]
+        item.statusIcon = RESOURCE_STATUS_ICON[item?.status]
+      })
     }
-  )
+  }
+)
 // 弹性公网IP表头
 const tableHeaders: IdealTableColumnHeaders[] = [
   { label: '弹性公网IP', prop: 'ipAddress' },
@@ -177,7 +189,7 @@ const tableHeaders: IdealTableColumnHeaders[] = [
 ]
 const router = useRouter()
 const clickGoToEip = () => {
-  router.push({ path: '/multi-cloud/elastic-ip/list'})
+  router.push({ path: '/multi-cloud/elastic-ip/list' })
 }
 // 点击事件
 interface EventEmits {
@@ -198,13 +210,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      clickSubmit()
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    clickSubmit()
   })
 }
 const clickSubmit = () => {
@@ -213,7 +223,7 @@ const clickSubmit = () => {
     bindnicUuid: form.netCard, // 云主机网卡的uuid
     resourcePoolId: props.detail.pool.id, // 资源池id
     regionId: props.detail.regionId, // 区域code
-    projectId: props.detail.project.id,// 云管项目id
+    projectId: props.detail.project.id, // 云管项目id
     vdcId: props.detail.vdc.id // 云管vdcId
   }
   eipRelevanceInstance(params).then((res: any) => {
@@ -241,5 +251,4 @@ const clickSubmit = () => {
     align-items: center;
   }
 }
-
 </style>

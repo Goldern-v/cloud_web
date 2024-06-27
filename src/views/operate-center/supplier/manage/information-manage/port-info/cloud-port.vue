@@ -121,7 +121,7 @@ const checkForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) {
     validFlag = false
   }
-  await formEl?.validate(valid => {
+  await formEl?.validate((valid: boolean) => {
     validFlag = valid
   })
   return validFlag

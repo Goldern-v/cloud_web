@@ -9,8 +9,10 @@
 
       <el-form-item label="名称" prop="name">
         <div>
-          <el-input v-model="form.name"/>
-          <div class="ideal-tip-text">使用该配置创建的云服务器名称为伸缩配置名称加八位随机码。</div>
+          <el-input v-model="form.name" />
+          <div class="ideal-tip-text">
+            使用该配置创建的云服务器名称为伸缩配置名称加八位随机码。
+          </div>
         </div>
       </el-form-item>
 
@@ -19,7 +21,8 @@
           <el-radio-button
             v-for="(item, index) of cpuArchitectures"
             :key="index"
-            :label="item.label">{{ item.value }}
+            :label="item.label"
+            >{{ item.value }}
           </el-radio-button>
         </el-radio-group>
       </el-form-item>
@@ -39,19 +42,26 @@
               @clickTableCellRow="clickTableCellRow"
               @clickSizeChange="sizeChangeHandle"
               @clickCurrentChange="currentChangeHandle"
-              @handleSelectionChange="selectionChangeHandle">
+              @handleSelectionChange="selectionChangeHandle"
+            >
               <template #vCPUs>
-                <el-table-column label="vCPUs" >
+                <el-table-column label="vCPUs">
                   <template #default="props">
-                    <div>{{ props.row.vcpus }}vCPUs | {{ props.row.memory }}GiB</div>
+                    <div>
+                      {{ props.row.vcpus }}vCPUs | {{ props.row.memory }}GiB
+                    </div>
                   </template>
                 </el-table-column>
               </template>
 
               <template #standard>
-                <el-table-column label="基准/最大带宽" >
+                <el-table-column label="基准/最大带宽">
                   <template #default="props">
-                    <div>{{ props.row.standard }}/{{ props.row.maxBandwidth }}Gbit/s</div>
+                    <div>
+                      {{ props.row.standard }}/{{
+                        props.row.maxBandwidth
+                      }}Gbit/s
+                    </div>
                   </template>
                 </el-table-column>
               </template>
@@ -63,7 +73,9 @@
 
     <div class="flex-row footer-button">
       <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
-      <el-button type="primary" @click="submitForm(formRef)">{{ t('confirm') }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -88,7 +100,7 @@ const form = reactive({
 const rules = reactive<FormRules>({
   billingMode: [{ required: true, message: '请选择计费模式', trigger: 'blur' }],
   name: [{ required: true, message: '请输入名称', trigger: 'blur' }],
-  spec: [{ required: true, message: '请选择规格', trigger: 'blur' }],
+  spec: [{ required: true, message: '请选择规格', trigger: 'blur' }]
 })
 const cpuArchitectures = ref<any[]>([
   { label: '1', value: 'x86计算' },
@@ -148,13 +160,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      emit(EventEnum.success)
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    emit(EventEnum.success)
   })
 }
 </script>

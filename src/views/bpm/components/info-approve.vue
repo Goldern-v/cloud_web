@@ -90,7 +90,7 @@ const formRef = ref() // 表单 Ref
 
 const handleAudit = async (pass: boolean) => {
   // 校验表单
-  if (!formRef) {
+  if (!formRef.value) {
     return
   }
   const valid = await formRef.value.validate()

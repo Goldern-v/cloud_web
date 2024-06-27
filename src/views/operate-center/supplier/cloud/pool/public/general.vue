@@ -292,7 +292,6 @@ const changeRegion = (regionId: string) => {
   }
 }
 
-
 const fileUrl = ref<any>() // 图标
 const changeImage = ref(false) // 是否选择或重选图标
 // 选择本地图片
@@ -335,8 +334,10 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (!valid) { return }
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
+    }
 
     if (changeImage.value) {
       uploadIcon()

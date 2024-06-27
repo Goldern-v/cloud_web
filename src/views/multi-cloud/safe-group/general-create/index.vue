@@ -327,7 +327,7 @@ const checkForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) {
     flag = false
   } else {
-    await formEl.validate(valid => {
+    await formEl.validate((valid: boolean) => {
       flag = valid
     })
     return flag
@@ -339,7 +339,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     return
   }
   const flag = await checkForm(regionProject.value.formRef) //校验区域项目
-  formEl.validate(valid => {
+  formEl.validate((valid: boolean) => {
     if (valid && flag) {
       const params: { [key: string]: any } = {
         name: form.name,
@@ -406,9 +406,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         .catch(_ => {
           hideLoading()
         })
-    } else {
-      console.log('error submit!')
-      return false
     }
   })
 }

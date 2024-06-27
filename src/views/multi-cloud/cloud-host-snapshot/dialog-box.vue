@@ -51,7 +51,7 @@ const props = withDefaults(defineProps<DialogProps>(), {
 // 方法
 interface EventEmits {
   (e: EventEnum.close): void
-  (e: EventEnum.refresh, v: string[]): void // 表单成功提交后刷新列表/（或设置监控项）
+  (e: EventEnum.refresh): void // 表单成功提交后刷新列表
 }
 const emit = defineEmits<EventEmits>()
 
@@ -76,7 +76,7 @@ watch(
   () => props.type,
   value => {
     initDialog()
-  },
+  }
 )
 
 onMounted(() => {
@@ -105,9 +105,9 @@ const clickCancelEvent = () => {
   emit(EventEnum.close)
 }
 // 弹框成功提交
-const clickSuccessEvent = (tags: any) => {
+const clickSuccessEvent = () => {
   dialogVisible.value = false
-  emit(EventEnum.refresh, tags)
+  emit(EventEnum.refresh)
 }
 </script>
 

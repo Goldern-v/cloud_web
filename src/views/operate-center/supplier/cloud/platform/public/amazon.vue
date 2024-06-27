@@ -15,14 +15,17 @@
 
       <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
         <el-form-item>
-          <div class="flex-row ideal-header-container ideal-middle-margin-top" style="width: 100%">
+          <div
+            class="flex-row ideal-header-container ideal-middle-margin-top"
+            style="width: 100%"
+          >
             <el-divider direction="vertical" />
             <div>基本信息</div>
           </div>
         </el-form-item>
 
         <el-form-item label="云平台名称" prop="name">
-          <el-input v-model="form.name" style="width: 20%;"></el-input>
+          <el-input v-model="form.name" style="width: 20%"></el-input>
         </el-form-item>
 
         <el-form-item label="接入方式" prop="accessWay">
@@ -32,14 +35,18 @@
         </el-form-item>
 
         <el-form-item label="访问密钥ID" prop="accessKeyId">
-          <el-input v-model="form.accessKeyId" :disabled="isEdit" style="width: 20%;"></el-input>
+          <el-input
+            v-model="form.accessKeyId"
+            :disabled="isEdit"
+            style="width: 20%"
+          ></el-input>
         </el-form-item>
 
         <el-form-item label="访问密钥" prop="secretAccessKey">
           <el-input
             v-model="form.secretAccessKey"
             :disabled="isEdit"
-            style="width: 20%;"
+            style="width: 20%"
           ></el-input>
         </el-form-item>
 
@@ -149,16 +156,14 @@ const clickSave = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      if (isEdit) {
-        handleEdit()
-      } else {
-        handleCreate()
-      }
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
+    }
+    if (isEdit) {
+      handleEdit()
     } else {
-      console.log('error submit!')
-      return false
+      handleCreate()
     }
   })
 }

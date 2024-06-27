@@ -7,16 +7,13 @@
         class="ideal-svg-margin-right"
       ></svg-icon>
       <div>
-        <div>当目的地址选择IP地址时，您可以在一个IP地址框内同时输入多个IP地址，一个IP地址对应一条安全组规则。</div>
+        <div>
+          当目的地址选择IP地址时，您可以在一个IP地址框内同时输入多个IP地址，一个IP地址对应一条安全组规则。
+        </div>
       </div>
     </div>
 
-    <el-form
-      ref="formRef"
-      :model="form"
-      :rules="rules"
-      label-position="left"
-    >
+    <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="安全组" prop="ipVersion">
         <div>{{ form.safeGroup }}</div>
       </el-form-item>
@@ -25,11 +22,16 @@
         <ideal-table-list
           :table-data="form.ruleList"
           :table-headers="tableHeaders"
-          :show-pagination="false">
+          :show-pagination="false"
+        >
           <template #priority>
             <el-table-column label="优先级">
               <template #default="props">
-                <el-input v-model="props.row.priority" placeholder="1-100" oninput="value=value.replace(/[^0-9]/g,'')"/>
+                <el-input
+                  v-model="props.row.priority"
+                  placeholder="1-100"
+                  oninput="value=value.replace(/[^0-9]/g,'')"
+                />
               </template>
             </el-table-column>
           </template>
@@ -37,9 +39,7 @@
           <template #policy>
             <el-table-column label="策略">
               <template #default="props">
-                <el-select
-                  v-model="props.row.policy"
-                >
+                <el-select v-model="props.row.policy">
                   <el-option
                     v-for="(item, idx) of policyList"
                     :key="idx"
@@ -55,9 +55,7 @@
           <template #type>
             <el-table-column label="类型">
               <template #default="props">
-                <el-select
-                  v-model="props.row.type"
-                >
+                <el-select v-model="props.row.type">
                   <el-option
                     v-for="(item, idx) of typeList"
                     :key="idx"
@@ -73,9 +71,7 @@
           <template #port>
             <el-table-column label="端口协议">
               <template #default="props">
-                <el-select
-                  v-model="props.row.portProtocol"
-                >
+                <el-select v-model="props.row.portProtocol">
                   <el-option
                     v-for="(item, idx) of portProtocols"
                     :key="idx"
@@ -85,7 +81,12 @@
                   </el-option>
                 </el-select>
 
-                <el-input v-model="props.row.port" placeholder="1-65535" style="margin-top: 5px;" oninput="value=value.replace(/[^0-9]/g,'')"/>
+                <el-input
+                  v-model="props.row.port"
+                  placeholder="1-65535"
+                  style="margin-top: 5px"
+                  oninput="value=value.replace(/[^0-9]/g,'')"
+                />
               </template>
             </el-table-column>
           </template>
@@ -93,9 +94,7 @@
           <template #address>
             <el-table-column label="源地址">
               <template #default="props">
-                <el-select
-                  v-model="props.row.addressType"
-                >
+                <el-select v-model="props.row.addressType">
                   <el-option
                     v-for="(item, idx) of addressTypes"
                     :key="idx"
@@ -105,12 +104,16 @@
                   </el-option>
                 </el-select>
 
-                <el-input v-if="props.row.addressType === '1'" v-model="props.row.address" style="margin-top: 5px;"/>
+                <el-input
+                  v-if="props.row.addressType === '1'"
+                  v-model="props.row.address"
+                  style="margin-top: 5px"
+                />
 
                 <el-select
                   v-else-if="props.row.addressType === '2'"
                   v-model="props.row.address"
-                  style="margin-top: 5px;"
+                  style="margin-top: 5px"
                 >
                   <el-option
                     v-for="(item, idx) of safeGroupList"
@@ -124,7 +127,7 @@
                 <el-select
                   v-else
                   v-model="props.row.address"
-                  style="margin-top: 5px;"
+                  style="margin-top: 5px"
                 >
                   <el-option
                     v-for="(item, idx) of ipAddresses"
@@ -141,7 +144,7 @@
           <template #description>
             <el-table-column label="描述">
               <template #default="props">
-                <el-input v-model="props.row.description"/>
+                <el-input v-model="props.row.description" />
               </template>
             </el-table-column>
           </template>
@@ -158,17 +161,21 @@
             </el-table-column>
           </template>
         </ideal-table-list>
-        <el-button link type="primary" class="ideal-default-margin-top" @click="clickAddRule">增加1条规则</el-button>
+        <el-button
+          link
+          type="primary"
+          class="ideal-default-margin-top"
+          @click="clickAddRule"
+          >增加1条规则</el-button
+        >
       </el-form-item>
     </el-form>
 
     <div class="flex-row footer-button">
-      <el-button @click="cancelForm(formRef)"
-        >{{ t('cancel') }}</el-button
-      >
-      <el-button type="primary" @click="submitForm(formRef)"
-        >{{ t('confirm') }}</el-button
-      >
+      <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -182,7 +189,18 @@ const { t } = useI18n()
 const formRef = ref<FormInstance>()
 const form = reactive({
   safeGroup: 'Sys-defaultAccess', // 安全组
-  ruleList: [{ priority: '', policy: 'allow', type: 'IPv4', portProtocol: '', port: '', addressType: '1',address: '', description: '' }]
+  ruleList: [
+    {
+      priority: '',
+      policy: 'allow',
+      type: 'IPv4',
+      portProtocol: '',
+      port: '',
+      addressType: '1',
+      address: '',
+      description: ''
+    }
+  ]
 })
 const rules = reactive<FormRules>({})
 // 表头
@@ -198,7 +216,10 @@ const operateBtns = ref<IdealTableColumnOperate[]>([
   { title: '复制', prop: 'copy' },
   { title: '删除', prop: 'delete', disabled: true, disabledText: '最少一条' }
 ])
-const clickOperateEvent = (command: string | number | object, index: number) => {
+const clickOperateEvent = (
+  command: string | number | object,
+  index: number
+) => {
   if (command === 'delete') {
     form.ruleList.splice(index, 1)
   } else if (command === 'copy') {
@@ -229,15 +250,28 @@ const safeGroupList: any = []
 // IP地址组
 const ipAddresses: any = []
 const clickAddRule = () => {
-  form.ruleList.push({ priority: '', policy: 'allow', type: 'IPv4', portProtocol: '', port: '', addressType: '1',address: '', description: '' })
+  form.ruleList.push({
+    priority: '',
+    policy: 'allow',
+    type: 'IPv4',
+    portProtocol: '',
+    port: '',
+    addressType: '1',
+    address: '',
+    description: ''
+  })
 }
 // 监听
-watch(() => form.ruleList, value => {
-  operateBtns.value[1].disabled = true
-  if (value.length > 1) {
-    operateBtns.value[1].disabled = false
-  }
-}, { deep: true })
+watch(
+  () => form.ruleList,
+  value => {
+    operateBtns.value[1].disabled = true
+    if (value.length > 1) {
+      operateBtns.value[1].disabled = false
+    }
+  },
+  { deep: true }
+)
 
 // 方法
 interface EventEmits {
@@ -258,14 +292,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      console.log('submit!')
-      emit(EventEnum.success)
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    console.log('submit!')
+    emit(EventEnum.success)
   })
 }
 </script>

@@ -6,10 +6,11 @@
       :rules="rules"
       label-width="130"
       label-position="left"
-      class="login-config-form">
+      class="login-config-form"
+    >
       <el-form-item label="密码复杂度">
         <div class="flex-column login-config-form-item">
-          <el-radio-group v-model="form.complexity" >
+          <el-radio-group v-model="form.complexity">
             <el-radio label="1">限制</el-radio>
             <el-radio label="2">无限制</el-radio>
           </el-radio-group>
@@ -17,9 +18,17 @@
           <template v-if="form.complexity === '1'">
             <div class="flex-row flex-row-center ideal-default-margin-top">
               <div>长度范围：</div>
-              <el-input v-model="form.pwdStart" oninput="value=value.replace(/[^0-9.]/g,'')" class="ideal-default-margin-right custom-input-large"/>
+              <el-input
+                v-model="form.pwdStart"
+                oninput="value=value.replace(/[^0-9.]/g,'')"
+                class="ideal-default-margin-right custom-input-large"
+              />
               <div class="ideal-default-margin-right">-</div>
-              <el-input v-model="form.pwdEnd" oninput="value=value.replace(/[^0-9.]/g,'')" class="custom-input-large"/>
+              <el-input
+                v-model="form.pwdEnd"
+                oninput="value=value.replace(/[^0-9.]/g,'')"
+                class="custom-input-large"
+              />
             </div>
 
             <div class="flex-row flex-row-center ideal-default-margin-top">
@@ -48,14 +57,18 @@
           </div>
         </template>
         <div class="flex-column login-config-form-item">
-          <el-radio-group v-model="form.validity" >
+          <el-radio-group v-model="form.validity">
             <el-radio label="1">限制</el-radio>
             <el-radio label="2">无限制</el-radio>
           </el-radio-group>
 
           <template v-if="form.validity === '1'">
             <div class="flex-row flex-row-center ideal-default-margin-top">
-              <el-input v-model="form.validityNum" oninput="value=value.replace(/[^0-9]/g,'')" class="custom-input-large ideal-default-margin-right"/>
+              <el-input
+                v-model="form.validityNum"
+                oninput="value=value.replace(/[^0-9]/g,'')"
+                class="custom-input-large ideal-default-margin-right"
+              />
 
               <el-select v-model="form.validityCycle" placeholder="请选择">
                 <el-option
@@ -85,24 +98,28 @@
             </el-tooltip>
           </div>
         </template>
-        
+
         <div class="flex-column login-config-form-item">
-          <el-radio-group v-model="form.historyCheck" >
+          <el-radio-group v-model="form.historyCheck">
             <el-radio label="1">设定</el-radio>
             <el-radio label="2">不设定</el-radio>
           </el-radio-group>
 
           <template v-if="form.historyCheck === '1'">
             <div class="flex-row flex-row-center ideal-default-margin-top">
-              <el-input v-model="form.historyCheckFreq" oninput="value=value.replace(/[^0-9]/g,'')" class="custom-input-large ideal-default-margin-right"/>
-              <el-input placeholder="次" disabled class="custom-input-small"/>
+              <el-input
+                v-model="form.historyCheckFreq"
+                oninput="value=value.replace(/[^0-9]/g,'')"
+                class="custom-input-large ideal-default-margin-right"
+              />
+              <el-input placeholder="次" disabled class="custom-input-small" />
             </div>
           </template>
         </div>
       </el-form-item>
 
       <el-form-item label="首次登录修改密码">
-        <el-radio-group v-model="form.firstChange" >
+        <el-radio-group v-model="form.firstChange">
           <el-radio label="1">提示</el-radio>
           <el-radio label="2">强制</el-radio>
           <el-radio label="3">无限制</el-radio>
@@ -123,9 +140,9 @@
             </el-tooltip>
           </div>
         </template>
-        
+
         <div class="flex-column login-config-form-item">
-          <el-radio-group v-model="form.lock" >
+          <el-radio-group v-model="form.lock">
             <el-radio label="1">设定</el-radio>
             <el-radio label="2">不设定</el-radio>
           </el-radio-group>
@@ -134,14 +151,30 @@
             <div class="flex-column">
               <div class="flex-row flex-row-center ideal-default-margin-top">
                 <div>连续登录失败次数上限：</div>
-                <el-input v-model="form.upperFailLimit" oninput="value=value.replace(/[^0-9]/g,'')" class="custom-input-large ideal-default-margin-right"/>
-                <el-input placeholder="次" disabled class="custom-input-small"/>
+                <el-input
+                  v-model="form.upperFailLimit"
+                  oninput="value=value.replace(/[^0-9]/g,'')"
+                  class="custom-input-large ideal-default-margin-right"
+                />
+                <el-input
+                  placeholder="次"
+                  disabled
+                  class="custom-input-small"
+                />
               </div>
 
               <div class="flex-row flex-row-center ideal-default-margin-top">
                 <div>连续登录失败次数锁定用户时长：</div>
-                <el-input v-model="form.lockDuration" oninput="value=value.replace(/[^0-9]/g,'')" class="custom-input-large ideal-default-margin-right"/>
-                <el-select v-model="form.lockDurationCycle" placeholder="请选择" class="custom-input-small">
+                <el-input
+                  v-model="form.lockDuration"
+                  oninput="value=value.replace(/[^0-9]/g,'')"
+                  class="custom-input-large ideal-default-margin-right"
+                />
+                <el-select
+                  v-model="form.lockDurationCycle"
+                  placeholder="请选择"
+                  class="custom-input-small"
+                >
                   <el-option
                     v-for="(item, index) of cycleList"
                     :key="index + 'cycle'"
@@ -170,9 +203,9 @@
             </el-tooltip>
           </div>
         </template>
-        
+
         <div class="flex-column login-config-form-item">
-          <el-radio-group v-model="form.authCode" >
+          <el-radio-group v-model="form.authCode">
             <el-radio label="1">设定</el-radio>
             <el-radio label="2">不设定</el-radio>
           </el-radio-group>
@@ -180,8 +213,12 @@
           <template v-if="form.authCode === '1'">
             <div class="flex-row flex-row-center ideal-default-margin-top">
               <div>登录失败触发次数：</div>
-              <el-input v-model="form.failTrigger" oninput="value=value.replace(/[^0-9]/g,'')" class="custom-input-large ideal-default-margin-right"/>
-              <el-input placeholder="次" disabled class="custom-input-small"/>
+              <el-input
+                v-model="form.failTrigger"
+                oninput="value=value.replace(/[^0-9]/g,'')"
+                class="custom-input-large ideal-default-margin-right"
+              />
+              <el-input placeholder="次" disabled class="custom-input-small" />
             </div>
           </template>
         </div>
@@ -201,10 +238,13 @@
             </el-tooltip>
           </div>
         </template>
-        
+
         <div class="flex-row">
-          <el-input v-model="form.overtime" class="ideal-default-margin-right"/>
-          <el-select v-model="form.cycle" placeholder="请选择" >
+          <el-input
+            v-model="form.overtime"
+            class="ideal-default-margin-right"
+          />
+          <el-select v-model="form.cycle" placeholder="请选择">
             <el-option
               v-for="(item, index) of cycleList"
               :key="index + 'cycle'"
@@ -230,14 +270,14 @@
             </el-tooltip>
           </div>
         </template>
-        <el-radio-group v-model="form.whiteList" >
+        <el-radio-group v-model="form.whiteList">
           <el-radio label="1">设定</el-radio>
           <el-radio label="2">不设定</el-radio>
         </el-radio-group>
       </el-form-item>
 
       <el-form-item label="登录白名单">
-        <el-radio-group v-model="form.mode" >
+        <el-radio-group v-model="form.mode">
           <el-radio label="1">短信登录</el-radio>
           <el-radio label="2">账户密码登录</el-radio>
           <el-radio label="3">多因子登录</el-radio>
@@ -273,13 +313,13 @@ const form = reactive({
   lock: '', // 登录锁定机制
   upperFailLimit: '', // 连续登录失败次数上限
   lockDuration: '', // 连续登录失败次数锁定用户时长
-  lockDurationCycle: '', 
+  lockDurationCycle: '',
   authCode: '', // 动态验证码设定
   failTrigger: '', // 登录失败触发次数
   overtime: '', // 会话超时时间
   cycle: '', // 会话超时时间单位
   whiteList: '', // 登录白名单
-  mode: '', // 登录方式
+  mode: '' // 登录方式
 })
 const rules = reactive<FormRules>({})
 
@@ -295,11 +335,9 @@ const clickSave = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(async (valid: any) => {
-    if (valid) {
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate(async (valid: boolean) => {
+    if (!valid) {
+      return
     }
   })
 }
@@ -311,7 +349,7 @@ const clickCancel = (formEl: FormInstance | undefined) => {
 }
 </script>
 
-<style scoped lang=scss>
+<style scoped lang="scss">
 .login-config {
   box-sizing: border-box;
   .flex-row-center {

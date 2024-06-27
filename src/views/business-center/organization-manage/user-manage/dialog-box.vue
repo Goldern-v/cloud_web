@@ -169,13 +169,15 @@ const headerIconColor = computed(() => {
   return 'var(--el-color-primary)'
 })
 const headerTitle = computed(() => {
+  let str = ''
   if (showEnable.value) {
-    return '启用用户'
+    str = '启用用户'
   } else if (showForbidden.value) {
-    return '禁用用户'
+    str = '禁用用户'
   } else if (showDelete.value) {
-    return '删除用户'
+    str = '删除用户'
   }
+  return str
 })
 // 类型变化,
 watch(

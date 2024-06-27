@@ -2,39 +2,39 @@
   <div class="edit">
     <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="名称" prop="name">
-        <el-input v-model="form.name" class="input-box"/>
+        <el-input v-model="form.name" class="input-box" />
       </el-form-item>
 
       <el-form-item label="最大实例数(台)" prop="maxNumber">
-        <el-input v-model="form.maxNumber" class="input-box"/>
+        <el-input v-model="form.maxNumber" class="input-box" />
       </el-form-item>
 
       <el-form-item label="期望实例数(台)" prop="expectNumber">
-        <el-input v-model="form.expectNumber" class="input-box"/>
+        <el-input v-model="form.expectNumber" class="input-box" />
       </el-form-item>
 
       <el-form-item label="最小实例数(台)" prop="minNumber">
-        <el-input v-model="form.minNumber" class="input-box"/>
+        <el-input v-model="form.minNumber" class="input-box" />
       </el-form-item>
 
       <el-form-item label="冷却时间(秒)" prop="coolingTime">
-        <el-input v-model="form.coolingTime" class="input-box"/>
+        <el-input v-model="form.coolingTime" class="input-box" />
       </el-form-item>
 
       <el-form-item label="可用区" prop="availableArea">
         <el-select
-            v-model="form.availableArea"
-            multiple
-            placeholder="请选择"
-            class="input-box"
-          >
-            <el-option
-              v-for="item in availableAreas"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
+          v-model="form.availableArea"
+          multiple
+          placeholder="请选择"
+          class="input-box"
+        >
+          <el-option
+            v-for="item in availableAreas"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
       </el-form-item>
 
       <el-form-item label="多可用区扩展策略" prop="expandPolicy">
@@ -54,23 +54,29 @@
       </el-form-item>
 
       <el-form-item label="负载均衡">
-        <div style="width: 100%;">
+        <div style="width: 100%">
           <div class="flex-row">
             <el-radio-group v-model="form.lbsType">
               <el-radio-button label="noUse">不使用</el-radio-button>
               <el-radio-button label="used">使用弹性负载均衡</el-radio-button>
             </el-radio-group>
 
-            <svg-icon v-if="useLbs" icon="refresh-icon" class="ideal-svg-margin-right ideal-svg-margin-left"/>
-            <el-button v-if="useLbs" link type="primary">新建弹性负载均衡</el-button>
+            <svg-icon
+              v-if="useLbs"
+              icon="refresh-icon"
+              class="ideal-svg-margin-right ideal-svg-margin-left"
+            />
+            <el-button v-if="useLbs" link type="primary"
+              >新建弹性负载均衡</el-button
+            >
           </div>
 
-          <lbs-group v-if="useLbs" style="width: 100%;"/>
+          <lbs-group v-if="useLbs" style="width: 100%" />
         </div>
       </el-form-item>
 
       <el-form-item label="健康检查方式" prop="healthMode">
-        <div style="width: 100%;">
+        <div style="width: 100%">
           <div class="flex-row">
             <el-select
               v-model="form.healthMode"
@@ -100,7 +106,9 @@
 
     <div class="flex-row footer-button">
       <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
-      <el-button type="primary" @click="submitForm(formRef)">{{ t('confirm') }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -126,11 +134,17 @@ const form = reactive({
 const rules = reactive<FormRules>({
   name: [{ required: true, message: '请输入名称', trigger: 'blur' }],
   maxNumber: [{ required: true, message: '请输入最大实例数', trigger: 'blur' }],
-  expectNumber: [{ required: true, message: '请输入期望实例数', trigger: 'blur' }],
+  expectNumber: [
+    { required: true, message: '请输入期望实例数', trigger: 'blur' }
+  ],
   minNumber: [{ required: true, message: '请输入最小实例数', trigger: 'blur' }],
   coolingTime: [{ required: true, message: '请输入冷却时间', trigger: 'blur' }],
-  availableArea: [{ required: true, message: '请选择多可用区扩展策略', trigger: 'blur' }],
-  healthMode: [{ required: true, message: '请选择健康检查方式', trigger: 'blur' }]
+  availableArea: [
+    { required: true, message: '请选择多可用区扩展策略', trigger: 'blur' }
+  ],
+  healthMode: [
+    { required: true, message: '请选择健康检查方式', trigger: 'blur' }
+  ]
 })
 const availableAreas = ref<any[]>([])
 
@@ -158,13 +172,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      emit(EventEnum.success)
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    emit(EventEnum.success)
   })
 }
 </script>

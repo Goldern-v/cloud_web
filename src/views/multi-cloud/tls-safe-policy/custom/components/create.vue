@@ -1,13 +1,8 @@
 <template>
   <div class="create">
-    <el-form
-      ref="formRef"
-      :model="form"
-      :rules="rules"
-      label-position="left"
-    >
+    <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="名称" prop="name">
-        <el-input v-model="form.name" class="custom-width"/>
+        <el-input v-model="form.name" class="custom-width" />
       </el-form-item>
 
       <el-form-item label="选择协议版本" prop="protocol">
@@ -45,17 +40,19 @@
       </el-form-item>
 
       <el-form-item label="描述">
-        <el-input v-model="form.description" class="custom-width" type="textarea"/>
+        <el-input
+          v-model="form.description"
+          class="custom-width"
+          type="textarea"
+        />
       </el-form-item>
     </el-form>
 
     <div class="flex-row footer-button">
-      <el-button @click="cancelForm(formRef)"
-        >{{ t('cancel') }}</el-button
-      >
-      <el-button type="primary" @click="submitForm(formRef)"
-        >{{ t('confirm') }}</el-button
-      >
+      <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -101,14 +98,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      console.log('submit!')
-      emit(EventEnum.success)
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    console.log('submit!')
+    emit(EventEnum.success)
   })
 }
 </script>

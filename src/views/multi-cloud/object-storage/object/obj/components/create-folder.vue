@@ -3,7 +3,7 @@
     <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="文件夹名称">
         <div>
-          <el-input v-model="form.name"/>
+          <el-input v-model="form.name" />
           <div>命名规则：</div>
           <div>·支持创建单个文件夹和多层级的文件夹。</div>
           <div>·单个文件夹名称不能包含以下字符：\:*?"&lt;>|。</div>
@@ -17,7 +17,9 @@
 
     <div class="flex-row ideal-submit-button">
       <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
-      <el-button type="primary" @click="submitForm(formRef)">{{ t('confirm') }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -51,8 +53,8 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  
-  formEl.validate(valid => {
+
+  formEl.validate((valid: boolean) => {
     if (!valid) {
       return
     }

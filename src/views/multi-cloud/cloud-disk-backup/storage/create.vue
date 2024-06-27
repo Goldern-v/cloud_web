@@ -1,13 +1,10 @@
 <template>
   <div class="create">
-    <create-form v-show="stepsIndex === 1" ref="formRef"/>
-    <create-confirm v-show="stepsIndex === 2" :data="orderInfo.form"/>
+    <create-form v-show="stepsIndex === 1" ref="formRef" />
+    <create-confirm v-show="stepsIndex === 2" :data="orderInfo.form" />
 
     <div v-if="stepsIndex === 3" class="flex-column create-success">
-      <svg-icon
-        icon="success-icon"
-        class-name="create-success-icon"
-      />
+      <svg-icon icon="success-icon" class-name="create-success-icon" />
       <div>任务提交成功！</div>
       <div>您的存储库{{ orderInfo.form.name }}已创建成功。</div>
       <div>{{ count }}秒返回</div>
@@ -18,7 +15,8 @@
       title="配置费用"
       submit-title="立即购买"
       @clickPrevious="clickPrevious"
-      @clickNext="clickNext"/>
+      @clickNext="clickNext"
+    />
   </div>
 </template>
 
@@ -58,12 +56,11 @@ const checkForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      stepsIndex.value++
-    } else {
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    stepsIndex.value++
   })
 }
 const router = useRouter()

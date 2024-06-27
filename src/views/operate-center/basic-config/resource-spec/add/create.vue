@@ -1,16 +1,8 @@
 <template>
   <div class="resource-spec-create">
-    <el-form
-      ref="formRef"
-      :model="form"
-      :rules="rules"
-      label-position="left"
-    >
+    <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="名称" prop="name">
-        <el-input
-          v-model="form.name"
-          class="custom-input-width"
-        ></el-input>
+        <el-input v-model="form.name" class="custom-input-width"></el-input>
       </el-form-item>
 
       <el-form-item label="资源池绑定" prop="resourcePoolId">
@@ -128,9 +120,7 @@
     </el-form>
 
     <div class="flex-row resource-spec-create__button">
-      <el-button @click="cancelForm(formRef)">{{
-        t('cancel')
-      }}</el-button>
+      <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
       <el-button type="primary" @click="submitForm(formRef)">{{
         t('confirm')
       }}</el-button>
@@ -315,9 +305,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate((valid: any) => {
+  formEl.validate((valid: boolean) => {
     if (valid) {
-      let params: {[key: string]: any} = { }
+      let params: { [key: string]: any } = {}
 
       if (props.isEdit) {
         // 筛选表单修改项, 编辑时只传修改项
@@ -331,9 +321,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
         params = { ...form }
         crateEvent(params)
       }
-    } else {
-      console.log('error submit!')
-      return false
     }
   })
 }

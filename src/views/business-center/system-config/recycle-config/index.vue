@@ -6,7 +6,8 @@
       :rules="rules"
       label-position="left"
       label-width="120"
-      class="recycle-config-form">
+      class="recycle-config-form"
+    >
       <el-form-item label="自动到期策略">
         <template #label>
           <div class="flex-row">
@@ -51,11 +52,9 @@ const clickSave = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(async (valid: any) => {
-    if (valid) {
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate(async (valid: boolean) => {
+    if (!valid) {
+      return
     }
   })
 }
@@ -67,7 +66,7 @@ const clickCancel = (formEl: FormInstance | undefined) => {
 }
 </script>
 
-<style scoped lang=scss>
+<style scoped lang="scss">
 .recycle-config {
   box-sizing: border-box;
   .recycle-config-form {

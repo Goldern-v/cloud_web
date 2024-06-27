@@ -1,6 +1,8 @@
 <template>
   <div class="copy-single">
-    <div class="copy-single-tip ideal-middle-margin-bottom">复制的镜像大小不能超过128GiB。</div>
+    <div class="copy-single-tip ideal-middle-margin-bottom">
+      复制的镜像大小不能超过128GiB。
+    </div>
     <div class="copy-single-detail ideal-middle-margin-bottom">
       <div class="copy-single-title">镜像详情</div>
       <ideal-detail-info
@@ -23,11 +25,15 @@
       </el-form-item>
 
       <el-form-item label="名称" prop="name">
-        <el-input v-model="form.name" style="width: 70%;"/>
+        <el-input v-model="form.name" style="width: 70%" />
       </el-form-item>
 
-      <el-form-item v-if="form.copyType === 'cross'" label="目的区域" prop="goalRegion">
-        <el-select v-model="form.goalRegion" style="width: 70%;">
+      <el-form-item
+        v-if="form.copyType === 'cross'"
+        label="目的区域"
+        prop="goalRegion"
+      >
+        <el-select v-model="form.goalRegion" style="width: 70%">
           <el-option
             v-for="(item, index) of goalRegionList"
             :key="index"
@@ -37,8 +43,12 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item v-if="form.copyType === 'cross'" label="目的项目" prop="project">
-        <el-select v-model="form.project" style="width: 70%;">
+      <el-form-item
+        v-if="form.copyType === 'cross'"
+        label="目的项目"
+        prop="project"
+      >
+        <el-select v-model="form.project" style="width: 70%">
           <el-option
             v-for="(item, index) of projectList"
             :key="index"
@@ -49,7 +59,7 @@
       </el-form-item>
 
       <el-form-item v-if="form.copyType === 'cross'" label="IAM委托" prop="iam">
-        <el-select v-model="form.iam" style="width: 70%;">
+        <el-select v-model="form.iam" style="width: 70%">
           <el-option
             v-for="(item, index) of iamList"
             :key="index"
@@ -63,7 +73,7 @@
         <el-input
           v-model="form.description"
           type="textarea"
-          style="width: 70%;"
+          style="width: 70%"
           maxlength="1024"
           show-word-limit
         />
@@ -76,7 +86,9 @@
 
     <div class="flex-row ideal-submit-button">
       <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
-      <el-button type="primary" @click="submitForm(formRef)">{{ t('confirm') }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -145,14 +157,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(valid => {
-    if (valid) {
-      console.log('submit!')
-      emit(EventEnum.success)
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    console.log('submit!')
+    emit(EventEnum.success)
   })
 }
 </script>

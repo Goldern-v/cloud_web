@@ -120,7 +120,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(async (valid: any) => {
+  formEl.validate(async (valid: boolean) => {
     if (valid) {
       const params = Object.assign(form, {
         id: detailInfo.id
@@ -139,9 +139,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
           ElMessage.error('保存失败')
         }
       })
-    } else {
-      console.log('error submit!')
-      return false
     }
   })
 }

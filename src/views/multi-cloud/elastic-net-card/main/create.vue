@@ -1,17 +1,17 @@
 <template>
   <div class="main-netcard-create">
-    <el-form
-      ref="formRef"
-      :model="form"
-      :rules="rules"
-      label-position="left">
+    <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="名称" prop="name">
-        <el-input v-model="form.name" class="main-netcard-content"/>
+        <el-input v-model="form.name" class="main-netcard-content" />
       </el-form-item>
 
       <el-form-item label="虚拟私有云" prop="vpc">
         <div class="flex-row main-netcard-content">
-          <el-select v-model="form.vpc" placeholder="请选择" class="main-netcard-input">
+          <el-select
+            v-model="form.vpc"
+            placeholder="请选择"
+            class="main-netcard-input"
+          >
             <el-option
               v-for="(item, idx) of vpcList"
               :key="idx"
@@ -22,14 +22,21 @@
             </el-option>
           </el-select>
 
-          <svg-icon icon="refresh-icon" class="ideal-svg-margin-left"></svg-icon>
+          <svg-icon
+            icon="refresh-icon"
+            class="ideal-svg-margin-left"
+          ></svg-icon>
         </div>
       </el-form-item>
 
       <el-form-item label="所属子网" prop="subnet">
-        <div class="flex-column" style="width: 100%;">
+        <div class="flex-column" style="width: 100%">
           <div class="flex-row main-netcard-content">
-            <el-select v-model="form.subnet" placeholder="请选择" class="main-netcard-input">
+            <el-select
+              v-model="form.subnet"
+              placeholder="请选择"
+              class="main-netcard-input"
+            >
               <el-option
                 v-for="(item, idx) of subnetList"
                 :key="idx"
@@ -38,7 +45,10 @@
               >
               </el-option>
             </el-select>
-            <svg-icon icon="refresh-icon" class="ideal-svg-margin-left"></svg-icon>
+            <svg-icon
+              icon="refresh-icon"
+              class="ideal-svg-margin-left"
+            ></svg-icon>
           </div>
 
           <div class="ideal-theme-text">查看已有子网</div>
@@ -67,7 +77,10 @@
             <div>模糊查询</div>
           </template>
           <template #suffix>
-            <svg-icon icon="search-icon" @click="clickSafeGroupSearch"></svg-icon>
+            <svg-icon
+              icon="search-icon"
+              @click="clickSafeGroupSearch"
+            ></svg-icon>
           </template>
         </el-input>
 
@@ -75,7 +88,8 @@
           :table-data="state.dataList"
           :table-headers="tableHeaders"
           :is-multiple="true"
-          :show-pagination="false">
+          :show-pagination="false"
+        >
           <template #name>
             <el-table-column label="名称">
               <template #default="props">
@@ -88,12 +102,12 @@
     </el-form>
 
     <div class="flex-row main-netcard-create--button">
-      <el-button type="info" @click="cancelForm(formRef)"
-        >{{ t('cancel') }}</el-button
-      >
-      <el-button type="primary" @click="submitForm(formRef)"
-        >{{ t('confirm') }}</el-button
-      >
+      <el-button type="info" @click="cancelForm(formRef)">{{
+        t('cancel')
+      }}</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">{{
+        t('confirm')
+      }}</el-button>
     </div>
   </div>
 </template>
@@ -112,7 +126,7 @@ const form = reactive({
   vpc: '', // 虚拟私有云
   subnet: '', // 所属子网
   privateIp: '', // 私有IP地址
-  safeGroup: '', // 安全组
+  safeGroup: '' // 安全组
 })
 const vpcList: any = []
 const subnetList: any = []
@@ -122,10 +136,10 @@ const privateIpList: any = ref([
 ])
 
 const rules = reactive<FormRules>({
-  name: [{ required: true, message: '请输入名称', trigger: 'blur'}],
-  vpc: [{ required: true, message: '请选择虚拟私有云', trigger: 'blur'}],
-  subnet: [{ required: true, message: '请选择所属子网', trigger: 'blur'}],
-  safeGroup: [{ required: true, message: '请选择安全组', trigger: 'blur'}]
+  name: [{ required: true, message: '请输入名称', trigger: 'blur' }],
+  vpc: [{ required: true, message: '请选择虚拟私有云', trigger: 'blur' }],
+  subnet: [{ required: true, message: '请选择所属子网', trigger: 'blur' }],
+  safeGroup: [{ required: true, message: '请选择安全组', trigger: 'blur' }]
 })
 // 安全组搜索
 const searchValue = ref('')
@@ -170,14 +184,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate((valid: any) => {
-    if (valid) {
-      console.log('submit!')
-      emit(EventEnum.success)
-    } else {
-      console.log('error submit!')
-      return false
+  formEl.validate((valid: boolean) => {
+    if (!valid) {
+      return
     }
+    console.log('submit!')
+    emit(EventEnum.success)
   })
 }
 </script>

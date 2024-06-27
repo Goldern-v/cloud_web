@@ -402,7 +402,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  formEl.validate(async (valid: any) => {
+  formEl.validate(async (valid: boolean) => {
     if (valid) {
       let obj = {
         name: form.name,
@@ -420,9 +420,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
         ElMessage.error('修改失败')
       }
       detailInfo()
-    } else {
-      console.log('error submit!')
-      return false
     }
   })
 }
