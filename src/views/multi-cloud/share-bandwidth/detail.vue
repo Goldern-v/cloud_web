@@ -27,6 +27,7 @@
 
 <script setup lang="ts">
 import eipList from './components/eip-list.vue'
+
 import ipv6List from './components/ipv6-list.vue'
 
 const labelArray = ref([
