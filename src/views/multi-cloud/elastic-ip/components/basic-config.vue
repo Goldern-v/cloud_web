@@ -104,7 +104,10 @@
           <el-form-item v-if="!isPackage" label="公网带宽">
             <div class="flex-column">
               <div class="flex-row">
-                <el-radio-group v-model="eipForm.bandwidthType" class="ideal-default-margin-right">
+                <el-radio-group
+                  v-model="eipForm.bandwidthType"
+                  class="ideal-default-margin-right"
+                >
                   <el-radio-button
                     v-for="(item, index) of state.bandwidthTypeOption"
                     :key="index"
@@ -119,7 +122,7 @@
                   placement="right"
                 >
                   <template #content>
-                    <div v-html="state.bandwidthDes"></div>
+                    <div>{{ state.bandwidthDes }}</div>
                   </template>
                   <svg-icon icon="question-icon"></svg-icon>
                 </el-tooltip>
@@ -447,13 +450,19 @@ defineExpose({
   :deep(.el-card__body) {
     padding: 20px 20px 0;
   }
-  .custom-tooltip {
-    width: 50px;
+  :deep(.el-tooltip .el-tooltip__trigger) {
+    white-space: pre-line;
   }
   :deep .region-input {
     .el-select {
       width: 20%;
     }
   }
+}
+</style>
+<style lang="scss">
+.custom-tooltip {
+  max-width: 260px;
+  white-space: pre-line;
 }
 </style>

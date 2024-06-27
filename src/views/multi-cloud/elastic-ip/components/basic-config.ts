@@ -91,7 +91,7 @@ export const useBasic = (options: IHooksBasic) => {
     if (isAliyun.value) {
       state.eipTypeDes = 'BGP(多线)'
       state.bandwidthDes =
-        '按带宽计费<br />流量较大或稳定的场景<br /><br />按流量计费<br />流量较小或流量波动较大的场景'
+        '按带宽计费\n流量较大或稳定的场景\n\n按流量计费\n流量较小或流量波动较大的场景'
       state.lineList = [{ label: 'BGP', name: 'BGP多线' }]
       state.bandwidthTypeOption = bandwidthType.filter(
         item => item.label !== 'shareBandwidth'
@@ -100,14 +100,14 @@ export const useBasic = (options: IHooksBasic) => {
     } else if (isTencent.value) {
       state.eipTypeDes = '普通线路 BGP IP，用于平衡网络质量与成本'
       state.bandwidthDes =
-        '按带宽计费<br />流量较大或稳定的场景<br /><br />按流量计费<br />流量较小或流量波动较大的场景<br /><br /> 加入共享带宽<br />多业务流量错峰分布场景<br />'
+        '按带宽计费\n流量较大或稳定的场景\n\n按流量计费\n流量较小或流量波动较大的场景\n\n 加入共享带宽\n多业务流量错峰分布场景\n'
       state.lineList = [{ label: 'BGP', name: '常规BGP' }]
       state.bandwidthTypeOption = bandwidthType
       eipForm.maxSize = 200
     } else {
       state.eipTypeDes = '不低于99.95%可用性保障'
       state.bandwidthDes =
-        '按带宽计费<br />流量较大或稳定的场景<br /><br />按流量计费<br />流量较小或流量波动较大的场景<br /><br /> 加入共享带宽<br />多业务流量错峰分布场景<br />'
+        '按带宽计费\n流量较大或稳定的场景\n\n按流量计费\n流量较小或流量波动较大的场景\n\n 加入共享带宽\n多业务流量错峰分布场景\n'
       state.lineList = [
         { label: '5_bgp', name: '全动态BGP' },
         { label: '5_sbgp', name: '静态BGP' }
