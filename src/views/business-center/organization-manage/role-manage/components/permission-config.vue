@@ -96,7 +96,8 @@ interface limitProps {
 }
 const props = withDefaults(defineProps<limitProps>(), {
   limits: () => ({}),
-  formInfo: () => ({})
+  formInfo: () => ({}),
+  formRef: undefined
 })
 /**
  * 菜单目录
