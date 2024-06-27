@@ -200,6 +200,8 @@ const clickOperateEvent = (command: string | number | object, row: any) => {
     dialogWidth.value = '50%'
     dialogType.value = 'delete'
   }
+  console.log(command);
+  
 }
 </script>
 
