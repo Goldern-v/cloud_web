@@ -17,9 +17,13 @@
 </template>
 
 <script lang="ts" setup>
-const props = defineProps({
-  id: String
+interface ElementProps {
+  id?: string
+}
+const props = withDefaults(defineProps<ElementProps>(), {
+  id: ''
 })
+
 const documentation = ref('')
 const bpmnElement = ref()
 const bpmnInstances = () => (window as any).bpmnInstances

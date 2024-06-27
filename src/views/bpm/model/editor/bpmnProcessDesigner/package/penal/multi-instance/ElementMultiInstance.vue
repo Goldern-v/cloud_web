@@ -98,9 +98,13 @@
 </template>
 
 <script lang="ts" setup>
-const props = defineProps({
-  businessObject: Object,
-  type: String
+interface ElementProps {
+  businessObject?: any
+  type?: string
+}
+const props = withDefaults(defineProps<ElementProps>(), {
+  businessObject: () => {},
+  type: ''
 })
 const prefix = inject('prefix')
 const loopCharacteristics = ref('')
