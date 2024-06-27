@@ -75,7 +75,7 @@ const router = useRouter()
 const { query } = useRoute() // 路由信息
 const designer = ref() // 表单设计器
 const dialogVisible = ref(false) // 弹窗是否展示
-const formLoading = ref(false) // 表单的加载中：提交的按钮禁用
+const formLoading = ref(false) // 表单的加载中:提交的按钮禁用
 // 提交表单数据
 const formData = ref({
   name: '',
