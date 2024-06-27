@@ -507,7 +507,9 @@ import Language from './language/index'
 
 export default defineComponent({
   name: 'FastCron',
+  // eslint-disable-next-line vue/require-prop-types
   props: ['data', 'lang'],
+emits: ['submit', 'close'],
   data() {
     return {
       i18n: this.lang,
