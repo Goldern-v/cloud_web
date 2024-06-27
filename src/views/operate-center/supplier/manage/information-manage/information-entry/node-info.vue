@@ -399,7 +399,7 @@ const areaChange = () => {
 const countryChange = () => {
   form.cityId = ''
 }
-
+//判断国家下的城市数量，当数量过多时为了避免接口数据量过大造成页面卡顿，分开请求州级和州级下的市级信息
 const selectedCitys: any = ref([])
 const cascaderProps: CascaderProps = {
   lazy: true,
