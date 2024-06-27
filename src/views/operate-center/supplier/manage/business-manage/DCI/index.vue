@@ -30,7 +30,7 @@
         <el-table-column label="操作" width="120" fixed="right">
           <template #default="props">
             <ideal-table-operate
-              :buttons="props.row.operate"
+              :buttons="operateButtons"
               @clickMoreEvent="clickOperateEvent($event as any, props.row)"
             >
             </ideal-table-operate>
