@@ -108,7 +108,6 @@ watch(
   (arr: any) => {
     if (arr.length) {
       arr.forEach((ele: any) => {
-        ele.operate = newOperate(ele)
         ele.area = ele.supplierNodeDetail?.node?.areaName
         ele.country = ele.supplierNodeDetail?.node?.countryName
         ele.city = ele.supplierNodeDetail?.node?.cityName
