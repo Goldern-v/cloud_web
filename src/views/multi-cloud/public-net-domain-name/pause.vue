@@ -26,7 +26,6 @@
 
 <script setup lang="ts">
 import { ElMessage } from 'element-plus'
-
 import type { IdealTableColumnHeaders } from '@/types'
 import { EventEnum, OperateEventEnum } from '@/utils/enum'
 import { showLoading, hideLoading } from '@/utils/tool'
