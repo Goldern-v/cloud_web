@@ -171,7 +171,8 @@ const props = defineProps({
   },
   resourceType: {
     type: String,
-    required: ''
+    required: false,
+    default: ''
   },
   //单选或多选
   selectType: {

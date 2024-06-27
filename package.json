@@ -6,7 +6,7 @@
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
     "lint": "eslint --fix --ext .vue,.jsx,.ts,.tsx .",
-    "prepare": "husky install",
+    "prepare": "husky",
     "pre-commit": "lint-staged"
   },
   "dependencies": {
@@ -53,8 +53,8 @@
     "eslint": "8.13.0",
     "eslint-plugin-vue": "8.6.0",
     "fs": "^0.0.1-security",
-    "husky": "^8.0.0",
-    "lint-staged": "^13.2.1",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.7",
     "prettier": "2.8.4",
     "rollup-plugin-external-globals": "^0.8.0",
     "rollup-plugin-visualizer": "^5.9.0",
