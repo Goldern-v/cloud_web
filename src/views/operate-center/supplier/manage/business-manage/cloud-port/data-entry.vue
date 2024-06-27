@@ -57,9 +57,12 @@
           <template #nrc>
             <el-table-column label="价格/NRC" width="120">
               <template #default="props">
-                <div class="flex-row" style="align-items: center;">
-                  <el-input v-model="props.row.nrc" v-input.float="{ decimal: 4 }" />
-                  <div style="margin-left: 5px;">$</div>
+                <div class="flex-row" style="align-items: center">
+                  <el-input
+                    v-model="props.row.nrc"
+                    v-input.float="{ decimal: 4 }"
+                  />
+                  <div style="margin-left: 5px">$</div>
                 </div>
               </template>
             </el-table-column>
@@ -68,9 +71,12 @@
           <template #mrc>
             <el-table-column label="价格/MRC" width="120">
               <template #default="props">
-                <div class="flex-row" style="align-items: center;">
-                  <el-input v-model="props.row.mrc" v-input.float="{ decimal: 4 }" />
-                  <div style="margin-left: 5px;">$</div>
+                <div class="flex-row" style="align-items: center">
+                  <el-input
+                    v-model="props.row.mrc"
+                    v-input.float="{ decimal: 4 }"
+                  />
+                  <div style="margin-left: 5px">$</div>
                 </div>
               </template>
             </el-table-column>
@@ -122,9 +128,7 @@
     </el-form>
 
     <div class="flex-row ideal-submit-button">
-      <el-button @click="cancelForm(formRef)">{{
-        t('cancel')
-      }}</el-button>
+      <el-button @click="cancelForm(formRef)">{{ t('cancel') }}</el-button>
       <el-button type="primary" @click="submitForm(formRef)">{{
         t('confirm')
       }}</el-button>
@@ -249,7 +253,6 @@ onMounted(() => {
 //查询云端口
 const queryNode = async () => {
   const res = await getPortList({
-    // portType: 'CLOUD'
     searchType: 1
   })
   portList.value = res.data

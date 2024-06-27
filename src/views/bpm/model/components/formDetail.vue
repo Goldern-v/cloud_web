@@ -27,7 +27,6 @@ const props = withDefaults(defineProps<CreateProps>(), {
 })
 
 onMounted(() => {
-  console.log(11111)
   getData()
 })
 
@@ -35,7 +34,6 @@ const getData = async () => {
   if (props.rowData.formType == 10) {
     // 设置表单
     const { data } = await bpmFormQueryDetail({ id: props.rowData.formId })
-    console.log(data, 'data')
     setConfAndFields2(formDetailPreview, data.conf, data.fields)
   } else {
     router.push({

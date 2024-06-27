@@ -9,7 +9,7 @@
       <div class="log-step">
         <div class="step-do"></div>
       </div>
-      <div class="log-title">任务：{{ log.name }}</div>
+      <div class="log-title">任务:{{ log.name }}</div>
       <div class="log-detail">
         <div class="log-conetent-user">
           <div class="approve-user">
@@ -20,7 +20,7 @@
             <span class="item.value"></span>
           </div>
           <div class="approve-time">
-            <span class="item-label"> 创建时间： </span>
+            <span class="item-label"> 创建时间: </span>
             <span class="item.value">{{
               dateFormat(log.createTime, FormatsEnums.YMDHIS)
             }}</span>
@@ -31,13 +31,13 @@
           class="log-conetent-time"
         >
           <div class="approve-user">
-            <span class="item-label"> 审批时间： </span>
+            <span class="item-label"> 审批时间: </span>
             <span class="item.value">{{
               dateFormat(log.endTime, FormatsEnums.YMDHIS)
             }}</span>
           </div>
           <div class="approve-time">
-            <span class="item-label"> 耗时： </span>
+            <span class="item-label"> 耗时: </span>
             <span class="item.value">{{
               formatDuring(log.durationInMillis)
             }}</span>

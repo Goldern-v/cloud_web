@@ -75,7 +75,7 @@ const setData = () => {
   const format = ["label", "amount"]
   let maxValue = 0
   const temp: any[] = []
-  poparray.value.forEach(item => {
+  poparray.value.forEach((item:any) => {
     temp.push(item[format[1]])
   })
   maxValue = Math.max.apply(null, temp)

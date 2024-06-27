@@ -30,7 +30,7 @@
         <el-table-column label="操作" width="120" fixed="right">
           <template #default="props">
             <ideal-table-operate
-              :buttons="props.row.operate"
+              :buttons="operateButtons"
               @clickMoreEvent="clickOperateEvent($event as any, props.row)"
             >
             </ideal-table-operate>
@@ -115,18 +115,12 @@ const operateButtons: IdealTableColumnOperate[] = [
   { title: '编辑', prop: 'edit' },
   { title: '删除', prop: 'delete' }
 ]
-const newOperate = (ele: any): IdealTableColumnOperate[] => {
-  let resultArr: IdealTableColumnOperate[] = []
-  const tempArr = JSON.parse(JSON.stringify(operateButtons))
-  resultArr = tempArr
-  return resultArr
-}
+
 watch(
   () => state.dataList,
   (arr: any) => {
     if (arr.length) {
       arr.forEach((ele: any) => {
-        ele.operate = newOperate(ele)
         ele.source = ele.dataResource === 'static' ? '静态录入' : 'API对接'
         ele.bandwidth = `${ele.minBandwidth}-${ele.maxBandwidth}M`
         ele.deliveryPeriod = `${ele.deliveryDuration}天`

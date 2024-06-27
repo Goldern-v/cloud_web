@@ -63,7 +63,7 @@ const option = reactive({
           str = item.value
         }
       })
-      return `${name}：${str}`
+      return `${name}:${str}`
     }
   },
   tooltip: {
@@ -78,7 +78,7 @@ const option = reactive({
       center: ['30%', '50%'],
       avoidLabelOverlap: false,
       itemStyle: {
-        borderRadius: 10,
+        borderRadius: 10, 
         borderColor: '#fff',
         borderWidth: 2
       },

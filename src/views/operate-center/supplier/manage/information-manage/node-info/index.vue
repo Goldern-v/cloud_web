@@ -97,7 +97,7 @@ const state: IHooksOptions = reactive({
 
 const tableHeaders = ref<IdealTableColumnHeaders[]>()
 onMounted(() => {
-  //供应商管理员角色
+  //isSupplierManager 供应商管理员角色
   if (!isSupplierManager.value) {
     tableHeaders.value = headerArray
   } else {
