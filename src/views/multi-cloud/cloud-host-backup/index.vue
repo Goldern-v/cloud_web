@@ -20,7 +20,6 @@
 <script setup lang="ts">
 import storage from './storage/list.vue'
 import backup from './repeat/index.vue'
-
 import type { TabsPaneContext } from 'element-plus'
 
 // 标签页组件
