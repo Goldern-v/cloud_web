@@ -48,6 +48,7 @@ interface DialogProps {
   exitChargeItem?: any //已添加的计费项
 }
 const props = withDefaults(defineProps<DialogProps>(), {
+  type: '',
   visible: false,
   rowData: null,
   constType: '',
