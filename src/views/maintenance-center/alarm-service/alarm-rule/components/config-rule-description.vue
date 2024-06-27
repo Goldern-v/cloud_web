@@ -231,7 +231,9 @@ interface ruleProps {
 
 const props = withDefaults(defineProps<ruleProps>(), {
   indicatorList: () => [],
-  rowData: null
+  rowData: null,
+  operateType: undefined
+
 })
 
 const isEdit = computed(() => {
