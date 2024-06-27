@@ -34,7 +34,7 @@
         <el-table-column label="操作" width="90" fixed="right">
           <template #default="props">
             <ideal-table-operate
-              :buttons="props.row.operate"
+              :buttons="operateButtons"
               @clickMoreEvent="clickOperateEvent($event as any, props.row)"
             >
             </ideal-table-operate>
@@ -96,6 +96,7 @@ const { sizeChangeHandle, currentChangeHandle, getDataList } = useCrud(state)
 const operateButtons: IdealTableColumnOperate[] = [
   { title: '下架', prop: 'delist' }
 ]
+
 const newOperate = (ele: any): IdealTableColumnOperate[] => {
   let resultArr: IdealTableColumnOperate[] = []
   const tempArr = JSON.parse(JSON.stringify(operateButtons))
@@ -134,12 +135,14 @@ onBeforeRouteLeave((to, from, next) => {
   store.commonStore.setSideBar(from.fullPath)
   next()
 })
+
 const toDetail = (row: any) => {
   router.push({
     path: '/operate-center/supplier/manage/information-manage-detail',
     query: { id: row.id }
   })
 }
+
 const clickOperateEvent = (command: string | number, row: any) => {
   if (command === 'delist') {
     ElMessageBox.confirm('确定要将当前已通过的供应商进行下架吗？', '下架', {
