@@ -12,7 +12,7 @@ export const useAuthorityListApi = () => {
 }
 
 export const useMenuListApi = (type: Number) => {
-  // 菜单类型 0：菜单  1：按钮  2：接口
+  // 菜单类型 0:菜单  1:按钮  2:接口
   const menuType = type === 2 ? 2 : 0
 
   return service.get(iams + `/sys/menu/list?type=` + menuType)
