@@ -5,7 +5,7 @@
     <div class="flex-row result-overview-container">
       <div class="result-overview-title">
         <div>不合规资源占比</div>
-        <div>不合规资源：4</div>
+        <div>不合规资源:4</div>
       </div>
 
       <div id="gauge" class="result-overview-gauge"></div>

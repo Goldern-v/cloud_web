@@ -58,7 +58,7 @@ interface CreateProps {
 const props = withDefaults(defineProps<CreateProps>(), {
   rowData: () => ({})
 })
-const formLoading = ref(false) // 表单的加载中：提交的按钮禁用
+const formLoading = ref(false) // 表单的加载中:提交的按钮禁用
 
 const newFormRef = ref<FormInstance>()
 const newForm = reactive({
@@ -100,7 +100,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
             let data = res
             if (data.code === 200) {
               const content =
-                '<p><span style="font-weight: 600">新建模型成功！</span>后续需要执行如下 4 个步骤：<br/>' +
+                '<p><span style="font-weight: 600">新建模型成功！</span>后续需要执行如下 4 个步骤:<br/>' +
                 '1. 点击【修改流程】按钮，配置流程的分类、表单信息<br/>' +
                 '2. 点击【设计流程】按钮，绘制流程图<br/>' +
                 '3. 点击【分配规则】按钮，设置每个用户任务的审批人<br/>' +

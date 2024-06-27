@@ -2,8 +2,8 @@
   <div class="resource">
     <div>资源总览</div>
     <div class="flex-row">
-      <div>云资源总数：70</div>
-      <div>宿主机总数：3</div>
+      <div>云资源总数:70</div>
+      <div>宿主机总数:3</div>
     </div>
 
     <div v-for="(item,index) of arr" :key="index">

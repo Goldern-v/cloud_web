@@ -52,10 +52,10 @@
       destroy-on-close
     >
       <el-form ref="attributeFormRef" :model="propertyForm" label-width="80px">
-        <el-form-item label="属性名：" prop="name">
+        <el-form-item label="属性名: " prop="name">
           <el-input v-model="propertyForm.name" clearable />
         </el-form-item>
-        <el-form-item label="属性值：" prop="value">
+        <el-form-item label="属性值: " prop="value">
           <el-input v-model="propertyForm.value" clearable />
         </el-form-item>
       </el-form>

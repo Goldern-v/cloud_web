@@ -423,14 +423,14 @@ const geoCoordMap: Record<string, number[]> = {
   大庆: [125.03, 46.58]
 }
 const convertData = (data: DataItem[]) => {
-  var res = [];
-  for (var i = 0; i < data.length; i++) {
-    var geoCoord = geoCoordMap[data[i].name];
+  let res = []
+  for (let i = 0; i < data.length; i++) {
+    let geoCoord = geoCoordMap[data[i].name]
     if (geoCoord) {
       res.push({
         name: data[i].name,
         value: geoCoord.concat(data[i].value)
-      });
+      })
     }
   }
   return res;
