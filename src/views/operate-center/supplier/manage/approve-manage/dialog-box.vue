@@ -77,6 +77,7 @@ interface EventEmits {
 const emit = defineEmits<EventEmits>()
 
 const formRef = ref<FormInstance>()
+//取消
 const cancelForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
@@ -85,7 +86,7 @@ const cancelForm = (formEl: FormInstance | undefined) => {
   dialogVisible.value = false
   emit(EventEnum.close)
 }
-
+//确定
 const submitForm = (formEl: FormInstance | undefined) => {}
 
 // 关闭弹框
