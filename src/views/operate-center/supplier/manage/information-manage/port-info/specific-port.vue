@@ -53,20 +53,12 @@
           </template>
 
           <template v-if="!isEdit" #operation>
-            <el-table-column width="120" fixed="right">
-              <template #header
-                >操作<svg-icon
-                  icon="circle-add"
-                  class="ideal-svg-margin-left"
-                  color="var(--el-color-primary)"
-                  @click="handleAdd"
-                ></svg-icon
-              ></template>
+            <el-table-column label="操作" width="120" fixed="right">
               <template #default="props">
                 <el-button
                   link
                   type="primary"
-                  :disabled="form.portData.length === 1"
+                  :disabled="props.$index == 0"
                   @click="handleDelete(props.row, props.$index)"
                   >删除</el-button
                 >
@@ -74,6 +66,13 @@
             </el-table-column>
           </template>
         </ideal-table-list>
+        <div v-if="!isEdit" class="add_table" @click="handleAdd">
+          <svg-icon
+            icon="circle-add"
+            color="var(--el-color-primary)"
+          ></svg-icon>
+          继续添加
+        </div>
       </el-form-item>
 
       <template v-if="portOnly">
@@ -423,6 +422,10 @@ defineExpose({ formRef, form, multipleTableRef })
   }
   .ideal-table-list__container {
     padding: 0;
+  }
+  .add_table {
+    cursor: pointer;
+    color: var(--el-color-primary);
   }
 }
 </style>
