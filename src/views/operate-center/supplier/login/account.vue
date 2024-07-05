@@ -7,7 +7,7 @@
           class="login-logo"
           alt=""
         />
-        <div class="login-label">CTG-EMCP</div>
+        <div class="login-label">EMCP-Partners</div>
       </div>
 
       <div class="flex-row login-set">
