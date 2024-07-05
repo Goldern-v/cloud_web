@@ -3,7 +3,7 @@
     <div class="flex-row login-header">
       <div class="flex-row login-title">
         <img
-          src="../../../../assets/supplier/logo.jpg"
+          src="../../../../assets/supplier/logo.png"
           class="login-logo"
           alt=""
         />
@@ -40,11 +40,11 @@
           class="flex-column"
           style="align-items: center; margin-bottom: 10px"
         >
-          <img
+          <!-- <img
             class="login-form-logo"
             src="@/assets/supplier/logo-title.png"
             alt=""
-          />
+          /> -->
           <div class="login-form-title">账号登录</div>
         </div>
         <el-form-item prop="username">
@@ -183,8 +183,8 @@ const onLogin = () => {
       .login-logo {
         background-size: 100% 100%;
         background-repeat: no-repeat;
-        width: 36px;
-        height: 36px;
+        width: 25px;
+        height: 25px;
       }
       .login-label {
         font-size: 16px;
