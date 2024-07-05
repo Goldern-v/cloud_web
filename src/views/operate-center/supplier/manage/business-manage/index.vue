@@ -25,13 +25,15 @@
 <script setup lang="ts">
 import DCI from './DCI/index.vue'
 import cloudPort from './cloud-port/index.vue'
+import specificPort from './specific-port/index.vue'
 import type { TabsPaneContext } from 'element-plus'
 
 // 标签页组件
-const tabs: any = { DCI, cloudPort }
+const tabs: any = { DCI, cloudPort, specificPort }
 // tabs标签页
 const tabControllers = ref([
   { label: '云端口', name: 'cloudPort' },
+  { label: '专用端口', name: 'specificPort' },
   { label: 'DCI', name: 'DCI' }
 ])
 const activeName = ref('cloudPort')

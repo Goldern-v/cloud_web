@@ -16,17 +16,6 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="数据来源" prop="dataResource" required>
-        <el-radio-group v-model="form.dataResource">
-          <el-radio
-            v-for="(item, index) in sourceList"
-            :key="index"
-            :label="item.label"
-            >{{ item.name }}</el-radio
-          >
-        </el-radio-group>
-      </el-form-item>
-
       <el-form-item
         v-if="form.dataResource === 'static'"
         label="数据详情"
