@@ -116,6 +116,7 @@ onMounted(() => {
 
 const headerArray: IdealTableColumnHeaders[] = [
   { label: '端口名称', prop: 'name' },
+  { label: '数据来源', prop: 'originType' },
   { label: '状态', prop: 'status', useSlot: true },
   { label: '所属供应商', prop: 'vendorName' },
   { label: '所属节点', prop: 'nodeName' },
@@ -151,6 +152,11 @@ watch(
         ele.operate = newOperate(ele)
         ele.status = statusFormat[ele.approvalStatus.toUpperCase()]
         ele.type = statusType[ele.approvalStatus.toUpperCase()]
+        if (ele.origin === undefined || ele.origin === null) {
+          ele.originType = ''
+        } else {
+          ele.originType = ele.origin == 3 ? 'API导入' : '静态录入'
+        }
       })
     }
   },
@@ -160,7 +166,7 @@ watch(
 const newOperate = (ele: any): IdealTableColumnOperate[] => {
   let resultArr: IdealTableColumnOperate[] = []
   const tempArr = JSON.parse(JSON.stringify(operateButtons))
-  if (ele.approvalStatus.toUpperCase() === 'PASS') {
+  if (ele.approvalStatus.toUpperCase() === 'PASS' || ele.origin === 3) {
     resultArr = setOperateBtns(true, tempArr)
   }
   resultArr = tempArr
@@ -174,7 +180,7 @@ const setOperateBtns = (
   const arr: IdealTableColumnOperate[] = []
   array.forEach((item: any) => {
     item.disabled = disabled
-    item.disabledText = `已通过审批的不支持${item.title}操作`
+    item.disabledText = `已通过审批或数据来源为API导入的不支持${item.title}操作`
     arr.push(item)
   })
   return arr
