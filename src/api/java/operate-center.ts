@@ -137,7 +137,8 @@ const Api = {
   APPROVE_AGAIN: `${api}/supplier/approval/approvalAgain`, //再次审批
   APPROVE_DELETE: `${api}/supplier/approval/delete`, //再次审批
   SUPPLIER_REGISTER: `${api}/supplier`, // 供应商注册信息
-  SUPPLIER_TYPE_LIST: `${api}/supplier/type` // 供应商类型下拉列表
+  SUPPLIER_TYPE_LIST: `${api}/supplier/type`, // 供应商类型下拉列表
+  SUPPLIER_WORKORDER_LIST: `${api}/supplier/workorder/page` // 工单管理列表
 }
 
 /**
@@ -832,3 +833,5 @@ export const supplierRegisterUpdate = (data: any) => {
 export const supplierTypeList = () => {
   return service.get(Api.SUPPLIER_TYPE_LIST)
 }
+// 工单管理列表
+export const supplierWorkorderList = Api.SUPPLIER_WORKORDER_LIST

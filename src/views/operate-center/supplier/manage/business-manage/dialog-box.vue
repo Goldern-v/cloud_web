@@ -15,7 +15,7 @@
     />
 
     <specific-port-data-entry
-      v-if="showSpecificPortDataEntry || showSpecificPortDataEdit"
+      v-else-if="showSpecificPortDataEntry || showSpecificPortDataEdit"
       :type="type"
       :row-data="rowData"
       @clickCancelEvent="clickCancelEvent"
