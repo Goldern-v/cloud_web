@@ -1,17 +1,17 @@
 <template>
   <div>
     <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
-      <el-form-item label="线路编号" prop="name">
+      <el-form-item label="线路编号" prop="privateConnectId">
         <el-input
-          v-model="form.name"
+          v-model="form.privateConnectId"
           class="custom-input"
           placeholder="请输入线路编号"
         >
         </el-input>
       </el-form-item>
-      <el-form-item label="备注" prop="remarks">
+      <el-form-item label="备注" prop="remark">
         <el-input
-          v-model="form.remarks"
+          v-model="form.remark"
           :rows="2"
           type="textarea"
           class="custom-input"
@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { equipmentAdd } from '@/api/java/operate-center'
+import { supplierWokkorderDelivery } from '@/api/java/operate-center'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
 const formRef = ref<FormInstance>()
@@ -41,12 +41,14 @@ import { hideLoading, showLoading } from '@/utils/tool'
 import { EventEnum } from '@/utils/enum'
 const { t } = useI18n()
 const form: { [key: string]: any } = reactive({
-  equipmentId: '', // 线路编号
-  uuid: '' // 备注
+  privateConnectId: '', // 线路编号
+  remark: '' // 备注
 })
 
 const rules = reactive<FormRules>({
-  name: [{ required: true, message: '请输入线路编号', trigger: 'blur' }]
+  privateConnectId: [
+    { required: true, message: '请输入线路编号', trigger: 'blur' }
+  ]
 })
 
 // 属性值
@@ -81,14 +83,15 @@ const submitForm = (formEl: FormInstance | undefined) => {
       let params: { [key: string]: any } = {
         ...form
       }
-      showLoading('创建中...')
-      equipmentAdd(params)
+      params.id = props.rowData.id
+      showLoading('交付中...')
+      supplierWokkorderDelivery(params)
         .then((res: any) => {
           if (res.code === 200) {
-            ElMessage.success('创建设备成功')
+            ElMessage.success('交付成功')
             emit(EventEnum.success)
           } else {
-            ElMessage.error('创建失败')
+            ElMessage.error('交付失败')
           }
           hideLoading()
         })

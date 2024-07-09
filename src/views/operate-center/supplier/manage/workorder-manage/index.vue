@@ -60,9 +60,9 @@ import type {
 import { supplierWorkorderList } from '@/api/java/operate-center'
 
 const statusList: any = [
-  { label: '未处理', value: 'wait' },
-  { label: '处理中', value: 'pass' },
-  { label: '已完成', value: 'reject' }
+  { label: '未处理', value: 'UN_DEAL' },
+  { label: '处理中', value: 'DEAL_ING' },
+  { label: '已完成', value: 'COMPLETED' }
 ]
 
 const typeArray = ref<IdealSearch[]>([
@@ -125,26 +125,43 @@ onMounted(() => {
   //平台管理员角色
   if (!isSupplierManager.value) {
     tableHeaders.value = headerArray
+    operateButtons.value = [{ title: '详情', prop: 'detail' }]
   }
   //供应商角色
   else {
     tableHeaders.value = headerArray.filter(
       (item: any) => item.prop !== 'supplierName' && item.prop !== 'orderId'
     )
+    operateButtons.value = [
+      { title: '交付', prop: 'delivery' },
+      { title: '详情', prop: 'detail' }
+    ]
   }
 })
 
-const operateButtons: IdealTableColumnOperate[] = [
-  { title: '交付', prop: 'delivery' },
-  { title: '详情', prop: 'detail' }
-]
+const operateButtons = ref<IdealTableColumnOperate[]>([])
 
 const newOperate = (ele: any): IdealTableColumnOperate[] => {
   let resultArr: IdealTableColumnOperate[] = []
-  const tempArr = JSON.parse(JSON.stringify(operateButtons))
-  resultArr = tempArr
+  const tempArr = JSON.parse(JSON.stringify(operateButtons.value))
+  if (ele.status.toUpperCase() !== 'UN_DEAL') {
+    resultArr = setDdliveryDisabled(true, tempArr)
+  } else {
+    resultArr = tempArr
+  }
   return resultArr
 }
+
+const setDdliveryDisabled = (
+  disabled: boolean,
+  array: IdealTableColumnOperate[]
+) => {
+  const index = array.findIndex((item: any) => item.prop === 'delivery')
+  array[index].disabled = disabled
+  array[index].disabledText = '未处理状态的不支持交付操作'
+  return array
+}
+
 watch(
   () => state.dataList,
   (arr: any) => {
