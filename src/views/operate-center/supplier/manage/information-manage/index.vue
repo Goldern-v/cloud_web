@@ -56,10 +56,18 @@
         </el-table-column>
       </template>
     </ideal-table-list>
+
+    <batch-import-dialog
+      v-if="showDialog"
+      :type="dialogType"
+      @clickCloseEvent="clickCloseEvent"
+      @clickRefreshEvent="clickRefreshEvent"
+    ></batch-import-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
+import batchImportDialog from '../batchImportDialog.vue'
 import { FiltrateEnum, PaginationTypeEnum } from '@/utils/enum'
 import { ElMessage, ElMessageBox } from 'element-plus/es'
 import { IHooksOptions } from '@/hooks/interface'
@@ -114,6 +122,18 @@ const statusList: any = [
   { label: '已驳回', value: 'reject' },
   { label: '已下架', value: 'offShelves' }
 ]
+
+// 弹框
+const showDialog = ref(false)
+const dialogType = ref<string>()
+const clickCloseEvent = () => {
+  showDialog.value = false
+}
+const clickRefreshEvent = () => {
+  showDialog.value = false
+  // 这里需要添加刷新页面
+}
+
 onMounted(() => {
   //平台管理员角色
   if (!isSupplierManager.value) {
@@ -164,6 +184,11 @@ const leftButtons: IdealButtonEventProp[] = [
     title: '信息录入',
     prop: 'infoEntry',
     type: 'primary'
+  },
+  {
+    title: '批量信息导入',
+    prop: 'batchImPort',
+    type: 'primary'
   }
 ]
 
@@ -174,6 +199,13 @@ const clickLeftEvent = (command: string | number | object) => {
       path: '/operate-center/supplier/manage/information-entry',
       query: { type: 'entry' }
     })
+  } else if (command === 'batchImPort') {
+    showDialog.value = true
+    if (!isSupplierManager.value) {
+      dialogType.value = '供应商信息批量录入模板-管理员侧.xlsx'
+    } else {
+      dialogType.value = '供应商信息批量录入模板-供应商侧.xlsx'
+    }
   }
 }
 

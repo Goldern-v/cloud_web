@@ -139,7 +139,8 @@ const Api = {
   SUPPLIER_REGISTER: `${api}/supplier`, // 供应商注册信息
   SUPPLIER_TYPE_LIST: `${api}/supplier/type`, // 供应商类型下拉列表
   SUPPLIER_WORKORDER_LIST: `${api}/supplier/workorder/page`, // 工单管理列表
-  SUPPLIER_WORKORDER_DELIVERY: `${api}/supplier/workorder` // 工单管理交付
+  SUPPLIER_WORKORDER_DELIVERY: `${api}/supplier/workorder`, // 工单管理交付
+  SUPPLIER_EXCEL_IMPORT: `${api}/supplier/excel/import` // 商务管理、供应商信息管理-批量导入
 }
 
 /**
@@ -839,4 +840,8 @@ export const supplierWorkorderList = Api.SUPPLIER_WORKORDER_LIST
 // 工单管理交付
 export const supplierWokkorderDelivery = (data: any) => {
   return service.put(Api.SUPPLIER_WORKORDER_DELIVERY, data)
+}
+// 批量导入
+export const supplierExcelImport = (data: any) => {
+  return service.postForm(Api.SUPPLIER_EXCEL_IMPORT, data)
 }

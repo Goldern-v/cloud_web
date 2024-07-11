@@ -1,28 +1,35 @@
 <template>
   <div class="ideal-large-margin port-info">
-    <el-tabs
-      v-model="activeName"
-      class="port-info__tabs"
-      @tab-click="handleClick"
-    >
-      <el-tab-pane
-        v-for="item in tabControllers"
-        :key="item.name"
-        :label="item.label"
-        :name="item.name"
-      >
-      </el-tab-pane>
-    </el-tabs>
+    <div class="port-info__tabs">
+      <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane
+          v-for="item in tabControllers"
+          :key="item.name"
+          :label="item.label"
+          :name="item.name"
+        >
+        </el-tab-pane>
+      </el-tabs>
+      <el-button type="primary" @click="handleDialog">批量信息导入</el-button>
+    </div>
 
     <component
       :is="tabs[activeName]"
       v-bind="currentProps"
       class="port-info__component"
     ></component>
+
+    <batch-import-dialog
+      v-if="showDialog"
+      :type="dialogType"
+      @clickCloseEvent="clickCloseEvent"
+      @clickRefreshEvent="clickRefreshEvent"
+    ></batch-import-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
+import batchImportDialog from '../batchImportDialog.vue'
 import DCI from './DCI/index.vue'
 import cloudPort from './cloud-port/index.vue'
 import specificPort from './specific-port/index.vue'
@@ -47,6 +54,22 @@ watch(activeName, value => {
     currentProps.value = { uuid: 'test' }
   }
 })
+
+// 弹框
+const showDialog = ref(false)
+const dialogType = ref<string>()
+const clickCloseEvent = () => {
+  showDialog.value = false
+}
+const clickRefreshEvent = () => {
+  showDialog.value = false
+  // 这里需要添加刷新页面
+}
+
+const handleDialog = () => {
+  showDialog.value = true
+  dialogType.value = '供应商商务信息批量录入模板.xlsx'
+}
 </script>
 
 <style scoped lang="scss">
@@ -56,11 +79,14 @@ watch(activeName, value => {
   :deep(.el-tabs__header) {
     margin: 0;
   }
-  :deep(.el-tabs) {
-    padding: 10px 20px 0;
-  }
+  // :deep(.el-tabs) {
+  //   padding: 10px 20px 0;
+  // }
   .port-info__tabs {
     background-color: white;
+    padding: 10px 20px 0;
+    display: flex;
+    justify-content: space-between;
   }
   .port-info__component {
     margin-top: 20px;
