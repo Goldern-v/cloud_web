@@ -221,9 +221,8 @@ const operateButtons = computed(() => {
 const handleAuthority = (array: IdealTableColumnOperate[]) => {
   // 确保 whetherExitAuthority 不会直接触发 authorityList 的更新
   const whetherExitAuthority = (ele: any) => {
-    return (
-      store.userStore.authorityList.some((v: string) => v === ele?.authority) ||
-      !ele?.authority
+    return store.userStore.authorityList.some(
+      (v: string) => v === ele?.authority
     )
   }
   // 创建 array 的浅拷贝
