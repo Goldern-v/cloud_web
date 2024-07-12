@@ -5,7 +5,7 @@
     :rules="loginRules"
     @keyup.enter="onLogin"
   >
-    <div class="flex-column" style="align-items: center;margin-bottom: 10px;">
+    <div class="flex-column" style="align-items: center; margin-bottom: 10px">
       <div class="header-login"></div>
       <div class="header-title">{{ $t('app.logoText') }}</div>
     </div>
@@ -30,7 +30,7 @@
         :placeholder="$t('app.captcha')"
         :prefix-icon="Key"
       ></el-input>
-      <img :src="captchaBase64" alt="" @click="onCaptcha"/>
+      <img :src="captchaBase64" alt="" @click="onCaptcha" />
     </el-form-item>
     <el-form-item class="login-button">
       <el-button type="primary" @click="onLogin()">{{
@@ -46,6 +46,8 @@ import store from '@/store'
 import { useCaptchaApi } from '@/api/auth'
 import { useI18n } from 'vue-i18n'
 import constant from '@/utils/constant'
+import Cookies from 'js-cookie'
+import CacheKey from '@/utils/cache/key'
 
 const router = useRouter()
 const { t } = useI18n()
@@ -80,7 +82,7 @@ const onLogin = () => {
     if (!valid) {
       return false
     }
-
+    Cookies.remove(CacheKey.CookieKey)
     // 用户登录
     store.userStore
       .accountLoginAction(loginForm)

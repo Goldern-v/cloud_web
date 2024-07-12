@@ -4,5 +4,6 @@ export default {
   ComponentSizeKey: 'componentSize',
   TokenKey: 'token',
   ThemeKey: 'theme',
-  monitorPath: 'monitorPath'
+  monitorPath: 'monitorPath',
+  CookieKey: 'Authorization'
 }

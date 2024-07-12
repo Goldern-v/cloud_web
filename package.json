@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
+    "vite-build": "cross-env NODE_OPTIONS='--max_old_space_size=4096' vite build",
     "preview": "vite preview",
     "lint": "eslint --fix --ext .vue,.jsx,.ts,.tsx .",
     "prepare": "husky",
@@ -22,6 +23,7 @@
     "bpmn-moddle": "8.0.1",
     "echarts": "^5.5.0",
     "element-plus": "2.7.6",
+    "js-cookie": "^3.0.5",
     "min-dash": "^4.2.1",
     "mitt": "3.0.1",
     "nprogress": "0.2.0",
@@ -33,8 +35,7 @@
     "vue": "3.4.30",
     "vue-i18n": "9.1.9",
     "vue-router": "4.4.0",
-    "vue-types": "^5.1.2",
-    "vue3-cookies": "^1.0.6"
+    "vue-types": "^5.1.2"
   },
   "devDependencies": {
     "@babel/types": "7.24.7",
@@ -42,6 +43,7 @@
     "@commitlint/config-conventional": "^19.2.2",
     "@form-create/designer": "^3.1.0",
     "@form-create/element-ui": "^3.1.17",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "20.14.9",
     "@types/nprogress": "0.2.3",
     "@types/qs": "6.9.15",

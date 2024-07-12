@@ -4,7 +4,8 @@ import 'nprogress/nprogress.css'
 import store from '@/store'
 import { i18n } from '@/i18n'
 import { isExternalLink, pathToCamel } from '@/utils/tool'
-import cookie from '@/utils/cookie'
+import CacheKey from '@/utils/cache/key'
+import Cookies from 'js-cookie'
 
 NProgress.configure({ showSpinner: false })
 /**
@@ -129,7 +130,7 @@ router.beforeEach(async (to, from, next) => {
         } catch (error) {
           // 请求异常，则跳转到登录页
           store.userStore?.setToken('')
-          cookie.removeToken()
+          Cookies.remove(CacheKey.CookieKey)
           next('/login')
           return Promise.reject(error)
         }
