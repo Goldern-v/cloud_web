@@ -249,9 +249,19 @@ const tableHeaders: IdealTableColumnHeaders[] = [
 const rowData = ref()
 // 列表行数据操作事件
 const operateBtns: IdealTableColumnOperate[] = [
-  { type: 'primary', title: '编辑', prop: 'edit' },
-  { type: 'primary', title: '绑定解绑角色', prop: 'bind-role' },
-  { type: 'primary', title: '修改密码', prop: 'change' }
+  { type: 'primary', title: '编辑', prop: 'edit', authority: 'sys:user:edit' },
+  {
+    type: 'primary',
+    title: '绑定解绑角色',
+    prop: 'bind-role',
+    authority: 'sys:user:unbind'
+  },
+  {
+    type: 'primary',
+    title: '修改密码',
+    prop: 'change',
+    authority: 'sys:user:edit:password'
+  }
 ]
 const clickOperateEvent = (command: string | number | object, row: object) => {
   rowData.value = row

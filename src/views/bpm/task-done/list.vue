@@ -48,10 +48,7 @@
         </el-table-column>
       </template>
       <template #tasks>
-        <el-table-column
-          label="流程发起人"
-          show-overflow-tooltip
-        >
+        <el-table-column label="流程发起人" show-overflow-tooltip>
           <template #default="props">
             {{ props.row.processInstance.startUserNickname }}
           </template>
@@ -155,8 +152,8 @@ const tableHeaders: IdealTableColumnHeaders[] = [
 
 // 列表操作
 const operateBtns: IdealTableColumnOperate[] = [
-  { title: '详情', prop: 'detail' },
-  { title: '流程', prop: 'process' }
+  { title: '详情', prop: 'detail', authority: 'finishedTask:manage:info' },
+  { title: '流程', prop: 'process', authority: 'finishedTask:manage:flow' }
 ]
 
 const rowData = ref()
@@ -192,30 +189,37 @@ const clickRefreshEvent = () => {
 .my-process {
   padding: 20px;
   box-sizing: border-box;
+
   :deep(.el-date-editor.el-input__wrapper) {
     height: 34px;
   }
+
   .search-type {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
+
     .form-style {
       display: flex;
       justify-content: flex-start;
       align-items: center;
       margin: 10px 0;
       margin-right: 30px;
+
       .item-label {
         margin-right: 10px;
       }
     }
   }
+
   .cloud-host__time-range {
     margin-right: 10px;
   }
+
   .my-process-state {
     margin-right: 10px;
+
     :deep(.el-input) {
       width: 160px;
     }

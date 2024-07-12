@@ -117,7 +117,8 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
 const tabControllers = ref([
   { label: '阿里云', name: 'aliyun' },
   { label: 'AWS', name: 'aws' },
-  { label: 'Azure', name: 'Azure' }
+  { label: 'Azure', name: 'Azure' },
+  { label: 'Google', name: 'GOOGLE_CLOUD' }
 ])
 const tableHeaders = ref<IdealTableColumnHeaders[]>()
 onMounted(() => {
@@ -135,6 +136,9 @@ const getTableHeaders = (condition: string) => {
       break
     case 'Azure':
       arr = azureHeaders
+      break
+    case 'GOOGLE_CLOUD':
+      arr = googleheaders
       break
     default:
       arr = aliHeaders
@@ -162,10 +166,31 @@ const state: IHooksOptions = reactive({
 const { sizeChangeHandle, currentChangeHandle, getDataList, deleteHandle } =
   useCrud(state)
 
-const operateButtons: IdealTableColumnOperate[] = [
+let operateButtons: IdealTableColumnOperate[] = [
   { title: '编辑', prop: 'edit' },
   { title: '删除', prop: 'delete' }
 ]
+
+const aliOperateButtons: IdealButtonEventProp[] = [
+  { title: '编辑', prop: 'edit', authority: 'supplier:ali:port:edit' },
+  { title: '删除', prop: 'delete', authority: 'supplier:ali:port:delete' }
+]
+
+const awsOperateButtons: IdealButtonEventProp[] = [
+  { title: '编辑', prop: 'edit', authority: 'supplier:aws:port:edit' },
+  { title: '删除', prop: 'delete', authority: 'supplier:aws:port:delete' }
+]
+
+const azureOperateButtons: IdealButtonEventProp[] = [
+  { title: '编辑', prop: 'edit', authority: 'supplier:azure:port:edit' },
+  { title: '删除', prop: 'delete', authority: 'supplier:azure:port:delete' }
+]
+
+const googleOperateButtons: IdealButtonEventProp[] = [
+  { title: '编辑', prop: 'edit', authority: 'supplier:google:port:edit' },
+  { title: '删除', prop: 'delete', authority: 'supplier:google:port:delete' }
+]
+
 const newOperate = (ele: any): IdealTableColumnOperate[] => {
   let resultArr: IdealTableColumnOperate[] = []
   const tempArr = JSON.parse(JSON.stringify(operateButtons))
@@ -225,6 +250,9 @@ const clickOperateEvent = (command: string | number, row: any) => {
       case 'Azure':
         dialogType.value = 'editAzurePort'
         break
+      case 'GOOGLE_CLOUD':
+        dialogType.value = 'editGooglePort'
+        break
     }
   }
 }
@@ -272,11 +300,77 @@ const azureHeaders: IdealTableColumnHeaders[] = [
   { label: '所属设备', prop: 'equipmentName' }
 ]
 
-const leftButtons: IdealButtonEventProp[] = [
+const googleheaders: IdealTableColumnHeaders[] = [
+  { label: '端口名称', prop: 'name' },
+  { label: '状态', prop: 'status', useSlot: true },
+  { label: 'Google circuit ID', prop: 'circuitId', width: '140' },
+  { label: 'Google demarc ID', prop: 'demarcId', width: '140' },
+  { label: '区域', prop: 'area' },
+  { label: 'location', prop: 'location' },
+  { label: 'zone', prop: 'zone' },
+  { label: 'address', prop: 'address' },
+  { label: '端口速度', prop: 'speed' },
+  { label: '所属供应商', prop: 'vendorName', width: '140' },
+  { label: '所属节点', prop: 'nodeName' },
+  { label: '所属设备', prop: 'equipmentName' }
+]
+let leftButtons: IdealButtonEventProp[] = [
   {
     title: '创建',
     prop: 'create',
     type: 'primary'
+  }
+]
+watch(
+  () => activeName.value,
+  value => {
+    if (value === 'aliyun') {
+      leftButtons = aliBtn
+      operateButtons = aliOperateButtons
+    } else if (value === 'aws') {
+      leftButtons = awsBtn
+      operateButtons = awsOperateButtons
+    } else if (value === 'Azure') {
+      leftButtons = azureBtn
+      operateButtons = azureOperateButtons
+    } else if (value === 'GOOGLE_CLOUD') {
+      leftButtons = googleBtn
+      operateButtons = googleOperateButtons
+    }
+  }
+)
+
+const aliBtn: IdealButtonEventProp[] = [
+  {
+    title: '创建',
+    prop: 'create',
+    type: 'primary',
+    authority: 'supplier:ali:port:add'
+  }
+]
+const awsBtn: IdealButtonEventProp[] = [
+  {
+    title: '创建',
+    prop: 'create',
+    type: 'primary',
+    authority: 'supplier:aws:port:add'
+  }
+]
+const azureBtn: IdealButtonEventProp[] = [
+  {
+    title: '创建',
+    prop: 'create',
+    type: 'primary',
+    authority: 'supplier:azure:port:add'
+  }
+]
+
+const googleBtn: IdealButtonEventProp[] = [
+  {
+    title: '创建',
+    prop: 'create',
+    type: 'primary',
+    authority: 'supplier:google:port:add'
   }
 ]
 
@@ -292,6 +386,9 @@ const clickLeftEvent = (command: string | number | object) => {
         break
       case 'Azure':
         dialogType.value = 'createAzurePort'
+        break
+      case 'GOOGLE_CLOUD':
+        dialogType.value = 'createGooglePort'
         break
     }
   }
@@ -311,19 +408,24 @@ const clickRefreshEvent = () => {
 <style scoped lang="scss">
 .cloud_port {
   box-sizing: border-box;
+
   // 修改tabs底部边距
   :deep(.el-tabs__header) {
     margin: 0;
   }
+
   :deep(.el-tabs) {
     padding: 10px 20px 20px;
   }
+
   .cloud_port__tabs {
     background-color: white;
   }
+
   .cloud_port__component {
     margin-top: 20px;
   }
+
   .cloud_port__tabs__content {
     background-color: white;
     padding: $idealPadding 0;

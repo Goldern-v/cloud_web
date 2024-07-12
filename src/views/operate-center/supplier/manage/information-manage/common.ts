@@ -18,7 +18,8 @@ export const speedList = ['10GE', '1GE']
 export const cloudTypeList = [
   { label: '阿里云', value: 'aliyun' },
   { label: 'AWS', value: 'aws' },
-  { label: 'Azure', value: 'Azure' }
+  { label: 'Azure', value: 'Azure' },
+  { label: 'Google', value: 'GOOGLE_CLOUD' }
 ]
 
 //清空form表单

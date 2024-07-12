@@ -238,23 +238,45 @@ const rightButtons: IdealButtonEventProp[] = [
     prop: 'newProcess',
     title: '新建流程',
     type: 'primary',
-    icon: 'circle-add'
+    icon: 'circle-add',
+    authority: 'flowModel:manage:add'
   },
   {
     prop: 'importProcess',
     title: '导入流程',
-    type: 'primary'
+    type: 'primary',
+    authority: 'flowModel:manage:import'
   }
 ]
 
 // 列表操作
 const operateBtns: IdealTableColumnOperate[] = [
-  { title: '修改流程', prop: 'editProcess' },
-  { title: '设计流程', prop: 'designProcess' },
-  { title: '分配规则', prop: 'allocationRules' },
-  { title: '发布流程', prop: 'publishingProcess' },
-  { title: '流程定义', prop: 'processDefinition' },
-  { title: '删除', prop: 'delete' }
+  {
+    title: '修改流程',
+    prop: 'editProcess',
+    authority: 'flowModel:manage:modifyFlow'
+  },
+  {
+    title: '设计流程',
+    prop: 'designProcess',
+    authority: 'flowModel:manage:designFlow'
+  },
+  {
+    title: '分配规则',
+    prop: 'allocationRules',
+    authority: 'flowModel:manage:allotFlow'
+  },
+  {
+    title: '发布流程',
+    prop: 'publishingProcess',
+    authority: 'flowModel:manage:assueFlow'
+  },
+  {
+    title: '流程定义',
+    prop: 'processDefinition',
+    authority: 'flowModel:manage:flowDefine'
+  },
+  { title: '删除', prop: 'delete', authority: 'flowModel:manage:delete' }
 ]
 // 右侧按键回调函数
 const clickRightEvent = (value: string | number | object) => {
@@ -372,11 +394,14 @@ const release = () => {
   .cloud-host__time-range {
     margin-right: 10px;
   }
+
   .model-name {
     margin-right: 10px;
   }
+
   .model-type {
     margin-right: 10px;
+
     :deep(.el-input) {
       width: 224px;
     }

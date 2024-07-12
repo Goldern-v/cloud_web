@@ -136,7 +136,7 @@ import {
 
 // 搜索
 const typeArray = ref<IdealSearch[]>([
-  { label: '名称', prop: 'name', type: FiltrateEnum.input },
+  { label: '名称', prop: 'name', type: FiltrateEnum.input }
 ])
 
 const onClickSearch = (v: IdealSearchResult[]) => {
@@ -224,7 +224,8 @@ const leftButtons = ref<IdealButtonEventProp[]>([
     prop: 'create',
     type: 'primary',
     icon: 'circle-add',
-    iconColor: 'white'
+    iconColor: 'white',
+    authority: 'supplier:platform:add'
   }
 ])
 const router = useRouter()
@@ -286,9 +287,13 @@ const clickRightEvent = (value: string | number | object) => {
   }
 }
 const operateBtns = ref<IdealTableColumnOperate[]>([
-  { title: '编辑', prop: 'edit' },
-  { title: '连接校验', prop: 'check' },
-  { title: '删除', prop: 'delete' }
+  { title: '编辑', prop: 'edit', authority: 'supplier:platform:edit' },
+  {
+    title: '连接校验',
+    prop: 'check',
+    authority: 'supplier:platform:connection:check'
+  },
+  { title: '删除', prop: 'delete', authority: 'supplier:platform:delete' }
 ])
 const clickOperateEvent = (command: string | number, row: any) => {
   if (command === 'edit') {

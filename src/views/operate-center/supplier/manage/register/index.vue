@@ -111,7 +111,8 @@ const leftButtons: IdealButtonEventProp[] = [
   {
     title: '供应商注册',
     prop: 'create',
-    type: 'primary'
+    type: 'primary',
+    authority: 'supplier:register:add'
   }
 ]
 const router = useRouter()
@@ -122,7 +123,7 @@ const clickLeftEvent = (command: string | number | object) => {
   }
 }
 const operateButtons: IdealTableColumnOperate[] = [
-  { title: '编辑', prop: 'edit' }
+  { title: '编辑', prop: 'edit', authority: 'supplier:register:edit' }
 ]
 const rowData = ref()
 const clickOperateEvent = (command: string | number, row: any) => {
@@ -138,7 +139,8 @@ watch(
   (arr: any) => {
     if (arr.length) {
       arr.forEach((item: any) => {
-        item.statusText = item.status.toUpperCase() === 'SUCCESS' ? '成功' : '失败'
+        item.statusText =
+          item.status.toUpperCase() === 'SUCCESS' ? '成功' : '失败'
       })
     }
   },
@@ -162,6 +164,7 @@ const clickRefreshEvent = () => {
 .supplier-register {
   background-color: white;
   padding: $idealPadding;
+
   .ideal-theme-text {
     cursor: pointer;
   }

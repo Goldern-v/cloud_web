@@ -116,6 +116,7 @@ const Api = {
   CABINET_LIST: `${api}/supplier/cabinet`, //获取机柜列表
   PORT_OPERATE: `${api}/supplier/port`, //添加端口
   AZURE_PORT_OPERATE: `${api}/supplier/port/azure`, //post 添加azure端口  put编辑azure端口 get详情
+  GOOGLE_PORT_OPERATE: `${api}/supplier/port`, //post 添加google端口  put编辑google端口
   INFORMATION_ENTRY: `${api}/supplier/approval/record`, //供应商管理信息录入
   INFORMATION_UPDATE: `${api}/supplier/approval/update`, //修改供应商管理录入信息
   SUPPLIER_INFORMATION_LIST: `${api}/supplier/approval/list`, //供应商信息录入列表
@@ -139,7 +140,8 @@ const Api = {
   SUPPLIER_REGISTER: `${api}/supplier`, // 供应商注册信息
   SUPPLIER_TYPE_LIST: `${api}/supplier/type`, // 供应商类型下拉列表
   SUPPLIER_WORKORDER_LIST: `${api}/supplier/workorder/page`, // 工单管理列表
-  SUPPLIER_WORKORDER_DELIVERY: `${api}/supplier/workorder` // 工单管理交付
+  SUPPLIER_WORKORDER_DELIVERY: `${api}/supplier/workorder`, // 工单管理交付
+  SUPPLIER_EXCEL_IMPORT: `${api}/supplier/excel/import` // 商务管理、供应商信息管理-批量导入
 }
 
 /**
@@ -753,6 +755,10 @@ export const getAzurePortDetail = (id: any) => {
 }
 //删除端口
 export const portDelete = Api.PORT_OPERATE
+//添加google端口
+export const googlePortAdd = (data: any) => {
+  return service.post(Api.GOOGLE_PORT_OPERATE, data)
+}
 
 //供应商信息录入
 export const informationEntry = (data: any) => {
@@ -839,4 +845,8 @@ export const supplierWorkorderList = Api.SUPPLIER_WORKORDER_LIST
 // 工单管理交付
 export const supplierWokkorderDelivery = (data: any) => {
   return service.put(Api.SUPPLIER_WORKORDER_DELIVERY, data)
+}
+// 批量导入
+export const supplierExcelImport = (data: any) => {
+  return service.postForm(Api.SUPPLIER_EXCEL_IMPORT, data)
 }

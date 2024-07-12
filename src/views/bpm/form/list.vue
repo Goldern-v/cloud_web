@@ -134,9 +134,9 @@ const clickReset = () => {
 const slotArray = ['categoryType', 'platformType']
 
 const operateBtns: IdealTableColumnOperate[] = [
-  { type: '', title: '编辑', prop: 'edit' },
-  { type: '', title: '详情', prop: 'detail' },
-  { type: '', title: '删除', prop: 'delete' }
+  { type: '', title: '编辑', prop: 'edit', authority: 'flow:manage:update' },
+  { type: '', title: '详情', prop: 'detail', authority: 'flow:manage:info' },
+  { type: '', title: '删除', prop: 'delete', authority: 'flow:manage:delete' }
 ]
 
 const tableHeaders: IdealTableColumnHeaders[] = [
@@ -153,7 +153,8 @@ const rightButtons: IdealButtonEventProp[] = [
     prop: 'add',
     title: '新增',
     type: 'primary',
-    icon: 'circle-add'
+    icon: 'circle-add',
+    authority: 'flow:manage:add'
   }
 ]
 
@@ -209,6 +210,7 @@ onMounted(() => {})
   padding: $idealPadding;
   background-color: white;
   box-sizing: border-box;
+
   :deep(.el-select .el-input) {
     width: 200px;
     height: 34px;
@@ -219,19 +221,24 @@ onMounted(() => {})
     justify-content: flex-start;
     align-items: center;
   }
+
   .custom-margin-right {
     margin-right: 10px;
   }
+
   .bpm-form-list__button {
     justify-content: space-between;
     align-items: center;
   }
+
   .custom-select {
     width: 210px;
   }
+
   .custom-color {
     color: var(--el-color-primary);
   }
+
   .bpm-form-list__table-name {
     cursor: pointer;
   }

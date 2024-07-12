@@ -1,6 +1,12 @@
 <template>
   <div class="specific-port">
-    <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
+    <el-form
+      ref="formRef"
+      :model="form"
+      :rules="rules"
+      label-position="left"
+      label-width="auto"
+    >
       <!-- 单端口创建或编辑 -->
       <template v-if="portOnly">
         <el-form-item
@@ -119,6 +125,26 @@
         </el-input>
       </el-form-item>
 
+      <el-form-item v-if="isGoogle" label="Google circuit ID" prop="circuitId">
+        <el-input
+          v-model="form.circuitId"
+          class="custom-input"
+          placeholder="请输入ID信息"
+          :disabled="isApproved"
+        >
+        </el-input>
+      </el-form-item>
+
+      <el-form-item v-if="isGoogle" label="Google demarc ID" prop="demarcId">
+        <el-input
+          v-model="form.demarcId"
+          class="custom-input"
+          placeholder="请输入ID信息"
+          :disabled="isApproved"
+        >
+        </el-input>
+      </el-form-item>
+
       <el-form-item label="区域" prop="area">
         <el-input
           v-model="form.area"
@@ -183,7 +209,7 @@
         </el-form-item>
       </template>
 
-      <template v-if="isAzure">
+      <template v-if="isAzure || isGoogle">
         <!-- 信息录入时且手动输入新的azure端口时匹配端口组时需要 -->
         <el-form-item
           v-if="isSupplierEntry && !form.name"
@@ -284,7 +310,9 @@ let form: { [key: string]: any } = reactive({
   location: '',
   zone: '',
   address: '',
-  portGroup: ''
+  portGroup: '',
+  circuitId: '',
+  demarcId: ''
 })
 
 const formRef = ref<FormInstance>() // 校验表单
@@ -312,7 +340,13 @@ const rules = reactive<FormRules>({
   ],
   zone: [{ required: true, message: '请输入zone', trigger: 'blur' }],
   location: [{ required: true, message: '请输入location', trigger: 'blur' }],
-  portGroup: [{ required: true, message: '请选择端口组序号', trigger: 'blur' }]
+  portGroup: [{ required: true, message: '请选择端口组序号', trigger: 'blur' }],
+  circuitId: [
+    { required: true, message: '请输入Google circuit ID', trigger: 'blur' }
+  ],
+  demarcId: [
+    { required: true, message: '请输入Google demarcId ID', trigger: 'blur' }
+  ]
 })
 
 const defaultOptions: PortBasic = {
@@ -325,6 +359,8 @@ const state = reactive(defaultOptions)
 const isALi = computed(() => RegExp(/(Ali)/i).test(props.type as string))
 const isAws = computed(() => RegExp(/(Aws)/i).test(props.type as string))
 const isAzure = computed(() => RegExp(/(Azure)/i).test(props.type as string))
+const isGoogle = computed(() => RegExp(/(Google)/i).test(props.type as string))
+
 const isEdit = computed(() => RegExp(/(edit)/i).test(props.type as string)) //判断是否为编辑模式
 
 const portOnly = computed(() => RegExp(/Port/).test(props.type as string)) //仅单独云端口创建或编辑
@@ -473,9 +509,11 @@ defineExpose({ formRef, form })
 <style scoped lang="scss">
 .specific-port {
   width: 100%;
+
   :deep(.el-form) {
     padding: 0;
   }
+
   .ideal-table-list__container {
     padding: 0;
   }

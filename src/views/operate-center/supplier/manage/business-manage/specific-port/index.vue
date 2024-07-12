@@ -127,7 +127,8 @@ const leftButtons: IdealButtonEventProp[] = [
   {
     title: '数据录入',
     prop: 'dataEntry',
-    type: 'primary'
+    type: 'primary',
+    authority: 'supplier:manage:specificRecord'
   }
 ]
 
@@ -139,8 +140,8 @@ const clickLeftEvent = (command: string | number | object) => {
 }
 
 const operateButtons: IdealTableColumnOperate[] = [
-  { title: '编辑', prop: 'edit' },
-  { title: '删除', prop: 'delete' }
+  { title: '编辑', prop: 'edit', authority: 'supplier:manage:specificEdit' },
+  { title: '删除', prop: 'delete', authority: 'supplier:manage:specificDelete' }
 ]
 const newOperate = (ele: any): IdealTableColumnOperate[] => {
   let resultArr: IdealTableColumnOperate[] = []
@@ -208,6 +209,7 @@ const clickRefreshEvent = () => {
 .business-manage-manage {
   background-color: white;
   padding: $idealPadding;
+
   .ideal-theme-text {
     cursor: pointer;
   }

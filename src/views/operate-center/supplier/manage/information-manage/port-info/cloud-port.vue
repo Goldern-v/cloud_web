@@ -32,8 +32,10 @@ import {
   portAdd,
   azurePortAdd,
   portEdit,
-  getAzurePortDetail
+  getAzurePortDetail,
+  googlePortAdd
 } from '@/api/java/operate-center'
+
 import { ElMessage } from 'element-plus'
 
 interface CloudPortProps {
@@ -50,6 +52,7 @@ const { t } = useI18n()
 const isAzure = computed(() => RegExp(/(Azure)/i).test(props.type as string)) // 判断是否为Azure
 const isAli = computed(() => RegExp(/(Ali)/i).test(props.type as string)) // 判断是否为Ali
 const isAws = computed(() => RegExp(/(Aws)/i).test(props.type as string)) // 判断是否为isAws
+const isGoogle = computed(() => RegExp(/(Google)/i).test(props.type as string)) // 判断是否为谷歌
 const isEdit = computed(() => RegExp(/(edit)/i).test(props.type as string)) //判断是否为编辑模式
 
 const {
@@ -57,7 +60,8 @@ const {
   createAliPortParams,
   createAwsPortParams,
   createAzurePortParams,
-  updateAzurePortParams
+  updateAzurePortParams,
+  createGooglePortParams
 } = getCloudPortParams()
 
 const formList = ref<cloudPortCreateProps[]>([])
@@ -139,6 +143,9 @@ const onClickCommit = () => {
   } else if (isAzure.value) {
     params = isEdit.value ? updateAzurePortParams() : createAzurePortParams()
     desc = 'Azure'
+  } else if (isGoogle.value) {
+    params = createGooglePortParams()
+    desc = 'Google'
   }
   if (isEdit.value) {
     params.id = props.rowData.id
@@ -172,7 +179,7 @@ const onClickCommit = () => {
         .catch((err: any) => {
           hideLoading()
         })
-    } else {
+    } else if (isAzure.value) {
       azurePortAdd(params)
         .then((res: any) => {
           if (res.code === 200) {
@@ -184,6 +191,22 @@ const onClickCommit = () => {
           hideLoading()
         })
         .catch((err: any) => {
+          hideLoading()
+        })
+    } else if (isGoogle.value) {
+      googlePortAdd(params)
+        .then((res: any) => {
+          const { code } = res
+          if (code === 200) {
+            hideLoading()
+            ElMessage.success(`创建${desc}云端口成功`)
+            emit(EventEnum.success)
+          } else {
+            hideLoading()
+            ElMessage.error(`创建${desc}云端口失败`)
+          }
+        })
+        .catch(() => {
           hideLoading()
         })
     }

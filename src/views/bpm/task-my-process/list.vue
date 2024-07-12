@@ -128,10 +128,7 @@
         </el-table-column>
       </template>
       <template #tasks>
-        <el-table-column
-          label="当前审批任务"
-          show-overflow-tooltip
-        >
+        <el-table-column label="当前审批任务" show-overflow-tooltip>
           <template #default="props">
             <el-button
               v-for="task in props.row.tasks"
@@ -289,14 +286,15 @@ const rightButtons: IdealButtonEventProp[] = [
     prop: 'add',
     title: '发起流程',
     type: 'primary',
-    icon: 'circle-add'
+    icon: 'circle-add',
+    authority: 'myFlow:manage:assueFlow'
   }
 ]
 
 // 列表操作
 const operateBtns: IdealTableColumnOperate[] = [
-  { title: '详情', prop: 'detail' },
-  { title: '取消', prop: 'cancel' }
+  { title: '详情', prop: 'detail', authority: 'myFlow:manage:flowInfo' },
+  { title: '取消', prop: 'cancel', authority: 'myFlow:manage:cancel' }
 ]
 
 // 右侧按键回调函数
@@ -357,35 +355,43 @@ const clickOperateEvent = (command: string | number | object, row: any) => {
 .my-process {
   padding: 20px;
   box-sizing: border-box;
+
   :deep(.el-date-editor.el-input__wrapper) {
     height: 34px;
   }
+
   .search-type {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
+
     .form-style {
       display: flex;
       justify-content: flex-start;
       align-items: center;
       margin: 10px 0;
       margin-right: 30px;
+
       .item-label {
         margin-right: 10px;
       }
     }
   }
+
   .cloud-host__time-range {
     margin-right: 10px;
   }
+
   .my-process-state {
     width: 160px;
     margin-right: 10px;
+
     :deep(.el-input) {
       width: 160px;
     }
   }
+
   .table-options {
     display: flex;
     justify-content: flex-start;

@@ -98,7 +98,16 @@
       </el-form-item>
 
       <el-form-item label="所属U位" prop="uType">
-        <el-select
+        <el-input
+          v-model="form.uType"
+          placeholder="请输入U位"
+          class="custom-input"
+          :disabled="isApproved || isSelect"
+          oninput="value = value.replace(/[^0-9]/g, '');"
+        >
+          <template #append>U</template>
+        </el-input>
+        <!-- <el-select
           v-model="form.uType"
           placeholder="请输入U位"
           class="custom-input"
@@ -110,7 +119,7 @@
             :label="item"
             :value="item"
           />
-        </el-select>
+        </el-select> -->
       </el-form-item>
 
       <el-form-item label="网络平面" prop="planarNetwork">
@@ -209,6 +218,15 @@ const form: { [key: string]: any } = reactive({
 
 const formRef = ref<FormInstance>()
 
+const checkUType = (rule: any, value: any, callback: any) => {
+  if (!value) {
+    return callback(new Error('请输入U位'))
+  } else if (value < 1 || value > 99) {
+    return callback(new Error('请输入1~99的数字'))
+  }
+  callback()
+}
+
 const rules = reactive<FormRules>({
   name: [{ required: true, message: '请输入设备名称', trigger: 'blur' }],
   uuid: [{ required: true, message: '请输入设备ID', trigger: 'blur' }],
@@ -217,7 +235,7 @@ const rules = reactive<FormRules>({
   ],
   vendorId: [{ required: true, message: '请选择供应商', trigger: 'blur' }],
   nodeId: [{ required: true, message: '请选择节点', trigger: 'blur' }],
-  uType: [{ required: true, message: '请选择U位', trigger: 'blur' }],
+  uType: [{ required: true, validator: checkUType, trigger: 'blur' }],
   cabinetId: [{ required: true, message: '请选择机架', trigger: 'blur' }],
   planarNetwork: [
     { required: true, message: '请选择网络平面', trigger: 'blur' }
@@ -243,6 +261,7 @@ onMounted(() => {
     Object.keys(form).forEach((key: string) => {
       if (key !== 'vendorId' && key !== 'equipmentId') {
         form[key] = props.rowData[key]
+        form.uType = props.rowData.uType.split('U')[0]
       } else {
         form.vendorId = parseInt(props.rowData.vendorId)
       }
@@ -377,6 +396,8 @@ watch(
         Object.keys(form).forEach((key: string) => {
           if (key !== 'vendorId' && key !== 'equipmentId' && key !== 'nodeId') {
             form[key] = deviceInfo[key]
+            form.uuid = deviceInfo.id
+            form.uType = deviceInfo.uType.split('U')[0]
           }
         })
       } else {
@@ -415,6 +436,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
       let params: { [key: string]: any } = {
         ...form
       }
+      params.uType = params.uType + 'U'
       if (isEdit.value) {
         params.id = props.rowData.id
         showLoading('编辑中...')
@@ -457,6 +479,7 @@ defineExpose({ form, formRef, assignDevice })
 <style scoped lang="scss">
 .device-info {
   width: 100%;
+
   :deep(.el-form) {
     padding: 0;
   }
