@@ -22,11 +22,11 @@
     >
       <template #name>
         <el-table-column label="供应商名称" width="200">
-          <template #default="props"
-            ><div class="ideal-theme-text" @click="toDetail(props.row)">
+          <template #default="props">
+            <div class="ideal-theme-text" @click="toDetail(props.row)">
               {{ props.row.vendorName }}
-            </div></template
-          >
+            </div>
+          </template>
         </el-table-column>
       </template>
 
@@ -94,7 +94,11 @@ const state: IHooksOptions = reactive({
 const { sizeChangeHandle, currentChangeHandle, getDataList } = useCrud(state)
 
 const operateButtons: IdealTableColumnOperate[] = [
-  { title: '删除', prop: 'delete' }
+  {
+    title: '删除',
+    prop: 'delete',
+    authority: 'supplier:manage:deleteApprovalInfo'
+  }
 ]
 const newOperate = (ele: any): IdealTableColumnOperate[] => {
   let resultArr: IdealTableColumnOperate[] = []

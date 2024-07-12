@@ -100,7 +100,8 @@ const leftButtons: IdealButtonEventProp[] = [
   {
     title: '数据录入',
     prop: 'dataEntry',
-    type: 'primary'
+    type: 'primary',
+    authority: 'supplier:manage:dciRecord'
   }
 ]
 
@@ -112,8 +113,8 @@ const clickLeftEvent = (command: string | number | object) => {
 }
 
 const operateButtons: IdealTableColumnOperate[] = [
-  { title: '编辑', prop: 'edit' },
-  { title: '删除', prop: 'delete' }
+  { title: '编辑', prop: 'edit', authority: 'supplier:manage:dciUpdate' },
+  { title: '删除', prop: 'delete', authority: 'supplier:manage:dciDelete' }
 ]
 
 watch(
@@ -194,6 +195,7 @@ const clickRefreshEvent = () => {
 .business-manage-manage {
   background-color: white;
   padding: $idealPadding;
+
   .ideal-theme-text {
     cursor: pointer;
   }

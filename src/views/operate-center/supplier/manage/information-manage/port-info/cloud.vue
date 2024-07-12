@@ -166,10 +166,31 @@ const state: IHooksOptions = reactive({
 const { sizeChangeHandle, currentChangeHandle, getDataList, deleteHandle } =
   useCrud(state)
 
-const operateButtons: IdealTableColumnOperate[] = [
+let operateButtons: IdealTableColumnOperate[] = [
   { title: '编辑', prop: 'edit' },
   { title: '删除', prop: 'delete' }
 ]
+
+const aliOperateButtons: IdealButtonEventProp[] = [
+  { title: '编辑', prop: 'edit', authority: 'supplier:ali:port:edit' },
+  { title: '删除', prop: 'delete', authority: 'supplier:ali:port:delete' }
+]
+
+const awsOperateButtons: IdealButtonEventProp[] = [
+  { title: '编辑', prop: 'edit', authority: 'supplier:aws:port:edit' },
+  { title: '删除', prop: 'delete', authority: 'supplier:aws:port:delete' }
+]
+
+const azureOperateButtons: IdealButtonEventProp[] = [
+  { title: '编辑', prop: 'edit', authority: 'supplier:azure:port:edit' },
+  { title: '删除', prop: 'delete', authority: 'supplier:azure:port:delete' }
+]
+
+const googleOperateButtons: IdealButtonEventProp[] = [
+  { title: '编辑', prop: 'edit', authority: 'supplier:google:port:edit' },
+  { title: '删除', prop: 'delete', authority: 'supplier:google:port:delete' }
+]
+
 const newOperate = (ele: any): IdealTableColumnOperate[] => {
   let resultArr: IdealTableColumnOperate[] = []
   const tempArr = JSON.parse(JSON.stringify(operateButtons))
@@ -293,11 +314,63 @@ const googleheaders: IdealTableColumnHeaders[] = [
   { label: '所属节点', prop: 'nodeName' },
   { label: '所属设备', prop: 'equipmentName' }
 ]
-const leftButtons: IdealButtonEventProp[] = [
+let leftButtons: IdealButtonEventProp[] = [
   {
     title: '创建',
     prop: 'create',
     type: 'primary'
+  }
+]
+watch(
+  () => activeName.value,
+  value => {
+    if (value === 'aliyun') {
+      leftButtons = aliBtn
+      operateButtons = aliOperateButtons
+    } else if (value === 'aws') {
+      leftButtons = awsBtn
+      operateButtons = awsOperateButtons
+    } else if (value === 'Azure') {
+      leftButtons = azureBtn
+      operateButtons = azureOperateButtons
+    } else if (value === 'GOOGLE_CLOUD') {
+      leftButtons = googleBtn
+      operateButtons = googleOperateButtons
+    }
+  }
+)
+
+const aliBtn: IdealButtonEventProp[] = [
+  {
+    title: '创建',
+    prop: 'create',
+    type: 'primary',
+    authority: 'supplier:ali:port:add'
+  }
+]
+const awsBtn: IdealButtonEventProp[] = [
+  {
+    title: '创建',
+    prop: 'create',
+    type: 'primary',
+    authority: 'supplier:aws:port:add'
+  }
+]
+const azureBtn: IdealButtonEventProp[] = [
+  {
+    title: '创建',
+    prop: 'create',
+    type: 'primary',
+    authority: 'supplier:azure:port:add'
+  }
+]
+
+const googleBtn: IdealButtonEventProp[] = [
+  {
+    title: '创建',
+    prop: 'create',
+    type: 'primary',
+    authority: 'supplier:google:port:add'
   }
 ]
 

@@ -103,7 +103,11 @@ const tableHeaders: IdealTableColumnHeaders[] = [
 
 // 列表操作
 const operateBtns: IdealTableColumnOperate[] = [
-  { title: '分配规则', prop: 'allocationRules' }
+  {
+    title: '分配规则',
+    prop: 'allocationRules',
+    authority: 'flowModel:manage:allotFlow'
+  }
 ]
 
 // 弹框
@@ -126,18 +130,21 @@ const clickOperateEvent = (command: string | number | object, row: any) => {
 </script>
 
 <style scoped lang="scss">
-.process-definition{
+.process-definition {
   padding: 20px;
   box-sizing: border-box;
 
   .cloud-host__time-range {
     margin-right: 10px;
   }
+
   .processDefinition-name {
     margin-right: 10px;
   }
+
   .processDefinition-type {
     margin-right: 10px;
+
     :deep(.el-input) {
       width: 224px;
     }

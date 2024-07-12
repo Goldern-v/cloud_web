@@ -28,11 +28,11 @@
     >
       <template #name>
         <el-table-column label="供应商名称" width="200">
-          <template #default="props"
-            ><div class="ideal-theme-text" @click="toDetail(props.row)">
+          <template #default="props">
+            <div class="ideal-theme-text" @click="toDetail(props.row)">
               {{ props.row.vendorName }}
-            </div></template
-          >
+            </div>
+          </template>
         </el-table-column>
       </template>
 
@@ -183,12 +183,14 @@ const leftButtons: IdealButtonEventProp[] = [
   {
     title: '信息录入',
     prop: 'infoEntry',
-    type: 'primary'
+    type: 'primary',
+    authority: 'supplier:manage:record'
   },
   {
     title: '批量信息导入',
     prop: 'batchImPort',
-    type: 'primary'
+    type: 'primary',
+    authority: 'supplier:manage:upload'
   }
 ]
 
@@ -210,9 +212,13 @@ const clickLeftEvent = (command: string | number | object) => {
 }
 
 const operateButtons: IdealTableColumnOperate[] = [
-  { title: '编辑', prop: 'edit' },
-  { title: '删除', prop: 'delete' },
-  { title: '再次审批', prop: 'againApprove' }
+  { title: '编辑', prop: 'edit', authority: 'supplier:manage:update' },
+  { title: '删除', prop: 'delete', authority: 'supplier:manage:delete' },
+  {
+    title: '再次审批',
+    prop: 'againApprove',
+    authority: 'supplier:manage:approvalAgain'
+  }
 ]
 const newOperate = (ele: any): IdealTableColumnOperate[] => {
   let resultArr: IdealTableColumnOperate[] = []
@@ -353,6 +359,7 @@ const handleApproveAgain = (row: any) => {
 .supplier-information-manage {
   background-color: white;
   padding: $idealPadding;
+
   .ideal-theme-text {
     cursor: pointer;
   }

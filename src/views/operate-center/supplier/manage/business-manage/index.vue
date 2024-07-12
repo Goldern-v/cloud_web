@@ -10,7 +10,12 @@
         >
         </el-tab-pane>
       </el-tabs>
-      <el-button type="primary" @click="handleDialog">批量信息导入</el-button>
+      <el-button
+        v-auth="'supplier:manage:batchDownload'"
+        type="primary"
+        @click="handleDialog"
+        >批量信息导入</el-button
+      >
     </div>
 
     <component

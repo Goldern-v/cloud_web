@@ -131,7 +131,8 @@ const leftButtons: IdealButtonEventProp[] = [
   {
     title: '创建',
     prop: 'create',
-    type: 'primary'
+    type: 'primary',
+    authority: 'supplier:nni:port:add'
   }
 ]
 
@@ -143,8 +144,8 @@ const clickLeftEvent = (command: string | number | object) => {
 }
 
 const operateButtons: IdealTableColumnOperate[] = [
-  { title: '编辑', prop: 'edit' },
-  { title: '删除', prop: 'delete' }
+  { title: '编辑', prop: 'edit', authority: 'supplier:nni:port:edit' },
+  { title: '删除', prop: 'delete', authority: 'supplier:nni:port:delete' }
 ]
 
 watch(
