@@ -144,15 +144,15 @@ const operateButtons = ref<IdealTableColumnOperate[]>([])
 const newOperate = (ele: any): IdealTableColumnOperate[] => {
   let resultArr: IdealTableColumnOperate[] = []
   const tempArr = JSON.parse(JSON.stringify(operateButtons.value))
-  if (ele.status.toUpperCase() !== 'UN_DEAL') {
-    resultArr = setDdliveryDisabled(true, tempArr)
+  if (isSupplierManager.value && ele.status.toUpperCase() !== 'UN_DEAL') {
+    resultArr = setDeliveryDisabled(true, tempArr)
   } else {
     resultArr = tempArr
   }
   return resultArr
 }
 
-const setDdliveryDisabled = (
+const setDeliveryDisabled = (
   disabled: boolean,
   array: IdealTableColumnOperate[]
 ) => {
