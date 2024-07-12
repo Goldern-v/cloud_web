@@ -74,6 +74,44 @@ export const getCloudPortParams = () => {
     return params
   }
 
+  //创建google端口参数
+  const createGooglePortParams = () => {
+    const form = cloudFormRef.value[0].form
+    const {
+      name,
+      uuid,
+      nodeId,
+      equipmentId,
+      speed,
+      connectionId,
+      area,
+      address,
+      logicalDevice,
+      circuitId,
+      demarcId,
+      zone,
+      location
+    } = form
+    const params: { [key: string]: any } = {
+      portType: 'CLOUD',
+      cloudPortType: 'GOOGLE_CLOUD',
+      name,
+      uuid,
+      nodeId,
+      equipmentId,
+      speed,
+      connectionId,
+      area,
+      address,
+      logicalDevice,
+      circuitId,
+      demarcId,
+      zone,
+      location
+    }
+    return params
+  }
+
   //更新Azure端口参数
   const updateAzurePortParams = () => {
     const params = filterEmptyValues(cloudFormRef.value[0].form)
@@ -85,6 +123,7 @@ export const getCloudPortParams = () => {
     createAliPortParams,
     createAwsPortParams,
     createAzurePortParams,
-    updateAzurePortParams
+    updateAzurePortParams,
+    createGooglePortParams
   }
 }

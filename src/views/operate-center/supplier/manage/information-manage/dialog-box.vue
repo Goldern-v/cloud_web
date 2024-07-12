@@ -86,7 +86,7 @@ const showNNIOperate = computed(() =>
   RegExp(/(Nni)/i).test(props.type as string)
 ) //创建\编辑NNI端口
 const showCloudPort = computed(() =>
-  RegExp(/(Ali|Aws|Azure)/i).test(props.type as string)
+  RegExp(/(Ali|Aws|Azure|Google)/i).test(props.type as string)
 )
 
 onMounted(() => {
@@ -110,13 +110,15 @@ const initDialog = () => {
     type = 'Aws端口'
   } else if (props.type?.includes('Azure')) {
     type = 'Azure端口'
+  } else if (props.type?.includes('Google')) {
+    type = 'Google端口'
   }
   dialogTitle.value = `${operate}${type}`
   dialogWidth.value = props.type?.includes('Azure')
     ? '60%'
     : props.type?.includes('Specific')
-    ? '45%'
-    : '30%'
+      ? '45%'
+      : '30%'
 }
 
 // 方法
