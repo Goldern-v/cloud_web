@@ -11,7 +11,11 @@
     <el-divider />
 
     <div class="flex-row resource-pool-manage__button">
-      <el-button type="primary" @click="clickResourcePoolCreate">
+      <el-button
+        v-auth="'suppler:pool:create'"
+        type="primary"
+        @click="clickResourcePoolCreate"
+      >
         <svg-icon icon="circle-add" class="ideal-svg-margin-right"></svg-icon>
         创建资源池
       </el-button>
@@ -85,10 +89,7 @@ import type {
   IdealSearch,
   IdealSearchResult
 } from '@/types'
-import {
-  FiltrateEnum,
-  PaginationTypeEnum
-} from '@/utils/enum'
+import { FiltrateEnum, PaginationTypeEnum } from '@/utils/enum'
 
 // 搜索
 const typeArray = ref<IdealSearch[]>([
@@ -150,8 +151,8 @@ const loopUpdateStatus = () => {
 }
 
 const operateBtns = ref<IdealTableColumnOperate[]>([
-  { type: '', title: '编辑', prop: 'edit' },
-  { type: '', title: '删除', prop: 'delete' }
+  { type: '', title: '编辑', prop: 'edit', authority: 'supplier:pool:edit' },
+  { type: '', title: '删除', prop: 'delete', authority: 'supplier:pool:delete' }
 ])
 // 根据每行数据状态判断操作是否禁用
 const newOperate = (item: any): IdealTableColumnOperate[] => {

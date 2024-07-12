@@ -53,17 +53,14 @@ import dialogBox from './dialog-box.vue'
 import { useCrud } from '@/hooks'
 import { IHooksOptions } from '@/hooks/interface'
 import { FiltrateEnum, OperateEventEnum } from '@/utils/enum'
-import type { 
+import type {
   IdealTableColumnHeaders,
   IdealTableColumnOperate,
   IdealSearch,
   IdealSearchResult,
   IdealButtonEventProp
 } from '@/types'
-import {
-  getRolePage,
-  deleteRole
-} from '@/api/java/business-center'
+import { getRolePage, deleteRole } from '@/api/java/business-center'
 
 // 搜索
 const builtInRoles: any = [
@@ -72,7 +69,7 @@ const builtInRoles: any = [
   { label: '是', value: true }
 ]
 const typeArray = ref<IdealSearch[]>([
-  { label: '角色名称', prop: 'name', type: FiltrateEnum.input },
+  { label: '角色名称', prop: 'name', type: FiltrateEnum.input }
   // {
   //   label: '自定义角色',
   //   prop: 'type',
@@ -132,7 +129,8 @@ const leftButtons: IdealButtonEventProp[] = [
     prop: 'create',
     type: 'primary',
     icon: 'circle-add',
-    iconColor: 'white'
+    iconColor: 'white',
+    authority: 'sys:role:create'
   }
 ]
 const clickLeftEvent = (value: string | number | object) => {
@@ -143,9 +141,9 @@ const clickLeftEvent = (value: string | number | object) => {
 }
 // 列表操作
 const operateBtns: IdealTableColumnOperate[] = [
-  { title: '编辑', prop: 'edit' },
-  { title: '授权', prop: 'auth' },
-  { title: '删除', prop: 'delete' }
+  { title: '编辑', prop: 'edit', authority: 'sys:role:edit' },
+  { title: '授权', prop: 'auth', authority: 'sys:role:authorization' },
+  { title: '删除', prop: 'delete', authority: 'sys:role:delete' }
 ]
 const router = useRouter()
 const rowData = ref({}) // 行数据
@@ -155,8 +153,11 @@ const clickOperateEvent = (command: string | number, row: any) => {
     showDialog.value = true
     dialogType.value = OperateEventEnum.edit
   } else if (command === 'auth') {
-    router.push({ path: '/operate-center/supplier/account/role/auth', query: { id: row?.id } })
-  }else if (command === 'delete') {
+    router.push({
+      path: '/operate-center/supplier/account/role/auth',
+      query: { id: row?.id }
+    })
+  } else if (command === 'delete') {
     deleteHandle(row.id, '/', '确定要删除当前角色吗？', '删除角色')
   }
 }
