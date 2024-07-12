@@ -133,8 +133,16 @@ onMounted(() => {
       (item: any) => item.prop !== 'supplierName' && item.prop !== 'orderId'
     )
     operateButtons.value = [
-      { title: '交付', prop: 'delivery' },
-      { title: '详情', prop: 'detail' }
+      {
+        title: '交付',
+        prop: 'delivery',
+        authority: 'supplier:workorder:manage:delivery'
+      },
+      {
+        title: '详情',
+        prop: 'detail',
+        authority: 'supplier:workorder:manage:detail'
+      }
     ]
   }
 })

@@ -124,7 +124,7 @@ const tableHeaders: IdealTableColumnHeaders[] = [
 
 // 列表操作
 const operateBtns: IdealTableColumnOperate[] = [
-  { title: '修改', prop: 'editRule' }
+  { title: '修改', prop: 'editRule', authority: 'flowModel:manage:rule:update' }
 ]
 const getAssignRuleOptionName = (type: number, option: number) => {
   if (!dataSuccess.value) {
@@ -195,11 +195,14 @@ const clickOperateEvent = (command: string | number | object, row: any) => {
   .cloud-host__time-range {
     margin-right: 10px;
   }
+
   .taskAssignRule-name {
     margin-right: 10px;
   }
+
   .taskAssignRule-type {
     margin-right: 10px;
+
     :deep(.el-input) {
       width: 224px;
     }

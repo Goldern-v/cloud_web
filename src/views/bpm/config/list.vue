@@ -155,14 +155,15 @@ const leftButtons: IdealButtonEventProp[] = [
     prop: 'add',
     title: '新建',
     type: 'primary',
-    icon: 'circle-add'
+    icon: 'circle-add',
+    authority: 'configManage:manage:add'
   }
 ]
 
 // 列表操作
 const operateBtns: IdealTableColumnOperate[] = [
-  { title: '编辑', prop: 'edit' },
-  { title: '删除', prop: 'delete' }
+  { title: '编辑', prop: 'edit', authority: 'configManage:manage:update' },
+  { title: '删除', prop: 'delete', authority: 'configManage:manage:delete' }
 ]
 
 // 右侧按键回调函数
@@ -199,7 +200,7 @@ const clickOperateEvent = (command: string | number | object, row: any) => {
     dialogTitle.value = `删除配置`
     dialogWidth.value = '50%'
     dialogType.value = 'delete'
-  }  
+  }
 }
 </script>
 
@@ -213,22 +214,27 @@ const clickOperateEvent = (command: string | number | object, row: any) => {
     justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
+
     .form-style {
       display: flex;
       justify-content: flex-start;
       align-items: center;
       margin: 10px 0;
       margin-right: 30px;
+
       .item-label {
         margin-right: 10px;
       }
     }
   }
+
   .cloud-host__time-range {
     margin-right: 10px;
   }
+
   .my-process-state {
     margin-right: 10px;
+
     :deep(.el-input) {
       width: 160px;
     }
