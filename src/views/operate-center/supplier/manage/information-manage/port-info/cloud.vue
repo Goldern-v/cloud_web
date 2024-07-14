@@ -321,6 +321,14 @@ let leftButtons: IdealButtonEventProp[] = [
     type: 'primary'
   }
 ]
+const aliBtn: IdealButtonEventProp[] = [
+  {
+    title: '创建',
+    prop: 'create',
+    type: 'primary',
+    authority: 'supplier:port:add'
+  }
+]
 watch(
   () => activeName.value,
   value => {
@@ -337,17 +345,10 @@ watch(
       leftButtons = googleBtn
       operateButtons = googleOperateButtons
     }
-  }
+  },
+  { immediate: true }
 )
 
-const aliBtn: IdealButtonEventProp[] = [
-  {
-    title: '创建',
-    prop: 'create',
-    type: 'primary',
-    authority: 'supplier:ali:port:add'
-  }
-]
 const awsBtn: IdealButtonEventProp[] = [
   {
     title: '创建',
