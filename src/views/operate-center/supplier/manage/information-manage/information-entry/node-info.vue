@@ -95,7 +95,7 @@
 
       <el-form-item label="城市" prop="cityId">
         <el-select
-          v-if="cityCount < 3000"
+          v-if="cityCount < 3000 || !cityCount"
           v-model="form.cityId"
           placeholder="请选择节点所属的城市"
           class="custom-input"
@@ -381,9 +381,9 @@ watch(
   () => [form.countryId, state.countryList],
   ([val, arr]) => {
     if (val && arr.length) {
-      const countryInfo = state.countryList?.find(
-        (item: any) => item.rcId === val
-      )
+      const countryInfo = state.countryList?.find((item: any) => {
+        return item.rcId == val
+      })
       regionForm.countryCode = countryInfo?.bssId
       regionForm.countryName = countryInfo?.name
       cityCount.value = countryInfo?.cityCount
@@ -449,7 +449,7 @@ watch(
 const queryCities = async (areaId: string, countryId: string) => {
   try {
     //当城市数量较少时直接查询所有城市，城市数量过多时通过州划分城市
-    if (cityCount.value < 3000) {
+    if (cityCount.value < 3000 || !cityCount.value) {
       const res = await getRegionList({ resType: 2, parentId: countryId })
       state.cityList = res.data
     }
