@@ -88,7 +88,7 @@
       >
         <template #default="scope">
           <el-button
-            v-auth="'sys:menu:update,sys:menu:info'"
+            v-auth="'sys:menu:update'"
             type="primary"
             link
             @click="addOrUpdateHandle(scope.row.id)"
