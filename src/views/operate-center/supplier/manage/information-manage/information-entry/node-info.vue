@@ -408,7 +408,7 @@ const cascaderProps: CascaderProps = {
     let nodes = []
     if (node.level === 0) {
       const res = await getRegionList({ resType: 4, parentId: form.countryId })
-      nodes = res.data.map((item: any) => {
+      nodes = res.data?.map((item: any) => {
         return {
           value: item.rcId,
           label: item.name,
@@ -421,7 +421,7 @@ const cascaderProps: CascaderProps = {
         provinceId: value
       })
       state.cityList = res.data
-      nodes = res.data.map((item: any) => {
+      nodes = res.data?.map((item: any) => {
         return {
           value: item.rcId,
           label: item.name,
