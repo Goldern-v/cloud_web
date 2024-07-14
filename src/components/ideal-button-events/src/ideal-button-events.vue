@@ -11,7 +11,7 @@
           <div class="ideal-default-margin-right">
             <el-button
               :id="v.prop"
-              :type="(v.type as any)"
+              :type="v.type as any"
               :text="v.text"
               :disabled="v.disabled"
               @click="handleLeftButton(v)"
@@ -70,10 +70,14 @@
           :content="v.disabledText"
           :disabled="!v.disabled"
         >
-          <div :class="{ 'ideal-default-margin-right': rightButtons.length - 1 !== index }">
+          <div
+            :class="{
+              'ideal-default-margin-right': rightButtons.length - 1 !== index
+            }"
+          >
             <el-button
               :id="v.prop"
-              :type="(v.type as any)"
+              :type="v.type as any"
               :text="v.text"
               :disabled="v.disabled"
               @click="handleRightButton(v)"
@@ -218,9 +222,8 @@ const rightBtnLimit = () => {
 const handleAuthority = (array: IdealButtonEventProp[]) => {
   // 确保 whetherExitAuthority 不会直接触发 authorityList 的更新
   const whetherExitAuthority = (ele: any) => {
-    return (
-      store.userStore.authorityList.some((v: string) => v === ele?.authority) ||
-      !ele?.authority
+    return store.userStore.authorityList.some(
+      (v: string) => v === ele?.authority
     )
   }
   // 创建 array 的浅拷贝

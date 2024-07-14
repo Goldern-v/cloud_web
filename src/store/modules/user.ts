@@ -3,7 +3,8 @@ import { useAccountLoginApi, useMobileLoginApi, useLogoutApi } from '@/api/auth'
 import { useUserInfoApi } from '@/api/sys/user'
 import cache from '@/utils/cache'
 import { useAuthorityListApi } from '@/api/sys/menu'
-import cookie from '@/utils/cookie'
+import Cookies from 'js-cookie'
+import CacheKey from '@/utils/cache/key'
 
 export const userStore = defineStore('userStore', {
   state: () => ({
@@ -16,7 +17,7 @@ export const userStore = defineStore('userStore', {
     // 权限列表
     authorityList: [],
     // 登录token
-    token: cache.getToken() || cookie.getToken(),
+    token: Cookies.get(CacheKey.CookieKey) || cache.getToken(),
     // 首次登录
     firstLogin: false,
     // 登录界面返回的id,用于首次登录跳转重置密码
@@ -62,7 +63,7 @@ export const userStore = defineStore('userStore', {
     async logoutAction() {
       const { data } = await useLogoutApi()
       // 移除 token
-      cookie.removeToken()
+      Cookies.remove(CacheKey.CookieKey)
       this.setToken(null)
 
       if (data) {
