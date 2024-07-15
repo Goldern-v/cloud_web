@@ -17,7 +17,7 @@ const onBack = () => {
   router.back()
 }
 const onToHome = () => {
-  router.replace('/')
+  router.push('/operate-center/supplier/manage/information-manage/index')
 }
 </script>
 
