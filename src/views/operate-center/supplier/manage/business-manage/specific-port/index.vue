@@ -115,9 +115,9 @@ watch(
       val.forEach((item: any) => {
         item.source = item.dataResource === 'static' ? '静态录入' : 'API对接'
         item.bandwidth = `${item.minBandwidth}-${item.maxBandwidth}M`
-        item.deliveryPeriod = `${item.deliveryDuration}天`
-        item.nrcStr = `${item.nrc}$`
-        item.mrcStr = `${item.mrc}$`
+        item.deliveryPeriod = `${item.deliveryDuration}`
+        item.nrcStr = `${item.nrc}`
+        item.mrcStr = `${item.mrc}`
       })
     }
   }
