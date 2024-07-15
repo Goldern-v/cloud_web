@@ -14,19 +14,19 @@
       @clickSuccessEvent="clickSuccessEvent"
     />
 
-    <order-detail
+    <!-- <order-detail
       v-else-if="showDetail"
       :type="type"
       :row-data="rowData"
       @clickCancelEvent="clickCancelEvent"
       @clickSuccessEvent="clickSuccessEvent"
-    />
+    /> -->
   </el-dialog>
 </template>
 
 <script setup lang="ts">
 import delivery from './delivery.vue'
-import orderDetail from './detail.vue'
+// import orderDetail from './detail.vue'
 import { EventEnum } from '@/utils/enum'
 
 // 属性值
@@ -47,7 +47,7 @@ const dialogVisible = ref(true)
 const dialogWidth = ref('40%')
 
 const showDelivery = computed(() => props.type === 'delivery')
-const showDetail = computed(() => props.type === 'detail')
+// const showDetail = computed(() => props.type === 'detail')
 onMounted(() => {
   initDialog()
 })
@@ -58,11 +58,11 @@ const initDialog = () => {
     dialogTitle.value = '交付'
     dialogWidth.value = '30%'
   }
-  if (showDetail.value) {
-    dialogVisible.value = true
-    dialogTitle.value = '工单详情'
-    dialogWidth.value = '50%'
-  }
+  // if (showDetail.value) {
+  //   dialogVisible.value = true
+  //   dialogTitle.value = '工单详情'
+  //   dialogWidth.value = '50%'
+  // }
 }
 
 // 方法

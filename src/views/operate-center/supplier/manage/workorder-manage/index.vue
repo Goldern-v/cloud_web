@@ -188,13 +188,21 @@ watch(
   { immediate: true }
 )
 const rowData: any = ref({})
+const router = useRouter()
 const clickOperateEvent = (command: string | number, row: any) => {
   rowData.value = row
   showDialog.value = true
   if (command === 'delivery') {
     dialogType.value = 'delivery'
   } else if (command === 'detail') {
-    dialogType.value = 'detail'
+    const detail = JSON.stringify(rowData.value)
+    router.push({
+      path: '/operate-center/supplier/manage/workorder-manage/detail',
+      query: {
+        detail
+      }
+    })
+    // dialogType.value = 'detail'
   }
 }
 

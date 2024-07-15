@@ -275,6 +275,18 @@ export const customMenu = [
       title: '阿里云资源详情',
       breadcrumb: ['供应商账号管理', '角色管理', '授权']
     }
+  },
+  {
+    path: 'supplier/manage/workorder-manage/detail',
+    component: () =>
+      import(
+        '@/views/operate-center/supplier/manage/workorder-manage/detail.vue'
+      ),
+    name: 'supplier-workorder-detail',
+    meta: {
+      title: '工单详情',
+      breadcrumb: ['供应商管理', '工单管理', '工单详情']
+    }
   }
 ]
 

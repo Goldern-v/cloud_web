@@ -64,6 +64,10 @@ export const replaceOperatePath = (path: string): string => {
     case JumpEnum.SUPPLIER_ACCOUNT_ROLE_AUTH:
       result = PathEnum.SUPPLIER_ACCOUNT_ROLE_LIST
       break
+    // 工单管理
+    case JumpEnum.SUPPLIER_WORK_ORDER_DETAIL:
+      result = PathEnum.SUPPLIER_WORK_ORDER_LIST
+      break
     default:
       result = path
       break
@@ -91,7 +95,9 @@ const PathEnum = {
   SUPPLIER_PLATFORM_LIST: '/operate-center/supplier/cloud/platform/list', // 国际公司云平台管理
   SUPPLIER_POOL_LIST: '/operate-center/supplier/cloud/pool/list', // 国际公司资源池管理
   SUPPLIER_RESOURCE_LIST: '/operate-center/supplier/cloud/resource/index', // 国际公司资源管理
-  SUPPLIER_ACCOUNT_ROLE_LIST: '/operate-center/supplier/account/role/list' // 国际公司角色授权
+  SUPPLIER_ACCOUNT_ROLE_LIST: '/operate-center/supplier/account/role/list', // 国际公司角色授权
+  SUPPLIER_WORK_ORDER_LIST:
+    '/operate-center/supplier/manage/workorder-manage/index' // 工单管理
 }
 
 // 运维中心跳转菜单
@@ -132,5 +138,7 @@ const JumpEnum = {
     '/operate-center/supplier/resource/aliyun/detail', // 国际公司阿里云资源详情
   SUPPLIER_RESOURCE_AMAZON_DETAIL:
     '/operate-center/supplier/resource/amazon/detail', // 国际公司亚马逊资源详情
-  SUPPLIER_ACCOUNT_ROLE_AUTH: '/operate-center/supplier/account/role/auth' // 国际公司角色授权
+  SUPPLIER_ACCOUNT_ROLE_AUTH: '/operate-center/supplier/account/role/auth', // 国际公司角色授权
+  SUPPLIER_WORK_ORDER_DETAIL:
+    '/operate-center/supplier/manage/workorder-manage/detail' // 工单管理详情
 }
