@@ -125,7 +125,13 @@ onMounted(() => {
   //平台管理员角色
   if (!isSupplierManager.value) {
     tableHeaders.value = headerArray
-    operateButtons.value = [{ title: '详情', prop: 'detail' }]
+    operateButtons.value = [
+      {
+        title: '详情',
+        prop: 'detail',
+        authority: 'supplier:workorder:manage:detail'
+      }
+    ]
   }
   //供应商角色
   else {

@@ -25,6 +25,7 @@
           :auto-upload="false"
           :http-request="handleUpload"
           accept=".xlsx"
+          :limit="1"
         >
           <el-icon class="el-icon--upload"><upload-filled /></el-icon>
           <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -66,12 +67,10 @@ const form = {
   remark: ''
 }
 // 弹框
-// const dialogTitle = ref('')
 const dialogVisible = ref(true)
 
 // 下载
 const downloadFile = () => {
-  // window.location.href = 'http://10.8.0.208:18884' + /images/ + props.type;
   window.location.href = `/images/${props.type}`
 }
 // 方法
