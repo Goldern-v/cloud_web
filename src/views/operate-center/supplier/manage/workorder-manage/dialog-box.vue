@@ -14,40 +14,39 @@
       @clickSuccessEvent="clickSuccessEvent"
     />
 
-    <!-- <order-detail
-      v-else-if="showDetail"
+    <order-reject
+      v-else-if="showReject"
       :type="type"
-      :row-data="rowData"
+      :row-id="rowId"
       @clickCancelEvent="clickCancelEvent"
       @clickSuccessEvent="clickSuccessEvent"
-    /> -->
+    />
   </el-dialog>
 </template>
 
 <script setup lang="ts">
 import delivery from './delivery.vue'
-// import orderDetail from './detail.vue'
+import orderReject from './reject.vue'
 import { EventEnum } from '@/utils/enum'
 
 // 属性值
 interface DialogProps {
   type: undefined | string // 操作按钮类型
   rowData?: any // 行数据
+  rowId?: string // 订单号
 }
 const props = withDefaults(defineProps<DialogProps>(), {
-  rowData: null
+  rowData: null,
+  rowId: ''
 })
 
-const form = {
-  remark: ''
-}
 // 弹框
 const dialogTitle = ref('')
 const dialogVisible = ref(true)
 const dialogWidth = ref('40%')
 
 const showDelivery = computed(() => props.type === 'delivery')
-// const showDetail = computed(() => props.type === 'detail')
+const showReject = computed(() => props.type === 'reject')
 onMounted(() => {
   initDialog()
 })
@@ -58,11 +57,11 @@ const initDialog = () => {
     dialogTitle.value = '交付'
     dialogWidth.value = '30%'
   }
-  // if (showDetail.value) {
-  //   dialogVisible.value = true
-  //   dialogTitle.value = '工单详情'
-  //   dialogWidth.value = '50%'
-  // }
+  if (showReject.value) {
+    dialogVisible.value = true
+    dialogTitle.value = '驳回'
+    dialogWidth.value = '30%'
+  }
 }
 
 // 方法

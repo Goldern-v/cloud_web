@@ -49,7 +49,7 @@ import dialogBox from './dialog-box.vue'
 import { FiltrateEnum, PaginationTypeEnum } from '@/utils/enum'
 import { IHooksOptions } from '@/hooks/interface'
 import { useCrud } from '@/hooks'
-import { typeFormat, statusFormat } from './common'
+import { typeFormat, statusFormat, statusList, typeList } from './common'
 import type {
   IdealTableColumnHeaders,
   IdealTableColumnOperate,
@@ -59,14 +59,16 @@ import type {
 } from '@/types'
 import { supplierWorkorderList } from '@/api/java/operate-center'
 
-const statusList: any = [
-  { label: '未处理', value: 'UN_DEAL' },
-  { label: '处理中', value: 'DEAL_ING' },
-  { label: '已完成', value: 'COMPLETED' }
-]
-
 const typeArray = ref<IdealSearch[]>([
   { label: '工单号', prop: 'id', type: FiltrateEnum.input },
+  {
+    label: '工单类型',
+    prop: 'type',
+    type: FiltrateEnum.list,
+    array: typeList,
+    arrayProp: 'label',
+    arrayKey: 'value'
+  },
   {
     label: '工单状态',
     prop: 'status',
@@ -74,6 +76,11 @@ const typeArray = ref<IdealSearch[]>([
     array: statusList,
     arrayProp: 'label',
     arrayKey: 'value'
+  },
+  {
+    label: '创建时间',
+    prop: 'time',
+    type: FiltrateEnum.date
   }
 ])
 
@@ -111,6 +118,7 @@ watch(
   val => {
     if (val?.length) {
       val.forEach((item: any) => {
+        item.operate = newOperate(item)
         item.typeText = item.type ? typeFormat[item.type] : ''
         item.statusText = item.status ? statusFormat[item.status] : ''
         item.bandwidthUnit = item.bandwidth ? item.bandwidth + 'Mbps' : ''
@@ -148,6 +156,11 @@ onMounted(() => {
         title: '详情',
         prop: 'detail',
         authority: 'supplier:workorder:manage:detail'
+      },
+      {
+        title: '审批',
+        prop: 'approve',
+        authority: 'supplier:workorder:manage:approve'
       }
     ]
   }
@@ -160,6 +173,13 @@ const newOperate = (ele: any): IdealTableColumnOperate[] => {
   const tempArr = JSON.parse(JSON.stringify(operateButtons.value))
   if (isSupplierManager.value && ele.status.toUpperCase() !== 'UN_DEAL') {
     resultArr = setDeliveryDisabled(true, tempArr)
+  } else if (
+    isSupplierManager.value &&
+    ele.status.toUpperCase() == 'UN_APPROVED'
+  ) {
+    resultArr = tempArr.filter((ele: any) => {
+      return (ele.prop = 'approve')
+    })
   } else {
     resultArr = tempArr
   }
@@ -176,33 +196,20 @@ const setDeliveryDisabled = (
   return array
 }
 
-watch(
-  () => state.dataList,
-  (arr: any) => {
-    if (arr.length) {
-      arr.forEach((ele: any) => {
-        ele.operate = newOperate(ele)
-      })
-    }
-  },
-  { immediate: true }
-)
 const rowData: any = ref({})
 const router = useRouter()
 const clickOperateEvent = (command: string | number, row: any) => {
   rowData.value = row
-  showDialog.value = true
   if (command === 'delivery') {
+    showDialog.value = true
     dialogType.value = 'delivery'
-  } else if (command === 'detail') {
-    const detail = JSON.stringify(rowData.value)
+  } else if (command === 'detail' || command === 'approve') {
     router.push({
       path: '/operate-center/supplier/manage/workorder-manage/detail',
       query: {
-        detail
+        id: row.id
       }
     })
-    // dialogType.value = 'detail'
   }
 }
 
