@@ -51,6 +51,11 @@ const constantRoutes: RouteRecordRaw[] = [
     component: () => import('../views/big-screen/index.vue')
   },
   {
+    path: '/agreement',
+    component: () =>
+      import('../views/operate-center/supplier/login/agreement/index.vue')
+  },
+  {
     path: '/ctyun/novnc',
     component: () => import('@/views/multi-cloud/cloud-host/novnc/index.vue')
   },
@@ -110,7 +115,7 @@ export const router = createRouter({
 })
 
 // 白名单列表
-const whiteList = ['/login']
+const whiteList = ['/login', '/agreement']
 
 // 路由跳转前
 router.beforeEach(async (to, from, next) => {
