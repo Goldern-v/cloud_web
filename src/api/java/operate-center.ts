@@ -145,7 +145,10 @@ const Api = {
   SUPPLIER_PEND_APPROVE_PASS: `${api}/supplier/approval/pass`, // 商务管理、供应商审批管理、待审批-通过
   SUPPLIER_PEND_APPROVE_REJEST: `${api}/supplier/approval/reject`, // 商务管理、供应商审批管理、待审批-驳回
   SUPPLIER_PEND_APPROVE_ALL_PASS: `${api}/supplier/approval/pass/batch`, // 商务管理、供应商审批管理、待审批-批量通过
-  SUPPLIER_PEND_APPROVE_ALL_REJEST: `${api}/supplier/approval/reject/batch` // 商务管理、供应商审批管理、待审批-批量驳回
+  SUPPLIER_PEND_APPROVE_ALL_REJEST: `${api}/supplier/approval/reject/batch`, // 商务管理、供应商审批管理、待审批-批量驳回
+  SUPPLIER_WORKORDER_DETAIL: `${api}/supplier/workorder/detail`, // 工单管理详情
+  SUPPLIER_WORKORDER_APPROVED: `${api}/supplier/workorder/approved`, // 工单详情审批通过
+  SUPPLIER_WORKORDER_REJECTED: `${api}/supplier/rejected` // 工单详情审批驳回
 }
 
 /**
@@ -846,9 +849,21 @@ export const supplierTypeList = () => {
 }
 // 工单管理列表
 export const supplierWorkorderList = Api.SUPPLIER_WORKORDER_LIST
+// 工单管理详情
+export const supplierWorkorderDetail = (params: any) => {
+  return service.get(Api.SUPPLIER_WORKORDER_DETAIL, { params })
+}
 // 工单管理交付
 export const supplierWokkorderDelivery = (data: any) => {
   return service.put(Api.SUPPLIER_WORKORDER_DELIVERY, data)
+}
+// 工单详情审批通过
+export const supplierWokkorderApproved = (data: any) => {
+  return service.put(Api.SUPPLIER_WORKORDER_APPROVED, data)
+}
+// 工单详情审批驳回
+export const supplierWokkorderRejected = (data: any) => {
+  return service.put(Api.SUPPLIER_WORKORDER_REJECTED, data)
 }
 // 批量导入
 export const supplierExcelImport = (data: any) => {

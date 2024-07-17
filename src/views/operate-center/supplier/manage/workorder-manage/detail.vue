@@ -6,11 +6,24 @@
       :detail-info="detailInfo"
       class="padding-left"
     >
+      <template #typeText>
+        <div>{{ detailInfo.type ? typeFormat[detailInfo.type] : '' }}</div>
+      </template>
+      <template #statusText>
+        <div>
+          {{ detailInfo.status ? statusFormat[detailInfo.status] : '' }}
+        </div>
+      </template>
+      <template #bandwidthUnit>
+        <div>
+          {{ detailInfo.bandwidth ? detailInfo.bandwidth + 'Mbps' : '' }}
+        </div>
+      </template>
       <template #createTime>
-        <div>{{ detailInfo.createTime.date }}</div>
+        <div>{{ detailInfo.createTime ? detailInfo.createTime.date : '' }}</div>
       </template>
       <template #updateTime>
-        <div>{{ detailInfo.updateTime.date }}</div>
+        <div>{{ detailInfo.updateTime ? detailInfo.updateTime.date : '' }}</div>
       </template>
     </ideal-detail-info>
 
@@ -26,29 +39,37 @@
 
     <p>线路价格</p>
 
+    <!-- 未审批情况下 -->
     <ideal-table-list
-      :table-data="dataList"
+      :table-data="priceList"
       :table-headers="priceHeaders"
       :show-pagination="false"
       class="padding-left"
     >
       <template #expandTable>
-        <el-table-column type="expand">
+        <el-table-column
+          v-if="detailInfo.status != 'UN_APPROVED'"
+          type="expand"
+        >
           <template #default="props">
             <p>审批详情</p>
-            {{ props }}
-            <!-- <ideal-table-list
-              :table-data="[]"
+            <ideal-table-list
+              :table-data="props.row.workOrderApproveItems"
               :table-headers="contactTableHeaders"
               :show-pagination="false"
               style="padding-left: 60px"
             >
-            </ideal-table-list> -->
+            </ideal-table-list>
           </template>
         </el-table-column>
       </template>
       <template #operation>
-        <el-table-column label="操作" width="120" fixed="right">
+        <el-table-column
+          v-if="detailInfo.type == 'NEW_DISCOUNT'"
+          label="操作"
+          width="120"
+          fixed="right"
+        >
           <template #default="props">
             <ideal-table-operate
               :buttons="props.row.operate"
@@ -59,25 +80,28 @@
         </el-table-column>
       </template>
     </ideal-table-list>
+
+    <dialog-box
+      v-if="showDialog"
+      :type="dialogType"
+      :row-id="rowId"
+      @clickCloseEvent="clickCloseEvent"
+      @clickRefreshEvent="clickRefreshEvent"
+    ></dialog-box>
   </div>
 </template>
 <script setup lang="ts">
 import type { IdealTableColumnHeaders, IdealTableColumnOperate } from '@/types'
 import { isSupplierManager } from '@/utils/role'
-
-// 属性值
-// interface portProps {
-//   rowData?: any // 行数据
-// }
-// const props = withDefaults(defineProps<portProps>(), {
-//   rowData: null
-// })
-
+import {
+  supplierWorkorderDetail,
+  supplierWokkorderApproved
+} from '@/api/java/operate-center'
+import { typeFormat, statusFormat } from './common'
+import { ElMessage } from 'element-plus'
 const detailInfo: any = ref({})
 const route = useRoute()
 onMounted(() => {
-  detailInfo.value = JSON.parse(route.query.detail as any)
-  console.log(detailInfo.value, '详情数据')
   //平台管理员角色
   if (!isSupplierManager.value) {
     labelArray.value = headerArray.value
@@ -88,8 +112,25 @@ onMounted(() => {
       (item: any) => item.prop !== 'supplierName' && item.prop !== 'orderId'
     )
   }
+  queryDetailData()
 })
+// 订单详情获取
+const queryDetailData = () => {
+  const id = route.query.id
+  supplierWorkorderDetail({ id })
+    .then((res: any) => {
+      const { code, data } = res
+      if (code === 200) {
+        detailInfo.value = data
+        priceList.value = data.connectionPrice ? [data.connectionPrice] : []
+      } else {
+        detailInfo.value = {}
+      }
+    })
+    .catch(_ => {})
+}
 const dataList: any = ref([])
+const priceList: any = ref([])
 
 watch(
   () => detailInfo.value,
@@ -111,16 +152,25 @@ watch(
       ]
     }
   }
-  // { immediate: true }
+)
+watch(
+  () => priceList.value,
+  (arr: any) => {
+    if (arr.length) {
+      arr.forEach((ele: any) => {
+        ele.operate = newOperate(ele)
+      })
+    }
+  }
 )
 const labelArray = ref([])
 const headerArray: any = ref([
   { label: '供应商名称', prop: 'supplierName' },
   { label: '工单号', prop: 'id' },
   { label: '订单号', prop: 'orderId' },
-  { label: '工单类型', prop: 'typeText' },
-  { label: '工单状态', prop: 'statusText' },
-  { label: '带宽', prop: 'bandwidthUnit' },
+  { label: '工单类型', prop: 'typeText', useSlot: true },
+  { label: '工单状态', prop: 'statusText', useSlot: true },
+  { label: '带宽', prop: 'bandwidthUnit', useSlot: true },
   { label: '线路编号', prop: 'privateConnectId' },
   { label: '创建时间', prop: 'createTime', useSlot: true },
   { label: '交付时间', prop: 'updateTime', useSlot: true },
@@ -134,52 +184,87 @@ const tableHeaders: IdealTableColumnHeaders[] = [
   { label: 'vlan', prop: 'vlanId' }
 ]
 const priceHeaders: IdealTableColumnHeaders[] = [
-  { label: '原价', prop: 'type' },
-  { label: '成交价($)', prop: 'cloudType' },
-  { label: '审批状态', prop: 'cloudRegionId' },
-  { label: '最终可接受价格($)', prop: 'vlanId' },
-  { label: '审批时间', prop: 'time' }
+  { label: '原价', prop: 'originalPrice' },
+  { label: '成交价($)', prop: 'transactionPrice' },
+  { label: '审批状态', prop: 'status' },
+  { label: '最终可接受价格($)', prop: 'acceptablePrice' },
+  { label: '审批时间', prop: 'updateTime' }
 ]
 const operateButtons: IdealTableColumnOperate[] = [
-  { title: '通过', prop: 'pass' },
-  { title: '驳回', prop: 'reject' }
+  {
+    title: '通过',
+    prop: 'pass',
+    authority: 'supplier:workorder:manage:passed'
+  },
+  {
+    title: '驳回',
+    prop: 'reject',
+    authority: 'supplier:workorder:manage:reject'
+  }
 ]
 const newOperate = (ele: any): IdealTableColumnOperate[] => {
   let resultArr: IdealTableColumnOperate[] = []
   const tempArr = JSON.parse(JSON.stringify(operateButtons))
-  // if (ele.approvalStatus.toUpperCase() === 'PASS') {
-  //   resultArr = setOperateBtns(true, tempArr)
-  // } else if (ele.approvalStatus.toUpperCase() === 'OFFSHELVES') {
-  //   resultArr = setEditDisabled(true, tempArr)
-  // } else {
-  //   resultArr = tempArr
-  // }
-  resultArr = tempArr
+  if (ele.status.toUpperCase() === 'UN_APPROVED' || !isSupplierManager.value) {
+    resultArr = setOperateBtns(true, tempArr)
+  } else {
+    resultArr = tempArr
+  }
   return resultArr
 }
 // 根据状态设置操作禁用状态
-// const setOperateBtns = (
-//   disabled: boolean,
-//   array: IdealTableColumnOperate[]
-// ) => {
-//   const arr: IdealTableColumnOperate[] = []
-//   array.forEach((item: any) => {
-//     item.disabled = disabled
-//     item.disabledText = `已通过审批的不支持${item.title}操作`
-//     arr.push(item)
-//   })
-//   return arr
-// }
+const setOperateBtns = (
+  disabled: boolean,
+  array: IdealTableColumnOperate[]
+) => {
+  const arr: IdealTableColumnOperate[] = []
+  array.forEach((item: any) => {
+    item.disabled = disabled
+    item.disabledText = `非管理员角色且状态为未审批时方可对线路价格进行审批操作`
+    arr.push(item)
+  })
+  return arr
+}
+const rowId = ref('')
 const clickOperateEvent = (command: string | number, row: any) => {
+  rowId.value = row.id
   if (command === 'pass') {
+    handlePass(row)
   } else if (command === 'reject') {
+    showDialog.value = true
+    dialogType.value = 'reject'
   }
 }
+// 弹框
+const showDialog = ref(false)
+const dialogType = ref<string>()
+const clickCloseEvent = () => {
+  showDialog.value = false
+}
+const clickRefreshEvent = () => {
+  showDialog.value = false
+  queryDetailData()
+}
+// 审批通过
+const handlePass = (row: any) => {
+  const id = row.id
+  supplierWokkorderApproved({ id })
+    .then((res: any) => {
+      const { code, data } = res
+      if (code === 200) {
+        queryDetailData()
+        ElMessage.success('通过成功')
+      } else {
+        ElMessage.error('通过失败')
+      }
+    })
+    .catch(_ => {})
+}
 const contactTableHeaders: IdealTableColumnHeaders[] = [
-  { label: '成交价($)', prop: 'cloudType' },
-  { label: '审批记录', prop: 'cloudRegionId' },
-  { label: '可接受价格($)', prop: 'vlanId' },
-  { label: '审批时间', prop: 'time' }
+  { label: '成交价($)', prop: 'transactionPrice' },
+  { label: '审批记录', prop: 'status' },
+  { label: '可接受价格($)', prop: 'acceptablePrice' },
+  { label: '审批时间', prop: 'updateTime' }
 ]
 </script>
 

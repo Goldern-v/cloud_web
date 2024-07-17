@@ -21,6 +21,7 @@
     <component
       :is="tabs[activeName]"
       v-bind="currentProps"
+      :key="componentKey"
       class="port-info__component"
     ></component>
 
@@ -66,9 +67,11 @@ const dialogType = ref<string>()
 const clickCloseEvent = () => {
   showDialog.value = false
 }
+const componentKey = ref(0)
 const clickRefreshEvent = () => {
   showDialog.value = false
   // 这里需要添加刷新页面
+  componentKey.value++
 }
 
 const handleDialog = () => {
