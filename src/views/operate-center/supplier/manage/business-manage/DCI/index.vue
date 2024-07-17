@@ -127,6 +127,7 @@ watch(
         ele.deliveryPeriod = `${ele.deliveryDuration}天`
         ele.nrcStr = `${ele.nrc}$`
         ele.mrcStr = `${ele.mrc}$`
+        ele.delayTimeText = `${ele.delayTime}ms`
       })
     }
   },
@@ -141,7 +142,7 @@ const tableHeaders: IdealTableColumnHeaders[] = [
   { label: '带宽', prop: 'bandwidth' },
   { label: '价格/NRC', prop: 'nrcStr' },
   { label: '价格/MRC', prop: 'mrcStr' },
-  { label: '延时/ms', prop: 'delayTime' },
+  { label: '延时/ms', prop: 'delayTimeText' },
   { label: '交付工期', prop: 'deliveryPeriod' },
   { label: '录入时间', prop: 'createTime.date' }
 ]
