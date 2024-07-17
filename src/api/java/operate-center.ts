@@ -143,7 +143,7 @@ const Api = {
   SUPPLIER_WORKORDER_DELIVERY: `${api}/supplier/workorder`, // 工单管理交付
   SUPPLIER_WORKORDER_DETAIL: `${api}/supplier/workorder/detail`, // 工单管理详情
   SUPPLIER_WORKORDER_APPROVED: `${api}/supplier/workorder/approved`, // 工单详情审批通过
-  SUPPLIER_WORKORDER_REJECTED: `${api}/supplier/rejected`, // 工单详情审批驳回
+  SUPPLIER_WORKORDER_REJECTED: `${api}/supplier/workorder/rejected`, // 工单详情审批驳回
   SUPPLIER_EXCEL_IMPORT: `${api}/supplier/excel/import` // 商务管理、供应商信息管理-批量导入
 }
 
