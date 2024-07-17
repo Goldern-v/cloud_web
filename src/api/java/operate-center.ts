@@ -141,10 +141,14 @@ const Api = {
   SUPPLIER_TYPE_LIST: `${api}/supplier/type`, // 供应商类型下拉列表
   SUPPLIER_WORKORDER_LIST: `${api}/supplier/workorder/page`, // 工单管理列表
   SUPPLIER_WORKORDER_DELIVERY: `${api}/supplier/workorder`, // 工单管理交付
+  SUPPLIER_EXCEL_IMPORT: `${api}/supplier/excel/import`, // 商务管理、供应商信息管理-批量导入
+  SUPPLIER_PEND_APPROVE_PASS: `${api}/supplier/approval/pass`, // 商务管理、供应商审批管理、待审批-通过
+  SUPPLIER_PEND_APPROVE_REJEST: `${api}/supplier/approval/reject`, // 商务管理、供应商审批管理、待审批-驳回
+  SUPPLIER_PEND_APPROVE_ALL_PASS: `${api}/supplier/approval/pass/batch`, // 商务管理、供应商审批管理、待审批-批量通过
+  SUPPLIER_PEND_APPROVE_ALL_REJEST: `${api}/supplier/approval/reject/batch`, // 商务管理、供应商审批管理、待审批-批量驳回
   SUPPLIER_WORKORDER_DETAIL: `${api}/supplier/workorder/detail`, // 工单管理详情
   SUPPLIER_WORKORDER_APPROVED: `${api}/supplier/workorder/approved`, // 工单详情审批通过
-  SUPPLIER_WORKORDER_REJECTED: `${api}/supplier/workorder/rejected`, // 工单详情审批驳回
-  SUPPLIER_EXCEL_IMPORT: `${api}/supplier/excel/import` // 商务管理、供应商信息管理-批量导入
+  SUPPLIER_WORKORDER_REJECTED: `${api}/supplier/workorder/rejected` // 工单详情审批驳回
 }
 
 /**
@@ -864,4 +868,20 @@ export const supplierWokkorderRejected = (data: any) => {
 // 批量导入
 export const supplierExcelImport = (data: any) => {
   return service.postForm(Api.SUPPLIER_EXCEL_IMPORT, data)
+}
+// 供应商管理 待审批 通过
+export const supplierPaendApprovePass = (data: any) => {
+  return service.post(Api.SUPPLIER_PEND_APPROVE_PASS, data)
+}
+// 供应商管理 待审批 批量通过
+export const supplierPaendApproveAllPass = (data: any) => {
+  return service.put(Api.SUPPLIER_PEND_APPROVE_ALL_PASS, data)
+}
+// 供应商管理 待审批 驳回
+export const supplierPaendApproveReject = (data: any) => {
+  return service.post(Api.SUPPLIER_PEND_APPROVE_REJEST, data)
+}
+// 供应商管理 待审批 批量驳回
+export const supplierPaendApproveAllReject = (data: any) => {
+  return service.put(Api.SUPPLIER_PEND_APPROVE_ALL_REJEST, data)
 }

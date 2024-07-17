@@ -39,7 +39,33 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="访问密钥ID" prop="ak">
+        <el-form-item label="注册方式" prop="registerType">
+          <el-radio-group
+            v-model="form.registerType"
+            class="ideal-default-margin-right"
+          >
+            <el-radio-button
+              v-for="(item, index) of registrationList"
+              :key="index"
+              :label="item.value"
+              >{{ item.label }}</el-radio-button
+            >
+          </el-radio-group>
+        </el-form-item>
+
+        <el-form-item
+          v-if="form.registerType == 'PASSWORD_REGISTER'"
+          label="底层账号"
+          prop="ak"
+        >
+          <el-input
+            v-model="form.username"
+            class="custom-input"
+            placeholder="请输入底层账号"
+          />
+        </el-form-item>
+
+        <el-form-item v-else label="访问密钥ID" prop="ak">
           <el-input
             v-model="form.ak"
             class="custom-input"
@@ -47,16 +73,50 @@
           />
         </el-form-item>
 
-        <el-form-item label="访问密钥" prop="sk">
+        <el-form-item
+          v-if="form.registerType == 'PASSWORD_REGISTER'"
+          label="账号密码"
+          prop="password"
+        >
+          <el-input
+            v-model="form.password"
+            show-password
+            placeholder="请输入账号密码"
+          />
+        </el-form-item>
+
+        <el-form-item v-else label="访问密钥" prop="sk">
           <el-input
             v-model="form.sk"
             class="custom-input"
             placeholder="请输入访问密钥"
           />
         </el-form-item>
+
+        <el-form-item label="注册域名" prop="url">
+          <el-input
+            v-model="form.url"
+            class="custom-input"
+            placeholder="请输入域名: 如 www.baidu.com"
+          />
+        </el-form-item>
+
+        <el-form-item v-if="!isEdit" label="" prop="checked">
+          <el-checkbox v-model="form.checked" label="" size="large" />
+          <div style="font-size: 12px">
+            <span>我已阅读并同意</span>
+            <el-button
+              text
+              type="primary"
+              style="padding: 0px"
+              @click="agreement"
+              >《云连接产品合作协议》</el-button
+            >
+            <span>中的条款和条件</span>
+          </div>
+        </el-form-item>
       </el-form>
     </div>
-
     <div class="flex-row ideal-submit-button">
       <el-button @click="cancelForm">{{ t('cancel') }}</el-button>
       <el-button type="primary" @click="submitForm(formRef)">{{
@@ -95,9 +155,14 @@ const { t } = useI18n()
 const formRef = ref<FormInstance>()
 const form = reactive({
   name: '', // 供应商名称
-  supplierType: '', // 供应商类型
+  supplierType: '', // 供应商类型，
+  registerType: 'SECRET_KEY_REGISTER', //注册方式
   ak: '',
-  sk: ''
+  sk: '',
+  url: '', //域名
+  password: '', //账户密码
+  username: '', //底层账号
+  checked: []
 })
 
 const checkCloudName = (
@@ -110,16 +175,46 @@ const checkCloudName = (
   }
   nameRuleThree({ maxLength: 20, minLength: 1 }, value, callback)
 }
+
+const checkUrl = (rule: any, value: any, callback: (e?: Error) => any) => {
+  const cnReg = /^([0-9a-zA-Z-]{1,}\.)+([a-zA-Z]{2,})$/
+  if (!cnReg.test(value)) {
+    callback(new Error('请输入合法域名'))
+  } else {
+    callback()
+  }
+}
 const rules = reactive<FormRules>({
   name: [{ required: true, validator: checkCloudName, trigger: 'blur' }],
   supplierType: [
     { required: true, message: '请选择供应商类型', trigger: 'blur' }
   ],
+  registerType: [
+    { required: true, message: '请选择注册方式', trigger: 'blur' }
+  ],
   ak: [{ required: true, message: '请输入访问密钥ID', trigger: 'blur' }],
-  sk: [{ required: true, message: '请输入访问密钥', trigger: 'blur' }]
+  sk: [{ required: true, message: '请输入访问密钥', trigger: 'blur' }],
+  username: [{ required: true, message: '请输入底层账号', trigger: 'blur' }],
+  password: [{ required: true, message: '请输入账号密码', trigger: 'blur' }],
+  url: [
+    { required: true, message: '请输入注册域名', trigger: 'blur' },
+    { required: true, validator: checkUrl, trigger: 'blur' }
+  ],
+  checked: [
+    {
+      type: 'array',
+      required: true,
+      message: '请阅读并勾选',
+      trigger: 'change'
+    }
+  ]
 })
 
 const typeList = ref<any[]>([])
+const registrationList: any = [
+  { label: '密钥注册', value: 'SECRET_KEY_REGISTER' },
+  { label: '账户密码注册', value: 'PASSWORD_REGISTER' }
+]
 onMounted(() => {
   getTypeList()
   if (props.isEdit) {
@@ -147,9 +242,13 @@ const originDic = ref()
 const initEditData = () => {
   form.name = props.rowData?.name
   form.supplierType = props.rowData?.supplierType
-  form.ak = props.rowData?.ak
-  form.sk = props.rowData?.sk
+  form.ak = props.rowData?.ak || props.rowData?.username
+  form.sk = props.rowData?.sk || props.rowData?.password
+  form.password = props.rowData?.password
+  form.registerType = props.rowData?.registerType
+  form.url = props.rowData?.url
   originDic.value = Object.assign({}, form)
+  // originDic.value = ({...form)
 }
 
 // 方法
@@ -164,6 +263,14 @@ const cancelForm = (formEl: FormInstance | undefined) => {
     return
   }
   emit(EventEnum.cancel)
+}
+const router = useRouter()
+
+const agreement = () => {
+  const url = router.resolve({
+    path: '/agreement'
+  })
+  window.open(url.href)
 }
 
 const submitForm = (formEl: FormInstance | undefined) => {
@@ -184,11 +291,18 @@ const submitForm = (formEl: FormInstance | undefined) => {
 }
 
 const handleCreate = () => {
-  const params = {
+  const params: any = {
     name: form.name, // 供应商名称
     supplierType: form.supplierType, // 供应商类型
-    ak: form.ak,
-    sk: form.sk
+    registerType: form.registerType,
+    url: form.url
+  }
+  if (form.registerType == 'SECRET_KEY_REGISTER') {
+    params.ak = form.ak
+    params.sk = form.sk
+  } else {
+    params.username = form.ak
+    params.password = form.password
   }
   supplierRegisterCreate(params).then((res: any) => {
     const { code } = res

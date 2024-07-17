@@ -67,6 +67,20 @@
           ></el-input>
           <img :src="captchaBase64" alt="" @click="onCaptcha" />
         </el-form-item>
+        <el-form-item label="" prop="checked">
+          <el-checkbox v-model="loginForm.checked" label="" size="large" />
+          <div style="font-size: 12px">
+            <span>我已阅读并同意</span>
+            <el-button
+              text
+              type="primary"
+              style="padding: 0px"
+              @click="agreement"
+              >《云连接产品合作协议》</el-button
+            >
+            <span>中的条款和条件</span>
+          </div>
+        </el-form-item>
         <el-form-item class="login-button">
           <el-button type="primary" @click="onLogin()">{{
             $t('app.signIn')
@@ -97,7 +111,8 @@ const loginForm = reactive({
   username: constant.env.PROD ? '' : 'admin',
   password: constant.env.PROD ? '' : 'cmpHeFei@2023#',
   key: '',
-  captcha: ''
+  captcha: '',
+  checked: []
 })
 
 const checkUsername = (rule: any, value: any, callback: (e?: Error) => any) => {
@@ -123,7 +138,15 @@ const checkPassword = (rule: any, value: any, callback: (e?: Error) => any) => {
 const loginRules = ref({
   username: [{ required: true, validator: checkUsername, trigger: 'blur' }],
   password: [{ required: true, validator: checkPassword, trigger: 'blur' }],
-  captcha: [{ required: true, message: t('required'), trigger: 'blur' }]
+  captcha: [{ required: true, message: t('required'), trigger: 'blur' }],
+  checked: [
+    {
+      type: 'array',
+      required: true,
+      message: '请阅读并勾选',
+      trigger: 'change'
+    }
+  ]
 })
 
 onMounted(() => {
@@ -156,6 +179,13 @@ const onLogin = () => {
         onCaptcha()
       })
   })
+}
+// 跳转协议页面
+const agreement = () => {
+  const url = router.resolve({
+    path: '/agreement'
+  })
+  window.open(url.href)
 }
 </script>
 
@@ -221,7 +251,7 @@ const onLogin = () => {
     margin: 5% 10% 0 0;
     align-items: flex-end;
     background-color: #fff;
-    width: 400px;
+    width: 405px;
     flex: 0 1 auto;
     padding: 20px 40px;
     border-radius: 6px;

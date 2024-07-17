@@ -26,10 +26,21 @@
       @clickSizeChange="sizeChangeHandle"
       @clickCurrentChange="currentChangeHandle"
     >
+      <template #registerType>
+        <el-table-column label="注册方式">
+          <template #default="props">
+            <div v-if="props.row.registerType">
+              {{ registrationList[props.row.registerType] }}
+            </div>
+            <div v-else>--</div>
+          </template>
+        </el-table-column>
+      </template>
       <template #attribute>
         <el-table-column label="属性">
           <template #default="props">
             <div v-if="props.row.ak">访问密钥ID：{{ props.row.ak }}</div>
+            <div v-if="props.row.username">账号：{{ props.row.username }}</div>
           </template>
         </el-table-column>
       </template>
@@ -102,10 +113,17 @@ const { sizeChangeHandle, currentChangeHandle, getDataList } = useCrud(state)
 const tableHeaders: IdealTableColumnHeaders[] = [
   { label: '供应商名称', prop: 'name' },
   { label: '供应商类别', prop: 'supplierType' },
+  { label: '注册方式', prop: 'registerType', useSlot: true },
   { label: '属性', prop: 'attribute', useSlot: true },
+  { label: '注册域名', prop: 'statusText' },
   { label: '状态', prop: 'statusText' },
   { label: '创建时间', prop: 'createTime.date' }
 ]
+
+const registrationList: any = {
+  SECRET_KEY_REGISTER: '密钥注册',
+  PASSWORD_REGISTER: '账户密码注册'
+}
 
 const leftButtons: IdealButtonEventProp[] = [
   {
