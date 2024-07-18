@@ -67,6 +67,13 @@
           ></el-input>
           <img :src="captchaBase64" alt="" @click="onCaptcha" />
         </el-form-item>
+        <el-form-item v-if="tip">
+          <svg-icon
+            icon="info-warning"
+            class="ideal-svg-margin-right"
+          ></svg-icon>
+          <span class="tip-text">{{ tip }}</span>
+        </el-form-item>
         <el-form-item label="" prop="checked">
           <el-checkbox v-model="loginForm.checked" label="" size="large" />
           <div style="font-size: 12px">
@@ -101,6 +108,9 @@ import store from '@/store'
 import { useCaptchaApi } from '@/api/auth'
 import { useI18n } from 'vue-i18n'
 import constant from '@/utils/constant'
+import Cookies from 'js-cookie'
+import CacheKey from '@/utils/cache/key'
+import { Base64 } from 'js-base64'
 
 const router = useRouter()
 const { t } = useI18n()
@@ -151,7 +161,7 @@ const loginRules = ref({
 onMounted(() => {
   onCaptcha()
 })
-
+const tip = ref('') //登录失败提示
 const onCaptcha = async () => {
   const { data } = await useCaptchaApi()
   loginForm.key = data.key
@@ -163,12 +173,24 @@ const onLogin = () => {
     if (!valid) {
       return false
     }
-
+    Cookies.remove(CacheKey.CookieKey)
+    const params = {
+      username: Base64.encode(loginForm.username),
+      password: Base64.encode(loginForm.password),
+      key: loginForm.key,
+      captcha: loginForm.captcha
+    }
     // 用户登录
     store.userStore
-      .accountLoginAction(loginForm)
-      .then(() => {
-        if (!store.userStore.firstLogin) {
+      .accountLoginAction(params)
+      .then((res: any) => {
+        const { code, data, status } = res
+        if (code === 400 && status === false) {
+          tip.value = data.locked
+            ? `该账号已被锁定，请${data.remainTime / 60}分钟后重试`
+            : `用户名或密码错误，再输错${data.remainNum}次用户将被锁定`
+        } else if (code === 200 && !store.userStore.firstLogin) {
+          tip.value = ''
           router.push({
             path: '/operate-center/supplier/manage/information-manage/index'
           })
@@ -301,6 +323,13 @@ const agreement = () => {
       font-size: 18px;
       letter-spacing: 8px;
     }
+  }
+  :deep(.svg-icon) {
+    color: $error5-light;
+  }
+  .tip-text {
+    color: $error5-light;
+    font-size: $defaultFontSize;
   }
 }
 

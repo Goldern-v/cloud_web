@@ -60,8 +60,8 @@ service.interceptors.response.use(
       return response
     }
 
-    // 响应成功
-    if (res.code === 200) {
+    // 200响应成功 400用户登录密码错误提示
+    if (res.code === 200 || res.code === 400) {
       return res
     }
 

@@ -13,3 +13,4 @@ declare module '*.vue' {
 }
 
 declare module '@novnc/novnc/core/rfb'
+declare module 'js-base64'
