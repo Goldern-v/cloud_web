@@ -56,7 +56,7 @@
         <el-form-item
           v-if="form.registerType == 'PASSWORD_REGISTER'"
           label="底层账号"
-          prop="ak"
+          prop="username"
         >
           <el-input
             v-model="form.username"
@@ -242,13 +242,13 @@ const originDic = ref()
 const initEditData = () => {
   form.name = props.rowData?.name
   form.supplierType = props.rowData?.supplierType
-  form.ak = props.rowData?.ak || props.rowData?.username
-  form.sk = props.rowData?.sk || props.rowData?.password
+  form.ak = props.rowData?.ak
+  form.sk = props.rowData?.sk
+  form.username = props.rowData?.username
   form.password = props.rowData?.password
   form.registerType = props.rowData?.registerType
   form.url = props.rowData?.url
   originDic.value = Object.assign({}, form)
-  // originDic.value = ({...form)
 }
 
 // 方法

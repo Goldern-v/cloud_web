@@ -115,7 +115,7 @@ const tableHeaders: IdealTableColumnHeaders[] = [
   { label: '供应商类别', prop: 'supplierType' },
   { label: '注册方式', prop: 'registerType', useSlot: true },
   { label: '属性', prop: 'attribute', useSlot: true },
-  { label: '注册域名', prop: 'statusText' },
+  { label: '注册域名', prop: 'url' },
   { label: '状态', prop: 'statusText' },
   { label: '创建时间', prop: 'createTime.date' }
 ]
