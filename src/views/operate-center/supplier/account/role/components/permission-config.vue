@@ -38,11 +38,29 @@
         :table-headers="tableHeaders"
         :total="state.total"
         :page="state.page"
-        is-multiple
         @clickSizeChange="sizeChangeHandle"
         @clickCurrentChange="currentChangeHandle"
-        @handleSelectionChange="selectionChangeHandle"
       >
+        <template #select>
+          <el-table-column width="50" align="center">
+            <template #header>
+              <el-checkbox v-model="checkAll" @change="selectAll"></el-checkbox
+            ></template>
+            <template #default="props">
+              <el-tooltip
+                :disabled="!props.row.disabled"
+                :content="props.row.disabledText"
+                placement="top"
+              >
+                <el-checkbox
+                  v-model="props.row.checked"
+                  :disabled="props.row.disabled"
+                  @change="selectRow(props.row)"
+                ></el-checkbox>
+              </el-tooltip>
+            </template>
+          </el-table-column>
+        </template>
       </ideal-table-list>
 
       <div class="flex-row role-permission-config__back">
@@ -61,14 +79,15 @@ import { showLoading, hideLoading } from '@/utils/tool'
 import type { IdealTableColumnHeaders, IdealButtonEventProp } from '@/types'
 import { useAllMenuNavApi } from '@/api/sys/menu'
 import {
+  queryRoleLimits,
   queryRoleConfigTemplate,
   createRole
 } from '@/api/java/business-center'
 
 onMounted(() => {
   queryMenuCatalog()
+  getRoleLimits()
 })
-
 /**
  * 菜单目录
  */
@@ -81,7 +100,7 @@ const dataSource = ref<Tree[]>([])
 const queryMenuCatalog = async () => {
   const params = {
     type: 0,
-    platformType: '1',
+    platformType: '1'
   }
   const { data } = await useAllMenuNavApi(params)
   dataSource.value = data.filter((item: any) => item.children?.length > 0)
@@ -153,7 +172,7 @@ const state: IHooksOptions = reactive({
   },
   createdIsNeed: false
 })
-const { getDataList, sizeChangeHandle, currentChangeHandle, selectionChangeHandle } = useCrud(state)
+const { getDataList, sizeChangeHandle, currentChangeHandle } = useCrud(state)
 
 /**
  * 列表上方左侧按钮
@@ -167,17 +186,6 @@ const leftButtons = ref<IdealButtonEventProp[]>([
   }
 ])
 
-const multipleTableRef = ref()
-//初始化时将角色的权限id勾选上
-watch(
-  () => state.dataList,
-  data => {
-    data?.forEach((item: any) => {
-      multipleTableRef.value.IdealTableList.toggleRowSelection(item, item.bindOrNot)
-    })
-  }
-)
-
 const router = useRouter()
 const clickLeftEvent = (command: string | number | object) => {
   if (command === 'accredit') {
@@ -187,17 +195,148 @@ const clickLeftEvent = (command: string | number | object) => {
 const clickBack = () => {
   router.push({ path: '/operate-center/supplier/account/role/list' })
 }
-const submit = () => {
-  const buttonIdList: any[] = []
-  const menuIdList: any[] = []
-  state.dataListSelections?.forEach((item: any) => {
-    // 0 菜单 1接口
+
+/**
+ * 权限处理
+ */
+//判断该操作权限是否已存在
+const limitExitOrNot = (role: any, limits: any[]) => {
+  return limits.some((ele: any) => ele === role.id)
+}
+//记录操作权限id
+const recordPermission = (item: any) => {
+  if (!item.checked) {
     if (item.type === 0) {
-      menuIdList.push(item.id)
-    } else if (item.type === 1) {
-      buttonIdList.push(item.id)
+      roleState.menuList = roleState.menuList.filter(
+        (ele: any) => ele !== item.id
+      )
+    } else {
+      roleState.buttonList = roleState.buttonList.filter(
+        (ele: any) => ele !== item.id
+      )
+    }
+  } else {
+    if (item.type === 1 && !limitExitOrNot(item, roleState.buttonList)) {
+      roleState.buttonList.push(item.id)
+    } else if (item.type === 0 && !limitExitOrNot(item, roleState.menuList)) {
+      roleState.menuList.push(item.id)
+    }
+  }
+}
+
+//勾选所有
+const selectAll = (val: boolean) => {
+  state.dataList?.forEach((item: any) => {
+    item.checked = val
+    recordPermission(item)
+  })
+  handleDisabled(state.dataList as any[])
+}
+//勾选整行
+const selectRow = (val: any) => {
+  //未勾选菜单权限时不可存在按钮权限
+  if (val.type === 0 && !val.checked) {
+    state.dataList?.forEach(ele => {
+      ele.checked = false
+    })
+  }
+  recordPermission(val)
+  handleDisabled(state.dataList as any[])
+}
+//判断是否全选
+const checkAll = computed(() => {
+  return state.dataList?.every((item: any) => item.checked)
+})
+
+//判断按钮禁用
+const handleDisabled = (array: any[]) => {
+  array.forEach((item: any) => {
+    if (item.type === 1 && !checkMenu.value) {
+      item.disabled = true
+      item.disabledText = '未授权页面权限'
+    } else {
+      item.disabled = false
+      item.disabledText = 'false'
     }
   })
+  return array
+}
+
+//回显已存在的权限
+const handleChecked = (limit: any, array: any[]) => {
+  const role = [...limit.buttonList, ...limit.menuList]
+  array?.forEach((item: any) => {
+    item.checked = limitExitOrNot(item, role)
+  })
+  return array
+}
+
+const id = route.query.id as string
+const emit = defineEmits(['updateInfo'])
+
+const roleState = reactive({
+  buttonList: [] as any[], //用来记录右侧表格的操作权限id
+  menuList: [] as any[] //用来记录菜单权限
+})
+
+// const
+//查询角色已绑定权限
+const getRoleLimits = () => {
+  queryRoleLimits({ roleId: id })
+    .then((res: any) => {
+      const { data, code } = res
+      if (code === 200) {
+        roleState.buttonList = data.buttonIdList
+        roleState.menuList = data.menuIdList
+        state.dataList = handleChecked(roleState, state.dataList as any[])
+        handleDisabled(state.dataList as any[])
+        emit('updateInfo', data)
+      } else {
+        roleState.buttonList = []
+        roleState.menuList = []
+      }
+    })
+    .catch(_ => {
+      roleState.buttonList = []
+      roleState.menuList = []
+    })
+}
+
+const includeMenuData: any = ref([])
+//判断菜单权限是否存在
+const checkMenu = computed(() => {
+  return includeMenuData.value?.some(
+    (ele: any) => ele.type === 0 && ele.checked
+  )
+})
+//初始化时将角色的权限id勾选上
+watch(
+  () => state.dataList,
+  data => {
+    //找到包含菜单权限的数据用来判断是否禁选按钮权限(type =0 为菜单权限，type=1为按钮权限)
+    if (data?.some(item => item.type === 0)) {
+      includeMenuData.value = data
+    }
+    data?.forEach((item: any) => {
+      if (state.page !== 1 && !checkMenu.value) {
+        item.checked = false
+        roleState.buttonList = roleState.buttonList.filter(ele =>
+          data.some((it: any) => it.id === ele.id)
+        )
+      } else {
+        item.checked = limitExitOrNot(item, [
+          ...roleState.menuList,
+          ...roleState.buttonList
+        ])
+      }
+    })
+    handleDisabled(data as any[])
+  }
+)
+
+const submit = () => {
+  const buttonIdList = roleState.buttonList
+  const menuIdList = roleState.menuList
   const params = {
     id: roleId,
     type: false,

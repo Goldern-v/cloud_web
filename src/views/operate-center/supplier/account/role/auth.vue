@@ -14,6 +14,7 @@
       <template #permissionConfig>
         <permission-config
           ref="permissionConfigRef"
+          @updateInfo="updateInfo"
         ></permission-config>
       </template>
     </collapse-layout>
@@ -23,10 +24,6 @@
 <script setup lang="ts">
 import collapseLayout from './components/collapse-layout.vue'
 import permissionConfig from './components/permission-config.vue'
-import {
-  queryRoleLimits,
-  queryRoleConfigTemplate
-} from '@/api/java/business-center'
 
 const labelArray = ref([
   { label: '角色名称', prop: 'name' },
@@ -43,24 +40,10 @@ const collapseActiveNames = ref([
   { name: 'permissionConfig', title: '授权信息' }
 ])
 
-const id = route.query.id as string
-onMounted(() => {
-  getRoleLimits(id)
-})
-
-//查询角色权限
-const detail = ref()
-const getRoleLimits = (val: string) => {
-  queryRoleLimits({ roleId: val }).then((res: any) => {
-    const { data, code } = res
-    if (code === 200) {
-      detail.value = data
-    } else {
-      detail.value = {}
-    }
-  }).catch(_ => {
-    detail.value = {}
-  })
+//查询角色信息
+const detail = ref({})
+const updateInfo = (val: any) => {
+  detail.value = val
 }
 </script>
 
