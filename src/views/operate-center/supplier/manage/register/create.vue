@@ -301,7 +301,7 @@ const handleCreate = () => {
     params.ak = form.ak
     params.sk = form.sk
   } else {
-    params.username = form.ak
+    params.username = form.username
     params.password = form.password
   }
   supplierRegisterCreate(params).then((res: any) => {
