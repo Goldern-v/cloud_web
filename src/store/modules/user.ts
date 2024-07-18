@@ -39,10 +39,14 @@ export const userStore = defineStore('userStore', {
     },
     // 账号登录
     async accountLoginAction(loginForm: any) {
-      const { data } = await useAccountLoginApi(loginForm)
-      this.setToken(data.access_token)
-      this.setFirstLogin(data.skip)
-      this.setId(data.id)
+      const res: any = await useAccountLoginApi(loginForm)
+      const { code, data, status } = res
+      if (code === 200 && status === true) {
+        this.setToken(data.access_token)
+        this.setFirstLogin(data.skip)
+        this.setId(data.id)
+      }
+      return res
     },
     // 手机号登录
     async mobileLoginAction(loginForm: any) {

@@ -43,6 +43,7 @@
     "@commitlint/config-conventional": "^19.2.2",
     "@form-create/designer": "^3.1.0",
     "@form-create/element-ui": "^3.1.17",
+    "@types/js-base64": "^3.3.1",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "20.14.9",
     "@types/nprogress": "0.2.3",
