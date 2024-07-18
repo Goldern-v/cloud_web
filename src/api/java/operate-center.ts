@@ -148,7 +148,7 @@ const Api = {
   SUPPLIER_PEND_APPROVE_ALL_REJEST: `${api}/supplier/approval/reject/batch`, // 商务管理、供应商审批管理、待审批-批量驳回
   SUPPLIER_WORKORDER_DETAIL: `${api}/supplier/workorder/detail`, // 工单管理详情
   SUPPLIER_WORKORDER_APPROVED: `${api}/supplier/workorder/approved`, // 工单详情审批通过
-  SUPPLIER_WORKORDER_REJECTED: `${api}/supplier/rejected` // 工单详情审批驳回
+  SUPPLIER_WORKORDER_REJECTED: `${api}/supplier/workorder/rejected` // 工单详情审批驳回
 }
 
 /**

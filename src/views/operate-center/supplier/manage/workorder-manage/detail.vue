@@ -36,51 +36,53 @@
       class="padding-left"
     >
     </ideal-table-list>
-
-    <p>线路价格</p>
-
-    <!-- 未审批情况下 -->
-    <ideal-table-list
-      :table-data="priceList"
-      :table-headers="priceHeaders"
-      :show-pagination="false"
-      class="padding-left"
+    <div
+      v-if="
+        detailInfo.connectionPrice != null ||
+        detailInfo.connectionPrice != undefined
+      "
     >
-      <template #expandTable>
-        <el-table-column
-          v-if="detailInfo.status != 'UN_APPROVED'"
-          type="expand"
-        >
-          <template #default="props">
-            <p>审批详情</p>
-            <ideal-table-list
-              :table-data="props.row.workOrderApproveItems"
-              :table-headers="contactTableHeaders"
-              :show-pagination="false"
-              style="padding-left: 60px"
-            >
-            </ideal-table-list>
-          </template>
-        </el-table-column>
-      </template>
-      <template #operation>
-        <el-table-column
-          v-if="detailInfo.type == 'NEW_DISCOUNT'"
-          label="操作"
-          width="120"
-          fixed="right"
-        >
-          <template #default="props">
-            <ideal-table-operate
-              :buttons="props.row.operate"
-              @clickMoreEvent="clickOperateEvent($event as any, props.row)"
-            >
-            </ideal-table-operate>
-          </template>
-        </el-table-column>
-      </template>
-    </ideal-table-list>
+      <p>线路价格</p>
 
+      <!-- 未审批情况下 -->
+      <ideal-table-list
+        :table-data="priceList"
+        :table-headers="priceHeaders"
+        :show-pagination="false"
+        class="padding-left"
+      >
+        <template #expandTable>
+          <el-table-column type="expand">
+            <template #default="props">
+              <p>审批详情</p>
+              <ideal-table-list
+                :table-data="props.row.workOrderApproveItems"
+                :table-headers="contactTableHeaders"
+                :show-pagination="false"
+                style="padding-left: 60px"
+              >
+              </ideal-table-list>
+            </template>
+          </el-table-column>
+        </template>
+        <template #operation>
+          <el-table-column
+            v-if="detailInfo.type == 'NEW_DISCOUNT'"
+            label="操作"
+            width="120"
+            fixed="right"
+          >
+            <template #default="props">
+              <ideal-table-operate
+                :buttons="props.row.operate"
+                @clickMoreEvent="clickOperateEvent($event as any, props.row)"
+              >
+              </ideal-table-operate>
+            </template>
+          </el-table-column>
+        </template>
+      </ideal-table-list>
+    </div>
     <dialog-box
       v-if="showDialog"
       :type="dialogType"
@@ -93,6 +95,7 @@
 <script setup lang="ts">
 import type { IdealTableColumnHeaders, IdealTableColumnOperate } from '@/types'
 import { isSupplierManager } from '@/utils/role'
+import dialogBox from './dialog-box.vue'
 import {
   supplierWorkorderDetail,
   supplierWokkorderApproved
@@ -159,6 +162,13 @@ watch(
     if (arr.length) {
       arr.forEach((ele: any) => {
         ele.operate = newOperate(ele)
+        ele.statusText = ele.status ? statusFormat[ele.status] : ''
+        ele.workOrderApproveItems.forEach((item: any) => {
+          item.acceptablePrice = item.acceptablePrice
+            ? item.acceptablePrice
+            : '-'
+          item.statusText = item.status ? statusFormat[item.status] : ''
+        })
       })
     }
   }
@@ -186,7 +196,7 @@ const tableHeaders: IdealTableColumnHeaders[] = [
 const priceHeaders: IdealTableColumnHeaders[] = [
   { label: '原价', prop: 'originalPrice' },
   { label: '成交价($)', prop: 'transactionPrice' },
-  { label: '审批状态', prop: 'status' },
+  { label: '审批状态', prop: 'statusText' },
   { label: '最终可接受价格($)', prop: 'acceptablePrice' },
   { label: '审批时间', prop: 'updateTime' }
 ]
@@ -205,7 +215,7 @@ const operateButtons: IdealTableColumnOperate[] = [
 const newOperate = (ele: any): IdealTableColumnOperate[] => {
   let resultArr: IdealTableColumnOperate[] = []
   const tempArr = JSON.parse(JSON.stringify(operateButtons))
-  if (ele.status.toUpperCase() === 'UN_APPROVED' || !isSupplierManager.value) {
+  if (ele.status.toUpperCase() !== 'UN_APPROVED' || !isSupplierManager.value) {
     resultArr = setOperateBtns(true, tempArr)
   } else {
     resultArr = tempArr
@@ -262,7 +272,7 @@ const handlePass = (row: any) => {
 }
 const contactTableHeaders: IdealTableColumnHeaders[] = [
   { label: '成交价($)', prop: 'transactionPrice' },
-  { label: '审批记录', prop: 'status' },
+  { label: '审批记录', prop: 'statusText' },
   { label: '可接受价格($)', prop: 'acceptablePrice' },
   { label: '审批时间', prop: 'updateTime' }
 ]

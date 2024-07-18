@@ -3,7 +3,7 @@
     <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="可接受价格" prop="acceptablePrice">
         <el-input
-          v-model="form.acceptablePrice"
+          v-model.number="form.acceptablePrice"
           class="custom-input"
           placeholder="请输入"
         >
