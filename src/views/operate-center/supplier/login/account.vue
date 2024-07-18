@@ -112,7 +112,7 @@ const loginForm = reactive({
   password: constant.env.PROD ? '' : 'cmpHeFei@2023#',
   key: '',
   captcha: '',
-  checked: []
+  checked: false
 })
 
 const checkUsername = (rule: any, value: any, callback: (e?: Error) => any) => {
@@ -135,18 +135,17 @@ const checkPassword = (rule: any, value: any, callback: (e?: Error) => any) => {
   }
   callback()
 }
+const checkChecked = (rule: any, value: any, callback: (e?: Error) => any) => {
+  if (!value) {
+    callback(new Error('请阅读并勾选'))
+  }
+  callback()
+}
 const loginRules = ref({
   username: [{ required: true, validator: checkUsername, trigger: 'blur' }],
   password: [{ required: true, validator: checkPassword, trigger: 'blur' }],
   captcha: [{ required: true, message: t('required'), trigger: 'blur' }],
-  checked: [
-    {
-      type: 'array',
-      required: true,
-      message: '请阅读并勾选',
-      trigger: 'change'
-    }
-  ]
+  checked: { required: true, validator: checkChecked, trigger: 'change' }
 })
 
 onMounted(() => {

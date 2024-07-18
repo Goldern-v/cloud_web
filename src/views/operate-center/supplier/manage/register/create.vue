@@ -162,7 +162,7 @@ const form = reactive({
   url: '', //域名
   password: '', //账户密码
   username: '', //底层账号
-  checked: []
+  checked: false
 })
 
 const checkCloudName = (
@@ -184,6 +184,12 @@ const checkUrl = (rule: any, value: any, callback: (e?: Error) => any) => {
     callback()
   }
 }
+const checkChecked = (rule: any, value: any, callback: (e?: Error) => any) => {
+  if (!value) {
+    callback(new Error('请阅读并勾选'))
+  }
+  callback()
+}
 const rules = reactive<FormRules>({
   name: [{ required: true, validator: checkCloudName, trigger: 'blur' }],
   supplierType: [
@@ -200,14 +206,7 @@ const rules = reactive<FormRules>({
     { required: true, message: '请输入注册域名', trigger: 'blur' },
     { required: true, validator: checkUrl, trigger: 'blur' }
   ],
-  checked: [
-    {
-      type: 'array',
-      required: true,
-      message: '请阅读并勾选',
-      trigger: 'change'
-    }
-  ]
+  checked: { required: true, validator: checkChecked, trigger: 'change' }
 })
 
 const typeList = ref<any[]>([])
@@ -242,11 +241,15 @@ const originDic = ref()
 const initEditData = () => {
   form.name = props.rowData?.name
   form.supplierType = props.rowData?.supplierType
-  form.ak = props.rowData?.ak
-  form.sk = props.rowData?.sk
-  form.username = props.rowData?.username
-  form.password = props.rowData?.password
   form.registerType = props.rowData?.registerType
+  if (props.rowData?.registerType === 'SECRET_KEY_REGISTER') {
+    form.ak = props.rowData?.ak
+    form.sk = props.rowData?.sk
+  } else {
+    form.username = props.rowData?.username
+    form.password = props.rowData?.password
+  }
+
   form.url = props.rowData?.url
   originDic.value = Object.assign({}, form)
 }
@@ -282,57 +285,62 @@ const submitForm = (formEl: FormInstance | undefined) => {
     if (!valid) {
       return
     }
-    if (props.isEdit) {
-      handleEdit()
-    } else {
-      handleCreate()
-    }
+    handleCreate()
+    // if () {
+    //   handleEdit()
+    // } else {
+    // }
   })
 }
 
 const handleCreate = () => {
   const params: any = {
     name: form.name, // 供应商名称
-    supplierType: form.supplierType, // 供应商类型
     registerType: form.registerType,
     url: form.url
   }
-  if (form.registerType == 'SECRET_KEY_REGISTER') {
-    params.ak = form.ak
-    params.sk = form.sk
+  params.ak = form.registerType == 'SECRET_KEY_REGISTER' ? form.ak : ''
+  params.sk = form.registerType == 'SECRET_KEY_REGISTER' ? form.sk : ''
+  params.username =
+    form.registerType == 'SECRET_KEY_REGISTER' ? '' : form.username
+  params.password =
+    form.registerType == 'SECRET_KEY_REGISTER' ? '' : form.password
+
+  if (props.isEdit) {
+    params.id = props.rowData?.id
   } else {
-    params.username = form.username
-    params.password = form.password
+    params.supplierType = form.supplierType // 供应商类型
   }
-  supplierRegisterCreate(params).then((res: any) => {
+  const urlData = props.isEdit ? supplierRegisterUpdate : supplierRegisterCreate
+  urlData(params).then((res: any) => {
     const { code } = res
     if (code === 200) {
-      ElMessage.success('创建成功')
+      ElMessage.success(props.isEdit ? '编辑成功' : '创建成功')
       emit(EventEnum.success)
     } else {
-      ElMessage.error('创建失败')
+      ElMessage.error(props.isEdit ? '编辑失败' : '创建失败')
     }
   })
 }
 
-const handleEdit = () => {
-  // 筛选表单修改项, 编辑时只传修改项
-  const tempDic = compareDiffDictionary(originDic.value, form)
+// const handleEdit = () => {
+//   // 筛选表单修改项, 编辑时只传修改项
+//   // const tempDic = compareDiffDictionary(originDic.value, form)
 
-  const params: { [key: string]: any } = { id: props.rowData?.id }
-  for (const key in tempDic) {
-    params[key] = tempDic[key]
-  }
-  supplierRegisterUpdate(params).then((res: any) => {
-    const { code } = res
-    if (code === 200) {
-      ElMessage.success('编辑成功')
-      emit(EventEnum.success)
-    } else {
-      ElMessage.error('编辑失败')
-    }
-  })
-}
+//   // const params: { [key: string]: any } = { id: props.rowData?.id }
+//   // for (const key in tempDic) {
+//   //   params[key] = tempDic[key]
+//   // }
+//   supplierRegisterUpdate(params).then((res: any) => {
+//     const { code } = res
+//     if (code === 200) {
+//       ElMessage.success('编辑成功')
+//       emit(EventEnum.success)
+//     } else {
+//       ElMessage.error('编辑失败')
+//     }
+//   })
+// }
 </script>
 
 <style scoped lang="scss">

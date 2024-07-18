@@ -39,8 +39,12 @@
       <template #attribute>
         <el-table-column label="属性">
           <template #default="props">
-            <div v-if="props.row.ak">访问密钥ID：{{ props.row.ak }}</div>
-            <div v-if="props.row.username">账号：{{ props.row.username }}</div>
+            <div v-if="props.row.registerType === 'SECRET_KEY_REGISTER'">
+              访问密钥ID：{{ props.row.ak }}
+            </div>
+            <div v-if="props.row.registerType === 'PASSWORD_REGISTER'">
+              账号：{{ props.row.username }}
+            </div>
           </template>
         </el-table-column>
       </template>
