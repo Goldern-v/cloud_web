@@ -79,7 +79,7 @@ const typeArray = ref<IdealSearch[]>([
   },
   {
     label: '创建时间',
-    prop: 'time',
+    prop: 'date',
     type: FiltrateEnum.date
   }
 ])
@@ -88,7 +88,14 @@ const onClickSearch = (v: IdealTextProp[]) => {
   state.queryForm = {}
   if (v.length) {
     v.forEach((item: IdealTextProp) => {
-      state.queryForm[item.prop] = item.value
+      if (item.prop === 'date' && item?.value) {
+        // 日期
+        const timeArray = item.value.split('/')
+        state.queryForm.startTime = timeArray[0]
+        state.queryForm.endTime = timeArray[1]
+      } else {
+        state.queryForm[item.prop] = item.value
+      }
     })
   }
   getDataList()
