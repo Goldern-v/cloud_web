@@ -106,7 +106,7 @@ onMounted(() => {
     tableHeaders.value = headerArray
   } else {
     tableHeaders.value = headerArray.filter(
-      (item: any) => item.prop !== 'equipmentName'
+      (item: any) => item.prop !== 'vendorName'
     )
   }
 })
@@ -114,7 +114,7 @@ const headerArray: IdealTableColumnHeaders[] = [
   { label: '端口名称', prop: 'name' },
   { label: '数据来源', prop: 'originType' },
   { label: '状态', prop: 'status', useSlot: true },
-  { label: '所属供应商', prop: 'equipmentName', width: '120' },
+  { label: '所属供应商', prop: 'vendorName', width: '120' },
   { label: '所属节点', prop: 'nodeName' },
   { label: '所属设备', prop: 'equipmentName' },
   { label: '速率', prop: 'speed' },
