@@ -183,31 +183,25 @@ const newOperate = (ele: any): IdealTableColumnOperate[] => {
     resultArr = tempArr.filter((ele: any) => {
       return ele.prop == 'detail' || ele.prop == 'delivery'
     })
-  }
-  // 供应商角色下 非折扣类型   未处理状态下 交付按钮禁用
-  else if (
-    isSupplierManager.value &&
-    ele.status.toUpperCase() !== 'UN_DEAL' &&
-    ele.type.toUpperCase() !== 'NEW_DISCOUNT'
-  ) {
-    resultArr = setDeliveryDisabled(true, tempArr)
+    if (ele.status.toUpperCase() !== 'UN_DEAL') {
+      // 供应商角色下 非折扣类型   非未处理状态下 交付按钮禁用
+      resultArr = setDeliveryDisabled(true, resultArr)
+    }
   } else if (
     isSupplierManager.value &&
-    ele.status.toUpperCase() == 'UN_APPROVED'
-  ) {
-    // 供应商角色下 未审批状态  只显示审批按钮
-    resultArr = tempArr.filter((ele: any) => {
-      return ele.prop == 'approve'
-    })
-  } else if (
-    isSupplierManager.value &&
-    ele.status.toUpperCase() != 'UN_APPROVED' &&
     ele.type.toUpperCase() == 'NEW_DISCOUNT'
   ) {
-    // 供应商角色下 非未审批状态  折扣类型 只显示详情按钮
-    resultArr = tempArr.filter((ele: any) => {
-      return ele.prop == 'detail'
-    })
+    if (ele.status.toUpperCase() == 'UN_APPROVED') {
+      // 供应商角色下 未审批状态  只显示审批按钮
+      resultArr = tempArr.filter((ele: any) => {
+        return ele.prop == 'approve'
+      })
+    } else {
+      // 供应商角色下 非未审批状态  折扣类型 只显示详情按钮
+      resultArr = tempArr.filter((ele: any) => {
+        return ele.prop == 'detail'
+      })
+    }
   } else {
     resultArr = tempArr
   }
@@ -220,7 +214,7 @@ const setDeliveryDisabled = (
 ) => {
   const index = array.findIndex((item: any) => item.prop === 'delivery')
   array[index].disabled = disabled
-  array[index].disabledText = '未处理状态的不支持交付操作'
+  array[index].disabledText = '非未处理状态的不支持交付操作'
   return array
 }
 
