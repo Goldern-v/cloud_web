@@ -6,6 +6,7 @@
           v-model="form.portId"
           placeholder="请选择端口名称"
           class="custom-input"
+          @change="changePort"
         >
           <el-option
             v-for="(item, index) of portList"
@@ -29,16 +30,17 @@
           <template #bandwidth>
             <el-table-column label="带宽大小" width="200px">
               <template #default="props">
-                <el-row :gutter="2" style="align-items: center">
-                  <el-col :span="7"
-                    ><el-input v-model="props.row.minBandwidth"
-                  /></el-col>
-                  <el-col :span="6"><span>M --</span></el-col>
-                  <el-col :span="7"
-                    ><el-input v-model="props.row.maxBandwidth"
-                  /></el-col>
-                  <el-col :span="4"><span>M</span></el-col>
-                </el-row>
+                <el-select
+                  v-model="props.row.bandwidth"
+                  placeholder="请选择带宽大小"
+                >
+                  <el-option
+                    v-for="(item, index) of bandwidthList"
+                    :key="index"
+                    :label="item"
+                    :value="item"
+                  />
+                </el-select>
               </template>
             </el-table-column>
           </template>
@@ -135,6 +137,7 @@ import {
 } from '@/api/java/operate-center'
 import { hideLoading, showLoading } from '@/utils/tool'
 import { ElMessage } from 'element-plus'
+import { bandwidthFormat } from '../common'
 
 // 属性值
 interface portProps {
@@ -155,8 +158,7 @@ const form = reactive({
   dataResource: 'static',
   dataDetail: [
     {
-      maxBandwidth: '',
-      minBandwidth: '',
+      bandwidth: '',
       nrc: '',
       mrc: '',
       deliveryDuration: ''
@@ -170,13 +172,7 @@ const hasEmptyProperty = (obj: any) => {
   if (!Object.keys(obj).length) {
     return true
   } else {
-    const keys = [
-      'maxBandwidth',
-      'minBandwidth',
-      'nrc',
-      'mrc',
-      'deliveryDuration'
-    ]
+    const keys = ['bandwidth', 'nrc', 'mrc', 'deliveryDuration']
     return keys.some(key => {
       return !obj[key]
     })
@@ -218,8 +214,7 @@ const sourceList = [
 
 const handleAdd = () => {
   form.dataDetail.push({
-    maxBandwidth: '',
-    minBandwidth: '',
+    bandwidth: '',
     nrc: '',
     mrc: '',
     deliveryDuration: ''
@@ -244,8 +239,26 @@ const queryNode = async () => {
     searchType: 1
   })
   portList.value = res.data
+  // 编辑操作+端口列表有值的情况下，调用带宽下拉列表
+  if (isEdit.value && portList.value) {
+    const filterPort = portList.value.filter((item: any) => {
+      return item.id == props.rowData.port?.id
+    })[0].cloudPortType
+    bandwidthList.value = bandwidthFormat[filterPort]
+  }
 }
-
+const bandwidthList: any = ref([])
+// 端口改变事件
+const changePort = (id: string) => {
+  form.dataDetail = form.dataDetail.map(item => {
+    item.bandwidth = ''
+    return item
+  })
+  const filterPort = portList.value.filter((item: any) => {
+    return item.id == id
+  })[0].cloudPortType
+  bandwidthList.value = bandwidthFormat[filterPort]
+}
 watch(
   () => form.portId,
   val => {
@@ -282,11 +295,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
         venDorId: form.vendorId
       }
       if (isEdit.value) {
-        const { maxBandwidth, minBandwidth, nrc, mrc, deliveryDuration } =
-          form.dataDetail[0]
+        const { bandwidth, nrc, mrc, deliveryDuration } = form.dataDetail[0]
         params.id = props.rowData.id
-        params.maxBandwidth = minBandwidth
-        params.minBandwidth = maxBandwidth
+        params.bandwidth = bandwidth
         params.nrc = nrc
         params.mrc = mrc
         params.deliveryDuration = deliveryDuration
