@@ -122,7 +122,8 @@ watch(
   (arr: any) => {
     if (arr.length) {
       arr.forEach((ele: any) => {
-        ele.source = ele.dataResource === 'static' ? '静态录入' : 'API对接'
+        ele.source =
+          ele.dataResource === 'static' ? '静态录入' : ele.dataResource
         ele.bandwidth = `${ele.minBandwidth}-${ele.maxBandwidth}M`
         ele.deliveryPeriod = `${ele.deliveryDuration}天`
         ele.nrcStr = `${ele.nrc}$`
@@ -135,8 +136,12 @@ watch(
 )
 
 const tableHeaders: IdealTableColumnHeaders[] = [
-  { label: 'A端端口', prop: 'aPortName' },
-  { label: 'Z端端口', prop: 'zPortName' },
+  { label: 'A端节点名称', prop: 'aNodeName' },
+  { label: 'A端设备名称', prop: 'aEquipmentName' },
+  { label: 'A端端口名称', prop: 'aPortName' },
+  { label: 'Z端节点名称', prop: 'zNodeName' },
+  { label: 'Z端设备名称', prop: 'zEquipmentName' },
+  { label: 'Z端端口名称', prop: 'zPortName' },
   { label: '数据来源', prop: 'source' },
   { label: 'MTU', prop: 'mtu' },
   { label: '带宽', prop: 'bandwidth' },

@@ -1,34 +1,152 @@
 <template>
   <div class="data-entry-container">
     <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
-      <el-form-item label="A端端口" prop="aPortId">
-        <el-select
-          v-model="form.aPortId"
-          placeholder="请选择A端端口名称"
-          class="custom-input"
-        >
-          <el-option
-            v-for="(item, index) of portList"
-            :key="index"
-            :label="item.name"
-            :value="item.id"
-          />
-        </el-select>
+      <el-form-item label="A端端口" prop="aPort">
+        <el-row :gutter="4">
+          <el-col :span="8">
+            <el-select
+              v-model="form.aNodeId"
+              multiple
+              collapse-tags
+              collapse-tags-tooltip
+              placeholder="请选择节点"
+              @change="
+                () => {
+                  ;(form.aEquipmentId = []), (aEquipmentList = [])
+                }
+              "
+            >
+              <el-option
+                v-for="(item, index) of nodeList"
+                :key="index"
+                :label="item.facility"
+                :value="item.nodeId"
+              />
+            </el-select>
+          </el-col>
+          <el-col :span="8">
+            <el-select
+              v-model="form.aEquipmentId"
+              multiple
+              collapse-tags
+              collapse-tags-tooltip
+              placeholder="请选择设备"
+              @change="hideAequip"
+            >
+              <el-option
+                v-if="aEquipmentList.length"
+                key="-1"
+                label="全部"
+                value="*"
+              />
+              <el-option
+                v-for="(item, index) of aEquipmentList"
+                :key="index"
+                :label="item.name"
+                :value="item.id"
+                :disabled="item.disabled"
+              />
+            </el-select>
+          </el-col>
+          <el-col :span="8">
+            <el-select
+              v-model="form.aPortId"
+              multiple
+              collapse-tags
+              collapse-tags-tooltip
+              placeholder="请选择端口"
+              @change="hideAport"
+            >
+              <el-option
+                v-if="aPortList.length"
+                key="-1"
+                label="全部"
+                value="*"
+              />
+              <el-option
+                v-for="(item, index) of aPortList"
+                :key="index"
+                :label="item.name"
+                :value="item.id"
+                :disabled="item.disabled"
+              />
+            </el-select>
+          </el-col>
+        </el-row>
       </el-form-item>
 
-      <el-form-item label="Z端端口" prop="zPortId">
-        <el-select
-          v-model="form.zPortId"
-          placeholder="请选择Z端端口名称"
-          class="custom-input"
-        >
-          <el-option
-            v-for="(item, index) of portList"
-            :key="index"
-            :label="item.name"
-            :value="item.id"
-          />
-        </el-select>
+      <el-form-item label="Z端端口" prop="zPort">
+        <el-row :gutter="4">
+          <el-col :span="8">
+            <el-select
+              v-model="form.zNodeId"
+              collapse-tags
+              collapse-tags-tooltip
+              multiple
+              placeholder="请选择节点"
+              @change="
+                () => {
+                  ;(form.zEquipmentId = []), (zEquipmentList = [])
+                }
+              "
+            >
+              <el-option
+                v-for="(item, index) of nodeList"
+                :key="index"
+                :label="item.facility"
+                :value="item.nodeId"
+              />
+            </el-select>
+          </el-col>
+          <el-col :span="8">
+            <el-select
+              v-model="form.zEquipmentId"
+              multiple
+              collapse-tags
+              collapse-tags-tooltip
+              placeholder="请选择设备"
+              @change="hideZequip"
+            >
+              <el-option
+                v-if="zEquipmentList.length"
+                key="-1"
+                label="全部"
+                value="*"
+              />
+              <el-option
+                v-for="(item, index) of zEquipmentList"
+                :key="index"
+                :label="item.name"
+                :value="item.id"
+                :disabled="item.disabled"
+              />
+            </el-select>
+          </el-col>
+          <el-col :span="8">
+            <el-select
+              v-model="form.zPortId"
+              collapse-tags
+              collapse-tags-tooltip
+              multiple
+              placeholder="请选择端口"
+              @change="hideZport"
+            >
+              <el-option
+                v-if="zPortList.length"
+                key="-1"
+                label="全部"
+                value="*"
+              />
+              <el-option
+                v-for="(item, index) of zPortList"
+                :key="index"
+                :label="item.name"
+                :value="item.id"
+                :disabled="item.disabled"
+              />
+            </el-select>
+          </el-col>
+        </el-row>
       </el-form-item>
 
       <el-form-item
@@ -95,7 +213,7 @@
           </template>
 
           <template #delayTime>
-            <el-table-column label="延时">
+            <el-table-column label="延时/ms">
               <template #default="props">
                 <el-input v-model="props.row.delayTime" />
               </template>
@@ -105,7 +223,10 @@
           <template #deliveryDuration>
             <el-table-column label="交付工期">
               <template #default="props">
-                <el-input v-model="props.row.deliveryDuration" />
+                <div class="flex-row" style="align-items: center">
+                  <el-input v-model="props.row.deliveryDuration" />
+                  <div style="margin-left: 2px">天</div>
+                </div>
               </template>
             </el-table-column>
           </template>
@@ -164,10 +285,14 @@ import { EventEnum } from '@/utils/enum'
 import {
   getPortList,
   dciDataEntry,
-  dciDataUpdate
+  dciDataUpdate,
+  dciNodeList,
+  dciEquipmentList,
+  dciPortList
 } from '@/api/java/operate-center'
 import { hideLoading, showLoading } from '@/utils/tool'
 import { ElMessage } from 'element-plus'
+
 // 属性值
 interface DCIProps {
   type: undefined | string // 操作按钮类型
@@ -183,8 +308,12 @@ const isEdit = computed(() => props.type === 'DCIDataEdit')
 
 const formRef = ref<FormInstance>() // 校验表单
 const form: { [key: string]: any } = reactive({
-  aPortId: '',
-  zPortId: '',
+  aNodeId: [],
+  aEquipmentId: [],
+  aPortId: [],
+  zNodeId: [],
+  zEquipmentId: [],
+  zPortId: [],
   dataResource: 'static',
   data: [{}] as any[],
   url: ''
@@ -225,14 +354,34 @@ const validatePort = (rule: any, value: any, callback: (e?: Error) => any) => {
   }
 }
 
+const validateAport = (rule: any, value: any, callback: (e?: Error) => any) => {
+  if (form.aNodeId.length == 0 || form.aNodeId == null) {
+    callback(new Error('请选择节点'))
+  } else if (form.aEquipmentId.length == 0 || form.aEquipmentId == null) {
+    callback(new Error('请选择设备'))
+  } else if (form.aPortId.length == 0 || form.aPortId == null) {
+    callback(new Error('请选择端口'))
+  } else {
+    callback()
+  }
+}
+
+const validateZport = (rule: any, value: any, callback: (e?: Error) => any) => {
+  if (form.zNodeId.length == 0 || form.zNodeId == null) {
+    callback(new Error('请选择节点'))
+  } else if (form.zEquipmentId.length == 0 || form.zEquipmentId == null) {
+    callback(new Error('请选择设备'))
+  } else if (form.zPortId.length == 0 || form.zPortId == null) {
+    callback(new Error('请选择端口'))
+  } else {
+    callback()
+  }
+}
+
 const rules = reactive<FormRules>({
   type: [{ required: true, message: '请选择端口类型', trigger: 'change' }],
-  aPortId: [
-    { required: true, message: '请选择A端端口名称', trigger: 'change' }
-  ],
-  zPortId: [
-    { required: true, message: '请选择Z端端口名称', trigger: 'change' }
-  ],
+  aPort: [{ required: true, validator: validateAport, trigger: 'change' }],
+  zPort: [{ required: true, validator: validateZport, trigger: 'change' }],
   data: [{ required: true, validator: validatePort, trigger: 'change' }]
 })
 
@@ -245,7 +394,8 @@ const tableHeaders: IdealTableColumnHeaders[] = [
   { label: '交付工期', prop: 'deliveryDuration', useSlot: true }
 ]
 
-const portList: any = ref([])
+const aPortList: any = ref([])
+const zPortList: any = ref([])
 const sourceList = [
   { label: 'static', name: '静态录入' }
   // { label: 'api', name: 'API对接' }
@@ -258,7 +408,8 @@ const handleDelete = (index: number) => {
 }
 
 onMounted(() => {
-  queryNode()
+  // queryNode()
+  queryNodeList()
   if (isEdit.value) {
     Object.keys(form).forEach((key: string) => {
       if (key !== 'data') {
@@ -270,11 +421,129 @@ onMounted(() => {
   }
 })
 //查询云端口
-const queryNode = async () => {
-  const res = await getPortList({
-    searchType: 1
-  })
-  portList.value = res.data
+// const queryNode = async () => {
+//   const res = await getPortList({
+//     searchType: 1
+//   })
+//   portList.value = res.data
+// }
+const nodeList: any = ref([]) // 节点列表
+// 查询节点
+const queryNodeList = async () => {
+  const res = await dciNodeList()
+  nodeList.value = res.data
+}
+const aEquipmentList: any = ref([]) // a端设备列表
+const zEquipmentList: any = ref([]) // z端设备列表
+watch(
+  () => form.aNodeId,
+  val => {
+    if (val?.length) {
+      queryEquipmentList(val, 'aPort')
+    }
+  }
+)
+// 监听a端节点  调用a端设备列表
+watch(
+  () => form.zNodeId,
+  val => {
+    if (val?.length) {
+      queryEquipmentList(val, 'zPort')
+    }
+  }
+)
+
+// 查询节点下的设备
+const queryEquipmentList = async (val: any, type: string) => {
+  const res = await dciEquipmentList({ nodeIds: val })
+  if (type == 'aPort') {
+    aEquipmentList.value = res.data
+  } else {
+    zEquipmentList.value = res.data
+  }
+}
+// a端设备多选禁用逻辑
+const hideAequip = (val: any) => {
+  form.aPortId = []
+  aPortList.value = []
+  if (val.indexOf('*') === -1) {
+    aEquipmentList.value.map((item: any) => {
+      item.disabled = false
+    })
+  } else {
+    form.aEquipmentId = ['*']
+    aEquipmentList.value.map((item: any) => {
+      item.disabled = true
+    })
+  }
+}
+// 监听a端 设备，调用a端端口接口
+watch(
+  () => form.aEquipmentId,
+  val => {
+    if (val.length) {
+      queryPortList('aPort', val)
+    }
+  }
+)
+// a端端口多选禁用逻辑
+const hideAport = (val: any) => {
+  if (val.indexOf('*') === -1) {
+    aPortList.value.map((item: any) => {
+      item.disabled = false
+    })
+  } else {
+    form.aPortId = ['*']
+    aPortList.value.map((item: any) => {
+      item.disabled = true
+    })
+  }
+}
+// z端设备多选禁用逻辑
+const hideZequip = (val: any) => {
+  form.zPortId = []
+  zPortList.value = []
+  if (val.indexOf('*') === -1) {
+    zEquipmentList.value.map((item: any) => {
+      item.disabled = false
+    })
+  } else {
+    form.zEquipmentId = ['*']
+    zEquipmentList.value.map((item: any) => {
+      item.disabled = true
+    })
+  }
+}
+// 监听a端 设备，调用a端端口接口
+watch(
+  () => form.zEquipmentId,
+  val => {
+    if (val.length) {
+      queryPortList('zPort', val)
+    }
+  }
+)
+// z端端口多选禁用逻辑
+const hideZport = (val: any) => {
+  if (val.indexOf('*') === -1) {
+    zPortList.value.map((item: any) => {
+      item.disabled = false
+    })
+  } else {
+    form.zPortId = ['*']
+    zPortList.value.map((item: any) => {
+      item.disabled = true
+    })
+  }
+}
+// 查询设备下的端口
+const queryPortList = async (type: string, val: any) => {
+  const res = await dciPortList({ equipmentIds: !val.includes('*') ? val : [] })
+  if (type == 'aPort') {
+    aPortList.value = res.data
+  } else {
+    zPortList.value = res.data
+  }
 }
 
 // 方法
@@ -296,6 +565,13 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
+  if (
+    form.zNodeId.length == 1 &&
+    form.aNodeId.length == 1 &&
+    JSON.stringify(form.aNodeId) === JSON.stringify(form.zNodeId)
+  ) {
+    return ElMessage.warning('节点单选情况下，A端与Z端的节点不能相同')
+  }
   formEl.validate((valid: boolean) => {
     if (valid) {
       let params: { [key: string]: any } = {}
@@ -310,8 +586,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
           deliveryDuration
         } = form.data[0]
         params = {
-          dataResource: form.dataResource,
+          // dataResource: form.dataResource,  // 编辑页面去掉了数据来源，所以不修改
+          aNodeId: form.aNodeId,
+          aEquipmentId: form.aEquipmentId,
           aPortId: form.aPortId,
+          zNodeId: form.zNodeId,
+          zEquipmentId: form.zEquipmentId,
           zPortId: form.zPortId,
           minBandwidth,
           maxBandwidth,
@@ -375,6 +655,10 @@ defineExpose({ formRef, form })
   .add_table {
     cursor: pointer;
     color: var(--el-color-primary);
+  }
+  :deep(.el-row) {
+    justify-content: space-between;
+    width: 100%;
   }
 }
 </style>
