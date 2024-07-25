@@ -76,7 +76,7 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="国家">
+      <el-form-item label="国家" prop="countryId">
         <el-select
           v-model="form.countryId"
           placeholder="请选择节点所属区国家"
