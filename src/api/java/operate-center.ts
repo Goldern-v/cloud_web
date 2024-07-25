@@ -135,6 +135,9 @@ const Api = {
   DCI_ENTRY: `${api}/business/manage/dataCenterInternet/add`, //DCI数据录入
   DCI_UPDATE: `${api}/business/manage/dataCenterInternet/update`, //DCI数据编辑
   DCI_DELETE: `${api}/business/manage/dataCenterInternet/delete`, //DCI数据删除
+  DCI_NODE_LIST: `${api}/supplier/node/list`, //DCI数据录入节点列表
+  DCI_EQUIPMENT_LIST: `${api}/supplier/equipment/batchQuery`, //DCI数据录入节点下设备列表
+  DCI_PORT_LIST: `${api}/supplier/port/batchQuery`, //DCI数据录入设备下端口列表
   APPROVE_AGAIN: `${api}/supplier/approval/approvalAgain`, //再次审批
   APPROVE_DELETE: `${api}/supplier/approval/delete`, //再次审批
   SUPPLIER_REGISTER: `${api}/supplier`, // 供应商注册信息
@@ -832,6 +835,18 @@ export const dciDataUpdate = (data: any) => {
 //DCI数据删除
 export const dciDataDelete = (data: any) => {
   return service.post(Api.DCI_DELETE, data)
+}
+//DCI数据录入节点列表
+export const dciNodeList = () => {
+  return service.get(Api.DCI_NODE_LIST)
+}
+//DCI数据录入节点下设备列表
+export const dciEquipmentList = (data: any) => {
+  return service.post(Api.DCI_EQUIPMENT_LIST, data)
+}
+//DCI数据录入设备下端口列表
+export const dciPortList = (data: any) => {
+  return service.post(Api.DCI_PORT_LIST, data)
 }
 // 供应商注册信息分页查询
 export const supplierRegisterPageUrl = `${Api.SUPPLIER_REGISTER}/page`

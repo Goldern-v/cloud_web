@@ -106,7 +106,7 @@ const onClickSearch = (v: IdealTextProp[]) => {
   getDataList()
 }
 
-const activeName = ref('aliyun')
+const activeName = ref('ali_cloud')
 const idealSearchRef = ref()
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   // idealSearchRef.value.clickDeleteAll()
@@ -115,7 +115,7 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
 }
 // tabs标签页
 const tabControllers = ref([
-  { label: '阿里云', name: 'aliyun' },
+  { label: '阿里云', name: 'ali_cloud' },
   { label: 'AWS', name: 'aws' },
   { label: 'Azure', name: 'Azure' },
   { label: 'Google', name: 'GOOGLE_CLOUD' }
@@ -128,7 +128,7 @@ onMounted(() => {
 const getTableHeaders = (condition: string) => {
   let arr: IdealTableColumnHeaders[] = []
   switch (condition) {
-    case 'aliyun':
+    case 'ali_cloud':
       arr = aliHeaders
       break
     case 'aws':
@@ -159,7 +159,7 @@ const state: IHooksOptions = reactive({
   deleteUrl: portDelete,
   queryForm: {
     portType: 'CLOUD',
-    cloudPortType: 'aliyun'
+    cloudPortType: 'ali_cloud'
   }
 })
 
@@ -241,7 +241,7 @@ const clickOperateEvent = (command: string | number, row: any) => {
   } else if (command === 'edit') {
     showDialog.value = true
     switch (activeName.value) {
-      case 'aliyun':
+      case 'ali_cloud':
         dialogType.value = 'editAliPort'
         break
       case 'aws':
@@ -332,7 +332,7 @@ const aliBtn: IdealButtonEventProp[] = [
 watch(
   () => activeName.value,
   value => {
-    if (value === 'aliyun') {
+    if (value === 'ali_cloud') {
       leftButtons = aliBtn
       operateButtons = aliOperateButtons
     } else if (value === 'aws') {
@@ -379,7 +379,7 @@ const clickLeftEvent = (command: string | number | object) => {
   if (command === 'create') {
     showDialog.value = true
     switch (activeName.value) {
-      case 'aliyun':
+      case 'ali_cloud':
         dialogType.value = 'createAliPort'
         break
       case 'aws':
