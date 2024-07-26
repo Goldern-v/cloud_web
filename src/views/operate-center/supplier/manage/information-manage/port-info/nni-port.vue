@@ -342,6 +342,7 @@ watch(
       form.remotePort = portInfo.remotePort
       form.remoteDevice = portInfo.remoteDevice
       form.vlan = JSON.parse(portInfo.vlan)
+      form.uuid = portInfo.uuid
     } else {
       form.name = ''
       form.speed = ''
@@ -350,6 +351,7 @@ watch(
       form.remoteDevice = ''
       form.vlan = ''
       isSelect.value = false
+      form.uuid = ''
     }
   }
 )

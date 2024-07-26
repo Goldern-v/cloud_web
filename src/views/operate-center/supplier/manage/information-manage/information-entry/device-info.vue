@@ -396,7 +396,7 @@ watch(
         Object.keys(form).forEach((key: string) => {
           if (key !== 'vendorId' && key !== 'equipmentId' && key !== 'nodeId') {
             form[key] = deviceInfo[key]
-            form.uuid = deviceInfo.id
+            // form.uuid = deviceInfo.id  //传的设备ID为字段uuid，不是id
             form.uType = deviceInfo.uType.split('U')[0]
           }
         })
