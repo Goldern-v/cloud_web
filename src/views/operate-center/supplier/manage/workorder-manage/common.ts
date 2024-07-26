@@ -13,7 +13,8 @@ export const statusFormat: { [key: string]: any } = {
   COMPLETED: '已完成',
   REJECT: '已驳回',
   UN_APPROVED: '未审批',
-  PASSED: '已通过'
+  PASSED: '已通过',
+  TIMEOUT_UN_DEAL: '超时未交付'
 }
 
 export const typeList: any = [
@@ -31,5 +32,6 @@ export const statusList: any = [
   { label: '已完成', value: 'COMPLETED' },
   { label: '已驳回', value: 'REJECT' },
   { label: '未审批', value: 'UN_APPROVED' },
-  { label: '已通过', value: 'PASSED' }
+  { label: '已通过', value: 'PASSED' },
+  { label: '超时未交付', value: 'TIMEOUT_UN_DEAL' }
 ]
