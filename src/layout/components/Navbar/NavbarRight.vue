@@ -4,7 +4,7 @@
     <!-- <ComponentSize /> -->
     <!-- <Fullscreen /> -->
     <!-- <ResourcePool/> -->
-    <Message />
+    <!-- <Message /> -->
     <User />
     <!-- <ThemeSettings /> -->
   </div>
