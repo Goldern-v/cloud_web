@@ -565,7 +565,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
     return
   }
   if (
-    form.zNodeId.length == 1 &&
+    form.zNodeId.length === 1 &&
     form.aNodeId.length == 1 &&
     JSON.stringify(form.aNodeId) === JSON.stringify(form.zNodeId)
   ) {
