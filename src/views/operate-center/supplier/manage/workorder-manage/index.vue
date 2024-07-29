@@ -191,7 +191,7 @@ const newOperate = (ele: any): IdealTableColumnOperate[] => {
     }
   } else if (
     isSupplierManager.value &&
-    ele.type.toUpperCase() == 'NEW_DISCOUNT'
+    ele.type.toUpperCase() === 'NEW_DISCOUNT'
   ) {
     if (ele.status.toUpperCase() == 'UN_APPROVED') {
       // 供应商角色下 未审批状态  只显示审批按钮
