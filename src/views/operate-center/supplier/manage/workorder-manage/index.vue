@@ -195,9 +195,7 @@ const newOperate = (ele: any): IdealTableColumnOperate[] => {
   ) {
     if (ele.status.toUpperCase() === 'UN_APPROVED') {
       // 供应商角色下 未审批状态  只显示审批按钮
-      resultArr = tempArr.filter((ele: any) => {
-        return ele.prop == 'approve'
-      })
+      resultArr = tempArr.filter((ele: any) => ele.prop == 'approve')
     } else {
       // 供应商角色下 非未审批状态  折扣类型 只显示详情按钮
       resultArr = tempArr.filter((ele: any) => {
