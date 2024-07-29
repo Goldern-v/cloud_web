@@ -161,5 +161,3 @@ const handleClose = () => {
   emit(EventEnum.close)
 }
 </script>
-
-<style scoped lang="scss"></style>
