@@ -52,10 +52,10 @@ const rules = reactive<FormRules>({
 })
 
 // 属性值
-interface portProps {
+interface PortProps {
   rowData?: any // 行数据
 }
-const props = withDefaults(defineProps<portProps>(), {
+const props = withDefaults(defineProps<PortProps>(), {
   rowData: null
 })
 
