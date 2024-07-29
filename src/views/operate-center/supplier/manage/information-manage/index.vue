@@ -338,7 +338,7 @@ const handleApproveAgain = (row: any) => {
     .then(() => {
       showLoading('发起再次审批中...')
       approveAgain({ id: row.id }).then((res: any) => {
-        let { code } = res
+        const { code } = res
         if (code === 200) {
           getDataList()
           ElMessage.success('发起再次审批成功')
