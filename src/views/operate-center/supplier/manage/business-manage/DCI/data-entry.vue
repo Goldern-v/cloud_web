@@ -455,7 +455,7 @@ watch(
 // 查询节点下的设备
 const queryEquipmentList = async (val: any, type: string) => {
   const res = await dciEquipmentList({ nodeIds: val })
-  if (type == 'aPort') {
+  if (type === 'aPort') {
     aEquipmentList.value = res.data
   } else {
     zEquipmentList.value = res.data
