@@ -368,7 +368,7 @@ const validateAport = (rule: any, value: any, callback: (e?: Error) => any) => {
 const validateZport = (rule: any, value: any, callback: (e?: Error) => any) => {
   if (form.zNodeId.length == 0 || form.zNodeId == null) {
     callback(new Error('请选择节点'))
-  } else if (form.zEquipmentId.length == 0 || form.zEquipmentId == null) {
+  } else if (form.zEquipmentId.length === 0 || form.zEquipmentId == null) {
     callback(new Error('请选择设备'))
   } else if (form.zPortId.length === 0 || form.zPortId == null) {
     callback(new Error('请选择端口'))
