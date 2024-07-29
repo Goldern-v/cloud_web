@@ -133,7 +133,6 @@
 import type { FormRules, FormInstance } from 'element-plus'
 import { ElMessage } from 'element-plus/es'
 import { nameRuleThree } from '@/utils/validate'
-import { compareDiffDictionary } from '@/utils/tool'
 import { EventEnum } from '@/utils/enum'
 import {
   supplierTypeList,
