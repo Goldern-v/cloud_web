@@ -213,5 +213,3 @@ const onClickCommit = () => {
   }
 }
 </script>
-
-<style scoped lang="scss"></style>
