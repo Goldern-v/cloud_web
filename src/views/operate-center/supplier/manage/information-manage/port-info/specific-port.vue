@@ -358,7 +358,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   }
   formEl.validate(async valid => {
     if (valid) {
-      let params: { [key: string]: any } = {
+      const params: { [key: string]: any } = {
         portType: 'SPECIALIZED',
         nodeId: form.nodeId,
         equipmentId: form.equipmentId
