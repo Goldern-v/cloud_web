@@ -45,9 +45,8 @@
 
 <script setup lang="ts">
 import { EventEnum, OperateEventEnum } from '@/utils/enum'
-import type { FormInstance } from 'element-plus'
+import type { FormInstance, UploadInstance } from 'element-plus'
 import { Download, UploadFilled } from '@element-plus/icons-vue'
-import type { UploadInstance } from 'element-plus'
 import { supplierExcelImport } from '@/api/java/operate-center'
 import { ElMessage } from 'element-plus/es'
 const uploadRef = ref<UploadInstance>()
