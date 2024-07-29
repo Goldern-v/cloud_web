@@ -149,7 +149,7 @@ const validatePort = (rule: any, value: any, callback: (e?: Error) => any) => {
     return hasEmptyProperty(item)
   })
 
-  if (flag && value.length == 1) {
+  if (flag && value.length === 1) {
     callback(new Error('请至少输入一条端口信息'))
   } else {
     if (flag) {
