@@ -98,7 +98,7 @@ const handleUpload = async (file: any) => {
   // const data: any =
   await supplierExcelImport(fd)
     .then(res => {
-      if (res.data == '' || res.data == null) {
+      if (res.data === '' || res.data == null) {
         ElMessage.success('导入成功')
         emit(EventEnum.refresh)
       } else {
