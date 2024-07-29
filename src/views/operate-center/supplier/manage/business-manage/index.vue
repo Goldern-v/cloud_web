@@ -87,9 +87,6 @@ const handleDialog = () => {
   :deep(.el-tabs__header) {
     margin: 0;
   }
-  // :deep(.el-tabs) {
-  //   padding: 10px 20px 0;
-  // }
   .port-info__tabs {
     background-color: white;
     padding: 10px 20px 0;
