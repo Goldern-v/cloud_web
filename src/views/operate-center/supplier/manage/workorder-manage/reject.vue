@@ -41,10 +41,10 @@ const rules = reactive<FormRules>({
 })
 
 // 属性值
-interface portProps {
+interface PortProps {
   rowId?: string // 订单号
 }
-const props = withDefaults(defineProps<portProps>(), {
+const props = withDefaults(defineProps<PortProps>(), {
   rowId: ''
 })
 
