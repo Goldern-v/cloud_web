@@ -419,13 +419,6 @@ onMounted(() => {
     })
   }
 })
-//查询云端口
-// const queryNode = async () => {
-//   const res = await getPortList({
-//     searchType: 1
-//   })
-//   portList.value = res.data
-// }
 const nodeList: any = ref([]) // 节点列表
 // 查询节点
 const queryNodeList = async () => {
