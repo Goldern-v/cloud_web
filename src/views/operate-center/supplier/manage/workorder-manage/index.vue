@@ -187,7 +187,7 @@ const newOperate = (ele: any): IdealTableColumnOperate[] => {
       // 供应商角色下 非折扣类型   非未处理状态下 交付按钮禁用
       resultArr = setDeliveryDisabled(true, lishiArr)
     } else {
-      return (resultArr = lishiArr)
+      resultArr = lishiArr
     }
   } else if (
     isSupplierManager.value &&
