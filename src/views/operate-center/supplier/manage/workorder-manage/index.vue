@@ -181,7 +181,7 @@ const newOperate = (ele: any): IdealTableColumnOperate[] => {
   if (isSupplierManager.value && ele.type.toUpperCase() !== 'NEW_DISCOUNT') {
     // 供应商角色下 非折扣类型 显示详情、交付按钮
     lishiArr = tempArr.filter(
-      (ele: any) => ele.prop == 'detail' || ele.prop == 'delivery'
+      (ele: any) => ele.prop === 'detail' || ele.prop == 'delivery'
     )
     if (ele.status.toUpperCase() !== 'UN_DEAL') {
       // 供应商角色下 非折扣类型   非未处理状态下 交付按钮禁用
