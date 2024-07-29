@@ -358,7 +358,7 @@ const validateAport = (rule: any, value: any, callback: (e?: Error) => any) => {
     callback(new Error('请选择节点'))
   } else if (form.aEquipmentId.length == 0 || form.aEquipmentId == null) {
     callback(new Error('请选择设备'))
-  } else if (form.aPortId.length == 0 || form.aPortId == null) {
+  } else if (form.aPortId.length === 0 || form.aPortId == null) {
     callback(new Error('请选择端口'))
   } else {
     callback()
