@@ -538,7 +538,7 @@ const hideZport = (val: any) => {
 // 查询设备下的端口
 const queryPortList = async (type: string, val: any) => {
   const res = await dciPortList({ equipmentIds: !val.includes('*') ? val : [] })
-  if (type == 'aPort') {
+  if (type === 'aPort') {
     aPortList.value = res.data
   } else {
     zPortList.value = res.data
