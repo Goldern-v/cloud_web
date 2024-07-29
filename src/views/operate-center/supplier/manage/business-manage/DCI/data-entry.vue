@@ -283,7 +283,6 @@ import type { FormInstance, FormRules } from 'element-plus'
 import type { IdealTableColumnHeaders } from '@/types'
 import { EventEnum } from '@/utils/enum'
 import {
-  getPortList,
   dciDataEntry,
   dciDataUpdate,
   dciNodeList,
