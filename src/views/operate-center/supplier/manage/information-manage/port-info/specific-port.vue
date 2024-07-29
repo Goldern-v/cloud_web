@@ -325,7 +325,7 @@ watch(
   () => props.entryPorts,
   arr => {
     if (arr?.length) {
-      let arr1 = props.exitPorts.filter((item: any) =>
+      const arr1 = props.exitPorts.filter((item: any) =>
         arr.some((ele: any) => ele === item.id)
       )
       arr1.forEach((item: any) => {
