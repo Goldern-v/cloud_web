@@ -180,7 +180,7 @@ const sourceList = [
 const speedValue = ref('')
 const changePort = (val: string) => {
   speedValue.value = portList.value.filter((item: any) => {
-    return item.id == val
+    return item.id === val
   })[0].speed
 }
 
