@@ -131,7 +131,7 @@ watch(
         if (ele.origin === undefined || ele.origin === null) {
           ele.originType = ''
         } else {
-          ele.originType = ele.origin === 3 ? 'API导入' : '静态录入'
+          ele.originType = ele.origin == 3 ? 'API导入' : '静态录入'
         }
       })
     }
