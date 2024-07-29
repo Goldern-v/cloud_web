@@ -254,9 +254,8 @@ const changePort = (id: string) => {
     item.bandwidth = ''
     return item
   })
-  const filterPort = portList.value.filter((item: any) => {
-    return item.id === id
-  })[0].cloudPortType
+  const filterPort = portList.value.filter((item: any) => item.id === id)[0]
+    .cloudPortType
   bandwidthList.value = bandwidthFormat[filterPort]
 }
 watch(
