@@ -171,7 +171,7 @@ const handleDelete = (row: any) => {
   })
     .then(() => {
       dciDataDelete({ id: row.id }).then((res: any) => {
-        let { code } = res
+        const { code } = res
         if (code === 200) {
           getDataList()
           ElMessage.success('删除DCI端口信息成功')
