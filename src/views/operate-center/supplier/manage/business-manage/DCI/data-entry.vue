@@ -566,7 +566,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   }
   if (
     form.zNodeId.length === 1 &&
-    form.aNodeId.length == 1 &&
+    form.aNodeId.length === 1 &&
     JSON.stringify(form.aNodeId) === JSON.stringify(form.zNodeId)
   ) {
     return ElMessage.warning('节点单选情况下，A端与Z端的节点不能相同')
