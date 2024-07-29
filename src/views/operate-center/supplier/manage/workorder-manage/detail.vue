@@ -260,7 +260,7 @@ const handlePass = (row: any) => {
   const id = row.id
   supplierWokkorderApproved({ id })
     .then((res: any) => {
-      const { code, data } = res
+      const { code } = res
       if (code === 200) {
         queryDetailData()
         ElMessage.success('通过成功')
