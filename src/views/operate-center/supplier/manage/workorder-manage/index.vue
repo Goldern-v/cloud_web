@@ -54,7 +54,6 @@ import type {
   IdealTableColumnHeaders,
   IdealTableColumnOperate,
   IdealSearch,
-  IdealButtonEventProp,
   IdealTextProp
 } from '@/types'
 import { supplierWorkorderList } from '@/api/java/operate-center'
