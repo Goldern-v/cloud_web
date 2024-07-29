@@ -242,7 +242,7 @@ const queryNode = async () => {
   // 编辑操作+端口列表有值的情况下，调用带宽下拉列表
   if (isEdit.value && portList.value) {
     const filterPort = portList.value.filter((item: any) => {
-      return item.id == props.rowData.port?.id
+      return item.id === props.rowData.port?.id
     })[0].cloudPortType
     bandwidthList.value = bandwidthFormat[filterPort]
   }
