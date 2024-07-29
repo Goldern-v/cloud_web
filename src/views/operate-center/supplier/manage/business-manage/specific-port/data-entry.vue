@@ -106,11 +106,11 @@ import { hideLoading, showLoading } from '@/utils/tool'
 import { ElMessage } from 'element-plus'
 
 // 属性值
-interface portProps {
+interface PortProps {
   type: undefined | string // 操作按钮类型
   rowData?: any // 行数据
 }
-const props = withDefaults(defineProps<portProps>(), {
+const props = withDefaults(defineProps<PortProps>(), {
   rowData: null
 })
 
