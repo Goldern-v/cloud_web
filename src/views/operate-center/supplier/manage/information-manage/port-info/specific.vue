@@ -59,7 +59,6 @@
 
 <script setup lang="ts">
 import { FiltrateEnum, PaginationTypeEnum } from '@/utils/enum'
-import { ElMessage, ElMessageBox } from 'element-plus/es'
 import { IHooksOptions } from '@/hooks/interface'
 import { useCrud } from '@/hooks'
 import type {
