@@ -322,25 +322,6 @@ const handleCreate = () => {
     }
   })
 }
-
-// const handleEdit = () => {
-//   // 筛选表单修改项, 编辑时只传修改项
-//   // const tempDic = compareDiffDictionary(originDic.value, form)
-
-//   // const params: { [key: string]: any } = { id: props.rowData?.id }
-//   // for (const key in tempDic) {
-//   //   params[key] = tempDic[key]
-//   // }
-//   supplierRegisterUpdate(params).then((res: any) => {
-//     const { code } = res
-//     if (code === 200) {
-//       ElMessage.success('编辑成功')
-//       emit(EventEnum.success)
-//     } else {
-//       ElMessage.error('编辑失败')
-//     }
-//   })
-// }
 </script>
 
 <style scoped lang="scss">
