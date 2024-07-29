@@ -198,7 +198,7 @@ const newOperate = (ele: any): IdealTableColumnOperate[] => {
       resultArr = tempArr.filter((ele: any) => ele.prop === 'approve')
     } else {
       // 供应商角色下 非未审批状态  折扣类型 只显示详情按钮
-      resultArr = tempArr.filter((ele: any) => ele.prop == 'detail')
+      resultArr = tempArr.filter((ele: any) => ele.prop === 'detail')
     }
   } else {
     resultArr = tempArr
