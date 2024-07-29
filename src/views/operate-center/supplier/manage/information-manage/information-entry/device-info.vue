@@ -107,19 +107,6 @@
         >
           <template #append>U</template>
         </el-input>
-        <!-- <el-select
-          v-model="form.uType"
-          placeholder="请输入U位"
-          class="custom-input"
-          :disabled="isApproved || isSelect"
-        >
-          <el-option
-            v-for="(item, index) of state.uBits"
-            :key="index"
-            :label="item"
-            :value="item"
-          />
-        </el-select> -->
       </el-form-item>
 
       <el-form-item label="网络平面" prop="planarNetwork">
