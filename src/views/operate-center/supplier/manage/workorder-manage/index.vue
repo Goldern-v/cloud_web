@@ -88,7 +88,6 @@ const onClickSearch = (v: IdealTextProp[]) => {
   if (v.length) {
     v.forEach((item: IdealTextProp) => {
       if (item.prop === 'date' && item?.value) {
-        // 日期
         const timeArray = item.value.split('/')
         state.queryForm.startTime = timeArray[0]
         state.queryForm.endTime = timeArray[1]
