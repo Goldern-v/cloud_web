@@ -135,7 +135,6 @@ watch(
 const tableHeaders = ref<IdealTableColumnHeaders[]>()
 
 onMounted(() => {
-  //平台管理员角色
   if (!isSupplierManager.value) {
     tableHeaders.value = headerArray
     operateButtons.value = [
