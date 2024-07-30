@@ -40,7 +40,6 @@ const props = withDefaults(defineProps<DialogProps>(), {
   rowId: ''
 })
 
-// 弹框
 const dialogTitle = ref('')
 const dialogVisible = ref(true)
 const dialogWidth = ref('40%')
