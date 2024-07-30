@@ -63,7 +63,6 @@ const initDialog = () => {
   }
 }
 
-// 方法
 interface EventEmits {
   (e: EventEnum.close): void
   (e: EventEnum.refresh): void // 表单成功提交后刷新列表
