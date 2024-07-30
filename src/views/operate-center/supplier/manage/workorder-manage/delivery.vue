@@ -42,7 +42,7 @@ import { EventEnum } from '@/utils/enum'
 const { t } = useI18n()
 const form: { [key: string]: any } = reactive({
   privateConnectId: '',
-  remark: '' // 备注
+  remark: ''
 })
 
 const rules = reactive<FormRules>({
