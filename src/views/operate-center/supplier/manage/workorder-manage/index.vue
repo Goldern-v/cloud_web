@@ -229,7 +229,6 @@ const clickOperateEvent = (command: string | number, row: any) => {
   }
 }
 
-// 弹框
 const showDialog = ref(false)
 const dialogType = ref<string>()
 const clickCloseEvent = () => {
