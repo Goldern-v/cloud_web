@@ -245,7 +245,7 @@ const clickOperateEvent = (command: string | number, row: any) => {
     dialogType.value = 'reject'
   }
 }
-// 弹框
+
 const showDialog = ref(false)
 const dialogType = ref<string>()
 const clickCloseEvent = () => {
