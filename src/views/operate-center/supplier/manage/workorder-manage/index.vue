@@ -144,9 +144,7 @@ onMounted(() => {
         authority: 'supplier:workorder:manage:detail'
       }
     ]
-  }
-  //供应商角色
-  else {
+  } else {
     tableHeaders.value = headerArray.filter(
       (item: any) => item.prop !== 'supplierName' && item.prop !== 'orderId'
     )
