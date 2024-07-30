@@ -255,7 +255,7 @@ const clickRefreshEvent = () => {
   showDialog.value = false
   queryDetailData()
 }
-// 审批通过
+// 审批通过111
 const handlePass = (row: any) => {
   const id = row.id
   supplierWokkorderApproved({ id })
