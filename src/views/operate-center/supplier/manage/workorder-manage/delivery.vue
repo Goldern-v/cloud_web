@@ -41,7 +41,7 @@ import { hideLoading, showLoading } from '@/utils/tool'
 import { EventEnum } from '@/utils/enum'
 const { t } = useI18n()
 const form: { [key: string]: any } = reactive({
-  privateConnectId: '', // 线路编号
+  privateConnectId: '',
   remark: '' // 备注
 })
 
