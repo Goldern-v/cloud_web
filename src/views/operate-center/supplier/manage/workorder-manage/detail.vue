@@ -29,13 +29,47 @@
 
     <p>资源概览</p>
 
-    <ideal-table-list
+    <!-- <ideal-table-list
       :table-data="dataList"
       :table-headers="tableHeaders"
       :show-pagination="false"
       class="padding-left"
     >
-    </ideal-table-list>
+    </ideal-table-list> -->
+    <div class="padding-left resource_box">
+      <div v-for="(item, index) in dataList" :key="index" :style="itemWidth">
+        <div
+          v-for="(ele, index) in Object.entries(item).map(([key, value]) => ({
+            key,
+            value
+          }))"
+          :key="index"
+          :class="resourceList[ele.key] ? 'detail_info_item' : ''"
+        >
+          <div v-if="resourceList[ele.key]" style="display: flex">
+            <div class="resource_text ideal-default-margin-right">
+              {{ resourceList[ele.key] }}
+            </div>
+            <div
+              v-if="ele.key == 'portType'"
+              class="ideal-detail-info-item__content"
+            >
+              {{ portTypeList[ele.value as string] }}
+            </div>
+            <div
+              v-else-if="ele.key == 'portBandwidth'"
+              class="ideal-detail-info-item__content"
+            >
+              {{ ele.value }}Mbps
+            </div>
+            <div v-else class="ideal-detail-info-item__content">
+              {{ ele.value }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div
       v-if="
         detailInfo.connectionPrice != null ||
@@ -100,7 +134,7 @@ import {
   supplierWorkorderDetail,
   supplierWokkorderApproved
 } from '@/api/java/operate-center'
-import { typeFormat, statusFormat } from './common'
+import { typeFormat, statusFormat, resourceList, portTypeList } from './common'
 import { ElMessage } from 'element-plus'
 const detailInfo: any = ref({})
 const route = useRoute()
@@ -134,23 +168,20 @@ const queryDetailData = () => {
 }
 const dataList: any = ref([])
 const priceList: any = ref([])
-
+// 每条宽
+const itemWidth = computed(() => `width: calc((100% / 2) - 20px)`)
 watch(
   () => detailInfo.value,
   (val: any) => {
     if (val) {
       dataList.value = [
         {
-          type: 'A端',
-          cloudType: val.endpointADto.cloudType,
-          cloudRegionId: val.endpointADto.cloudRegionId,
-          vlanId: val.endpointADto.vlanId
+          aType: '',
+          ...val.endpointADto
         },
         {
-          type: 'Z端',
-          cloudType: val.endpointZDto.cloudType,
-          cloudRegionId: val.endpointZDto.cloudRegionId,
-          vlanId: val.endpointZDto.vlanId
+          zType: '',
+          ...val.endpointZDto
         }
       ]
     }
@@ -289,5 +320,19 @@ const contactTableHeaders: IdealTableColumnHeaders[] = [
 .padding-left {
   padding-left: 60px;
   margin-bottom: 20px;
+}
+.resource_box {
+  width: calc(100% - 20px);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+.resource_text {
+  width: 150px;
+  color: #8b8b8b;
+}
+.detail_info_item {
+  padding: 10px;
+  align-items: center;
 }
 </style>

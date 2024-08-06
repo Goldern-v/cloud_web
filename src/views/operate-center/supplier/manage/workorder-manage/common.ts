@@ -35,3 +35,25 @@ export const statusList: any = [
   { label: '已通过', value: 'PASSED' },
   { label: '超时未交付', value: 'TIMEOUT_UN_DEAL' }
 ]
+
+export const resourceList: { [key: string]: any } = {
+  physicalConnectionId: '物理线路ID',
+  portId: '端口ID',
+  cloudAccountId: '云平台账号',
+  cloudType: '云连接类型',
+  cloudRegionId: '区域',
+  // dcId: '接入点ID',
+  vlanId: 'VLAN ID',
+  nniPortName: 'NNI端口名称',
+  nniPortId: 'NNI端口ID',
+  nniVlanId: 'NNI端口vlan',
+  portBandwidth: '端口带宽',
+  portType: '端口类型',
+  aType: 'A端',
+  zType: 'Z端'
+}
+export const portTypeList: { [key: string]: any } = {
+  CLOUD_PORT: '云端口',
+  NNI_PORT: 'nni端口',
+  ONLY_PORT: '专用端口'
+}
