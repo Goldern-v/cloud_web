@@ -39,17 +39,21 @@
     <div class="padding-left resource_box">
       <div v-for="(item, index) in dataList" :key="index" :style="itemWidth">
         <div
-          v-for="(ele, index) in Object.entries(item).map(([key, value]) => ({
-            key,
-            value
-          }))"
+          v-for="(ele, index) in handleSort(item)"
           :key="index"
           :class="resourceList[ele.key] ? 'detail_info_item' : ''"
         >
           <div v-if="resourceList[ele.key]" style="display: flex">
-            <div class="resource_text ideal-default-margin-right">
+            <div
+              v-if="ele.key == 'aType' || ele.key == 'zType'"
+              style="font-weight: 600"
+            >
               {{ resourceList[ele.key] }}
             </div>
+            <div v-else class="resource_text ideal-default-margin-right">
+              {{ resourceList[ele.key] }}
+            </div>
+
             <div
               v-if="ele.key == 'portType'"
               class="ideal-detail-info-item__content"
@@ -187,6 +191,25 @@ watch(
     }
   }
 )
+// 处理资源概览中端口类型顺序排列参数第一问题
+const handleSort = (obj: Object) => {
+  const tem = Object.entries(obj).map(([key, value]) => ({
+    key,
+    value
+  }))
+  const removedIndex = ref<number>(0)
+  tem.forEach((ele, index) => {
+    if (ele.key === 'portType') {
+      removedIndex.value = index
+    }
+  })
+  // 移除元素并保存
+  const removedElement = tem.splice(removedIndex.value, 1)[0]
+
+  // 在目标位置插入元素
+  tem.splice(1, 0, removedElement)
+  return tem
+}
 watch(
   () => priceList.value,
   (arr: any) => {
