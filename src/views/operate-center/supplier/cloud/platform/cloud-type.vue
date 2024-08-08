@@ -11,7 +11,11 @@
       class="cloud-type__search"
     >
       <template #suffix>
-        <svg-icon icon="search-icon" style="cursor: pointer;" @click="clickSearch"></svg-icon>
+        <svg-icon
+          icon="search-icon"
+          style="cursor: pointer"
+          @click="clickSearch"
+        ></svg-icon>
       </template>
     </el-input>
 
@@ -19,7 +23,10 @@
       <div class="flex-row cloud-type__container" @click="clickArrowIcon(item)">
         <el-icon>
           <template v-if="item.arrowDown">
-            <svg-icon icon="down-arrow" class="ideal-svg-margin-right"></svg-icon>
+            <svg-icon
+              icon="down-arrow"
+              class="ideal-svg-margin-right"
+            ></svg-icon>
           </template>
 
           <template v-else>
@@ -31,7 +38,7 @@
 
       <div v-if="item.arrowDown" class="table-child-view">
         <div
-          v-for="(v, i) of item.cloudPlatformTypes"
+          v-for="(v, i) of filterData(item.cloudPlatformTypes)"
           :key="i"
           class="table-child-view__item"
           @click="clickCloudType(v, item)"
@@ -60,26 +67,33 @@ onMounted(() => {
 // 云平台类别、类型
 const platformCategory = (name: string = '') => {
   const params = { name }
-  cloudPlatformCategory(params).then((res: any) => {
-    const { code, data } = res
-    if (code === 200) {
-      cloudList.value = data.map((item: any) => {
-        item.arrowDown = false // 箭头: false向上 true向下
-        return item
-      })
-    } else {
+  cloudPlatformCategory(params)
+    .then((res: any) => {
+      const { code, data } = res
+      if (code === 200) {
+        cloudList.value = data
+          .map((item: any) => {
+            item.arrowDown = false // 箭头: false向上 true向下
+            return item
+          })
+          .filter((ele: any) => ele.cloudCategory === 'PUBLIC') // 830需求-只保留公有云
+      } else {
+        cloudList.value = []
+      }
+    })
+    .catch(_ => {
       cloudList.value = []
-    }
-  }).catch(_ => {
-    cloudList.value = []
-  })
+    })
 }
 const clickSearch = () => {
   platformCategory(searchValue.value)
 }
-watch(() => searchValue.value, value => {
-  platformCategory(value)
-})
+watch(
+  () => searchValue.value,
+  value => {
+    platformCategory(value)
+  }
+)
 
 // 重置箭头图标朝向
 const clickArrowIcon = (item: any) => {
@@ -102,6 +116,18 @@ const emits = defineEmits<EventEmits>()
 
 const clickCloudType = (item: any, row: any) => {
   emits('clickCloudSelect', item, row)
+}
+
+// 公有云保留固定四个云AWS  、 ALI_CLOUD  、 AZURE  、GOOGLE_CLOUD
+const filterData = (arr: any) => {
+  const fourCloud = arr.filter(
+    (item: any) =>
+      item.cloudType === 'ALI_CLOUD' ||
+      item.cloudType === 'AWS' ||
+      item.cloudType === 'AZURE' ||
+      item.cloudType === 'GOOGLE_CLOUD'
+  )
+  return fourCloud
 }
 </script>
 
