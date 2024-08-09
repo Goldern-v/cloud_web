@@ -21,6 +21,7 @@
     "bpmn-js-properties-panel": "^0.46.0",
     "bpmn-js-token-simulation": "^0.10.0",
     "bpmn-moddle": "8.0.1",
+    "cross-env": "^7.0.3",
     "echarts": "^5.5.0",
     "element-plus": "2.7.6",
     "js-cookie": "^3.0.5",
