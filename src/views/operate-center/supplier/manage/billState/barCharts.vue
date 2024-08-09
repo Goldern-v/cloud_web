@@ -8,7 +8,7 @@ import * as echarts from 'echarts'
 let myChart: any
 const initEchart = () => {
   const echartDom = document.getElementById('barEcharts')
-  if (myChart != null && myChart != '' && myChart != undefined) {
+  if (myChart != null && myChart !== '' && myChart != undefined) {
     myChart.dispose()
   }
   myChart = echarts.init(echartDom)

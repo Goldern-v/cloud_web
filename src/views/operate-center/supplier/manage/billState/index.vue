@@ -38,15 +38,16 @@
               <div class="flex-between">
                 <p>收入总览</p>
                 <el-select
+                  v-if="!isSupplierManager"
                   v-model="supplierId"
                   placeholder="请选择供应商"
                   style="width: 20%"
                 >
                   <el-option
-                    v-for="item in supplierList"
-                    :key="item"
-                    :label="item"
-                    :value="item"
+                    v-for="(item, index) in supplierList"
+                    :key="index"
+                    :label="item.username"
+                    :value="item.id"
                   />
                 </el-select>
               </div>
@@ -64,6 +65,7 @@
               </div>
               <div v-else>
                 <div>相关指标</div>
+                <supplier-index></supplier-index>
               </div>
             </div>
           </div>
@@ -97,10 +99,12 @@ import { isSupplierManager } from '@/utils/role'
 import { IHooksOptions } from '@/hooks/interface'
 import type { IdealTableColumnHeaders } from '@/types'
 import { PaginationTypeEnum } from '@/utils/enum'
+import { ElMessage } from 'element-plus'
 import { useCrud } from '@/hooks'
 import barCharts from './barCharts.vue'
 import pieCharts from './pieCharts.vue'
-import { supplierInfoList } from '@/api/java/operate-center'
+import supplierIndex from './supplierIndex.vue'
+import { supplierInfoList, getSupplierList } from '@/api/java/operate-center'
 const timeSelect = ref<number | null>()
 const dateRange = ref<[Date, Date]>() //时间范围
 const timeList = [
@@ -134,7 +138,17 @@ watch(
   { deep: true }
 )
 const supplierId = ref()
-const supplierList = ref([])
+const supplierList: any = ref([])
+
+const querySupplier = async () => {
+  try {
+    const res = await getSupplierList()
+    supplierList.value = res.data
+  } catch (err: any) {
+    ElMessage.error(err)
+  }
+}
+
 const incomeReviewRatio = ref()
 const incomeScaleRatio = ref()
 nextTick(() => {
@@ -151,28 +165,27 @@ const state: IHooksOptions = reactive({
 const { sizeChangeHandle, currentChangeHandle, getDataList } = useCrud(state)
 
 onMounted(() => {
+  querySupplier()
   //平台管理员角色
   if (!isSupplierManager.value) {
     tableHeaders.value = headerArray
   }
   //供应商角色
   else {
-    tableHeaders.value = headerArray.filter(
-      (item: any) => item.prop !== 'name' && item.prop !== 'account'
-    )
+    tableHeaders.value = headerArray.filter((item: any) => item.prop !== 'name')
   }
 })
 const maxHeight = ref(210)
 const tableHeaders = ref<IdealTableColumnHeaders[]>()
 const headerArray: IdealTableColumnHeaders[] = [
-  { label: '供应商名称', prop: 'name', width: '200' },
-  { label: '产品名称', prop: 'status' },
-  { label: '业务类型', prop: 'node', width: '200' },
+  { label: '供应商名称', prop: 'name', width: '120' },
+  { label: '产品名称', prop: 'status', width: '120' },
+  { label: '业务类型', prop: 'node', width: '100' },
   { label: '工单号', prop: 'area', width: '200' },
   { label: '工单类型', prop: 'country', width: '200' },
-  { label: '带宽', prop: 'city', width: '200' },
-  { label: '价格（$)', prop: 'creator.username', width: '200' },
-  { label: '账单生成时间', prop: 'createTime.date', width: '200' }
+  { label: '带宽', prop: 'city' },
+  { label: '价格（$)', prop: 'creator.username', width: '100' },
+  { label: '账单生成时间', prop: 'createTime.date', width: '180' }
 ]
 </script>
 
