@@ -29,12 +29,20 @@
       @clickCancelEvent="clickCancelEvent"
       @clickSuccessEvent="clickSuccessEvent"
     />
+    <service-token
+      v-else-if="showServiceToken"
+      :type="type"
+      :row-data="rowData"
+      @clickCancelEvent="clickCancelEvent"
+      @clickSuccessEvent="clickSuccessEvent"
+    />
   </el-dialog>
 </template>
 
 <script setup lang="ts">
 import portDataEntry from './cloud-port/data-entry.vue'
 import specificPortDataEntry from './specific-port/data-entry.vue'
+import serviceToken from './specific-port/serviceToken.vue'
 import dciDataEntry from './DCI/data-entry.vue'
 import { EventEnum } from '@/utils/enum'
 
@@ -65,6 +73,7 @@ const showSpecificPortDataEdit = computed(
 ) //专用端口数据编辑
 const showDciDataEntry = computed(() => props.type === 'DCIDataEntry') //DCI数据录入
 const showDciDataEdit = computed(() => props.type === 'DCIDataEdit') //DCI数据编辑
+const showServiceToken = computed(() => props.type === 'serviceToken') //Service Token
 onMounted(() => {
   initDialog()
 })
@@ -94,6 +103,10 @@ const initDialog = () => {
   } else if (showSpecificPortDataEdit.value) {
     dialogVisible.value = true
     dialogTitle.value = '编辑专用端口数据'
+    dialogWidth.value = '40%'
+  } else if (showServiceToken.value) {
+    dialogVisible.value = true
+    dialogTitle.value = 'Service Token'
     dialogWidth.value = '40%'
   }
 }

@@ -27,7 +27,7 @@
       @clickCurrentChange="currentChangeHandle"
     >
       <template #operation>
-        <el-table-column label="操作" width="120" fixed="right">
+        <el-table-column label="操作" width="200" fixed="right">
           <template #default="props">
             <ideal-table-operate
               :buttons="props.row.operate"
@@ -141,7 +141,16 @@ const clickLeftEvent = (command: string | number | object) => {
 
 const operateButtons: IdealTableColumnOperate[] = [
   { title: '编辑', prop: 'edit', authority: 'supplier:manage:specificEdit' },
-  { title: '删除', prop: 'delete', authority: 'supplier:manage:specificDelete' }
+  {
+    title: '删除',
+    prop: 'delete',
+    authority: 'supplier:manage:specificDelete'
+  },
+  {
+    title: 'Service Token',
+    prop: 'serviceToken',
+    authority: 'supplier:manage:serviceToken'
+  }
 ]
 const newOperate = (ele: any): IdealTableColumnOperate[] => {
   let resultArr: IdealTableColumnOperate[] = []
@@ -162,12 +171,15 @@ watch(
 )
 const rowData: any = ref({})
 const clickOperateEvent = (command: string | number, row: any) => {
+  rowData.value = row
   if (command === 'delete') {
     handleDelete(row)
   } else if (command === 'edit') {
-    rowData.value = row
     showDialog.value = true
     dialogType.value = 'specificPortDataEdit'
+  } else if (command === 'serviceToken') {
+    showDialog.value = true
+    dialogType.value = 'serviceToken'
   }
 }
 
