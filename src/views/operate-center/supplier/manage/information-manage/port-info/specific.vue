@@ -35,7 +35,7 @@
       </template>
 
       <template #operation>
-        <el-table-column label="操作" width="120" fixed="right">
+        <el-table-column label="操作" width="180" fixed="right">
           <template #default="props">
             <ideal-table-operate
               :buttons="props.row.operate"
@@ -141,6 +141,11 @@ const clickLeftEvent = (command: string | number | object) => {
 
 const operateButtons: IdealTableColumnOperate[] = [
   { title: '编辑', prop: 'edit', authority: 'supplier:specific:port:edit' },
+  {
+    title: '专线申请',
+    prop: 'privateApplication',
+    authority: 'supplier:specific:private:apply'
+  },
   { title: '删除', prop: 'delete', authority: 'supplier:specific:port:delete' }
 ]
 
@@ -179,21 +184,26 @@ const setOperateBtns = (
 ) => {
   const arr: IdealTableColumnOperate[] = []
   array.forEach((item: any) => {
-    item.disabled = disabled
-    item.disabledText = `已通过审批或数据来源为API导入的不支持${item.title}操作`
-    arr.push(item)
+    if (item.prop === 'delete' || item.prop === 'edit') {
+      item.disabled = disabled
+      item.disabledText = `已通过审批或数据来源为API导入的不支持${item.title}操作`
+      arr.push(item)
+    }
   })
   return arr
 }
 
 const rowData: any = ref({})
 const clickOperateEvent = (command: string | number, row: any) => {
+  rowData.value = row
   if (command === 'delete') {
     deleteHandle(row.id, '/', '确定要删除当前专用端口信息吗？', '删除')
   } else if (command === 'edit') {
-    rowData.value = row
     showDialog.value = true
     dialogType.value = 'editSpecificPort'
+  } else if (command === 'privateApplication') {
+    showDialog.value = true
+    dialogType.value = 'privateLine'
   }
 }
 

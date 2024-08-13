@@ -16,7 +16,7 @@
       </div>
     </template>
     <el-form ref="formRef" :model="form" label-position="left" label-width="70">
-      <el-form-item label="文件上传" prop="vpcName">
+      <el-form-item label="文件上传">
         <el-upload
           ref="uploadRef"
           class="upload-Sty"

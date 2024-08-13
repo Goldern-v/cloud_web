@@ -45,6 +45,14 @@
       @clickCancelEvent="clickCancelEvent"
       @clickSuccessEvent="clickSuccessEvent"
     />
+
+    <specific-line
+      v-if="showSpecificLine"
+      :type="type"
+      :row-data="rowData"
+      @clickCancelEvent="clickCancelEvent"
+      @clickSuccessEvent="clickSuccessEvent"
+    />
   </el-dialog>
 </template>
 
@@ -55,6 +63,7 @@ import specificPort from './port-info/specific-port.vue'
 import nniPort from './port-info/nni-port.vue'
 import cloudPort from './port-info/cloud-port.vue'
 import { EventEnum } from '@/utils/enum'
+import specificLine from './port-info/specific-line.vue'
 
 // 属性值
 interface DialogProps {
@@ -88,6 +97,9 @@ const showNNIOperate = computed(() =>
 const showCloudPort = computed(() =>
   RegExp(/(Ali|Aws|Azure|Google)/i).test(props.type as string)
 )
+const showSpecificLine = computed(() =>
+  RegExp(/(privateLine)/i).test(props.type as string)
+)
 
 onMounted(() => {
   initDialog()
@@ -113,12 +125,17 @@ const initDialog = () => {
   } else if (props.type?.includes('Google')) {
     type = 'Google端口'
   }
-  dialogTitle.value = `${operate}${type}`
-  dialogWidth.value = props.type?.includes('Azure')
-    ? '60%'
-    : props.type?.includes('Specific')
-      ? '45%'
-      : '30%'
+  if (showSpecificLine.value) {
+    dialogTitle.value = '专线申请'
+    dialogWidth.value = '40%'
+  } else {
+    dialogTitle.value = `${operate}${type}`
+    dialogWidth.value = props.type?.includes('Azure')
+      ? '60%'
+      : props.type?.includes('Specific')
+        ? '45%'
+        : '30%'
+  }
 }
 
 // 方法
