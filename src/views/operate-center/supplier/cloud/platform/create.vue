@@ -29,7 +29,7 @@
         :cloud-type="selectCloudType"
       />
 
-      <public-zenlayer 
+      <public-zenlayer
         v-else-if="isPublicZenlayer"
         :cloud-category="category"
         :cloud-type="selectCloudType"
@@ -64,8 +64,8 @@ onMounted(() => {
 
 // 编辑数据
 const getEditData = () => {
-  selectCloudType.value = (route.query.cloudType as string)
-  category.value = (route.query.cloudCategory as string)
+  selectCloudType.value = route.query.cloudType as string
+  category.value = route.query.cloudCategory as string
 }
 // 公有云 阿里云
 const isPublicAliyun = computed(
@@ -93,7 +93,11 @@ const isPublicGoogle = computed(
     RegExp(/GOOGLE/).test(selectCloudType.value) &&
     RegExp(/PUBLIC/).test(category.value)
 )
-const isPublicZenlayer = computed(() => RegExp(/ZENLAYER/).test(selectCloudType.value) && RegExp(/PUBLIC/).test(category.value))
+const isPublicZenlayer = computed(
+  () =>
+    RegExp(/ZENLAYER/).test(selectCloudType.value) &&
+    RegExp(/PUBLIC/).test(category.value)
+)
 
 // 云平台类型选择
 const clickCloudSelect = (value: any, row: any) => {
@@ -102,7 +106,6 @@ const clickCloudSelect = (value: any, row: any) => {
     selectCloudType.value = value.cloudType
   }
 }
-
 </script>
 
 <style scoped lang="scss">

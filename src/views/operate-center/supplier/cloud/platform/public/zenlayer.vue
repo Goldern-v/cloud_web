@@ -27,30 +27,65 @@
           <el-input v-model="form.name" class="custom-input"></el-input>
         </el-form-item>
 
-        <el-form-item label="接入方式" prop="accessWay">
-          <el-radio-group v-model="form.accessWay">
-            <el-radio-button label="secretKey">密钥</el-radio-button>
+        <el-form-item label="接入方式" prop="registerType">
+          <el-radio-group v-model="form.registerType">
+            <el-radio-button
+              v-if="useThisType('SECRET_KEY_REGISTER')"
+              label="SECRET_KEY_REGISTER"
+              >密钥</el-radio-button
+            >
+            <el-radio-button
+              v-if="useThisType('PASSWORD_REGISTER')"
+              label="PASSWORD_REGISTER"
+              >密码</el-radio-button
+            >
           </el-radio-group>
         </el-form-item>
 
-        <el-form-item label="访问密钥ID" prop="accessKeyId">
-          <el-input
-            v-model="form.accessKeyId"
-            :disabled="isEdit"
-            class="custom-input"
-          ></el-input>
-        </el-form-item>
+        <template v-if="form.registerType === 'SECRET_KEY_REGISTER'">
+          <el-form-item label="访问密钥ID" prop="ak">
+            <el-input
+              v-model="form.ak"
+              :disabled="isEdit"
+              style="width: 20%"
+            ></el-input>
+          </el-form-item>
 
-        <el-form-item label="访问密钥" prop="secretAccessKey">
-          <el-input
-            v-model="form.secretAccessKey"
-            :disabled="isEdit"
-            class="custom-input"
-          ></el-input>
-        </el-form-item>
-
+          <el-form-item label="访问密钥" prop="sk">
+            <el-input
+              v-model="form.sk"
+              :disabled="isEdit"
+              style="width: 20%"
+            ></el-input>
+          </el-form-item>
+        </template>
+        <template v-else>
+          <el-form-item label="访问账号" prop="username">
+            <el-input
+              v-model="form.username"
+              :disabled="isEdit"
+              style="width: 20%"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="访问密码" prop="password">
+            <el-input
+              show-password
+              v-model="form.password"
+              :disabled="isEdit"
+              style="width: 20%"
+            ></el-input>
+          </el-form-item>
+          <el-form-item v-if="!isEdit" label="确认密码" prop="confirmPassword">
+            <el-input
+              show-password
+              v-model="form.confirmPassword"
+              :disabled="isEdit"
+              style="width: 20%"
+            ></el-input>
+          </el-form-item>
+        </template>
         <el-form-item label="类型">
-          <div>公有云</div>
+          <div class="aliyun-text">公有云</div>
         </el-form-item>
       </el-form>
     </div>
@@ -91,9 +126,14 @@ const props = withDefaults(defineProps<CloudProps>(), {
 const formRef = ref<FormInstance>()
 const form = reactive({
   name: '',
-  accessWay: 'secretKey', // 接入方式
-  accessKeyId: '',
-  secretAccessKey: ''
+  registerType: 'SECRET_KEY_REGISTER', // 接入方式
+  ak: '', // 访问密钥ID
+  sk: '', // 访问密钥
+  // site: '' // 站点
+  username: '',
+  password: '',
+  confirmPassword: '',
+  URL: 'http://10.8.0.208:18884'
 })
 
 const checkCloudName = (
@@ -106,16 +146,37 @@ const checkCloudName = (
   }
   nameRuleThree({ maxLength: 20, minLength: 1 }, value, callback)
 }
-const rules = reactive<FormRules>({
+const rules = ref<FormRules>({})
+
+const baseRules: FormRules = {
   name: [{ required: true, validator: checkCloudName, trigger: 'blur' }],
-  accessWay: [{ required: true, message: '请选择接入方式', trigger: 'blur' }],
-  accessKeyId: [
-    { required: true, message: '请输入访问密钥ID', trigger: 'blur' }
-  ],
-  secretAccessKey: [
-    { required: true, message: '请输入访问密钥', trigger: 'blur' }
+  registerType: [{ required: true, message: '请选择接入方式', trigger: 'blur' }]
+  // site: [{ required: true, message: '请选择站点', trigger: 'blur' }]
+}
+
+//秘钥规则
+const secretKeyRules: FormRules = {
+  ak: [{ required: true, message: '请输入访问密钥ID', trigger: 'blur' }],
+  sk: [{ required: true, message: '请输入访问密钥', trigger: 'blur' }]
+}
+//密码规则
+const passwordRules: FormRules = {
+  username: [{ required: true, message: '请输入访问账号', trigger: 'blur' }],
+  password: [{ required: true, message: '请输入访问密码', trigger: 'blur' }],
+  confirmPassword: [
+    { required: true, message: '请输入确认密码', trigger: 'blur' },
+    {
+      validator: (rule, value, callback) => {
+        if (value !== form.password) {
+          callback(new Error('确认密码与密码不一致'))
+        } else {
+          callback()
+        }
+      },
+      trigger: 'blur'
+    }
   ]
-})
+}
 
 const route = useRoute()
 const id = route.query.id
@@ -134,8 +195,9 @@ const initEditData = () => {
     const { code, data } = res
     if (code === 200) {
       form.name = data?.name
-      form.accessKeyId = data?.secret?.ak
-      form.secretAccessKey = data?.secret?.sk
+      form.ak = data?.ak
+      form.sk = data?.sk
+      // form.site = data?.site
 
       originDic.value = Object.assign({}, form)
     }
@@ -149,6 +211,29 @@ const clickCancel = (formEl: FormInstance | undefined) => {
   }
   formEl.resetFields()
   router.back()
+}
+
+const mergeRules = () => {
+  const targetRules =
+    form.registerType === 'SECRET_KEY_REGISTER' ? secretKeyRules : passwordRules
+  rules.value = {
+    ...baseRules,
+    ...targetRules
+  }
+}
+
+watch(
+  () => form.registerType,
+  val => {
+    mergeRules()
+  },
+  {
+    immediate: true
+  }
+)
+
+const useThisType = (val: string) => {
+  return !isEdit || (isEdit && val === form.registerType)
 }
 
 const clickSave = (formEl: FormInstance | undefined) => {
@@ -168,17 +253,19 @@ const clickSave = (formEl: FormInstance | undefined) => {
 }
 const handleCreate = () => {
   const params = {
-    name: form.name, // 云平台名称
-    cloudType: props.cloudType, // 云类型 华为云、阿里云
-    cloudCategory: props.cloudCategory, // 云类别 私有云、公有云
-    accessCredentialType: 1, // 云底层访问类型 0：账号密码、1：密钥
-    secret: {
-      // 密钥
-      ak: form.accessKeyId,
-      sk: form.secretAccessKey
-    },
+    ...unref(form),
+    ctgCloudType: props.cloudType, // 云类型 华为云、阿里云
+    supplierCloudCategory: props.cloudCategory, // 云类别 私有云、公有云
     mode: 0 // 只读模式 0：读写、1：只读
   }
+  if (form.registerType === 'SECRET_KEY_REGISTER') {
+    delete params?.username
+    delete params?.password
+  } else {
+    delete params?.sk
+    delete params?.ak
+  }
+  delete params?.confirmPassword
   cloudPlatformCreate(params).then((res: any) => {
     const { code } = res
     if (code === 200) {
@@ -198,20 +285,20 @@ const handleEdit = () => {
 
   const params: { [key: string]: any } = { id }
 
-  const secret: { [key: string]: any } = {}
+  // const secret: { [key: string]: any } = {}
   for (const key in tempDic) {
-    if (key === 'accessKeyId') {
-      secret.ak = form.accessKeyId
-    } else if (key === 'secretAccessKey') {
-      secret.sk = form.secretAccessKey
-    } else {
-      params[key] = tempDic[key]
-    }
+    // if (key === 'ak') {
+    //   secret.ak = form.ak
+    // } else if (key === 'sk') {
+    //   secret.sk = form.sk
+    // } else {
+    params[key] = tempDic[key]
+    // }
   }
   // ak、sk修改则传参
-  if (!isEmpty(secret)) {
-    params.secret = secret
-  }
+  // if (!isEmpty(secret)) {
+  //   params.secret = secret
+  // }
 
   cloudPlatformEdit(params).then((res: any) => {
     const { code } = res
@@ -248,6 +335,9 @@ $customInputWidth: 352px;
     :deep(.el-divider--vertical) {
       border-left: 2px var(--el-color-primary) solid;
     }
+  }
+  .aliyun-text {
+    color: var(--el-text-color-regular);
   }
 }
 </style>
