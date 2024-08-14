@@ -3,21 +3,18 @@
     <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="专线价格" prop="price">
         <div class="flex-row" style="width: 70%">
-          <el-form-item prop="NRC" class="flex-row">
-            <div class="flex-row"><el-input v-model="form.nrc" />/NRC，</div>
-          </el-form-item>
-          <el-form-item prop="MRC">
-            <div class="flex-row"><el-input v-model="form.mrc" />/MRC</div>
-          </el-form-item>
+          <div class="flex-row"><el-input v-model="form.nrc" />/NRC，</div>
+          <div class="flex-row"><el-input v-model="form.mrc" />/MRC</div>
         </div>
       </el-form-item>
       <el-form-item label="专线方案" prop="option">
-        <el-input v-model="form.option" :rows="4" type="textarea" />
+        <el-input v-model="form.labourOption" :rows="4" type="textarea" />
         <el-upload
           ref="uploadRef"
           class="upload-Sty"
           action="#"
-          :auto-upload="false"
+          :on-remove="handleRemove"
+          :on-exceed="handleExceed"
           :http-request="handleUpload"
           accept=".doc,.docx,.pdf,.ppt,.pptx"
           :limit="1"
@@ -45,19 +42,44 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { FormInstance, FormRules } from 'element-plus'
+import type {
+  FormInstance,
+  FormRules,
+  UploadProps,
+  UploadUserFile,
+  UploadRawFile
+} from 'element-plus'
 import { EventEnum } from '@/utils/enum'
 import { Plus } from '@element-plus/icons-vue'
 import { showLoading, hideLoading } from '@/utils/tool'
-import { ElMessage, UploadInstance } from 'element-plus'
+import { ElMessage, UploadInstance, genFileId } from 'element-plus'
 const uploadRef = ref<UploadInstance>()
 const { t } = useI18n()
 const formRef = ref<FormInstance>() // 校验表单
 const form: { [key: string]: any } = reactive({
   nrc: '',
-  mrc: ''
+  mrc: '',
+  labourOption: ''
 })
-const rules = reactive<FormRules>({})
+const fileList = ref([])
+const validatePrice = (rule: any, value: any, callback: any) => {
+  if (form.nrc === '' || form.mrc === '') {
+    callback(new Error('日租/月租价格不能为空'))
+  } else {
+    callback()
+  }
+}
+const validateOption = (rule: any, value: any, callback: any) => {
+  if (fileList.value.length === 0 && form.labourOption === '') {
+    callback(new Error('专线方案不能为空'))
+  } else {
+    callback()
+  }
+}
+const rules = reactive<FormRules>({
+  price: [{ required: true, validator: validatePrice, trigger: 'blur' }],
+  option: [{ required: true, validator: validateOption, trigger: 'blur' }]
+})
 // 方法
 interface EventEmits {
   (e: EventEnum.cancel): void
@@ -72,9 +94,25 @@ const cancelForm = (formEl: FormInstance | undefined) => {
   formEl.resetFields()
   emit(EventEnum.cancel)
 }
+const handleExceed: UploadProps['onExceed'] = files => {
+  if (!uploadRef.value) {
+    return
+  }
+  uploadRef.value.clearFiles()
+  const file = files[0] as UploadRawFile
+  file.uid = genFileId()
+  uploadRef.value.handleStart(file)
+}
+
+const handleRemove = (file: any, list: any) => {
+  fileList.value = list
+  formRef.value?.validateField('option')
+}
 
 // 上传文件
 const handleUpload = async (file: any) => {
+  fileList.value = file.file
+  formRef.value?.validateField('option')
   //   const fd = new FormData()
   //   fd.append('file', file.file)
   //   // 这里是请求上传接口
@@ -98,36 +136,10 @@ const submitForm = (formEl: FormInstance | undefined) => {
     return
   }
   //   uploadRef.value?.submit()
-  //   formEl.validate(async valid => {
-  //     if (valid) {
-  //       const params: { [key: string]: any } = {
-  //         portType: 'SPECIALIZED',
-  //         nodeId: form.nodeId,
-  //         equipmentId: form.equipmentId
-  //       }
-  //         params.specializedPortItems = form.portData.map((item: any) => {
-  //           return {
-  //             portName: item.portName,
-  //             portSpeed: item.portSpeed,
-  //             portUuid: item.uuid
-  //           }
-  //         })
-  //         showLoading('创建中...')
-  //         portAdd(params)
-  //           .then((res: any) => {
-  //             if (res.code === 200) {
-  //               ElMessage.success('创建专用端口成功')
-  //               emit(EventEnum.success)
-  //             } else {
-  //               ElMessage.error('创建专用端口失败')
-  //             }
-  //             hideLoading()
-  //           })
-  //           .catch((err: any) => {
-  //             hideLoading()
-  //           })
-  //     }
-  //   })
+  formEl.validate(async valid => {
+    // if (valid) {
+    // }
+  })
 }
 </script>
 <style lang="scss" scoped>
