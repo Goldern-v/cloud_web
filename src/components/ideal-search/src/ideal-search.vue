@@ -163,6 +163,8 @@ interface IdealSearchProps {
   platformTypeLabel?: string
   showResourcePool?: boolean
   resourcePoolLabel?: string
+  cloudCategoryProp?: string
+  cloudTypeProps?: string
 }
 const props = withDefaults(defineProps<IdealSearchProps>(), {
   inputPlaceholder: '默认按照名称搜索、过滤',
@@ -173,6 +175,8 @@ const props = withDefaults(defineProps<IdealSearchProps>(), {
   showCategory: true,
   categoryLabel: '云平台类别',
   showPlatformType: true,
+  cloudCategoryProp: 'cloudCategory',
+  cloudTypeProps: 'cloudType',
   platformTypeLabel: '云平台类型',
   showResourcePool: true,
   resourcePoolLabel: '资源池'
@@ -209,14 +213,14 @@ const handlePlatform = () => {
 const addCategory = () => {
   const category = {
     label: props.categoryLabel,
-    prop: 'cloudCategory',
+    prop: props.cloudCategoryProp,
     type: FiltrateEnum.list,
     array: [],
     arrayProp: 'name',
     arrayKey: 'cloudCategory'
   }
   const haveCategory = dataArray.value.some(
-    (item: any) => item.prop === 'cloudCategory'
+    (item: any) => item.prop === props.cloudCategoryProp
   )
   if (!haveCategory) {
     dataArray.value.push(category)
@@ -226,14 +230,14 @@ const addCategory = () => {
 const addPlatformType = () => {
   const type = {
     label: props.platformTypeLabel,
-    prop: 'cloudType',
+    prop: props.cloudTypeProps,
     type: FiltrateEnum.list,
     array: [],
     arrayProp: 'name',
     arrayKey: 'cloudType'
   }
   const haveType = dataArray.value.some(
-    (item: any) => item.prop === 'cloudType'
+    (item: any) => item.prop === props.cloudTypeProps
   )
   if (!haveType) {
     dataArray.value.push(type)
@@ -262,9 +266,9 @@ watch(
   () => [categoryList.value, typeList.value, resourcePoolList.value],
   value => {
     dataArray.value.forEach((item: any) => {
-      if (item.prop === 'cloudCategory') {
+      if (item.prop === props.cloudCategoryProp) {
         item.array = value[0]
-      } else if (item.prop === 'cloudType') {
+      } else if (item.prop === props.cloudTypeProps) {
         item.array = value[1]
       } else if (item.prop === 'resourcePoolId') {
         let tempArr: any[] = []

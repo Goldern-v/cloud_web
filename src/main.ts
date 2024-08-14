@@ -24,6 +24,10 @@ registerStore()
 // 注册 自定义指令
 directive(app)
 
+//vite.config动态导入组件失败时 开发时可先用 如有新全局组件需要添加进components
+import { registerGlobalComponents } from '@/utils/registerComponents'
+// registerGlobalComponents(app);
+
 // 引入 form-create
 import { setupFormCreate } from '@/plugins/form-create'
 app.use(setupFormCreate)

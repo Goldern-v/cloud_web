@@ -4,6 +4,8 @@
       ref="searchRef"
       :type-array="typeArray"
       :show-resource-pool="false"
+      cloud-category-prop="supplierCloudCategory"
+      cloud-type-props="ctgCloudType"
       @clickSearch="onClickSearch"
     />
 
@@ -109,7 +111,7 @@
 </template>
 
 <script setup lang="ts">
-import { ElMessage } from 'element-plus/es'
+import { ElMessage, ElMessageBox } from 'element-plus/es'
 import dialogBox from './dialog-box.vue'
 import { useCrud } from '@/hooks'
 import { IHooksOptions } from '@/hooks/interface'
@@ -131,7 +133,8 @@ import {
   cloudPlatformPageUrl,
   cloudPlatformUpdateReadOnly,
   cloudPlatformDelete,
-  cloudPlatformConnectCheck
+  cloudPlatformConnectCheck,
+  cloudPlatformBatchDelete
 } from '@/api/java/operate-center'
 
 // 搜索
@@ -177,7 +180,8 @@ watch(
       value.map((item: any) => {
         item.statusIcon = RESOURCE_STATUS_ICON[item.status.toUpperCase()]
         item.statusText = RESOURCE_STATUS[item.status]
-        item.category = item.cloudCategory === 'PUBLIC' ? '公有云' : '私有云' // 云平台类别
+        item.category =
+          item.supplierCloudCategory === 'PUBLIC' ? '公有云' : '私有云' // 云平台类别
         item.readOnly = !!item.mode // 0读写 1只读
         item.operate = newOperate(item)
       })
@@ -249,41 +253,78 @@ const clickLeftEvent = (value: string | number | object) => {
 watch(
   () => state.dataListSelections,
   value => {
-    leftButtons.value[2].disabled = true
+    // leftButtons.value[2].disabled = true
     // value数组只有主键,需从state.dataList遍历数据判断是否公有云或私有云
     if (value?.length && state.dataList?.length) {
       let arr = state.dataList.filter(item => {
         return value.includes(item.id) // 根据多选结果主键筛选
       })
       // 选择有私有云则不能点击同步
-      leftButtons.value[1].disabled = arr.some(v =>
-        RegExp(/PRIVATE/g).test(v.cloudCategory)
-      )
-      leftButtons.value[1].disabledText =
-        '只有公有云支持同步账单功能，且该平台启用了账单同步策略。'
+      // leftButtons.value[1].disabled = arr.some(v =>
+      //   RegExp(/PRIVATE/g).test(v.supplierCloudCategory)
+      // )
+      // leftButtons.value[1].disabledText =
+      //   '只有公有云支持同步账单功能，且该平台启用了账单同步策略。'
 
       // 所选公有云未启用账单同步
       if (
         arr.some(
-          v => v.sync === false && RegExp(/PUBLIC/g).test(v.cloudCategory)
+          v =>
+            v.sync === false && RegExp(/PUBLIC/g).test(v.supplierCloudCategory)
         )
       ) {
         ElMessage.error('所选的平台有未启用账单同步')
-        leftButtons.value[1].disabled = true
+        // leftButtons.value[1].disabled = true
       }
 
-      leftButtons.value[2].disabled = false
+      // leftButtons.value[2].disabled = false
     } else {
-      leftButtons.value[1].disabled = true
+      // leftButtons.value[1].disabled = true
     }
   }
 )
 const rightButtons = ref<IdealButtonEventProp[]>([
-  { prop: 'refresh', icon: 'refresh-icon' }
+  {
+    title: '刷新',
+    prop: 'refresh',
+    icon: 'refresh-icon',
+    authority: 'supplier:platform:refresh'
+  },
+  {
+    title: '批量删除',
+    prop: 'delete',
+    icon: 'delete-icon',
+    authority: 'supplier:platform:delete'
+  }
 ])
 const clickRightEvent = (value: string | number | object) => {
   if (value === 'refresh') {
     clickReset()
+  } else if (value === 'delete') {
+    if (!state.dataListSelections?.length) {
+      return ElMessage.warning('请至少选择一条')
+    }
+    ElMessageBox.confirm('确定进行删除操作?', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    })
+      .then(() => {
+        cloudPlatformBatchDelete({ ids: state.dataListSelections })
+          .then((res: any) => {
+            const { code } = res
+            if (code === 200) {
+              ElMessage.success('删除成功')
+              getDataList()
+            } else {
+              ElMessage.error(res.msg || '删除失败')
+            }
+          })
+          .catch(_ => {
+            ElMessage.error('删除失败')
+          })
+      })
+      .catch(() => {})
   }
 }
 const operateBtns = ref<IdealTableColumnOperate[]>([
@@ -301,8 +342,8 @@ const clickOperateEvent = (command: string | number, row: any) => {
       path: '/operate-center/supplier/platform/create',
       query: {
         id: row.id,
-        cloudCategory: row.cloudCategory,
-        cloudType: row.cloudType,
+        cloudCategory: row.supplierCloudCategory,
+        cloudType: row.ctgCloudType,
         type: 'edit'
       }
     })
@@ -328,12 +369,12 @@ const newOperate = (item: any): IdealTableColumnOperate[] => {
   const tempArr = JSON.parse(JSON.stringify(operateBtns.value))
 
   // enableUpdate: true 可编辑删除 false 当前云平台有资源池不可编辑删除
-  if (!item.enableUpdate) {
-    const tip = `已添加资源池不可编辑/删除`
-    resultArr = setDisableOperateBtns(true, tip, tempArr)
-  } else {
-    resultArr = setOperateBtns(false, '', tempArr)
-  }
+  // if (!item.enableUpdate) {
+  //   const tip = `已添加资源池不可编辑/删除`
+  //   resultArr = setDisableOperateBtns(true, tip, tempArr)
+  // } else {
+  resultArr = setOperateBtns(false, '', tempArr)
+  // }
   if (item.statusIcon === 'loading') {
     const tip = `${RESOURCE_STATUS[item.status]}不可操作`
     resultArr = setOperateBtns(true, tip, tempArr)
@@ -388,8 +429,8 @@ const clickDetail = (rowData: any) => {
     path: '/operate-center/supplier/platform/detail',
     query: {
       id: rowData.id,
-      cloudCategory: rowData.cloudCategory,
-      cloudType: rowData.cloudType,
+      supplierCloudCategory: rowData.supplierCloudCategory,
+      ctgCloudType: rowData.ctgCloudType,
       type: 'detail'
     }
   })
