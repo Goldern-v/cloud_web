@@ -105,6 +105,21 @@
         </el-input>
       </el-form-item>
 
+      <el-form-item label="端口状态" prop="portStatus">
+        <el-select
+          v-model="form.portStatus"
+          placeholder="请选择速率"
+          class="custom-input"
+        >
+          <el-option
+            v-for="(item, index) of portStatusList"
+            :key="index"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
+
       <el-form-item v-if="isALi" label="实例ID" prop="instanceId">
         <el-input
           v-model="form.instanceId"
@@ -278,7 +293,7 @@ import {
   getPortGroup,
   getSupplierList
 } from '@/api/java/operate-center'
-import { clearForm } from '../common'
+import { clearForm, portStatusList } from '../common'
 
 interface CloudPortProps {
   cloudPortForm?: any
@@ -312,7 +327,8 @@ let form: { [key: string]: any } = reactive({
   address: '',
   portGroup: '',
   circuitId: '',
-  demarcId: ''
+  demarcId: '',
+  portStatus: ''
 })
 
 const formRef = ref<FormInstance>() // 校验表单
@@ -346,7 +362,8 @@ const rules = reactive<FormRules>({
   ],
   demarcId: [
     { required: true, message: '请输入Google demarcId ID', trigger: 'blur' }
-  ]
+  ],
+  portStatus: [{ required: true, message: '请选择端口状态', trigger: 'change' }]
 })
 
 const defaultOptions: PortBasic = {

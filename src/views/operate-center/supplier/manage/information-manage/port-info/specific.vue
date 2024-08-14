@@ -120,6 +120,7 @@ const headerArray: IdealTableColumnHeaders[] = [
   { label: '所属供应商', prop: 'vendorName' },
   { label: '所属节点', prop: 'nodeName' },
   { label: '所属设备', prop: 'equipmentName' },
+  { label: '端口状态', prop: 'portStatus' },
   { label: '速率', prop: 'speed' }
 ]
 

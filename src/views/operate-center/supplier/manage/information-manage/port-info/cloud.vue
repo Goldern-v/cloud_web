@@ -260,6 +260,7 @@ const clickOperateEvent = (command: string | number, row: any) => {
 const aliHeaders: IdealTableColumnHeaders[] = [
   { label: '端口名称', prop: 'name' },
   { label: '数据来源', prop: 'originType' },
+  { label: '端口状态', prop: 'portStatus' },
   { label: '状态', prop: 'status', useSlot: true },
   { label: '实例ID', prop: 'instanceId' },
   { label: '区域', prop: 'area' },
@@ -274,6 +275,7 @@ const aliHeaders: IdealTableColumnHeaders[] = [
 const awsHeaders: IdealTableColumnHeaders[] = [
   { label: '端口名称', prop: 'name' },
   { label: '数据来源', prop: 'originType' },
+  { label: '端口状态', prop: 'portStatus' },
   { label: '状态', prop: 'status', useSlot: true },
   { label: '互连ID', prop: 'id' },
   { label: '端口速度', prop: 'speed' },
@@ -288,6 +290,7 @@ const awsHeaders: IdealTableColumnHeaders[] = [
 const azureHeaders: IdealTableColumnHeaders[] = [
   { label: '端口名称', prop: 'name' },
   { label: '数据来源', prop: 'originType' },
+  { label: '端口状态', prop: 'portStatus' },
   { label: '状态', prop: 'status', useSlot: true },
   { label: '所属端口组', prop: 'portGroup' },
   { label: '区域', prop: 'area' },
@@ -302,6 +305,7 @@ const azureHeaders: IdealTableColumnHeaders[] = [
 
 const googleheaders: IdealTableColumnHeaders[] = [
   { label: '端口名称', prop: 'name' },
+  { label: '端口状态', prop: 'portStatus' },
   { label: '状态', prop: 'status', useSlot: true },
   { label: 'Google circuit ID', prop: 'circuitId', width: '140' },
   { label: 'Google demarc ID', prop: 'demarcId', width: '140' },

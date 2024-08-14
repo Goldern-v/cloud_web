@@ -33,6 +33,25 @@
             </el-table-column>
           </template>
 
+          <template #portStatus>
+            <el-table-column label="端口状态" width="150px">
+              <template #default="props">
+                <el-select
+                  v-model="props.row.portStatus"
+                  placeholder="请选择端口状态"
+                  :disabled="props.row.disabled"
+                >
+                  <el-option
+                    v-for="(item, index) of portStatusList"
+                    :key="index"
+                    :label="item.label"
+                    :value="item.value"
+                  />
+                </el-select>
+              </template>
+            </el-table-column>
+          </template>
+
           <template #speed>
             <el-table-column label="速率" width="150px">
               <template #default="props">
@@ -143,7 +162,7 @@
 <script setup lang="ts">
 import type { FormInstance, FormRules } from 'element-plus'
 import type { IdealTableColumnHeaders } from '@/types'
-import { speedList } from '../common'
+import { speedList, portStatusList } from '../common'
 import { PortBasic } from '../information-entry/interface'
 import { EventEnum } from '@/utils/enum'
 import store from '@/store'
@@ -190,7 +209,7 @@ const form: { [key: string]: any } = reactive({
 
 const validatePort = (rule: any, value: any, callback: (e?: Error) => any) => {
   const flag = value.some((item: any) => {
-    return !item.portSpeed || !item.portName || !item.uuid
+    return !item.portSpeed || !item.portName || !item.uuid || !item.portStatus
   })
   if (flag && value.length == 1) {
     callback(new Error('请至少输入一条端口信息'))
@@ -217,6 +236,7 @@ const rules = reactive<FormRules>({
 const tableHeaders: IdealTableColumnHeaders[] = [
   { label: '端口名称', prop: 'name', useSlot: true },
   { label: '端口ID', prop: 'uuid', useSlot: true },
+  { label: '端口状态', prop: 'portStatus', useSlot: true },
   { label: '速率', prop: 'speed', useSlot: true }
 ]
 
@@ -247,7 +267,8 @@ onMounted(() => {
       {
         portName: props.rowData.name,
         portSpeed: props.rowData.speed,
-        uuid: props.rowData.uuid
+        uuid: props.rowData.uuid,
+        portStatus: props.rowData.portStatus
       }
     ]
     form.nodeId = props.rowData.nodeId

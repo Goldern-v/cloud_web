@@ -93,6 +93,22 @@
         </el-form-item>
       </template>
 
+      <el-form-item label="端口状态" prop="portStatus">
+        <el-select
+          v-model="form.portStatus"
+          placeholder="请选择速率"
+          class="custom-input"
+          :disabled="isApproved || isSelect"
+        >
+          <el-option
+            v-for="(item, index) of portStatusList"
+            :key="index"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
+
       <el-form-item label="端口速率" prop="speed">
         <el-select
           v-model="form.speed"
@@ -178,7 +194,7 @@ import {
   portEdit,
   getSupplierList
 } from '@/api/java/operate-center'
-import { speedList } from '../common'
+import { speedList, portStatusList } from '../common'
 
 interface PortProps {
   type?: undefined | string
@@ -211,6 +227,7 @@ const form: { [key: string]: any } = reactive({
   vendorId: '',
   nodeId: '',
   equipmentId: '',
+  portStatus: '',
   speed: '',
   bandwidth: '',
   remotePort: '',
@@ -226,6 +243,9 @@ const rules = reactive<FormRules>({
   nodeId: [{ required: true, message: '请选择所属节点', trigger: 'change' }],
   equipmentId: [
     { required: true, message: '请输入所属设备', trigger: 'change' }
+  ],
+  portStatus: [
+    { required: true, message: '请选择端口状态', trigger: 'change' }
   ],
   speed: [{ required: true, message: '请选择速率', trigger: 'change' }],
   bandwidth: [{ required: true, message: '请输入带宽', trigger: 'blur' }],
@@ -343,6 +363,7 @@ watch(
       form.remoteDevice = portInfo.remoteDevice
       form.vlan = JSON.parse(portInfo.vlan)
       form.uuid = portInfo.uuid
+      form.portStatus = portInfo.portStatus
     } else {
       form.name = ''
       form.speed = ''
@@ -352,6 +373,7 @@ watch(
       form.vlan = ''
       isSelect.value = false
       form.uuid = ''
+      form.portStatus = ''
     }
   }
 )

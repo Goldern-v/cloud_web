@@ -15,6 +15,11 @@ export const typeList = [
 
 export const speedList = ['10GE', '1GE']
 
+export const portStatusList = [
+  { label: 'UP', value: 'UP' },
+  { label: 'DOWN', value: 'DOWN' }
+]
+
 export const cloudTypeList = [
   { label: '阿里云', value: 'aliyun' },
   { label: 'AWS', value: 'aws' },
