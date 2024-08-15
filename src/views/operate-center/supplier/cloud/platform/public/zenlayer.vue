@@ -252,7 +252,7 @@ const clickSave = (formEl: FormInstance | undefined) => {
   })
 }
 const handleCreate = () => {
-  const params = {
+  const params: any = {
     ...unref(form),
     ctgCloudType: props.cloudType, // 云类型 华为云、阿里云
     supplierCloudCategory: props.cloudCategory, // 云类别 私有云、公有云

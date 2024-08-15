@@ -72,7 +72,7 @@ const onClickSearch = (v: IdealTextProp[]) => {
   getDataList()
 }
 
-const clickOperateEvent = (e, row) => {
+const clickOperateEvent = (e: any, row: any) => {
   console.log('clickOperateEvent', e, row)
   flowRef.value.open(row)
 }
