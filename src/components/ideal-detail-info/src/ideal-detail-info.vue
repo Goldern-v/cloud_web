@@ -160,6 +160,7 @@ const toInstance = (prop: string) => {
   flex-wrap: wrap;
   justify-content: flex-start;
   .ideal-detail-info-item {
+    box-sizing: border-box;
     padding: 10px;
     align-items: center;
     .alignRight {
