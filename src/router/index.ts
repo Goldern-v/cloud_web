@@ -146,6 +146,9 @@ router.beforeEach(async (to, from, next) => {
         // 获取扁平化路由，将多级路由转换成一级路由
         const keepAliveRoutes = getKeepAliveRoutes(menuRoutes, [])
 
+        //静态路由获取上级面包屑
+        constantRoutesGetBreadcrumb(menuRoutes)
+
         // 添加菜单路由
         asyncRoutes.children?.push(...keepAliveRoutes)
         router.addRoute(asyncRoutes)
@@ -176,6 +179,61 @@ router.afterEach(() => {
   NProgress.done()
 })
 
+const constantRoutesGetBreadcrumb = (routes: RouteRecordRaw[]) => {
+  constantRoutes.forEach(consRoute => {
+    consRoute.children?.forEach(route => {
+      const res = getDeeproute(routes, route)
+      if (!res && route.meta?.useDefaultBreadcrumb) {
+        const indexArr: number[] = []
+        routes.find((r1, r1index) => {
+          const r1Result = r1.children?.find((r2, r2index) => {
+            if (r2.meta!.title === route.meta!.useDefaultBreadcrumb) {
+              indexArr.unshift(r2index)
+              return true
+            }
+          })
+          if (r1Result) {
+            indexArr.unshift(r1index)
+            return true
+          }
+        })
+        if (indexArr.length) {
+          const arr: any[] = []
+          indexArr.forEach((key, index) => {
+            arr[index] = {
+              title:
+                index === 0
+                  ? routes[key].meta!.title
+                  : routes[key]?.children[key]?.meta?.title
+            }
+          })
+          route.meta!.breadcrumb = [...arr, { title: route.meta!.title }]
+        }
+      }
+    })
+  })
+}
+
+const getDeeproute = (
+  routes: RouteRecordRaw[],
+  targetRoute: RouteRecordRaw
+) => {
+  return routes.find((r1: any) => {
+    if (r1.meta.title === targetRoute?.meta?.fatherTlt) {
+      targetRoute.meta!.breadcrumb = [
+        ...r1.meta.breadcrumb,
+        {
+          title: targetRoute.meta!.title,
+          path: '/' + targetRoute.path
+        }
+      ]
+      return true
+    } else if (r1.children.length) {
+      getDeeproute(r1.children, targetRoute)
+    }
+  })
+}
+
 // 获取扁平化路由，将多级路由转换成一级路由
 export const getKeepAliveRoutes = (
   rs: RouteRecordRaw[],
@@ -185,7 +243,13 @@ export const getKeepAliveRoutes = (
 
   rs.forEach((item: any) => {
     if (item.meta.title) {
-      breadcrumb.push(item.meta.title)
+      const breadcrumbItem: any = {
+        title: item.meta.title
+      }
+      if (item.meta.url) {
+        breadcrumbItem.path = '/' + item.meta.url
+      }
+      breadcrumb.push(breadcrumbItem)
     }
 
     if (item.children && item.children.length > 0) {

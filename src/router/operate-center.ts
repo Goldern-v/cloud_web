@@ -11,7 +11,8 @@ export const customMenu = [
     name: 'cloud-platform-manage-create',
     meta: {
       title: '创建云平台',
-      breadcrumb: ['运营中心', '基础设施配置', '创建云平台']
+      fatherTlt: '云平台管理' //不确定是不是这里 面包协议有问题改这里
+      // breadcrumb: ['运营中心', '基础设施配置', '创建云平台']
     }
   },
   {
@@ -23,7 +24,8 @@ export const customMenu = [
     name: 'cloud-platform-manage-detail',
     meta: {
       title: '云平台管理详情',
-      breadcrumb: ['运营中心', '基础设施配置', '云平台管理详情']
+      fatherTlt: '云平台管理' //不确定是不是这里 面包协议有问题改这里
+      // breadcrumb: ['运营中心', '基础设施配置', '云平台管理详情']
     }
   },
   {
@@ -151,7 +153,8 @@ export const customMenu = [
     name: 'supplier-manage-information-detail',
     meta: {
       title: '信息管理详情',
-      breadcrumb: ['供应商管理', '信息管理详情']
+      fatherTlt: '供应商审批管理'
+      // breadcrumb: ['供应商管理', '信息管理详情']
     }
   },
   {
@@ -163,7 +166,9 @@ export const customMenu = [
     name: 'supplier-manage-information-entry',
     meta: {
       title: '信息录入',
-      breadcrumb: ['供应商管理', '信息录入']
+      fatherTlt: '供应商信息管理'
+
+      // breadcrumb: ['供应商管理', '信息录入']
     }
   },
   {
@@ -175,7 +180,8 @@ export const customMenu = [
     name: 'supplier-manage-node-info',
     meta: {
       title: '节点信息',
-      breadcrumb: ['供应商管理', '节点信息']
+      // breadcrumb: ['供应商管理', '节点信息']
+      useDefaultBreadcrumb: '供应商管理'
     }
   },
   {
@@ -187,7 +193,8 @@ export const customMenu = [
     name: 'supplier-manage-device-info',
     meta: {
       title: '设备信息',
-      breadcrumb: ['供应商管理', '设备信息']
+      useDefaultBreadcrumb: '供应商管理'
+      // breadcrumb: ['供应商管理', '设备信息']
     }
   },
   {
@@ -198,8 +205,9 @@ export const customMenu = [
       ),
     name: 'supplier-manage-port-info',
     meta: {
-      title: '端口信息',
-      breadcrumb: ['供应商管理', '端口信息']
+      useDefaultBreadcrumb: '供应商管理',
+      title: '端口信息'
+      // breadcrumb: ['供应商管理', '端口信息']
     }
   },
   {
@@ -209,7 +217,10 @@ export const customMenu = [
     name: 'supplier-platform-create',
     meta: {
       title: '创建云平台',
-      breadcrumb: ['公有云管理', '云平台管理', '创建云平台']
+      fatherTlt: '云平台管理'
+      // breadcrumb: [
+      //   {title:"公有云管理"}, '云平台管理', '创建云平台'
+      // ]
     }
   },
   {
@@ -251,7 +262,9 @@ export const customMenu = [
     name: 'supplier-resource-aliyun-detail',
     meta: {
       title: '阿里云资源详情',
-      breadcrumb: ['公有云管理', '资源管理', '阿里云资源详情']
+      // useDefaultBreadcrumb:"公有云管理"
+      fatherTlt: '资源管理'
+      // breadcrumb: ['公有云管理', '资源管理', '阿里云资源详情']
     }
   },
   {
@@ -263,7 +276,8 @@ export const customMenu = [
     name: 'supplier-resource-amazon-detail',
     meta: {
       title: '阿里云资源详情',
-      breadcrumb: ['公有云管理', '资源管理', '阿里云资源详情']
+      fatherTlt: '资源管理'
+      // breadcrumb: ['公有云管理', '资源管理', '阿里云资源详情']
     }
   },
   {
@@ -273,7 +287,8 @@ export const customMenu = [
     name: 'supplier-account-role-auth',
     meta: {
       title: '阿里云资源详情',
-      breadcrumb: ['供应商账号管理', '角色管理', '授权']
+      fatherTlt: '角色管理'
+      // breadcrumb: ['供应商账号管理', '角色管理', '授权']
     }
   },
   {
@@ -285,7 +300,8 @@ export const customMenu = [
     name: 'supplier-workorder-detail',
     meta: {
       title: '工单详情',
-      breadcrumb: ['供应商管理', '工单管理', '工单详情']
+      fatherTlt: '工单管理'
+      // breadcrumb: ['供应商管理', '工单管理', '工单详情']
     }
   }
 ]
