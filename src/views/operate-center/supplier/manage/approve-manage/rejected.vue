@@ -23,9 +23,9 @@
       <template #name>
         <el-table-column label="供应商名称" width="200">
           <template #default="props">
-            <div class="ideal-theme-text" @click="toDetail(props.row)">
+            <span class="ideal-theme-text" @click="toDetail(props.row)">
               {{ props.row.vendorName }}
-            </div>
+            </span>
           </template>
         </el-table-column>
       </template>
@@ -171,5 +171,8 @@ const clickOperateEvent = (command: string | number, row: any) => {
 .supplier-information-manage {
   background-color: white;
   padding: $idealPadding;
+  .ideal-theme-text {
+    cursor: pointer;
+  }
 }
 </style>
