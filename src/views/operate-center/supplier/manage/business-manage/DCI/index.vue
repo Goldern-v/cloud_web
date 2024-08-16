@@ -27,7 +27,7 @@
       @clickCurrentChange="currentChangeHandle"
     >
       <template #operation>
-        <el-table-column label="操作" width="120" fixed="right">
+        <el-table-column label="操作" width="200" fixed="right">
           <template #default="props">
             <ideal-table-operate
               :buttons="operateButtons"
@@ -114,7 +114,12 @@ const clickLeftEvent = (command: string | number | object) => {
 
 const operateButtons: IdealTableColumnOperate[] = [
   { title: '编辑', prop: 'edit', authority: 'supplier:manage:dciUpdate' },
-  { title: '删除', prop: 'delete', authority: 'supplier:manage:dciDelete' }
+  { title: '删除', prop: 'delete', authority: 'supplier:manage:dciDelete' },
+  {
+    title: 'Service Token',
+    prop: 'serviceToken',
+    authority: 'supplier:manage:serviceToken'
+  }
 ]
 
 watch(
@@ -149,7 +154,7 @@ const tableHeaders: IdealTableColumnHeaders[] = [
   { label: '价格/MRC', prop: 'mrcStr' },
   { label: '延时/ms', prop: 'delayTimeText' },
   { label: '交付工期', prop: 'deliveryPeriod' },
-  { label: '录入时间', prop: 'createTime.date' }
+  { label: '录入时间', prop: 'createTime.date', width: '150' }
 ]
 
 const rowData: any = ref({})
@@ -160,6 +165,9 @@ const clickOperateEvent = (command: string | number, row: any) => {
     rowData.value = row
     showDialog.value = true
     dialogType.value = 'DCIDataEdit'
+  } else if (command === 'serviceToken') {
+    showDialog.value = true
+    dialogType.value = 'serviceToken'
   }
 }
 
