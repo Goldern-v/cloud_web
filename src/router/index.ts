@@ -204,7 +204,7 @@ const constantRoutesGetBreadcrumb = (routes: RouteRecordRaw[]) => {
               title:
                 index === 0
                   ? routes[key].meta!.title
-                  : routes[key]?.children[key]?.meta?.title
+                  : routes[key]?.children?.[key]?.meta?.title
             }
           })
           route.meta!.breadcrumb = [...arr, { title: route.meta!.title }]
