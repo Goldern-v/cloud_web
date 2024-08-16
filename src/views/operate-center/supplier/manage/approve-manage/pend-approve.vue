@@ -78,6 +78,7 @@ import type {
 } from '@/types'
 import dialogBox from './dialog-box.vue'
 import { supplierInfoList } from '@/api/java/operate-center'
+import store from '@/store'
 
 const typeArray = ref<IdealSearch[]>([
   { label: '名称', prop: 'vendorName', type: FiltrateEnum.input }
@@ -185,6 +186,11 @@ const clickOperateEvent = (command: string | number | object, row: any) => {
 }
 
 const router = useRouter()
+onBeforeRouteLeave((to, from, next) => {
+  store.commonStore.setSideBar(from.fullPath)
+  next()
+})
+
 const toDetail = (row: any) => {
   router.push({
     path: '/operate-center/supplier/manage/information-manage-detail',
