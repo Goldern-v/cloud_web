@@ -9,26 +9,36 @@
       </el-form-item>
       <el-form-item label="专线方案" prop="option">
         <el-input v-model="form.labourOption" :rows="4" type="textarea" />
-        <el-upload
-          ref="uploadRef"
-          class="upload-Sty"
-          action="#"
-          :on-remove="handleRemove"
-          :on-exceed="handleExceed"
-          :http-request="handleUpload"
-          accept=".doc,.docx,.pdf,.ppt,.pptx"
-          :limit="1"
-        >
-          <template #trigger>
-            <div class="add_option">
-              <svg-icon
-                icon="circle-add"
-                color="var(--el-color-primary)"
-              ></svg-icon>
-              上传附件
-            </div>
-          </template>
-        </el-upload>
+        <div class="upload-content">
+          <el-upload
+            ref="uploadRef"
+            class="upload-Sty"
+            action="#"
+            :on-remove="handleRemove"
+            :on-exceed="handleExceed"
+            :http-request="handleUpload"
+            accept=".doc,.docx,.pdf,.ppt,.pptx"
+            :limit="1"
+          >
+            <template #trigger>
+              <div class="add_option">
+                <svg-icon
+                  icon="circle-add"
+                  color="var(--el-color-primary)"
+                ></svg-icon>
+                上传附件
+              </div>
+            </template>
+          </el-upload>
+          <el-tooltip
+            class="box-item"
+            effect="dark"
+            content="上传规则：支持以PDF、docx、doc、ppt、pptx格式文件上传"
+            placement="bottom"
+          >
+            <el-icon><InfoFilled /></el-icon>
+          </el-tooltip>
+        </div>
       </el-form-item>
     </el-form>
     <div class="flex-row ideal-submit-button">
@@ -50,7 +60,7 @@ import type {
   UploadRawFile
 } from 'element-plus'
 import { EventEnum } from '@/utils/enum'
-import { Plus } from '@element-plus/icons-vue'
+import { InfoFilled } from '@element-plus/icons-vue'
 import { showLoading, hideLoading } from '@/utils/tool'
 import { ElMessage, UploadInstance, genFileId } from 'element-plus'
 const uploadRef = ref<UploadInstance>()
@@ -152,5 +162,13 @@ const submitForm = (formEl: FormInstance | undefined) => {
 .add_option {
   cursor: pointer;
   color: var(--el-color-primary);
+}
+.upload-content {
+  position: relative;
+  .el-icon {
+    position: absolute;
+    left: 65px;
+    top: 10px;
+  }
 }
 </style>
