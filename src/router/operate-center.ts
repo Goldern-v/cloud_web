@@ -221,6 +221,18 @@ export const customMenu = [
       // breadcrumb: [
       //   {title:"公有云管理"}, '云平台管理', '创建云平台'
       // ]
+    },
+    beforeEnter: (to: any, from: any, next: any) => {
+      if (to.query.type === 'create') {
+        if (to.meta?.breadcrumb && to.meta.breadcrumb.length > 0) {
+          to.meta.breadcrumb[to.meta.breadcrumb.length - 1].title = '创建云平台'
+        }
+      } else {
+        if (to.meta?.breadcrumb && to.meta.breadcrumb.length > 0) {
+          to.meta.breadcrumb[to.meta.breadcrumb.length - 1].title = '编辑云平台'
+        }
+      }
+      next()
     }
   },
   {
@@ -230,7 +242,8 @@ export const customMenu = [
     name: 'supplier-platform-detail',
     meta: {
       title: '云平台详情',
-      breadcrumb: ['公有云管理', '云平台管理', '云平台详情']
+      fatherTlt: '云平台管理'
+      // breadcrumb: ['公有云管理', '云平台管理', '云平台详情']
     }
   },
   {
