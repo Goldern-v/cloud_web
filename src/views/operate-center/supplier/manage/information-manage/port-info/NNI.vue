@@ -27,7 +27,7 @@
       @clickCurrentChange="currentChangeHandle"
     >
       <template #status>
-        <el-table-column label="状态" width="200">
+        <el-table-column label="审批状态" width="80">
           <template #default="props">
             <el-tag :type="props.row.type">{{ props.row.status }}</el-tag>
           </template>
@@ -113,11 +113,11 @@ onMounted(() => {
 const headerArray: IdealTableColumnHeaders[] = [
   { label: '端口名称', prop: 'name' },
   { label: '数据来源', prop: 'originType' },
-  { label: '状态', prop: 'status', useSlot: true },
+  { label: '端口状态', prop: 'portStatus' },
+  { label: '审批状态', prop: 'status', useSlot: true },
   { label: '所属供应商', prop: 'vendorName', width: '120' },
   { label: '所属节点', prop: 'nodeName' },
   { label: '所属设备', prop: 'equipmentName' },
-  { label: '端口状态', prop: 'portStatus' },
   { label: '速率', prop: 'speed' },
   { label: '线路带宽', prop: 'bandwidth' },
   { label: '对端端口', prop: 'remotePort' },

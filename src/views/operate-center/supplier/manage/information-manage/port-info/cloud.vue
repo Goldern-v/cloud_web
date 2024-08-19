@@ -42,7 +42,7 @@
           @clickCurrentChange="currentChangeHandle"
         >
           <template #status>
-            <el-table-column label="状态" width="200">
+            <el-table-column label="审批状态" width="80">
               <template #default="props">
                 <el-tag :type="props.row.type">{{ props.row.status }}</el-tag>
               </template>
@@ -305,6 +305,7 @@ const azureHeaders: IdealTableColumnHeaders[] = [
 
 const googleheaders: IdealTableColumnHeaders[] = [
   { label: '端口名称', prop: 'name' },
+  { label: '数据来源', prop: 'originType' },
   { label: '端口状态', prop: 'portStatus' },
   { label: '状态', prop: 'status', useSlot: true },
   { label: 'Google circuit ID', prop: 'circuitId', width: '140' },
