@@ -12,7 +12,7 @@ import { createHtmlPlugin } from 'vite-plugin-html'
 import externalGlobals from 'rollup-plugin-external-globals'
 // import fs from 'fs'
 
-const requestUrl = 'http://10.8.0.208:18884'
+const requestUrl = 'http://192.168.1.208:18884'
 
 // 参考：https://cn.vitejs.dev/config/
 export default defineConfig({
