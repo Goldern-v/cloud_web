@@ -21,6 +21,7 @@
       :table-data="state.dataList"
       :table-headers="tableHeaders"
       :total="state.total"
+      :page="state.page"
       :pagination-type="PaginationTypeEnum.totalSizes"
       @clickSizeChange="sizeChangeHandle"
       @clickCurrentChange="currentChangeHandle"
@@ -29,23 +30,12 @@
         <el-table-column label="实例ID/名称" show-overflow-tooltip width="120">
           <template #default="props">
             <div>{{ props.row.name }}</div>
-            <div>{{ props.row.id }}</div>
+            <div>{{ props.row.physicalConnectionId }}</div>
           </template>
         </el-table-column>
       </template>
-
-      <template #status>
-        <el-table-column label="状态">
-          <template #default="props">
-            <ideal-status-icon
-              :status-icon="props.row.statusIcon"
-              :status-text="props.row.statusText"
-            ></ideal-status-icon>
-          </template>
-        </el-table-column>
-      </template>
-
-      <template #operation>
+      <!-- 此次优化未开发操作接口，暂时屏蔽 -->
+      <!-- <template #operation>
         <el-table-column label="操作" fixed="right" width="150">
           <template #default="props">
             <ideal-table-operate
@@ -55,20 +45,15 @@
             </ideal-table-operate>
           </template>
         </el-table-column>
-      </template>
+      </template> -->
     </ideal-table-list>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useCrud } from '@/hooks'
 import { IHooksOptions } from '@/hooks/interface'
 import { existPropWithArray } from '@/utils/tool'
-import { RESOURCE_STATUS_ICON, RESOURCE_STATUS } from '@/utils/dictionary'
-import {
-  resourcePoolList,
-  resourcePoolDeleteUrl
-} from '@/api/java/operate-center'
+import { cloudResourceShareList } from '@/api/java/operate-center'
 import type {
   IdealTableColumnHeaders,
   IdealTableColumnOperate,
@@ -76,41 +61,85 @@ import type {
   IdealSearchResult,
   IdealButtonEventProp
 } from '@/types'
-import {
-  FiltrateEnum,
-  PaginationTypeEnum
-} from '@/utils/enum'
+import { FiltrateEnum, PaginationTypeEnum } from '@/utils/enum'
+import { shareConStatus } from '../../common'
 
 // 搜索
 const typeArray = ref<IdealSearch[]>([
-  { label: '名称', prop: 'name', type: FiltrateEnum.input }
+  { label: '连接名称', prop: 'connectionName', type: FiltrateEnum.input },
+  { label: '连接ID', prop: 'interconnectId', type: FiltrateEnum.input }
 ])
 const onClickSearch = (v: IdealSearchResult[]) => {
   state.queryForm = {}
+  state.queryForm.cloudType = 'ALI_CLOUD'
   if (v.length) {
     v.forEach((item: IdealSearchResult) => {
       state.queryForm[item.prop] = item.value
     })
   }
+  state.page = 1
   getDataList()
 }
 
 const state: IHooksOptions = reactive({
-  dataListUrl: resourcePoolList,
-  deleteUrl: resourcePoolDeleteUrl,
-  queryForm: {}
+  dataListLoading: false,
+  queryForm: {
+    cloudType: 'ALI_CLOUD'
+  },
+  dataList: [],
+  page: 1,
+  limit: 10,
+  total: 0
 })
 
-const { sizeChangeHandle, currentChangeHandle, deleteHandle, getDataList } =
-  useCrud(state)
+onMounted(() => {
+  getDataList()
+})
+
+const getDataList = () => {
+  state.dataListLoading = true
+  const params = {
+    pageNum: state.page,
+    pageSize: state.limit,
+    ...state.queryForm
+  }
+  cloudResourceShareList(params)
+    .then((res: any) => {
+      state.dataListLoading = false
+      const { code } = res
+      if (code === 200) {
+        state.dataList = res.data.aliCloudConnectionOutDto.aliConnectionDtoList
+        state.total = res.data.aliCloudConnectionOutDto.count
+      } else {
+        state.dataList = []
+        state.total = 0
+      }
+    })
+    .catch(_ => {
+      state.dataListLoading = false
+      state.dataList = []
+      state.total = 0
+    })
+}
+
+const sizeChangeHandle = (val: number) => {
+  state.dataList = []
+  state.page = 1
+  state.limit = val
+  getDataList()
+}
+
+const currentChangeHandle = (val: number) => {
+  state.dataList = []
+  state.page = val
+  getDataList()
+}
 watch(
   () => state.dataList,
   value => {
     if (value) {
       value.forEach((item: any) => {
-        item.statusIcon = RESOURCE_STATUS_ICON[item?.status.toUpperCase()]
-        item.statusText = RESOURCE_STATUS[item?.status.toUpperCase()]
-        item.readOnly = item.cloudPlatform?.mode ? '只读' : '读写'
+        item.statusText = item.status ? shareConStatus[item?.status] : ''
       })
       loopUpdateStatus()
     }
@@ -141,14 +170,12 @@ const loopUpdateStatus = () => {
 
 const tableHeaders: IdealTableColumnHeaders[] = [
   { label: '实例ID/名称', prop: 'name', useSlot: true },
-  { label: '标签', prop: 'cloudTypeName' },
-  { label: '接入点', prop: 'cloudPlatform.name' },
-  { label: 'VLAN ID', prop: 'status', useSlot: true },
-  { label: '共享专线带宽(Mbps)', prop: 'remark', width: '150' },
-  { label: '付费信息', prop: 'creator.name' },
-  { label: '端口连接状态', prop: 'createTime.date', width: '150' },
-  { label: '共享专线拥有者ID', prop: 'createTime.date', width: '150' },
-  { label: '状态', prop: 'createTime.date' }
+  { label: '接入点', prop: 'accessPointId' },
+  { label: 'VLAN ID', prop: 'vlanId' },
+  { label: '共享专线带宽(Mbps)', prop: 'bandwidth' },
+  { label: '付费信息', prop: 'ChargeType' },
+  { label: '共享专线拥有者ID', prop: 'AliUid' },
+  { label: '状态', prop: 'statusText' }
 ]
 const operateBtns: IdealTableColumnOperate[] = [
   { title: '编辑', prop: 'edit' },
@@ -161,16 +188,17 @@ const clickOperateEvent = (command: string | number | object, row: any) => {
 }
 // 列表左侧按钮
 const leftButtons = ref<IdealButtonEventProp[]>([
-    {
-      title: '创建共享端口',
-      prop: 'create',
-      type: 'primary',
-      icon: 'circle-add',
-      iconColor: 'white',
-      disabled: true,
-      disabledText: '暂不支持'
-    }
-  ])
+  {
+    title: '创建共享端口',
+    prop: 'create',
+    type: 'primary',
+    icon: 'circle-add',
+    iconColor: 'white',
+    disabled: true,
+    disabledText: '暂不支持',
+    authority: 'resource:ali:detail:share:create'
+  }
+])
 const clickLeftEvent = (value: string | number | object) => {
   if (value === 'create') {
   }
@@ -181,7 +209,6 @@ const searchRef = ref()
 const clickReset = () => {
   searchRef.value.clickDeleteAll()
 }
-
 </script>
 
 <style scoped lang="scss">

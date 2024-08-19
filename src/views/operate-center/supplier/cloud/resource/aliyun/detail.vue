@@ -1,8 +1,10 @@
 <template>
   <div class="detail">
-    <div class="flex-row" style="justify-content: space-between;padding: 20px 20px 0;">
-      <div>pc-kljadfa</div>
-      <el-button type="primary">编辑</el-button>
+    <div
+      class="flex-row"
+      style="justify-content: space-between; padding: 20px 20px 0"
+    >
+      <div>{{ detailInfo.name }}</div>
     </div>
 
     <div class="detail-title">基本信息</div>
@@ -11,20 +13,8 @@
       :label-array="labelArray"
       :detail-info="detailInfo"
       label-position="left"
+      @edit-info="editInfo"
     >
-      <template #allocStatus>
-        <ideal-status-icon
-          :status-icon="detailInfo.statusIcon"
-          :status-text="detailInfo.allocStatus"
-        />
-      </template>
-
-      <template #linkStatus>
-        <ideal-status-icon
-          :status-icon="detailInfo.statusIcon"
-          :status-text="detailInfo.linkStatus"
-        />
-      </template>
     </ideal-detail-info>
 
     <el-tabs v-model="activeName" @tab-click="handleClick">
@@ -44,40 +34,27 @@
 <script setup lang="ts">
 import type { TabsPaneContext } from 'element-plus'
 import shareLine from './components/share-line.vue'
+import {
+  cloudResourceDetail,
+  cloudResourceUpdate
+} from '@/api/java/operate-center'
+import { showLoading, hideLoading } from '@/utils/tool'
+import { ElMessage } from 'element-plus'
+import { portStatusFormat } from '../common'
 
 const labelArray = ref([
-  { label: '物理专线接口', prop: 'physicalInterface', isCopy: true },
+  { label: '物理专线接口', prop: 'physicalConnectionId', isCopy: true },
   { label: '名称', prop: 'name', isEdit: true },
-  { label: '接入点', prop: 'accessPoint' },
-  { label: '物理专线带宽', prop: 'physicalBandwidth' },
+  { label: '接入点', prop: 'accessPointId' },
+  { label: '物理专线带宽', prop: 'bandwidthText' },
   { label: '端口类型', prop: 'portType' },
-  { label: '物理专线运营商', prop: 'physicalOperator' },
-  { label: '端口分配状态', prop: 'allocStatus', useSlot: true },
-  { label: '端口连接状态', prop: 'linkStatus', useSlot: true },
-  { label: '客户IDC位置', prop: 'location' },
-  { label: '创建时间', prop: 'createTime' },
-  { label: '专线类型', prop: 'specialType' },
-  { label: '标签', prop: 'tag', isEdit: true },
-  { label: '资源组', prop: 'resourceGroup', isCopy: true },
-  { label: '端口高级能力', prop: 'portAdvanced' }
+  { label: '物理专线运营商', prop: 'lineOperator' },
+  { label: '端口状态', prop: 'statusText' },
+  { label: '客户IDC位置', prop: 'peerLocation' },
+  { label: '创建时间', prop: 'creationTime' },
+  { label: '专线类型', prop: 'productType' },
+  { label: '资源组', prop: 'resourceGroupId', isCopy: true }
 ])
-const detailInfo = ref({
-  physicalInterface: 'pc-9s29da34',
-  name: 'TO_LK_UK_THE_234',
-  accessPoint: '伦敦-D',
-  physicalBandwidth: '1000Mbps',
-  portType: '万兆单模光口',
-  physicalOperator: '境外其他',
-  statusIcon: 'status-success',
-  allocStatus: '已开通',
-  linkStatus: '可用',
-  location: '',
-  createTime: '2024-04-23 12:09:20',
-  specialType: '独享专线',
-  tag: '',
-  resourceGroup: 'rg-adcasdf',
-  portAdvanced: 'VBR限速'
-})
 
 const activeName = ref('shareLine')
 // 标签页组件
@@ -86,6 +63,69 @@ const tabs: any = { shareLine }
 const tabControllers = ref([{ label: '共享专线', name: 'shareLine' }])
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event)
+}
+onMounted(() => {
+  queryDetailData()
+})
+const detailInfo = ref({
+  name: '',
+  accessPointId: '',
+  bandwidthText: '',
+  portType: '',
+  lineOperator: '',
+  statusText: '',
+  peerLocation: '',
+  creationTime: '',
+  resourceGroupId: ''
+})
+const route = useRoute()
+// 订单详情获取
+const queryDetailData = () => {
+  const params = {
+    cloudType: 'ALI_CLOUD',
+    interconnectId: route.query.id
+  }
+  cloudResourceDetail(params)
+    .then((res: any) => {
+      const { code, data } = res
+      if (code === 200) {
+        detailInfo.value =
+          data.aliCloudConnectionOutDto.aliConnectionDtoList.map(
+            (item: any) => {
+              item.bandwidthText = item.bandwidth ? item.bandwidth + 'M' : ''
+              item.statusText = item.status ? portStatusFormat[item.status] : ''
+              return item
+            }
+          )[0]
+      }
+    })
+    .catch(_ => {})
+}
+const editInfo = (val: any, config: any) => {
+  const params = {
+    cloudType: 'ALI_CLOUD',
+    physicalConnectionId: val.physicalConnectionId,
+    bandwidthSize: val.bandwidth,
+    vlanId: val.vlanId,
+    regionCode: val.regionCode,
+    physicalConnectionName: val.name
+  }
+  showLoading('更新中...')
+  cloudResourceUpdate(params)
+    .then((res: any) => {
+      const { code } = res
+      if (code === 200) {
+        ElMessage.success('请求成功')
+        config.showEdit = false
+        queryDetailData()
+      } else {
+        ElMessage.error('请求失败')
+      }
+      hideLoading()
+    })
+    .catch(err => {
+      hideLoading()
+    })
 }
 </script>
 
