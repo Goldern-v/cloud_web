@@ -89,7 +89,7 @@ const onClickSearch = (v: IdealTextProp[]) => {
 const tableHeaders: IdealTableColumnHeaders[] = [
   { label: '端口名称', prop: 'port.name' },
   { label: '数据来源', prop: 'source' },
-  { label: '端口类型', prop: 'port.portType' },
+  { label: '端口速率', prop: 'port.speed' },
   { label: '价格/NRC', prop: 'nrcStr' },
   { label: '价格/MRC', prop: 'mrcStr' },
   { label: '交付工期', prop: 'deliveryPeriod' },
