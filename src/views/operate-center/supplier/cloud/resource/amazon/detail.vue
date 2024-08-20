@@ -1,10 +1,13 @@
 <template>
   <div class="detail">
-    <div class="flex-row" style="justify-content: space-between;padding: 20px 20px 0;">
-      <div>pc-kljadfa</div>
-      
+    <div
+      class="flex-row"
+      style="justify-content: space-between; padding: 20px 20px 0"
+    >
+      <div>{{ detailInfo.interconnectName }}</div>
+
       <ideal-button-events
-        style="width: 60%;"
+        style="width: 60%"
         :right-btns="rightButtons"
         @clickRightEvent="clickRightEvent"
       />
@@ -17,12 +20,6 @@
       :detail-info="detailInfo"
       label-position="left"
     >
-      <template #status>
-        <ideal-status-icon
-          :status-icon="detailInfo.statusIcon"
-          :status-text="detailInfo.status"
-        />
-      </template>
     </ideal-detail-info>
 
     <el-tabs v-model="activeName" @tab-click="handleClick">
@@ -42,10 +39,9 @@
 <script setup lang="ts">
 import type { TabsPaneContext } from 'element-plus'
 import trusteeship from './components/trusteeship.vue'
-import type {
-  IdealButtonEventProp
-} from '@/types'
-
+import { awsStatusFormat } from '../common'
+import type { IdealButtonEventProp } from '@/types'
+import { cloudResourceDetail } from '@/api/java/operate-center'
 // 列表左侧按钮
 const rightButtons = ref<IdealButtonEventProp[]>([
   { title: '下载LOA', prop: 'download' },
@@ -58,29 +54,29 @@ const clickRightEvent = (value: string | number | object) => {
 }
 
 const labelArray = ref([
-  { label: '互连ID', prop: 'id' },
-  { label: '状态', prop: 'status', useSlot: true },
+  { label: '互连ID', prop: 'interconnectId' },
+  { label: '状态', prop: 'statusText' },
   { label: '位置', prop: 'location' },
-  { label: '巨型帧支持', prop: 'frame' },
-  { label: '互连名称', prop: 'name' },
+  { label: '巨型帧支持', prop: 'jumboFrameCapable' },
+  { label: '互连名称', prop: 'interconnectName' },
   { label: '端口速度', prop: 'speed' },
-  { label: 'AWS逻辑设备', prop: 'equipment' },
-  { label: 'AWS账户', prop: 'account' },
+  { label: 'AWS逻辑设备', prop: 'awsLogicalDeviceId' },
+  { label: 'AWS账户', prop: 'ownerAccount' },
   { label: '区域', prop: 'region' },
   { label: 'LOA签发', prop: 'loa' }
 ])
 const detailInfo = ref({
-  id: 'dxs-kjkal23',
-  statusIcon: 'status-success',
-  status: '可用',
-  location: 'Equkink Hk1,Tusen Wan, N.T.,Hong Kong',
-  frame: 'true',
-  name: 'collaboration-HKG-Zenlayer',
-  speed: '10Gbps',
-  equipment: 'EQHK1-3jk08amkj',
-  account: '-',
-  region: 'ap-east-1',
-  loa: '2024-04-01'
+  interconnectId: '',
+  status: '',
+  location: '',
+  jumboFrameCapable: '',
+  interconnectName: '',
+  speed: '',
+  equipment: '',
+  account: '',
+  region: '',
+  loa: '',
+  statusText: ''
 })
 
 const activeName = ref('trusteeship')
@@ -90,6 +86,33 @@ const tabs: any = { trusteeship }
 const tabControllers = ref([{ label: '托管连接', name: 'trusteeship' }])
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event)
+}
+onMounted(() => {
+  queryDetailData()
+})
+const route = useRoute()
+// 订单详情获取
+const queryDetailData = () => {
+  const params = {
+    cloudType: 'AWS',
+    interconnectId: route.query.id
+  }
+  cloudResourceDetail(params)
+    .then((res: any) => {
+      const { code, data } = res
+      if (code === 200) {
+        detailInfo.value =
+          data.awsCloudConnectionOutDto.awsConnectionDtoList.map(
+            (item: any) => {
+              item.statusText = item.interconnectState
+                ? awsStatusFormat[item.interconnectState]
+                : ''
+              return item
+            }
+          )[0]
+      }
+    })
+    .catch(_ => {})
 }
 </script>
 

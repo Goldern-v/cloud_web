@@ -153,7 +153,11 @@ const Api = {
   SUPPLIER_WORKORDER_DETAIL: `${api}/supplier/workorder/detail`, // 工单管理详情
   SUPPLIER_WORKORDER_APPROVED: `${api}/supplier/workorder/approved`, // 工单详情审批通过
   SUPPLIER_WORKORDER_REJECTED: `${api}/supplier/workorder/rejected`, // 工单详情审批驳回
-  CXORDER_SDWANORDER_LIST: `${api}/cxOrder/sdwanOrder/list` // 订单SDWAN列表
+  CXORDER_SDWANORDER_LIST: `${api}/cxOrder/sdwanOrder/list`, // 订单SDWAN列表
+  CLOUD_RESOURCE_LIST: `${api}/public-cloud/management/physical-connections/page`, // 资源管理列表
+  CLOUD_RESOURCE_DETAIL: `${api}/public-cloud/management/physical-connection/detail`, // 资源管理详情
+  CLOUD_RESOURCE_UPDATE: `${api}/public-cloud/management/physical-connections/update`, // 资源管理修改
+  CLOUD_RESOURCE_SHARE_LIST: `${api}/public-cloud/management/share-connections/page` // 资源管理共享连接
 }
 
 /**
@@ -907,4 +911,20 @@ export const supplierPaendApproveReject = (data: any) => {
 // 供应商管理 待审批 批量驳回
 export const supplierPaendApproveAllReject = (data: any) => {
   return service.put(Api.SUPPLIER_PEND_APPROVE_ALL_REJEST, data)
+}
+// 资源管理列表
+export const cloudResourceList = (params: any) => {
+  return service.get(Api.CLOUD_RESOURCE_LIST, { params })
+}
+// 资源管理详情
+export const cloudResourceDetail = (params: any) => {
+  return service.get(Api.CLOUD_RESOURCE_DETAIL, { params })
+}
+// 资源管理编辑
+export const cloudResourceUpdate = (data: any) => {
+  return service.post(Api.CLOUD_RESOURCE_UPDATE, data)
+}
+// 资源管理-共享连接列表
+export const cloudResourceShareList = (params: any) => {
+  return service.get(Api.CLOUD_RESOURCE_SHARE_LIST, { params })
 }
