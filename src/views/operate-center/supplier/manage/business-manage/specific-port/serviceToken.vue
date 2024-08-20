@@ -1,6 +1,6 @@
 <template>
   <div class="flex-center margin-top">
-    <div>{{ token }}</div>
+    <div>{{ rowData.serviceToken }}</div>
     <div class="flex-center">
       <el-button type="primary" @click="copy()">复 制</el-button>
       <el-button @click="cancelForm()"> 取 消</el-button>
@@ -16,7 +16,9 @@ interface EventEmits {
   (e: EventEnum.success): void // 表单成功提交后刷新列表
 }
 const emit = defineEmits<EventEmits>()
-
+defineProps<{
+  rowData?: any
+}>()
 const token = ref<any>('serviceToken')
 const cancelForm = () => {
   emit(EventEnum.cancel)

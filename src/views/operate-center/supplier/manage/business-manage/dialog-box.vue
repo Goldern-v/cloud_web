@@ -31,7 +31,6 @@
     />
     <service-token
       v-else-if="showServiceToken"
-      :type="type"
       :row-data="rowData"
       @clickCancelEvent="clickCancelEvent"
       @clickSuccessEvent="clickSuccessEvent"

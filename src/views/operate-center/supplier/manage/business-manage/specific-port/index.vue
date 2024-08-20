@@ -178,6 +178,7 @@ const clickOperateEvent = (command: string | number, row: any) => {
     showDialog.value = true
     dialogType.value = 'specificPortDataEdit'
   } else if (command === 'serviceToken') {
+    rowData.value = row
     showDialog.value = true
     dialogType.value = 'serviceToken'
   }
