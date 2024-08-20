@@ -15,7 +15,7 @@
     </div>
     <template #footer>
       <div class="dialog-footer">
-        <el-button @click="flowTableVisible = false">确定</el-button>
+        <el-button @click="close">确定</el-button>
       </div>
     </template>
   </el-dialog>
@@ -30,7 +30,6 @@ const flowTableVisible = ref(false)
 const open = (row: any) => {
   state.dataList = [row]
   flowTableVisible.value = true
-  console.log('open-了')
 }
 const close = () => {
   flowTableVisible.value = false

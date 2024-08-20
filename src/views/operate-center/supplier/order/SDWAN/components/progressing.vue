@@ -40,34 +40,31 @@
 import { IdealTextProp } from '@/types'
 import {
   operateButtons,
+  progressingQuery,
   stateData,
   tableHeaders,
   typeArray
 } from '../utils/data'
 import { IHooksOptions } from '@/hooks/interface'
-import {
-  supplierInfoList,
-  supplierInfoQueryList
-} from '@/api/java/operate-center'
 import { useCrud } from '@/hooks'
 import { PaginationTypeEnum } from '@/utils/enum'
 import flow from './flow.vue'
 
+stateData.queryForm = {
+  ...progressingQuery
+}
 const state: IHooksOptions = reactive(stateData)
 const { sizeChangeHandle, currentChangeHandle, getDataList } = useCrud(state)
 const flowRef = ref()
 
 const onClickSearch = (v: IdealTextProp[]) => {
-  state.queryForm = {}
-  state.queryForm.approvalStatus = 'pass'
+  state.queryForm = { ...progressingQuery }
   if (v.length) {
     v.forEach((item: IdealTextProp) => {
       const temp = item.label.split('：')
       state.queryForm[item.prop] = temp[1]
     })
-    state.dataListUrl = supplierInfoQueryList
   } else {
-    state.dataListUrl = supplierInfoList
   }
   getDataList()
 }

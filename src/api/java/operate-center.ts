@@ -151,7 +151,8 @@ const Api = {
   SUPPLIER_PEND_APPROVE_ALL_REJEST: `${api}/supplier/approval/reject/batch`, // 商务管理、供应商审批管理、待审批-批量驳回
   SUPPLIER_WORKORDER_DETAIL: `${api}/supplier/workorder/detail`, // 工单管理详情
   SUPPLIER_WORKORDER_APPROVED: `${api}/supplier/workorder/approved`, // 工单详情审批通过
-  SUPPLIER_WORKORDER_REJECTED: `${api}/supplier/workorder/rejected` // 工单详情审批驳回
+  SUPPLIER_WORKORDER_REJECTED: `${api}/supplier/workorder/rejected`, // 工单详情审批驳回
+  CXORDER_SDWANORDER_LIST: `${api}/cxOrder/sdwanOrder/list` // 订单SDWAN列表
 }
 
 /**
@@ -848,6 +849,8 @@ export const dciEquipmentList = (data: any) => {
 export const dciPortList = (data: any) => {
   return service.post(Api.DCI_PORT_LIST, data)
 }
+//订单SDWAN列表
+export const corderSdwanList = Api.CXORDER_SDWANORDER_LIST
 // 供应商注册信息分页查询
 export const supplierRegisterPageUrl = `${Api.SUPPLIER_REGISTER}/page`
 // 新增供应商注册信息
