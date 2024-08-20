@@ -108,6 +108,7 @@ const Api = {
   EQUIPMENT_OPERATE: `${api}/supplier/equipment`, //post添加设备 delete删除节点 put编辑
   PORT_PAGE: `${api}/supplier/port/inner/page`, //供应商管理端口列表
   PORT_LIST: `${api}/supplier/port/inner/list`, //供应商管理端口列表不分页
+  PORT_APPLYCLOUDPORT: `${api}/supplier/port/applyCloudPort`, //供应商管理端口列表不分页
   PORT_LIST_UNDER_EQUIPMENT: `${api}/supplier/port/query`, //端口列表不分页
   REGION_AREAS: `${api}/region/areas`, //获取区域列表(弃用)
   REGION_COUNTIES: `${api}/region/countries`, //获取国家列表(弃用)
@@ -747,6 +748,10 @@ export const portUnderEquipmentList = (params: any) => {
 //端口列表不分页
 export const getPortList = (params: any) => {
   return service.get(Api.PORT_LIST, { params })
+}
+//端口信息专线申请
+export const portApplyCloudPort = (data: any) => {
+  return service.postForm(Api.PORT_APPLYCLOUDPORT, data)
 }
 //添加端口
 export const portAdd = (data: any) => {

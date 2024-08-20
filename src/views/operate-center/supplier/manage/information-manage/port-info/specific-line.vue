@@ -45,9 +45,12 @@
       <el-button type="info" @click="cancelForm(formRef)">{{
         t('cancel')
       }}</el-button>
-      <el-button type="primary" @click="submitForm(formRef)">{{
-        t('confirm')
-      }}</el-button>
+      <el-button
+        :loading="loading"
+        type="primary"
+        @click="submitForm(formRef)"
+        >{{ t('confirm') }}</el-button
+      >
     </div>
   </div>
 </template>
@@ -56,13 +59,13 @@ import type {
   FormInstance,
   FormRules,
   UploadProps,
-  UploadUserFile,
   UploadRawFile
 } from 'element-plus'
 import { EventEnum } from '@/utils/enum'
 import { InfoFilled } from '@element-plus/icons-vue'
 import { showLoading, hideLoading } from '@/utils/tool'
 import { ElMessage, UploadInstance, genFileId } from 'element-plus'
+import { portApplyCloudPort } from '@/api/java/operate-center'
 const uploadRef = ref<UploadInstance>()
 const { t } = useI18n()
 const formRef = ref<FormInstance>() // 校验表单
@@ -71,7 +74,8 @@ const form: { [key: string]: any } = reactive({
   mrc: '',
   labourOption: ''
 })
-const fileList = ref([])
+const fileList = ref({})
+const loading = ref(false)
 const validatePrice = (rule: any, value: any, callback: any) => {
   if (form.nrc === '' || form.mrc === '') {
     callback(new Error('日租/月租价格不能为空'))
@@ -80,7 +84,7 @@ const validatePrice = (rule: any, value: any, callback: any) => {
   }
 }
 const validateOption = (rule: any, value: any, callback: any) => {
-  if (fileList.value.length === 0 && form.labourOption === '') {
+  if (!(fileList.value as any).name && form.labourOption === '') {
     callback(new Error('专线方案不能为空'))
   } else {
     callback()
@@ -112,6 +116,7 @@ const handleExceed: UploadProps['onExceed'] = files => {
   const file = files[0] as UploadRawFile
   file.uid = genFileId()
   uploadRef.value.handleStart(file)
+  fileList.value = file
 }
 
 const handleRemove = (file: any, list: any) => {
@@ -119,36 +124,41 @@ const handleRemove = (file: any, list: any) => {
   formRef.value?.validateField('option')
 }
 
+const newFormData = () => {
+  const fd = new FormData()
+  fd.append('file', fileList.value as any)
+  fd.append('routeScheme', form.labourOption)
+  fd.append('nrc', form.nrc)
+  fd.append('mrc', form.mrc)
+  return fd
+}
+
 // 上传文件
 const handleUpload = async (file: any) => {
   fileList.value = file.file
   formRef.value?.validateField('option')
-  //   const fd = new FormData()
-  //   fd.append('file', file.file)
-  //   // 这里是请求上传接口
-  //   // const data: any =
-  //   await supplierExcelImport(fd)
-  //     .then(res => {
-  //       if (res.data === '' || res.data == null) {
-  //         ElMessage.success('导入成功')
-  //         emit(EventEnum.refresh)
-  //       } else {
-  //         ElMessage.error(res.data || '导入失败')
-  //       }
-  //     })
-  //     .catch(err => {
-  //       ElMessage.error(err.data || '导入失败')
-  //     })
 }
 
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  //   uploadRef.value?.submit()
+  loading.value = true
+  showLoading()
   formEl.validate(async valid => {
-    // if (valid) {
-    // }
+    if (valid) {
+      const FormData = newFormData()
+      portApplyCloudPort(FormData).then(res => {
+        if (res.code == '200') {
+          ElMessage.success('保存成功')
+          emit(EventEnum.success)
+        } else {
+          ElMessage.error('保存失败')
+        }
+        loading.value = false
+        hideLoading()
+      })
+    }
   })
 }
 </script>
