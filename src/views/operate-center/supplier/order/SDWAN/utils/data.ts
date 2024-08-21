@@ -56,9 +56,9 @@ export const tableHeaders: IdealTableColumnHeaders[] = [
   { label: '客户经理邮箱', prop: 'accountMaEmail' }
 ]
 export const flowTableHeaders: IdealTableColumnHeaders[] = [
-  { label: '流程环节', prop: 'name' },
-  { label: '状态', prop: 'area' },
-  { label: '操作时间', prop: 'city' }
+  { label: '流程环节', prop: 'taskName' },
+  { label: '状态', prop: 'taskStatus' },
+  { label: '操作时间', prop: 'startTime' }
 ]
 
 const defaultQuery: defaultQuery = {

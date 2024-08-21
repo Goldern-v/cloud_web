@@ -24,12 +24,18 @@
 <script setup lang="ts">
 import { IHooksOptions } from '@/hooks/interface'
 import { flowTableHeaders, stateData } from '../utils/data'
+import { sdwanProcess } from '@/api/java/operate-center'
 
 const state: IHooksOptions = reactive(JSON.parse(JSON.stringify(stateData)))
 const flowTableVisible = ref(false)
 const open = (row: any) => {
-  state.dataList = [row]
-  flowTableVisible.value = true
+  const { orderItemId, siteId } = row
+  sdwanProcess({ orderItemId, siteId }).then((res: any) => {
+    if (res.code === '200') {
+      state.dataList = res.data
+    }
+    flowTableVisible.value = true
+  })
 }
 const close = () => {
   flowTableVisible.value = false
