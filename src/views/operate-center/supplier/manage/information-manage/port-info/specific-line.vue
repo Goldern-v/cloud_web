@@ -3,8 +3,24 @@
     <el-form ref="formRef" :model="form" :rules="rules" label-position="left">
       <el-form-item label="专线价格" prop="price">
         <div class="flex-row" style="width: 70%">
-          <div class="flex-row"><el-input v-model="form.nrc" />/NRC，</div>
-          <div class="flex-row"><el-input v-model="form.mrc" />/MRC</div>
+          <div class="flex-row">
+            <el-input
+              v-model="form.nrc"
+              v-number-float="{
+                obj: form,
+                key: 'nrc'
+              }"
+            />/NRC，
+          </div>
+          <div class="flex-row">
+            <el-input
+              v-model="form.mrc"
+              v-number-float="{
+                obj: form,
+                key: 'mrc'
+              }"
+            />/MRC
+          </div>
         </div>
       </el-form-item>
       <el-form-item label="专线方案" prop="option">
