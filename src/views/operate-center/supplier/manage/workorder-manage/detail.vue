@@ -1,34 +1,46 @@
 <template>
   <div class="ideal-main-container work-manage-manage">
-    <p>基本信息</p>
-    <ideal-detail-info
-      :label-array="labelArray"
-      :detail-info="detailInfo"
-      class="padding-left"
-    >
-      <template #typeText>
-        <div>{{ detailInfo.type ? typeFormat[detailInfo.type] : '' }}</div>
-      </template>
-      <template #statusText>
-        <div>
-          {{ detailInfo.status ? statusFormat[detailInfo.status] : '' }}
-        </div>
-      </template>
-      <template #bandwidthUnit>
-        <div>
-          {{ detailInfo.bandwidth ? detailInfo.bandwidth + 'Mbps' : '' }}
-        </div>
-      </template>
-      <template #createTime>
-        <div>{{ detailInfo.createTime ? detailInfo.createTime.date : '' }}</div>
-      </template>
-      <template #updateTime>
-        <div>{{ detailInfo.updateTime ? detailInfo.updateTime.date : '' }}</div>
-      </template>
-    </ideal-detail-info>
-
-    <p>资源概览</p>
-
+    <div v-for="(info, infoIn) in infoList" :key="infoIn + 'info'">
+      <p class="manage-title">{{ info.title }}</p>
+      <ideal-detail-info
+        :label-array="info.labelArray"
+        :detail-info="detailInfo"
+        class="padding-left"
+      >
+        <template #typeText>
+          <div>{{ detailInfo.type ? typeFormat[detailInfo.type] : '-' }}</div>
+        </template>
+        <template #resourceTypeText>
+          <div>
+            {{
+              detailInfo.type
+                ? resourceTypeFormat[detailInfo.resourceType]
+                : '-'
+            }}
+          </div>
+        </template>
+        <template #statusText>
+          <div>
+            {{ detailInfo.status ? statusFormat[detailInfo.status] : '-' }}
+          </div>
+        </template>
+        <template #bandwidthUnit>
+          <div>
+            {{ detailInfo.bandwidth ? detailInfo.bandwidth + 'Mbps' : '-' }}
+          </div>
+        </template>
+        <template #createTime>
+          <div>
+            {{ detailInfo.createTime ? detailInfo.createTime.date : '-' }}
+          </div>
+        </template>
+        <template #updateTime>
+          <div>
+            {{ detailInfo.updateTime ? detailInfo.updateTime.date : '-' }}
+          </div>
+        </template>
+      </ideal-detail-info>
+    </div>
     <!-- <ideal-table-list
       :table-data="dataList"
       :table-headers="tableHeaders"
@@ -36,7 +48,7 @@
       class="padding-left"
     >
     </ideal-table-list> -->
-    <div class="padding-left resource_box">
+    <!-- <div class="padding-left resource_box">
       <div v-for="(item, index) in dataList" :key="index" :style="itemWidth">
         <div
           v-for="(ele, index) in handleSort(item)"
@@ -72,24 +84,25 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div
       v-if="
+        true ||
         detailInfo.connectionPrice != null ||
         detailInfo.connectionPrice != undefined
       "
     >
-      <p>线路价格</p>
+      <p class="manage-title">{{ priceInfo.title }}</p>
 
       <!-- 未审批情况下 -->
       <ideal-table-list
         :table-data="priceList"
-        :table-headers="priceHeaders"
+        :table-headers="priceInfo.priceHeaders"
         :show-pagination="false"
         class="padding-left"
       >
-        <template #expandTable>
+        <!-- <template #expandTable>
           <el-table-column type="expand">
             <template #default="props">
               <p>审批详情</p>
@@ -102,10 +115,10 @@
               </ideal-table-list>
             </template>
           </el-table-column>
-        </template>
+        </template> -->
         <template #operation>
           <el-table-column
-            v-if="detailInfo.type == 'NEW_DISCOUNT'"
+            v-if="showOperation"
             label="操作"
             width="120"
             fixed="right"
@@ -138,122 +151,137 @@ import {
   supplierWorkorderDetail,
   supplierWokkorderApproved
 } from '@/api/java/operate-center'
-import { typeFormat, statusFormat, resourceList, portTypeList } from './common'
-import { ElMessage } from 'element-plus'
+import {
+  typeFormat,
+  statusFormat,
+  resourceList,
+  portTypeList,
+  headerArray,
+  initHeaderArray,
+  initAssetsArray,
+  initPriceHeaders,
+  initPriceInfo,
+  resourceTypeFormat
+} from './common'
+import { ElMessage, ElMessageBox } from 'element-plus'
 const detailInfo: any = ref({})
+const infoList: any = ref([])
 const route = useRoute()
-onMounted(() => {
-  //平台管理员角色
-  if (!isSupplierManager.value) {
-    labelArray.value = headerArray.value
+
+const { tabType, command } = route.query
+infoList.value = [
+  {
+    title: '基本信息',
+    labelArray: initHeaderArray(tabType as string)
+  },
+  {
+    title: '资源概览',
+    labelArray: initAssetsArray(tabType as string)
   }
-  //供应商角色
-  else {
-    labelArray.value = headerArray.value.filter(
-      (item: any) => item.prop !== 'supplierName' && item.prop !== 'orderId'
-    )
+]
+
+const showOperation = computed(() => {
+  return detailInfo.value.type == 'NEW_DISCOUNT' || tabType !== 'delivery'
+})
+
+onMounted(() => {
+  //默认平台管理员角色菜单 供应商角色做以下处理
+  if (isSupplierManager.value) {
+    infoList.value.forEach((item: any) => {
+      item.labelArray.value = item.labelArray.value.filter(
+        (li: any) => li.prop !== 'supplierName' && li.prop !== 'orderId'
+      )
+    })
   }
   queryDetailData()
 })
 // 订单详情获取
 const queryDetailData = () => {
   const id = route.query.id
-  supplierWorkorderDetail({ id })
-    .then((res: any) => {
-      const { code, data } = res
-      if (code === 200) {
-        detailInfo.value = data
-        priceList.value = data.connectionPrice ? [data.connectionPrice] : []
-      } else {
-        detailInfo.value = {}
-      }
-    })
-    .catch(_ => {})
+  try {
+    supplierWorkorderDetail({ id })
+      .then((res: any) => {
+        const { code, data } = res
+        if (code === 200) {
+          detailInfo.value = data
+          priceList.value = data.connectionPrice ? [data.connectionPrice] : []
+        } else {
+          detailInfo.value = {}
+        }
+      })
+      .catch(_ => {
+        const connectionPrice = {
+          originalPrice: 'asd'
+        }
+        priceList.value = [connectionPrice]
+      })
+  } catch (err) {}
 }
-const dataList: any = ref([])
+// const dataList: any = ref([])
 const priceList: any = ref([])
 // 每条宽
-const itemWidth = computed(() => `width: calc((100% / 2) - 20px)`)
-watch(
-  () => detailInfo.value,
-  (val: any) => {
-    if (val) {
-      dataList.value = [
-        {
-          aType: '',
-          ...val.endpointADto
-        },
-        {
-          zType: '',
-          ...val.endpointZDto
-        }
-      ]
-    }
-  }
-)
+// const itemWidth = computed(() => `width: calc((100% / 2) - 20px)`)
+// watch(
+//   () => detailInfo.value,
+//   (val: any) => {
+//     if (val) {
+//       dataList.value = [
+//         {
+//           aType: '',
+//           ...val.endpointADto
+//         },
+//         {
+//           zType: '',
+//           ...val.endpointZDto
+//         }
+//       ]
+//     }
+//   }
+// )
 // 处理资源概览中端口类型顺序排列参数第一问题
-const handleSort = (obj: Object) => {
-  const tem = Object.entries(obj).map(([key, value]) => ({
-    key,
-    value
-  }))
-  const removedIndex = ref<number>(0)
-  tem.forEach((ele, index) => {
-    if (ele.key === 'portType') {
-      removedIndex.value = index
-    }
-  })
-  // 移除元素并保存
-  const removedElement = tem.splice(removedIndex.value, 1)[0]
+// const handleSort = (obj: Object) => {
+//   const tem = Object.entries(obj).map(([key, value]) => ({
+//     key,
+//     value
+//   }))
+//   const removedIndex = ref<number>(0)
+//   tem.forEach((ele, index) => {
+//     if (ele.key === 'portType') {
+//       removedIndex.value = index
+//     }
+//   })
+//   // 移除元素并保存
+//   const removedElement = tem.splice(removedIndex.value, 1)[0]
 
-  // 在目标位置插入元素
-  tem.splice(1, 0, removedElement)
-  return tem
-}
+//   // 在目标位置插入元素
+//   tem.splice(1, 0, removedElement)
+//   return tem
+// }
 watch(
   () => priceList.value,
   (arr: any) => {
     if (arr.length) {
       arr.forEach((ele: any) => {
         ele.operate = newOperate(ele)
-        ele.statusText = ele.status ? statusFormat[ele.status] : ''
-        ele.workOrderApproveItems.forEach((item: any) => {
-          item.acceptablePrice = item.acceptablePrice
-            ? item.acceptablePrice
-            : '-'
-          item.statusText = item.status ? statusFormat[item.status] : ''
-        })
+        // ele.statusText = ele.status ? statusFormat[ele.status] : ''
+        // ele.workOrderApproveItems.forEach((item: any) => {
+        //   item.acceptablePrice = item.acceptablePrice
+        //     ? item.acceptablePrice
+        //     : '-'
+        //   item.statusText = item.status ? statusFormat[item.status] : ''
+        // })
       })
     }
   }
 )
-const labelArray = ref([])
-const headerArray: any = ref([
-  { label: '供应商名称', prop: 'supplierName' },
-  { label: '工单号', prop: 'id' },
-  { label: '订单号', prop: 'orderId' },
-  { label: '工单类型', prop: 'typeText', useSlot: true },
-  { label: '工单状态', prop: 'statusText', useSlot: true },
-  { label: '带宽', prop: 'bandwidthUnit', useSlot: true },
-  { label: '线路编号', prop: 'privateConnectId' },
-  { label: '创建时间', prop: 'createTime', useSlot: true },
-  { label: '交付时间', prop: 'updateTime', useSlot: true },
-  { label: '备注信息', prop: 'remark' }
-])
 
-const tableHeaders: IdealTableColumnHeaders[] = [
-  { label: '接入类型', prop: 'type' },
-  { label: '云连接类型', prop: 'cloudType' },
-  { label: '地址', prop: 'cloudRegionId' },
-  { label: 'vlan', prop: 'vlanId' }
-]
-const priceHeaders: IdealTableColumnHeaders[] = [
-  { label: '原价', prop: 'originalPrice' },
-  { label: '成交价($)', prop: 'transactionPrice' },
-  { label: '审批状态', prop: 'statusText' },
-  { label: '最终可接受价格($)', prop: 'acceptablePrice' },
-  { label: '审批时间', prop: 'updateTime' }
-]
+// const tableHeaders: IdealTableColumnHeaders[] = [
+//   { label: '接入类型', prop: 'type' },
+//   { label: '云连接类型', prop: 'cloudType' },
+//   { label: '地址', prop: 'cloudRegionId' },
+//   { label: 'vlan', prop: 'vlanId' }
+// ]
+const priceInfo = ref(initPriceInfo(tabType as string))
 const operateButtons: IdealTableColumnOperate[] = [
   {
     title: '通过',
@@ -264,15 +292,30 @@ const operateButtons: IdealTableColumnOperate[] = [
     title: '驳回',
     prop: 'reject',
     authority: 'supplier:workorder:manage:reject'
+  },
+  {
+    title: '申请',
+    prop: 'privateApplication',
+    authority: 'supplier:specific:private:apply'
   }
 ]
 const newOperate = (ele: any): IdealTableColumnOperate[] => {
   let resultArr: IdealTableColumnOperate[] = []
   const tempArr = JSON.parse(JSON.stringify(operateButtons))
-  if (ele.status.toUpperCase() !== 'UN_APPROVED' || !isSupplierManager.value) {
-    resultArr = setOperateBtns(true, tempArr)
-  } else {
-    resultArr = tempArr
+  // if (ele.status.toUpperCase() !== 'UN_APPROVED' || !isSupplierManager.value) {
+  //   resultArr = setOperateBtns(true, tempArr)
+  // } else {
+  // resultArr = tempArr
+  // }
+  const obj: { [key: string]: string[] } = {
+    processing: ['privateApplication'],
+    approve: ['reject', 'pass']
+  }
+  resultArr = tempArr.filter((item: any) =>
+    obj[tabType as string].includes(item.prop)
+  )
+  if (command === 'detail') {
+    resultArr = setOperateBtns(true, resultArr)
   }
   return resultArr
 }
@@ -284,7 +327,7 @@ const setOperateBtns = (
   const arr: IdealTableColumnOperate[] = []
   array.forEach((item: any) => {
     item.disabled = disabled
-    item.disabledText = `非管理员角色且状态为未审批时方可对线路价格进行审批操作`
+    // item.disabledText = `非管理员角色且状态为未审批时方可对线路价格进行审批操作`
     arr.push(item)
   })
   return arr
@@ -297,6 +340,9 @@ const clickOperateEvent = (command: string | number, row: any) => {
   } else if (command === 'reject') {
     showDialog.value = true
     dialogType.value = 'reject'
+  } else if (command === 'privateApplication') {
+    showDialog.value = true
+    dialogType.value = 'privateLine'
   }
 }
 
@@ -311,25 +357,32 @@ const clickRefreshEvent = () => {
 }
 // 审批通过111
 const handlePass = (row: any) => {
-  const id = row.id
-  supplierWokkorderApproved({ id })
-    .then((res: any) => {
-      const { code } = res
-      if (code === 200) {
-        queryDetailData()
-        ElMessage.success('通过成功')
-      } else {
-        ElMessage.error('通过失败')
-      }
+  ElMessageBox.confirm('确认通过该申请？', '提示', {
+    confirmButtonText: '确 认',
+    cancelButtonText: '取 消'
+  })
+    .then(() => {
+      const id = row.id
+      supplierWokkorderApproved({ id })
+        .then((res: any) => {
+          const { code } = res
+          if (code === 200) {
+            queryDetailData()
+            ElMessage.success('通过成功')
+          } else {
+            ElMessage.error('通过失败')
+          }
+        })
+        .catch(_ => {})
     })
-    .catch(_ => {})
+    .catch(() => console.info('操作取消'))
 }
-const contactTableHeaders: IdealTableColumnHeaders[] = [
-  { label: '成交价($)', prop: 'transactionPrice' },
-  { label: '审批记录', prop: 'statusText' },
-  { label: '可接受价格($)', prop: 'acceptablePrice' },
-  { label: '审批时间', prop: 'updateTime' }
-]
+// const contactTableHeaders: IdealTableColumnHeaders[] = [
+//   { label: '成交价($)', prop: 'transactionPrice' },
+//   { label: '审批记录', prop: 'statusText' },
+//   { label: '可接受价格($)', prop: 'acceptablePrice' },
+//   { label: '审批时间', prop: 'updateTime' }
+// ]
 </script>
 
 <style scoped lang="scss">
@@ -339,6 +392,10 @@ const contactTableHeaders: IdealTableColumnHeaders[] = [
 }
 .basic-info {
   background-color: white;
+}
+.manage-title {
+  color: #333;
+  font-size: 15px;
 }
 .padding-left {
   padding-left: 60px;

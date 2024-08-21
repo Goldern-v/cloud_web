@@ -10,6 +10,7 @@ export interface IdealTableColumnHeaders {
   textTypeProp?: string // 行数据 el-text类型 (多条数据可能el-text类型不一样)
   disabled?: boolean // 自定义表头时 多选框是否禁用
   check?: boolean // 自定义表头时 多选框是否选择
+  defaultVal?: string //没值时展示默认值
 }
 
 // 点击事件按钮属性

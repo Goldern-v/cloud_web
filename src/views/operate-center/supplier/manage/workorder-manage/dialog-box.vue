@@ -21,12 +21,21 @@
       @clickCancelEvent="clickCancelEvent"
       @clickSuccessEvent="clickSuccessEvent"
     />
+
+    <specific-line
+      v-if="showSpecificLine"
+      :type="type"
+      :row-data="rowData"
+      @clickCancelEvent="clickCancelEvent"
+      @clickSuccessEvent="clickSuccessEvent"
+    />
   </el-dialog>
 </template>
 
 <script setup lang="ts">
 import delivery from './delivery.vue'
 import orderReject from './reject.vue'
+import specificLine from '@/views/operate-center/supplier/manage/information-manage/port-info/specific-line.vue'
 import { EventEnum } from '@/utils/enum'
 
 // 属性值
@@ -46,6 +55,9 @@ const dialogWidth = ref('40%')
 
 const showDelivery = computed(() => props.type === 'delivery')
 const showReject = computed(() => props.type === 'reject')
+const showSpecificLine = computed(() =>
+  RegExp(/(privateLine)/i).test(props.type as string)
+)
 onMounted(() => {
   initDialog()
 })
@@ -60,6 +72,10 @@ const initDialog = () => {
     dialogVisible.value = true
     dialogTitle.value = '驳回'
     dialogWidth.value = '30%'
+  }
+  if (showSpecificLine.value) {
+    dialogTitle.value = '专线申请'
+    dialogWidth.value = '40%'
   }
 }
 

@@ -170,6 +170,7 @@ const toInstance = (prop: string) => {
       width: calc(100% - 150px);
       word-wrap: break-word;
       overflow: hidden;
+      color: #8b8b8b;
     }
   }
   .flex-row-center {
