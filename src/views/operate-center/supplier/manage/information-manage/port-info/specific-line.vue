@@ -143,21 +143,26 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) {
     return
   }
-  loading.value = true
-  showLoading()
   formEl.validate(async valid => {
     if (valid) {
+      loading.value = true
+      showLoading()
       const FormData = newFormData()
-      portApplyCloudPort(FormData).then(res => {
-        if (res.code == '200') {
-          ElMessage.success('保存成功')
-          emit(EventEnum.success)
-        } else {
-          ElMessage.error('保存失败')
-        }
-        loading.value = false
-        hideLoading()
-      })
+      portApplyCloudPort(FormData)
+        .then(res => {
+          if (res.code == '200') {
+            ElMessage.success('保存成功')
+            emit(EventEnum.success)
+          } else {
+            ElMessage.error('保存失败')
+          }
+          loading.value = false
+          hideLoading()
+        })
+        .catch(err => {
+          loading.value = false
+          hideLoading()
+        })
     }
   })
 }
