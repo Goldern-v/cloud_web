@@ -33,7 +33,7 @@
             :on-remove="handleRemove"
             :on-exceed="handleExceed"
             :http-request="handleUpload"
-            accept=".doc,.docx,.pdf,.ppt,.pptx"
+            :accept="acceptType"
             :limit="1"
           >
             <template #trigger>
@@ -85,10 +85,14 @@ import { portApplyCloudPort } from '@/api/java/operate-center'
 const uploadRef = ref<UploadInstance>()
 const { t } = useI18n()
 const formRef = ref<FormInstance>() // 校验表单
+const acceptType = ref('.doc,.docx,.pdf,.ppt,.pptx')
 const form: { [key: string]: any } = reactive({
   nrc: '',
   mrc: '',
   labourOption: ''
+})
+const props = withDefaults(defineProps<{ portId: string }>(), {
+  portId: ''
 })
 const fileList = ref({})
 const loading = ref(false)
@@ -100,8 +104,17 @@ const validatePrice = (rule: any, value: any, callback: any) => {
   }
 }
 const validateOption = (rule: any, value: any, callback: any) => {
+  let fileType = ''
+  if (fileList.value?.name) {
+    fileType =
+      fileList.value?.name.split('.')[
+        fileList.value?.name.split('.').length - 1
+      ]
+  }
   if (!(fileList.value as any).name && form.labourOption === '') {
     callback(new Error('专线方案不能为空'))
+  } else if (!acceptType.value.includes(fileType)) {
+    callback(new Error('文件只能上传.doc,.docx,.pdf,.ppt,.pptx格式'))
   } else {
     callback()
   }
@@ -146,6 +159,7 @@ const newFormData = () => {
   fd.append('routeScheme', form.labourOption)
   fd.append('nrc', form.nrc)
   fd.append('mrc', form.mrc)
+  fd.append('portId', props.portId)
   return fd
 }
 
