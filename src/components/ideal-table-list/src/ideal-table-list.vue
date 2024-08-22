@@ -63,11 +63,6 @@
               "
               >{{ props.row[item.prop] }}</el-text
             >
-            <template v-else>
-              {{
-                computedValue(props.row, item.prop) || item?.defaultVal || ''
-              }}
-            </template>
           </template>
         </el-table-column>
       </template>
@@ -161,14 +156,6 @@ watch(
   },
   { deep: true }
 )
-
-//回显值方法
-const computedValue = (obj: any, keys: string) => {
-  const value = keys
-    .split('.')
-    .reduce((acc: any, key: any) => acc && acc[key], obj)
-  return value
-}
 
 // 分页布局样式
 const paginationLayout = computed(() => {

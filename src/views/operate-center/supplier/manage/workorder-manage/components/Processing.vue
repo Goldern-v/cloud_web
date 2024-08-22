@@ -38,6 +38,8 @@
 <script setup lang="ts">
 import { FiltrateEnum, PaginationTypeEnum } from '@/utils/enum'
 import {
+  initListDataDefaultVal,
+  initStatusInfo,
   processingHeaderArray,
   resourceTypeFormat,
   statusFormat,
@@ -79,17 +81,11 @@ const { sizeChangeHandle, currentChangeHandle, getDataList } = useCrud(state)
 const operateButtons = ref<IdealTableColumnOperate[]>([])
 const tableHeaders = ref<IdealTableColumnHeaders[]>()
 
+initStatusInfo(['processing'], ['审批中', '已通过', '待处理', '已驳回'])
+
 // const typeArray = ref<IdealSearch[]>([
 const typeArray = ref<any[]>([
-  { label: '工单号', prop: 'id', type: FiltrateEnum.input },
-  // {
-  //   label: '工单类型',
-  //   prop: 'type',
-  //   type: FiltrateEnum.list,
-  //   array: typeList,
-  //   arrayProp: 'label',
-  //   arrayKey: 'value'
-  // },
+  { label: '工单号', prop: 'orderNo', type: FiltrateEnum.input },
   {
     label: '工单状态',
     prop: 'status',
@@ -104,6 +100,7 @@ const typeArray = ref<any[]>([
     type: FiltrateEnum.date
   }
 ])
+
 const headerArray: IdealTableColumnHeaders[] = processingHeaderArray
 
 const setDeliveryDisabled = (
@@ -118,34 +115,7 @@ const setDeliveryDisabled = (
 
 const newOperate = (ele: any): IdealTableColumnOperate[] => {
   let resultArr: IdealTableColumnOperate[] = []
-  // let lishiArr: IdealTableColumnOperate[] = []
   const tempArr = JSON.parse(JSON.stringify(operateButtons.value))
-  //待判断操作按钮
-  // if (isSupplierManager.value && ele.type.toUpperCase() !== 'NEW_DISCOUNT') {
-  //   // 供应商角色下 非折扣类型 显示详情、交付按钮
-  //   lishiArr = tempArr.filter(
-  //     (ele: any) => ele.prop === 'detail' || ele.prop === 'delivery'
-  //   )
-  //   if (ele.status.toUpperCase() !== 'UN_DEAL') {
-  //     // 供应商角色下 非折扣类型   非未处理状态下 交付按钮禁用
-  //     resultArr = setDeliveryDisabled(true, lishiArr)
-  //   } else {
-  //     resultArr = lishiArr
-  //   }
-  // } else if (
-  //   isSupplierManager.value &&
-  //   ele.type.toUpperCase() === 'NEW_DISCOUNT'
-  // ) {
-  //   if (ele.status.toUpperCase() === 'UN_APPROVED') {
-  //     // 供应商角色下 未审批状态  只显示审批按钮
-  //     resultArr = tempArr.filter((ele: any) => ele.prop === 'approve')
-  //   } else {
-  //     // 供应商角色下 非未审批状态  折扣类型 只显示详情按钮
-  //     resultArr = tempArr.filter((ele: any) => ele.prop === 'detail')
-  //   }
-  // } else {
-  //   resultArr = tempArr
-  // }
   // if (isSupplierManager.value) {
   if (['待处理', '已驳回'].includes(statusFormat[ele.status])) {
     resultArr = tempArr.filter((item: any) => item.prop === 'delivery')
@@ -170,6 +140,7 @@ watch(
           : '-'
         item.statusText = item.status ? statusFormat[item.status] : '-'
         item.bandwidthUnit = item.bandwidth ? item.bandwidth + 'Mbps' : '-'
+        initListDataDefaultVal(processingHeaderArray, val)
       })
     }
   }
@@ -218,11 +189,6 @@ onMounted(() => {
       prop: 'detail',
       authority: 'supplier:workorder:manage:detail'
     }
-    // {
-    //   title: '审批',
-    //   prop: 'approve',
-    //   authority: 'supplier:workorder:manage:approve'
-    // }
   ]
   // }
 })

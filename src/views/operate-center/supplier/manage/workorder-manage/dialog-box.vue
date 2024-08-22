@@ -26,6 +26,7 @@
       v-if="showSpecificLine"
       :type="type"
       :row-data="rowData"
+      :port-id="rowData.portId"
       @clickCancelEvent="clickCancelEvent"
       @clickSuccessEvent="clickSuccessEvent"
     />

@@ -16,14 +16,43 @@ export const resourceTypeFormat: { [key: string]: any } = {
   PORT: '端口'
 }
 
-export const statusFormat: { [key: string]: any } = {
-  UN_DEAL: '待处理',
-  DEAL_ING: '审批中',
-  COMPLETED: '已完成',
-  REJECT: '已驳回',
-  UN_APPROVED: '待审批',
-  PASSED: '已通过',
-  TIMEOUT_UN_DEAL: '超时未交付'
+export let statusFormat: any = {}
+
+export let statusList: any = []
+
+export const initStatusInfo = (keys: string[], keysWords: string[] = []) => {
+  console.log(JSON.parse(JSON.stringify(statusFormat)), 'asdadas')
+  statusList = []
+  statusFormat = {}
+  const UN_DEALObj = {
+    UN_DEAL: keys.includes('delivery') ? '待交付' : '待处理'
+  }
+  Object.assign(statusFormat, {
+    DEAL_ING: '审批中',
+    COMPLETED: '已完成',
+    REJECT: '已驳回',
+    UN_APPROVED: '待审批',
+    PASSED: '已通过',
+    TIMEOUT_UN_DEAL: '超时未交付',
+    ...UN_DEALObj
+  })
+  Object.assign(
+    statusList,
+    Object.keys(statusFormat).reduce((pre: any, next: any) => {
+      if (keysWords.includes(statusFormat[next])) {
+        return [
+          ...pre,
+          {
+            label: statusFormat[next],
+            value: next
+          }
+        ]
+      } else {
+        return [...pre]
+      }
+    }, [])
+  )
+  console.log(statusFormat, statusList)
 }
 
 export const typeList: any = [
@@ -37,16 +66,6 @@ export const typeList: any = [
 export const sourceList: any = [
   { label: '端口', value: 'NEW_OPEN' },
   { label: '线路', value: 'RENEWAL' }
-]
-
-export const statusList: any = [
-  { label: '未处理', value: 'UN_DEAL' },
-  { label: '续约', value: 'DEAL_ING' },
-  { label: '已完成', value: 'COMPLETED' },
-  { label: '已驳回', value: 'REJECT' },
-  { label: '未审批', value: 'UN_APPROVED' },
-  { label: '已通过', value: 'PASSED' },
-  { label: '超时未交付', value: 'TIMEOUT_UN_DEAL' }
 ]
 
 export const resourceList: { [key: string]: any } = {
@@ -86,18 +105,21 @@ const headerArr1 = [
   { label: '资源类型：', prop: 'resourceTypeText' },
   { label: '创建时间：', prop: 'createTime', useSlot: true }
 ]
-const headerArr3 = [
-  { label: '线路编号：', prop: 'privateConnectId' },
-  { label: '创建时间：', prop: 'createTime', useSlot: true },
-  { label: '交付时间：', prop: 'updateTime', useSlot: true },
-  { label: '交付工期：', prop: 'updateTime' }
-]
+const headerArr3 = (resourceTypeStr: string) => {
+  const showConnect = resourceTypeStr === '线路' ? '线路编号：' : '端口编号：'
+  return [
+    { label: showConnect, prop: 'privateConnectId' },
+    { label: '创建时间：', prop: 'createTime', useSlot: true },
+    { label: '交付时间：', prop: 'updateTime', useSlot: true },
+    { label: '交付工期：', prop: 'deliveryDuration' }
+  ]
+}
 const headerArr2 = [
   // { label: '端口编号：', prop: 'privateConnectId' },
   { label: '资源类型：', prop: 'resourceTypeText' },
   { label: '创建时间：', prop: 'createTime', useSlot: true }
 ]
-export const initHeaderArray = (type: string) => {
+export const initHeaderArray = (type: string, resourceTypeStr: string) => {
   const headerArray: any = [
     // { label: '供应商名称：', prop: 'supplierName' },
     // { label: '订单号：', prop: 'orderId' },
@@ -108,7 +130,7 @@ export const initHeaderArray = (type: string) => {
     ...(['processing'].includes(type)
       ? headerArr2
       : ['delivery'].includes(type)
-        ? headerArr3
+        ? headerArr3(resourceTypeStr)
         : headerArr1),
     { label: '备注信息：', prop: 'remark' }
   ]
@@ -138,8 +160,8 @@ const assetsArr2 = [
   { label: '接入地址：', prop: 'accessAddress' },
   { label: '端口ID：', prop: 'portId' }
 ]
-export const initAssetsArray = (type: string) => {
-  return ['processing'].includes(type) ? assetsArr2 : assetsArr1
+export const initAssetsArray = (resourceTypeStr: string) => {
+  return resourceTypeStr === '线路' ? assetsArr1 : assetsArr2
 }
 
 const priceHeaders1 = [
@@ -150,15 +172,20 @@ const priceHeaders1 = [
   { label: '审批时间', prop: 'updateTime' }
 ]
 const priceHeaders2 = [
-  { label: '价格/NRC', prop: 'type' },
-  { label: '价格/MRC', prop: 'type' },
-  { label: '线路方案', prop: 'type' },
-  { label: '审批状态', prop: 'type' },
-  { label: '审批时间', prop: 'type' }
+  { label: '价格/NRC', prop: 'nrc' },
+  { label: '价格/MRC', prop: 'mrc' },
+  { label: '线路方案', prop: 'routeScheme' },
+  { label: '审批状态', prop: 'statusText' },
+  { label: '审批时间', prop: 'updateTime' },
+  { label: '备注', prop: 'remark' }
 ]
-export const initPriceInfo = (type: string) => {
+export const initPriceInfo = (type: string, resourceTypeStr: string) => {
   const tarobj = {
-    title: ['processing'].includes(type) ? '专线申请' : '线路价格',
+    title: ['processing'].includes(type)
+      ? '专线申请'
+      : resourceTypeStr === '线路'
+        ? '线路价格'
+        : '端口价格',
     priceHeaders: ['processing'].includes(type) ? priceHeaders2 : priceHeaders1
   }
   return tarobj
@@ -176,7 +203,7 @@ export const processingHeaderArray: IdealTableColumnHeaders[] = [
 ]
 export const approveHeaderArray: IdealTableColumnHeaders[] = [
   // { label: '供应商名称', prop: 'supplierName' },
-  { label: '工单号', prop: 'id' },
+  { label: '工单号', prop: 'orderNo' },
   { label: '资源类型', prop: 'resourceTypeText', defaultVal: '-' },
   { label: '工单类型', prop: 'typeText', defaultVal: '-' },
   // { label: '订单号', prop: 'orderId' },
@@ -186,12 +213,31 @@ export const approveHeaderArray: IdealTableColumnHeaders[] = [
 ]
 export const deliveryHeaderArray: IdealTableColumnHeaders[] = [
   // { label: '供应商名称', prop: 'supplierName' },
-  { label: '工单号', prop: 'id' },
+  { label: '工单号', prop: 'orderNo' },
   { label: '资源类型', prop: 'resourceTypeText', defaultVal: '-' },
   { label: '工单类型', prop: 'typeText', defaultVal: '-' },
   // { label: '订单号', prop: 'orderId' },
   { label: '工单状态', prop: 'statusText' },
-  { label: '交付工期', prop: 'bandwidthUnit' },
-  { label: '交付编号', prop: 'bandwidthUnit' },
+  { label: '交付工期', prop: 'deliveryDuration' },
+  { label: '交付编号', prop: 'privateConnectId' },
   { label: '创建时间', prop: 'createTime.date' }
 ]
+
+const computedValue = (obj: any, keys: string) => {
+  const value = keys
+    .split('.')
+    .reduce((acc: any, key: any) => acc && acc[key], obj)
+  return value
+}
+
+export const initListDataDefaultVal = (arr: any, dataList: any) => {
+  dataList.forEach((data: any) => {
+    arr
+      .map((item: any) => item.prop)
+      .forEach((key: any) => {
+        if (!computedValue(data, key)) {
+          data[key] = '-'
+        }
+      })
+  })
+}

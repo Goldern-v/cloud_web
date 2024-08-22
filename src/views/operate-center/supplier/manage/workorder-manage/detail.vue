@@ -13,7 +13,7 @@
         <template #resourceTypeText>
           <div>
             {{
-              detailInfo.type
+              detailInfo.resourceType
                 ? resourceTypeFormat[detailInfo.resourceType]
                 : '-'
             }}
@@ -31,12 +31,12 @@
         </template>
         <template #createTime>
           <div>
-            {{ detailInfo.createTime ? detailInfo.createTime.date : '-' }}
+            {{ detailInfo.createTime ? detailInfo.createTime : '-' }}
           </div>
         </template>
         <template #updateTime>
           <div>
-            {{ detailInfo.updateTime ? detailInfo.updateTime.date : '-' }}
+            {{ detailInfo.updateTime ? detailInfo.updateTime : '-' }}
           </div>
         </template>
       </ideal-detail-info>
@@ -88,9 +88,8 @@
 
     <div
       v-if="
-        true ||
-        detailInfo.connectionPrice != null ||
-        detailInfo.connectionPrice != undefined
+        detailInfo.workOrderApproveItemDto != null ||
+        detailInfo.workOrderApproveItemDto != undefined
       "
     >
       <p class="manage-title">{{ priceInfo.title }}</p>
@@ -138,6 +137,7 @@
       v-if="showDialog"
       :type="dialogType"
       :row-id="rowId"
+      :row-data="detailInfo"
       @clickCloseEvent="clickCloseEvent"
       @clickRefreshEvent="clickRefreshEvent"
     ></dialog-box>
@@ -161,7 +161,8 @@ import {
   initAssetsArray,
   initPriceHeaders,
   initPriceInfo,
-  resourceTypeFormat
+  resourceTypeFormat,
+  initStatusInfo
 } from './common'
 import { ElMessage, ElMessageBox } from 'element-plus'
 const detailInfo: any = ref({})
@@ -169,16 +170,26 @@ const infoList: any = ref([])
 const route = useRoute()
 
 const { tabType, command } = route.query
-infoList.value = [
-  {
-    title: '基本信息',
-    labelArray: initHeaderArray(tabType as string)
-  },
-  {
-    title: '资源概览',
-    labelArray: initAssetsArray(tabType as string)
-  }
-]
+
+initStatusInfo([tabType as string])
+
+const initInfoList = () => {
+  infoList.value = [
+    {
+      title: '基本信息',
+      labelArray: initHeaderArray(
+        tabType as string,
+        resourceTypeFormat[detailInfo.value.resourceType]
+      )
+    },
+    {
+      title: '资源概览',
+      labelArray: initAssetsArray(
+        resourceTypeFormat[detailInfo.value.resourceType]
+      )
+    }
+  ]
+}
 
 const showOperation = computed(() => {
   return detailInfo.value.type == 'NEW_DISCOUNT' || tabType !== 'delivery'
@@ -204,40 +215,35 @@ const queryDetailData = () => {
         const { code, data } = res
         if (code === 200) {
           detailInfo.value = data
-          priceList.value = data.connectionPrice ? [data.connectionPrice] : []
+          priceList.value = data.workOrderApproveItemDto
+            ? [data.workOrderApproveItemDto]
+            : []
         } else {
           detailInfo.value = {}
         }
       })
-      .catch(_ => {
-        const connectionPrice = {
-          originalPrice: 'asd'
-        }
-        priceList.value = [connectionPrice]
-      })
+      .catch(_ => {})
   } catch (err) {}
 }
 // const dataList: any = ref([])
 const priceList: any = ref([])
 // 每条宽
 // const itemWidth = computed(() => `width: calc((100% / 2) - 20px)`)
-// watch(
-//   () => detailInfo.value,
-//   (val: any) => {
-//     if (val) {
-//       dataList.value = [
-//         {
-//           aType: '',
-//           ...val.endpointADto
-//         },
-//         {
-//           zType: '',
-//           ...val.endpointZDto
-//         }
-//       ]
-//     }
-//   }
-// )
+watch(
+  () => detailInfo.value,
+  (val: any) => {
+    if (val) {
+      initInfoList()
+      initInfoDefaultVal()
+    }
+  }
+)
+
+const initInfoDefaultVal = () => {
+  // infoList.value.forEach(info=>{
+  // })
+}
+
 // 处理资源概览中端口类型顺序排列参数第一问题
 // const handleSort = (obj: Object) => {
 //   const tem = Object.entries(obj).map(([key, value]) => ({
@@ -263,7 +269,7 @@ watch(
     if (arr.length) {
       arr.forEach((ele: any) => {
         ele.operate = newOperate(ele)
-        // ele.statusText = ele.status ? statusFormat[ele.status] : ''
+        ele.statusText = ele.status ? statusFormat[ele.status] : ''
         // ele.workOrderApproveItems.forEach((item: any) => {
         //   item.acceptablePrice = item.acceptablePrice
         //     ? item.acceptablePrice
@@ -281,7 +287,12 @@ watch(
 //   { label: '地址', prop: 'cloudRegionId' },
 //   { label: 'vlan', prop: 'vlanId' }
 // ]
-const priceInfo = ref(initPriceInfo(tabType as string))
+const priceInfo = ref(
+  initPriceInfo(
+    tabType as string,
+    resourceTypeFormat[detailInfo.value.resourceType]
+  )
+)
 const operateButtons: IdealTableColumnOperate[] = [
   {
     title: '通过',
@@ -312,7 +323,7 @@ const newOperate = (ele: any): IdealTableColumnOperate[] => {
     approve: ['reject', 'pass']
   }
   resultArr = tempArr.filter((item: any) =>
-    obj[tabType as string].includes(item.prop)
+    (obj[tabType as string] || []).includes(item.prop)
   )
   if (command === 'detail') {
     resultArr = setOperateBtns(true, resultArr)
@@ -357,7 +368,7 @@ const clickRefreshEvent = () => {
 }
 // 审批通过111
 const handlePass = (row: any) => {
-  ElMessageBox.confirm('确认通过该申请？', '提示', {
+  ElMessageBox.confirm('是否确认通过？', '提示', {
     confirmButtonText: '确 认',
     cancelButtonText: '取 消'
   })

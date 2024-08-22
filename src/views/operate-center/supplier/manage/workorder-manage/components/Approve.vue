@@ -39,6 +39,8 @@
 import { FiltrateEnum, PaginationTypeEnum } from '@/utils/enum'
 import {
   approveHeaderArray,
+  initListDataDefaultVal,
+  initStatusInfo,
   resourceTypeFormat,
   statusFormat,
   statusList,
@@ -79,9 +81,11 @@ const { sizeChangeHandle, currentChangeHandle, getDataList } = useCrud(state)
 const operateButtons = ref<IdealTableColumnOperate[]>([])
 const tableHeaders = ref<IdealTableColumnHeaders[]>()
 
+initStatusInfo(['approve'], ['已通过', '待审批', '已驳回'])
+
 // const typeArray = ref<IdealSearch[]>([
 const typeArray = ref<any[]>([
-  { label: '工单号', prop: 'id', type: FiltrateEnum.input },
+  { label: '工单号', prop: 'orderNo', type: FiltrateEnum.input },
   // {
   //   label: '工单类型',
   //   prop: 'type',
@@ -171,6 +175,7 @@ watch(
           : '-'
         item.statusText = item.status ? statusFormat[item.status] : ''
         item.bandwidthUnit = item.bandwidth ? item.bandwidth + 'Mbps' : ''
+        initListDataDefaultVal(approveHeaderArray, val)
       })
     }
   }
