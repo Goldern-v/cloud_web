@@ -62,6 +62,7 @@
       <el-form-item label="区域" prop="areaId">
         <el-select
           v-model="form.areaId"
+          filterable
           placeholder="请选择节点所属区域,例如中国大陆-华东"
           class="custom-input"
           :disabled="isApproved || isSelect"
@@ -79,6 +80,7 @@
       <el-form-item label="国家" prop="countryId">
         <el-select
           v-model="form.countryId"
+          filterable
           placeholder="请选择节点所属区国家"
           class="custom-input"
           :disabled="isApproved || isSelect"
