@@ -51,6 +51,7 @@ const { t } = useI18n()
 
 const isAzure = computed(() => RegExp(/(Azure)/i).test(props.type as string)) // 判断是否为Azure
 const isAli = computed(() => RegExp(/(Ali)/i).test(props.type as string)) // 判断是否为Ali
+const isZga = computed(() => RegExp(/(Zga)/i).test(props.type as string)) // 判断是否为Ali
 const isAws = computed(() => RegExp(/(Aws)/i).test(props.type as string)) // 判断是否为isAws
 const isGoogle = computed(() => RegExp(/(Google)/i).test(props.type as string)) // 判断是否为谷歌
 const isEdit = computed(() => RegExp(/(edit)/i).test(props.type as string)) //判断是否为编辑模式
@@ -58,6 +59,7 @@ const isEdit = computed(() => RegExp(/(edit)/i).test(props.type as string)) //�
 const {
   cloudFormRef,
   createAliPortParams,
+  createZgaPortParams,
   createAwsPortParams,
   createAzurePortParams,
   updateAzurePortParams,
@@ -137,6 +139,9 @@ const onClickCommit = () => {
   if (isAli.value) {
     params = createAliPortParams()
     desc = '阿里云'
+  } else if (isZga.value) {
+    params = createZgaPortParams()
+    desc = 'zga '
   } else if (isAws.value) {
     params = createAwsPortParams()
     desc = 'aws '
@@ -165,7 +170,7 @@ const onClickCommit = () => {
       })
   } else {
     showLoading('创建中...')
-    if (isAli.value || isAws.value) {
+    if (isAli.value || isAws.value || isZga.value) {
       portAdd(params)
         .then((res: any) => {
           if (res.code === 200) {

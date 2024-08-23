@@ -30,6 +30,36 @@ export const getCloudPortParams = () => {
     }
     return params
   }
+  const createZgaPortParams = () => {
+    const form = cloudFormRef.value[0].form
+    const {
+      name,
+      nodeId,
+      uuid,
+      equipmentId,
+      address,
+      speed,
+      instanceId,
+      area,
+      accessPoint,
+      aliPortType
+    } = form
+    const params: { [key: string]: any } = {
+      portType: 'CLOUD',
+      cloudPortType: 'zga',
+      name,
+      nodeId,
+      address,
+      uuid,
+      equipmentId,
+      speed,
+      instanceId,
+      area,
+      accessPoint,
+      aliPortType
+    }
+    return params
+  }
 
   //创建亚马逊端口参数
   const createAwsPortParams = () => {
@@ -121,6 +151,7 @@ export const getCloudPortParams = () => {
   return {
     cloudFormRef,
     createAliPortParams,
+    createZgaPortParams,
     createAwsPortParams,
     createAzurePortParams,
     updateAzurePortParams,

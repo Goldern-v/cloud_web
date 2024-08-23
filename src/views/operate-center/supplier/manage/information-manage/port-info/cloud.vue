@@ -118,7 +118,8 @@ const tabControllers = ref([
   { label: '阿里云', name: 'ali_cloud' },
   { label: 'AWS', name: 'aws' },
   { label: 'Azure', name: 'Azure' },
-  { label: 'Google', name: 'GOOGLE_CLOUD' }
+  { label: 'Google', name: 'GOOGLE_CLOUD' },
+  { label: 'ZGA', name: 'zga' }
 ])
 const tableHeaders = ref<IdealTableColumnHeaders[]>()
 onMounted(() => {
@@ -139,6 +140,9 @@ const getTableHeaders = (condition: string) => {
       break
     case 'GOOGLE_CLOUD':
       arr = googleheaders
+      break
+    case 'zga':
+      arr = zgaHeaders
       break
     default:
       arr = aliHeaders
@@ -179,6 +183,11 @@ const aliOperateButtons: IdealButtonEventProp[] = [
 const awsOperateButtons: IdealButtonEventProp[] = [
   { title: '编辑', prop: 'edit', authority: 'supplier:aws:port:edit' },
   { title: '删除', prop: 'delete', authority: 'supplier:aws:port:delete' }
+]
+
+const zgaOperateButtons: IdealButtonEventProp[] = [
+  { title: '编辑', prop: 'edit', authority: 'supplier:zga:port:edit' },
+  { title: '删除', prop: 'delete', authority: 'supplier:zga:port:delete' }
 ]
 
 const azureOperateButtons: IdealButtonEventProp[] = [
@@ -253,6 +262,9 @@ const clickOperateEvent = (command: string | number, row: any) => {
       case 'GOOGLE_CLOUD':
         dialogType.value = 'editGooglePort'
         break
+      case 'zga':
+        dialogType.value = 'editZgaPort'
+        break
     }
   }
 }
@@ -267,6 +279,17 @@ const aliHeaders: IdealTableColumnHeaders[] = [
   { label: '端口速度', prop: 'speed' },
   { label: '接入点', prop: 'accessPoint' },
   { label: '端口类型', prop: 'aliPortType' },
+  { label: '所属供应商', prop: 'vendorName' },
+  { label: '所属节点', prop: 'nodeName' },
+  { label: '所属设备', prop: 'equipmentName' }
+]
+const zgaHeaders: IdealTableColumnHeaders[] = [
+  { label: '端口名称', prop: 'name' },
+  { label: '数据来源', prop: 'originType' },
+  { label: '审批状态', prop: 'status', useSlot: true },
+  { label: '端口速度', prop: 'speed' },
+  { label: '区域', prop: 'area' },
+  { label: '位置', prop: 'address' },
   { label: '所属供应商', prop: 'vendorName' },
   { label: '所属节点', prop: 'nodeName' },
   { label: '所属设备', prop: 'equipmentName' }
@@ -349,6 +372,9 @@ watch(
     } else if (value === 'GOOGLE_CLOUD') {
       leftButtons = googleBtn
       operateButtons = googleOperateButtons
+    } else if (value === 'zga') {
+      leftButtons = zgaBtn
+      operateButtons = zgaOperateButtons
     }
   },
   { immediate: true }
@@ -360,6 +386,14 @@ const awsBtn: IdealButtonEventProp[] = [
     prop: 'create',
     type: 'primary',
     authority: 'supplier:aws:port:add'
+  }
+]
+const zgaBtn: IdealButtonEventProp[] = [
+  {
+    title: '创建',
+    prop: 'create',
+    type: 'primary',
+    authority: 'supplier:zga:port:add'
   }
 ]
 const azureBtn: IdealButtonEventProp[] = [
@@ -395,6 +429,9 @@ const clickLeftEvent = (command: string | number | object) => {
         break
       case 'GOOGLE_CLOUD':
         dialogType.value = 'createGooglePort'
+        break
+      case 'zga':
+        dialogType.value = 'createZgaPort'
         break
     }
   }

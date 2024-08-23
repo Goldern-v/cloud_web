@@ -96,7 +96,7 @@ const showNNIOperate = computed(() =>
   RegExp(/(Nni)/i).test(props.type as string)
 ) //创建\编辑NNI端口
 const showCloudPort = computed(() =>
-  RegExp(/(Ali|Aws|Azure|Google)/i).test(props.type as string)
+  RegExp(/(Ali|Aws|Azure|Google|Zga)/i).test(props.type as string)
 )
 const showSpecificLine = computed(() =>
   RegExp(/(privateLine)/i).test(props.type as string)
@@ -125,6 +125,8 @@ const initDialog = () => {
     type = 'Azure端口'
   } else if (props.type?.includes('Google')) {
     type = 'Google端口'
+  } else if (props.type?.includes('Zga')) {
+    type = 'Zga端口'
   }
   if (showSpecificLine.value) {
     dialogTitle.value = '专线申请'

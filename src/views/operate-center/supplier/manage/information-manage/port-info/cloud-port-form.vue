@@ -105,7 +105,7 @@
         </el-input>
       </el-form-item>
 
-      <el-form-item label="端口状态" prop="portStatus">
+      <el-form-item v-if="!isZga" label="端口状态" prop="portStatus">
         <el-select
           v-model="form.portStatus"
           placeholder="请选择速率"
@@ -202,7 +202,7 @@
         </el-form-item>
       </template>
 
-      <template v-if="isAws">
+      <template v-if="isAws || isZga">
         <el-form-item label="位置" prop="address">
           <el-input
             v-model="form.address"
@@ -213,7 +213,7 @@
           </el-input>
         </el-form-item>
 
-        <el-form-item label="逻辑设备" prop="logicalDevice">
+        <el-form-item v-if="!isZga" label="逻辑设备" prop="logicalDevice">
           <el-input
             v-model="form.logicalDevice"
             class="custom-input"
@@ -375,6 +375,7 @@ const state = reactive(defaultOptions)
 
 const isALi = computed(() => RegExp(/(Ali)/i).test(props.type as string))
 const isAws = computed(() => RegExp(/(Aws)/i).test(props.type as string))
+const isZga = computed(() => RegExp(/(Zga)/i).test(props.type as string))
 const isAzure = computed(() => RegExp(/(Azure)/i).test(props.type as string))
 const isGoogle = computed(() => RegExp(/(Google)/i).test(props.type as string))
 
