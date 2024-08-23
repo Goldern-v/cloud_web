@@ -121,8 +121,8 @@ const headerArr2 = [
 ]
 export const initHeaderArray = (type: string, resourceTypeStr: string) => {
   const headerArray: any = [
-    // { label: '供应商名称：', prop: 'supplierName' },
-    // { label: '订单号：', prop: 'orderId' },
+    { label: '供应商名称：', prop: 'supplierName' },
+    { label: '订单号：', prop: 'orderId' },
     { label: '工单号：', prop: 'orderNo' },
     { label: '工单类型：', prop: 'typeText', useSlot: true },
     { label: '工单状态：', prop: 'statusText', useSlot: true },
@@ -151,17 +151,36 @@ const assetsArr1 = [
   { label: '端口带宽：', prop: 'endpointZDto.portBandwidth' },
   { label: '端口带宽：', prop: 'endpointADto.portBandwidth' }
 ]
-const assetsArr2 = [
-  { label: '端口类型：', prop: 'portType' },
-  { label: '所属节点：', prop: 'nodeName' },
-  { label: '端口带宽：', prop: 'portBandwidth' },
-  { label: '所属设备：', prop: 'equipmentName' },
-  { label: '端口名称：', prop: 'portNmae' },
-  { label: '接入地址：', prop: 'accessAddress' },
-  { label: '端口ID：', prop: 'portId' }
-]
-export const initAssetsArray = (resourceTypeStr: string) => {
-  return resourceTypeStr === '线路' ? assetsArr1 : assetsArr2
+const assetsArr2 = (dataInfo: any) => {
+  const ifShowKeys = [
+    'nodeName2',
+    'portBandwidth2',
+    'equipmentName2',
+    'portNmae2'
+  ]
+  const arr = [
+    { label: '端口类型：', prop: 'portType' },
+    { label: '是否延伸监控：', prop: 'portType2' },
+    { label: '端口带宽：', prop: 'portBandwidth' },
+    { label: '监控vlan：', prop: 'nodeName2' },
+    { label: '端口名称：', prop: 'portNmae' },
+    { label: '监控带宽：', prop: 'portBandwidth2' },
+    { label: '端口ID：', prop: 'portId' },
+    { label: '您的路由器IP：', prop: 'equipmentName2' },
+    { label: '所属节点：', prop: 'nodeName' },
+    { label: 'CTG路由器IP：', prop: 'portNmae2' },
+    { label: '所属设备：', prop: 'equipmentName' },
+    { label: '', prop: '' },
+    { label: '接入地址：', prop: 'accessAddress' }
+  ]
+  if (!dataInfo['portType2']) {
+    return arr.filter(item => !ifShowKeys.includes(item.prop) && item.label)
+  } else {
+    return arr
+  }
+}
+export const initAssetsArray = (resourceTypeStr: string, dataInfo: any) => {
+  return resourceTypeStr === '线路' ? assetsArr1 : assetsArr2(dataInfo)
 }
 
 const priceHeaders1 = [
@@ -192,31 +211,31 @@ export const initPriceInfo = (type: string, resourceTypeStr: string) => {
 }
 
 export const processingHeaderArray: IdealTableColumnHeaders[] = [
-  // { label: '供应商名称', prop: 'supplierName' },
+  { label: '供应商名称', prop: 'supplierName' },
+  { label: '订单号', prop: 'orderId' },
   { label: '工单号', prop: 'orderNo' },
   { label: '资源类型', prop: 'resourceTypeText', defaultVal: '-' },
   { label: '工单类型', prop: 'typeText', defaultVal: '-' },
-  // { label: '订单号', prop: 'orderId' },
   { label: '工单状态', prop: 'statusText' },
   { label: '端口带宽', prop: 'bandwidthUnit' },
   { label: '创建时间', prop: 'createTime.date' }
 ]
 export const approveHeaderArray: IdealTableColumnHeaders[] = [
-  // { label: '供应商名称', prop: 'supplierName' },
+  { label: '供应商名称', prop: 'supplierName' },
+  { label: '订单号', prop: 'orderId' },
   { label: '工单号', prop: 'orderNo' },
   { label: '资源类型', prop: 'resourceTypeText', defaultVal: '-' },
   { label: '工单类型', prop: 'typeText', defaultVal: '-' },
-  // { label: '订单号', prop: 'orderId' },
   { label: '工单状态', prop: 'statusText' },
   { label: '线路带宽', prop: 'bandwidthUnit' },
   { label: '创建时间', prop: 'createTime.date' }
 ]
 export const deliveryHeaderArray: IdealTableColumnHeaders[] = [
-  // { label: '供应商名称', prop: 'supplierName' },
+  { label: '供应商名称', prop: 'supplierName' },
+  { label: '订单号', prop: 'orderId' },
   { label: '工单号', prop: 'orderNo' },
   { label: '资源类型', prop: 'resourceTypeText', defaultVal: '-' },
   { label: '工单类型', prop: 'typeText', defaultVal: '-' },
-  // { label: '订单号', prop: 'orderId' },
   { label: '工单状态', prop: 'statusText' },
   { label: '交付工期', prop: 'deliveryDuration' },
   { label: '交付编号', prop: 'privateConnectId' },

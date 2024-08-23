@@ -185,7 +185,8 @@ const initInfoList = () => {
     {
       title: '资源概览',
       labelArray: initAssetsArray(
-        resourceTypeFormat[detailInfo.value.resourceType]
+        resourceTypeFormat[detailInfo.value.resourceType],
+        detailInfo.value
       )
     }
   ]

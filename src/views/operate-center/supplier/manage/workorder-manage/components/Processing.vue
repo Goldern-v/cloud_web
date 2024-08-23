@@ -163,21 +163,20 @@ const onClickSearch = (v: IdealTextProp[]) => {
 }
 
 onMounted(() => {
-  //先屏蔽 待联调完再放开
-  // if (!isSupplierManager.value) {
-  //   tableHeaders.value = headerArray
-  //   operateButtons.value = [
-  //     {
-  //       title: '详情',
-  //       prop: 'detail',
-  //       authority: 'supplier:workorder:manage:detail'
-  //     }
-  //   ]
-  // } else {
-  tableHeaders.value = headerArray.filter(
-    (item: any) => item.prop !== 'supplierName' && item.prop !== 'orderId'
-  )
-  //这里待判断是详情还是处理
+  if (!isSupplierManager.value) {
+    tableHeaders.value = headerArray
+    // operateButtons.value = [
+    //   {
+    //     title: '详情',
+    //     prop: 'detail',
+    //     authority: 'supplier:workorder:manage:detail'
+    //   }
+    // ]
+  } else {
+    tableHeaders.value = headerArray.filter(
+      (item: any) => item.prop !== 'supplierName' && item.prop !== 'orderId'
+    )
+  }
   operateButtons.value = [
     {
       title: '处理',
@@ -190,7 +189,6 @@ onMounted(() => {
       authority: 'supplier:workorder:manage:detail'
     }
   ]
-  // }
 })
 
 defineExpose({
