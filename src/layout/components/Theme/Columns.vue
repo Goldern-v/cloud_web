@@ -10,8 +10,11 @@
 
     <el-container>
       <el-aside v-if="subMenus.length > 0" :width="sideMenuWidth">
-        <div class="flex-row module-box" :style="{'margin-left' : showSidebar ? '20px' : '15px'}">
-          <Hamburger class="module-hamburger"/>
+        <div
+          class="flex-row module-box"
+          :style="{ 'margin-left': showSidebar ? '20px' : '15px' }"
+        >
+          <Hamburger class="module-hamburger" />
           <div v-if="showSidebar" class="module-title">{{ moduleTitle }}</div>
         </div>
 
@@ -33,6 +36,7 @@
       <el-main class="main-container">
         <Main />
       </el-main>
+      <fix-info></fix-info>
     </el-container>
   </el-container>
 </template>
@@ -42,6 +46,7 @@ import store from '@/store'
 import Logo from '@/layout/components/Logo/index.vue'
 import NavbarRight from '@/layout/components/Navbar/NavbarRight.vue'
 import Main from '@/layout/components/Main/index.vue'
+import fixInfo from '@/layout/components/fix-info/index.vue'
 import MenuItem from '@/layout/components/Menu/MenuItem.vue'
 import Hamburger from '@/layout/components/Navbar/components/Hamburger.vue'
 import Catalogue from './components/catalogue.vue'
@@ -123,11 +128,9 @@ const theme = computed(() => store.appStore.theme)
 const sideMenuWidth = computed(() =>
   store.appStore.sidebarOpened ? '200px' : '49px'
 )
-
 </script>
 
 <style lang="scss" scoped>
-
 .navbar-container {
   height: var(--navigation-bar-height);
   display: flex;
@@ -174,7 +177,9 @@ const sideMenuWidth = computed(() =>
   }
 }
 .main-container {
-  height: calc(100vh - var(--breadcrumb-height) - 12px); // Main组件 面包屑高度--breadcrumb-height 顶边距12px
+  height: calc(
+    100vh - var(--breadcrumb-height) - 12px
+  ); // Main组件 面包屑高度--breadcrumb-height 顶边距12px
   padding: 0 0 20px;
   background-color: #f0f2f5; // 面包屑背景色
 }

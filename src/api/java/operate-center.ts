@@ -125,6 +125,7 @@ const Api = {
   PORT_GROUP: `${api}/supplier/port/portGroups`, //随机生成的端口组序号(用于azure端口成组录入)
   SUPPLIER_DETAIL: `${api}/supplier/approval/detail`, //供应商详情
   SUPPLIER_OFF_SHELVES: `${api}/supplier/approval/offShelves`, //下架供应商
+  SUPPLIER_CONTACT: `${api}/supplier/contact`, //联系人列表
   SUPPLIER_DELETE: `${api}/supplier/approval/delete`, //删除供应商
   BUSINESS_CLOUD_DATA_LIST: `${api}/business/manage/cloud/port/list`, //云端口信息录入列表
   BUSINESS_CLOUD_SEARCH_LIST: `${api}/business/manage/cloud/port/query`, //云端口信息录入搜索查询
@@ -812,6 +813,10 @@ export const approveDelete = (data: any) => {
 //随机生成的端口组序号(用于azure端口录入)
 export const getPortGroup = () => {
   return service.get(Api.PORT_GROUP)
+}
+//联系人
+export const getContact = () => {
+  return service.get(Api.SUPPLIER_CONTACT)
 }
 //下架供应商
 export const supplierOffShelves = (data: any) => {

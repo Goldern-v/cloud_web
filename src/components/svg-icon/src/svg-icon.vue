@@ -1,13 +1,17 @@
 <template>
   <div class="svg-icon">
-    <svg v-if="icon" :class="`${className}`" :style="`color:${color};`" aria-hidden="true">
+    <svg
+      v-if="icon"
+      :class="`${className}`"
+      :style="`color:${color};width:${width};height:${height};`"
+      aria-hidden="true"
+    >
       <use :xlink:href="iconName" />
     </svg>
   </div>
 </template>
 
 <script setup lang="ts" name="SvgIcon">
-
 const props = defineProps({
   icon: {
     type: String,
@@ -20,6 +24,14 @@ const props = defineProps({
   className: {
     type: String,
     default: ''
+  },
+  width: {
+    type: String,
+    default: ''
+  },
+  height: {
+    type: String,
+    default: ''
   }
 })
 
@@ -29,7 +41,7 @@ const iconName = computed(() => `#icon-${props.icon.replace('icon-', '')}`)
 
 <style lang="scss" scoped>
 .svg-icon {
-  display:  inline-block;
+  display: inline-block;
   svg {
     width: 1em;
     height: 1em;
