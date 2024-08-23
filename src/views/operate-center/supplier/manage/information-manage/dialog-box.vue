@@ -126,7 +126,7 @@ const initDialog = () => {
   } else if (props.type?.includes('Google')) {
     type = 'Google端口'
   } else if (props.type?.includes('Zga')) {
-    type = 'Zga端口'
+    type = 'ZGA端口'
   }
   if (showSpecificLine.value) {
     dialogTitle.value = '专线申请'
