@@ -1,6 +1,8 @@
 <template>
   <div v-for="(item, index) in list" :key="index + 'li'" class="infoBox">
-    <div class="tltie">{{ item.title }}</div>
+    <div class="tltie">
+      <el-divider content-position="left">{{ item.title }}</el-divider>
+    </div>
     <div class="info-box">
       <div
         v-for="(li, liIn) in item.children"
