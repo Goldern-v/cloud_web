@@ -64,8 +64,8 @@ export const typeList: any = [
   { label: '折扣审批单', value: 'NEW_DISCOUNT' }
 ]
 export const sourceList: any = [
-  { label: '端口', value: 'NEW_OPEN' },
-  { label: '线路', value: 'RENEWAL' }
+  { label: '端口', value: 'PORT' },
+  { label: '线路', value: 'LINE' }
 ]
 
 export const resourceList: { [key: string]: any } = {
@@ -214,8 +214,8 @@ export const processingHeaderArray: IdealTableColumnHeaders[] = [
   { label: '供应商名称', prop: 'supplierName' },
   { label: '订单号', prop: 'orderId' },
   { label: '工单号', prop: 'orderNo' },
-  { label: '资源类型', prop: 'resourceTypeText', defaultVal: '-' },
-  { label: '工单类型', prop: 'typeText', defaultVal: '-' },
+  { label: '资源类型', prop: 'resourceTypeText' },
+  { label: '工单类型', prop: 'typeText' },
   { label: '工单状态', prop: 'statusText' },
   { label: '端口带宽', prop: 'bandwidthUnit' },
   { label: '创建时间', prop: 'createTime.date' }
@@ -224,8 +224,8 @@ export const approveHeaderArray: IdealTableColumnHeaders[] = [
   { label: '供应商名称', prop: 'supplierName' },
   { label: '订单号', prop: 'orderId' },
   { label: '工单号', prop: 'orderNo' },
-  { label: '资源类型', prop: 'resourceTypeText', defaultVal: '-' },
-  { label: '工单类型', prop: 'typeText', defaultVal: '-' },
+  { label: '资源类型', prop: 'resourceTypeText' },
+  { label: '工单类型', prop: 'typeText' },
   { label: '工单状态', prop: 'statusText' },
   { label: '线路带宽', prop: 'bandwidthUnit' },
   { label: '创建时间', prop: 'createTime.date' }
@@ -234,8 +234,8 @@ export const deliveryHeaderArray: IdealTableColumnHeaders[] = [
   { label: '供应商名称', prop: 'supplierName' },
   { label: '订单号', prop: 'orderId' },
   { label: '工单号', prop: 'orderNo' },
-  { label: '资源类型', prop: 'resourceTypeText', defaultVal: '-' },
-  { label: '工单类型', prop: 'typeText', defaultVal: '-' },
+  { label: '资源类型', prop: 'resourceTypeText' },
+  { label: '工单类型', prop: 'typeText' },
   { label: '工单状态', prop: 'statusText' },
   { label: '交付工期', prop: 'deliveryDuration' },
   { label: '交付编号', prop: 'privateConnectId' },
