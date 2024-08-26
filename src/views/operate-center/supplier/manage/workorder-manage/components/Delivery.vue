@@ -47,11 +47,11 @@ import {
   typeFormat,
   typeList
 } from '../common'
-import {
+import type {
   IdealTableColumnHeaders,
   IdealTableColumnOperate,
+  IdealSearch,
   IdealTextProp
-  // IdealSearch,
 } from '@/types'
 
 import { IHooksOptions } from '@/hooks/interface'
@@ -83,8 +83,7 @@ const tableHeaders = ref<IdealTableColumnHeaders[]>()
 
 initStatusInfo(['delivery'], ['待交付', '交付中', '已完成'])
 
-// const typeArray = ref<IdealSearch[]>([
-const typeArray = ref<any[]>([
+const typeArray = ref<IdealSearch[]>([
   { label: '工单号', prop: 'orderNo', type: FiltrateEnum.input },
   {
     label: '资源类型',
@@ -122,41 +121,23 @@ const setDeliveryDisabled = (
   disabled: boolean,
   array: IdealTableColumnOperate[]
 ) => {
-  const index = array.findIndex((item: any) => item.prop === 'delivery')
+  const index = array.findIndex((item: any) => item.prop === 'jiaofu')
   array[index].disabled = disabled
-  array[index].disabledText = '非未处理状态的不支持交付操作'
+  array[index].disabledText = '非待交付、超时未交付的不支持交付操作'
   return array
 }
 
 const newOperate = (ele: any): IdealTableColumnOperate[] => {
   let resultArr: IdealTableColumnOperate[] = []
-  let lishiArr: IdealTableColumnOperate[] = []
   const tempArr = JSON.parse(JSON.stringify(operateButtons.value))
-  //待判断操作按钮
-  // if (isSupplierManager.value && ele.type.toUpperCase() !== 'NEW_DISCOUNT') {
-  //   // 供应商角色下 非折扣类型 显示详情、交付按钮
-  //   lishiArr = tempArr.filter(
-  //     (ele: any) => ele.prop === 'detail' || ele.prop === 'delivery'
-  //   )
-  //   if (ele.status.toUpperCase() !== 'UN_DEAL') {
-  //     // 供应商角色下 非折扣类型   非未处理状态下 交付按钮禁用
-  //     resultArr = setDeliveryDisabled(true, lishiArr)
-  //   } else {
-  //     resultArr = lishiArr
-  //   }
-  // } else if (
-  //   isSupplierManager.value &&
-  //   ele.type.toUpperCase() === 'NEW_DISCOUNT'
-  // ) {
-  //   if (ele.status.toUpperCase() === 'UN_APPROVED') {
-  //     // 供应商角色下 未审批状态  只显示审批按钮
-  //     resultArr = tempArr.filter((ele: any) => ele.prop === 'approve')
-  //   } else {
-  //     // 供应商角色下 非未审批状态  折扣类型 只显示详情按钮
-  //     resultArr = tempArr.filter((ele: any) => ele.prop === 'detail')
-  //   }
+  // if (isSupplierManager.value) {
+  if (!['待交付', '超时未交付'].includes(statusFormat[ele.status])) {
+    resultArr = setDeliveryDisabled(true, tempArr)
+  } else {
+    resultArr = tempArr
+  }
   // } else {
-  resultArr = tempArr
+  // resultArr = tempArr
   // }
   return resultArr
 }

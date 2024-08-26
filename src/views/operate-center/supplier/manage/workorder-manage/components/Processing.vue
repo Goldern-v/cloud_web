@@ -44,14 +44,13 @@ import {
   resourceTypeFormat,
   statusFormat,
   statusList,
-  typeFormat,
-  typeList
+  typeFormat
 } from '../common'
-import {
+import type {
   IdealTableColumnHeaders,
   IdealTableColumnOperate,
-  IdealTextProp
-  // IdealSearch,
+  IdealTextProp,
+  IdealSearch
 } from '@/types'
 
 import { IHooksOptions } from '@/hooks/interface'
@@ -83,8 +82,7 @@ const tableHeaders = ref<IdealTableColumnHeaders[]>()
 
 initStatusInfo(['processing'], ['审批中', '已通过', '待处理', '已驳回'])
 
-// const typeArray = ref<IdealSearch[]>([
-const typeArray = ref<any[]>([
+const typeArray = ref<IdealSearch[]>([
   { label: '工单号', prop: 'orderNo', type: FiltrateEnum.input },
   {
     label: '工单状态',
@@ -102,16 +100,6 @@ const typeArray = ref<any[]>([
 ])
 
 const headerArray: IdealTableColumnHeaders[] = processingHeaderArray
-
-const setDeliveryDisabled = (
-  disabled: boolean,
-  array: IdealTableColumnOperate[]
-) => {
-  const index = array.findIndex((item: any) => item.prop === 'delivery')
-  array[index].disabled = disabled
-  array[index].disabledText = '非未处理状态的不支持交付操作'
-  return array
-}
 
 const newOperate = (ele: any): IdealTableColumnOperate[] => {
   let resultArr: IdealTableColumnOperate[] = []
