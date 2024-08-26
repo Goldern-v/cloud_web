@@ -102,7 +102,7 @@ const headerArray: IdealTableColumnHeaders[] = [
 // 列表左侧按钮
 const leftButtons = ref<IdealButtonEventProp[]>([
   {
-    title: '标记为已',
+    title: '标记为已读',
     prop: 'markers',
     type: 'primary',
     iconColor: 'white',
