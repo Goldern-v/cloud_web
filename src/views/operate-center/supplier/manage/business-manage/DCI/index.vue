@@ -27,7 +27,7 @@
       @clickCurrentChange="currentChangeHandle"
     >
       <template #operation>
-        <el-table-column label="操作" width="200" fixed="right">
+        <el-table-column label="操作" width="100" fixed="right">
           <template #default="props">
             <ideal-table-operate
               :buttons="operateButtons"
@@ -114,12 +114,12 @@ const clickLeftEvent = (command: string | number | object) => {
 
 const operateButtons: IdealTableColumnOperate[] = [
   { title: '编辑', prop: 'edit', authority: 'supplier:manage:dciUpdate' },
-  { title: '删除', prop: 'delete', authority: 'supplier:manage:dciDelete' },
-  {
-    title: 'Service Token',
-    prop: 'serviceToken',
-    authority: 'supplier:manage:serviceToken'
-  }
+  { title: '删除', prop: 'delete', authority: 'supplier:manage:dciDelete' }
+  // {
+  //   title: 'Service Token',
+  //   prop: 'serviceToken',
+  //   authority: 'supplier:manage:serviceToken'
+  // }
 ]
 
 watch(
