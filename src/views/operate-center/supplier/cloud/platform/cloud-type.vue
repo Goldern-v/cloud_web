@@ -73,7 +73,7 @@ const platformCategory = (name: string = '') => {
       if (code === 200) {
         cloudList.value = data
           .map((item: any) => {
-            item.arrowDown = false // 箭头: false向上 true向下
+            item.arrowDown = true // 箭头: false向上 true向下
             return item
           })
           .filter((ele: any) => ele.cloudCategory === 'PUBLIC') // 830需求-只保留公有云
