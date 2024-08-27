@@ -44,13 +44,13 @@ export const tabControllersData: tabControllersDataType[] = [
 
 export const typeArray: IdealSearch[] = [
   { label: '客户名称', prop: 'customerName', type: FiltrateEnum.input },
-  { label: 'BASS Order No', prop: 'bssOrder', type: FiltrateEnum.input },
+  { label: 'BSS Order No', prop: 'bssOrder', type: FiltrateEnum.input },
   { label: '客户经理邮箱', prop: 'accountMaEmail', type: FiltrateEnum.input }
 ]
 
 export const tableHeaders: IdealTableColumnHeaders[] = [
   { label: '客户名称', prop: 'customerName' },
-  { label: 'BASS Order No', prop: 'bssOrder' },
+  { label: 'BSS Order No', prop: 'bssOrder' },
   { label: '业务类型', prop: 'productName' },
   { label: '创建时间', prop: 'createTime' },
   { label: '客户经理邮箱', prop: 'accountMaEmail' }
