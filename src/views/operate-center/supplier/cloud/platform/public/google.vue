@@ -8,7 +8,7 @@
           class="ideal-svg-margin-right"
         ></svg-icon>
         <span
-          >请提供阿里云访问密钥Access Key信息来进行验证。Access
+          >请提供谷歌云访问密钥Access Key信息来进行验证。Access
           Key由ID和密钥Secret构成。</span
         >
       </div>
