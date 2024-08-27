@@ -153,9 +153,9 @@ const cloudList = [
 ]
 
 const SPECIALIZEDList = [
-  { label: '线路带宽：', prop: 'portBandwidth' },
+  { label: '线路带宽：', prop: 'lineBandwidth' },
   { label: '端口名称：', prop: 'portName' },
-  { label: '端口ID：', prop: 'portNniID' }
+  { label: '端口ID：', prop: 'portId' }
 ]
 
 const assetsArr1 = (dataInfo: any) => {
@@ -199,27 +199,27 @@ const assetsArr1 = (dataInfo: any) => {
 
 const assetsArr2 = (dataInfo: any) => {
   const ifShowKeys = [
-    'nodeName2',
-    'portBandwidth2',
-    'equipmentName2',
-    'portNmae2'
+    'monitorVlan',
+    'monitorBandwidth',
+    'customerIp',
+    'telecomIp'
   ]
   const arr = [
     { label: '端口类型：', prop: 'portType' },
-    { label: '是否延伸监控：', prop: 'portType2' },
+    { label: '是否延伸监控：', prop: 'isMonitor' },
     { label: '端口带宽：', prop: 'portBandwidth' },
-    { label: '监控vlan：', prop: 'nodeName2' },
+    { label: '监控vlan：', prop: 'monitorVlan' },
     { label: '端口名称：', prop: 'portNmae' },
-    { label: '监控带宽：', prop: 'portBandwidth2' },
+    { label: '监控带宽：', prop: 'monitorBandwidth' },
     { label: '端口ID：', prop: 'portId' },
-    { label: '您的路由器IP：', prop: 'equipmentName2' },
+    { label: '您的路由器IP：', prop: 'customerIp' },
     { label: '所属节点：', prop: 'nodeName' },
-    { label: 'CTG路由器IP：', prop: 'portNmae2' },
+    { label: 'CTG路由器IP：', prop: 'telecomIp' },
     { label: '所属设备：', prop: 'equipmentName' },
     { label: '', prop: '' },
     { label: '接入地址：', prop: 'accessAddress' }
   ]
-  if (!dataInfo['portType2']) {
+  if (!dataInfo['isMonitor']) {
     return arr.filter(item => !ifShowKeys.includes(item.prop) && item.label)
   } else {
     return arr
