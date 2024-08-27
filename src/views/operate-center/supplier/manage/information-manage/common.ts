@@ -15,6 +15,14 @@ export const typeList = [
 
 export const speedList = ['10GE', '1GE']
 
+export const unitList = [
+  { label: 'bps', value: 'bps' },
+  { label: 'Kbps', value: 'Kbps' },
+  { label: 'Mbps', value: 'Mbps' },
+  { label: 'Gbps', value: 'Gbps' },
+  { label: 'Tbps', value: 'Tbps' }
+]
+
 export const portStatusList = [
   { label: 'UP', value: 'UP' },
   { label: 'DOWN', value: 'DOWN' }
