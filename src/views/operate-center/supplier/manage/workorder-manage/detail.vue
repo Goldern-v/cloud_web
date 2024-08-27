@@ -10,6 +10,29 @@
         <template #typeText>
           <div>{{ detailInfo.type ? typeFormat[detailInfo.type] : '-' }}</div>
         </template>
+        <template #portType>
+          <div>
+            {{ detailInfo.portType ? portTypeList[detailInfo.portType] : '-' }}
+          </div>
+        </template>
+        <template #endpointADetailPortType>
+          <div>
+            {{
+              detailInfo.endpointADetail.portType
+                ? portTypeList[detailInfo.endpointADetail.portType]
+                : '-'
+            }}
+          </div>
+        </template>
+        <template #endpointZDetailPortType>
+          <div>
+            {{
+              detailInfo.endpointZDetail.portType
+                ? portTypeList[detailInfo.endpointZDetail.portType]
+                : '-'
+            }}
+          </div>
+        </template>
         <template #resourceTypeText>
           <div>
             {{

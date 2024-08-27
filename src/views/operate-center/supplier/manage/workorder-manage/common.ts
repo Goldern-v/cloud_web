@@ -85,9 +85,9 @@ export const resourceList: { [key: string]: any } = {
   zType: 'Z端'
 }
 export const portTypeList: { [key: string]: any } = {
-  CLOUD_PORT: '云端口',
-  NNI_PORT: 'nni端口',
-  ONLY_PORT: '专用端口'
+  CLOUD: '云端口',
+  NNI: 'NNI端口',
+  SPECIALIZED: '专用端口'
 }
 
 type tabControllersDataType = {
@@ -136,21 +136,67 @@ export const initHeaderArray = (type: string, resourceTypeStr: string) => {
   ]
   return headerArray
 }
-const assetsArr1 = [
-  { label: 'A端', prop: 'A端' },
-  { label: 'Z端', prop: 'Z端' },
-  { label: '端口类型：', prop: 'endpointADto.portType' },
-  { label: '端口类型：', prop: 'endpointZDto.portType' },
-  { label: '线路带宽：', prop: 'endpointADto.portBandwidth' },
-  { label: '公有云物理线路实例ID：', prop: 'endpointZDt.cloudRegionId' },
-  { label: '端口的vlan号：', prop: 'endpointADto.nniVlanId' },
-  { label: '公有云区域：', prop: 'endpointZDto.cloudRegionId' },
-  { label: '端口名称：', prop: 'endpointADto.nniPortName' },
-  { label: '公有云类型：', prop: 'endpointZDto.cloudType' },
-  { label: 'NNI端口ID：', prop: 'endpointADto.nniPortId' },
-  { label: '端口带宽：', prop: 'endpointZDto.portBandwidth' },
-  { label: '端口带宽：', prop: 'endpointADto.portBandwidth' }
+
+const NNIList = [
+  { label: '线路带宽：', prop: 'lineBandwidth' },
+  { label: '端口的vlan号：', prop: 'portVlan' },
+  { label: '端口名称：', prop: 'portName' },
+  { label: 'NNI端口ID：', prop: 'portNniID' },
+  { label: '端口带宽：', prop: 'portBandwidth' }
 ]
+
+const cloudList = [
+  { label: '公有云物理线路实例ID：', prop: 'publicPhysicsLineClientId' },
+  { label: '公有云区域：', prop: 'publicRegion' },
+  { label: '公有云类型：', prop: 'publicType' },
+  { label: '端口带宽：', prop: 'portBandwidth' }
+]
+
+const SPECIALIZEDList = [
+  { label: '线路带宽：', prop: 'portBandwidth' },
+  { label: '端口名称：', prop: 'portName' },
+  { label: '端口ID：', prop: 'portNniID' }
+]
+
+const assetsArr1 = (dataInfo: any) => {
+  const obj = {
+    专用端口: SPECIALIZEDList,
+    云端口: cloudList,
+    NNI端口: NNIList
+  }
+  const emptyObj = { label: '', prop: '' }
+  const AportType = portTypeList[dataInfo.endpointADetail.portType]
+  const ZportType = portTypeList[dataInfo.endpointZDetail.portType]
+  const Alist = obj[AportType]
+  const Zlist = obj[ZportType]
+  const length = Alist.length + Zlist.length,
+    arr: any[] = []
+  let Aindex = 0,
+    Zindex = 0
+  Array.from(length).forEach((index: any) => {
+    if ((index + 1) % 2 === 1) {
+      const pushObj = Alist[Aindex]
+        ? { ...Alist[Aindex], prop: `endpointADetail.${Alist[Aindex]['prop']}` }
+        : emptyObj
+      arr.push(pushObj)
+      Aindex++
+    } else {
+      const pushObj = Zlist[Zindex]
+        ? { ...Zlist[Zindex], prop: `endpointZDetail.${Zlist[Zindex]['prop']}` }
+        : emptyObj
+      arr.push(pushObj)
+      Zindex++
+    }
+  })
+  const defaultArr = [
+    { label: 'A端', prop: 'A端' },
+    { label: 'Z端', prop: 'Z端' },
+    { label: '端口类型：', prop: 'endpointADetailPortType' },
+    { label: '端口类型：', prop: 'endpointZDetailPortType' }
+  ]
+  return [...defaultArr, ...arr]
+}
+
 const assetsArr2 = (dataInfo: any) => {
   const ifShowKeys = [
     'nodeName2',
@@ -180,7 +226,9 @@ const assetsArr2 = (dataInfo: any) => {
   }
 }
 export const initAssetsArray = (resourceTypeStr: string, dataInfo: any) => {
-  return resourceTypeStr === '线路' ? assetsArr1 : assetsArr2(dataInfo)
+  return resourceTypeStr === '线路'
+    ? assetsArr1(dataInfo)
+    : assetsArr2(dataInfo)
 }
 
 const priceHeaders1 = [
