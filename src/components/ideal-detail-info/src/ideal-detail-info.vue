@@ -68,7 +68,12 @@
       </div>
 
       <div v-else class="ideal-detail-info-item__content">
-        {{ detailData[item.prop] }}
+        <template v-if="item.computedValue">
+          {{ computedValue(detailData, item.prop) }}
+        </template>
+        <template v-else>
+          {{ detailData[item.prop] }}
+        </template>
         <svg-icon
           v-show="item.isCopy && detailData[item.prop] && item.visible"
           icon="copy-icon"
@@ -95,6 +100,7 @@ interface TextProp extends IdealTextProp {
   isSkip?: boolean //是否支持跳转
   icon?: any
   tip?: string
+  computedValue?: boolean //是否遍历.渲染值
 }
 
 interface IdealDetailInfo {
@@ -127,6 +133,13 @@ watch(
     detailData.value = Object.assign({}, val)
   }
 )
+
+const computedValue = (obj: any, keys: string) => {
+  const value = keys
+    .split('.')
+    .reduce((acc: any, key: any) => acc && acc[key], obj)
+  return value
+}
 
 //支持修改
 const emit = defineEmits(['editInfo', 'toInstance'])
