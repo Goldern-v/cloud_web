@@ -481,5 +481,10 @@ defineExpose({ formRef, form })
   .ideal-table-list__container {
     padding: 0;
   }
+  :deep(.el-select__suffix) {
+    .el-input__validateIcon {
+      display: none;
+    }
+  }
 }
 </style>
