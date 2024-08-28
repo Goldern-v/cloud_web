@@ -98,6 +98,10 @@
       <el-form-item label="端口ID" prop="uuid">
         <el-input
           v-model="form.uuid"
+          v-number-only="{
+            obj: form,
+            key: 'uuid'
+          }"
           class="custom-input"
           placeholder="请输入端口ID"
           :disabled="isForbidden || isApproved"
@@ -123,6 +127,10 @@
       <el-form-item v-if="isALi" label="实例ID" prop="instanceId">
         <el-input
           v-model="form.instanceId"
+          v-number-only="{
+            obj: form,
+            key: 'instanceId'
+          }"
           class="custom-input"
           placeholder="请输入实例ID"
           :disabled="isApproved"

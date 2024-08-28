@@ -50,3 +50,11 @@ export const bandwidthFormat: { [key: string]: any } = {
     '50Gbps'
   ]
 }
+
+export const unitList = [
+  { label: 'bps', value: 'bps' },
+  { label: 'Kbps', value: 'Kbps' },
+  { label: 'Mbps', value: 'Mbps' },
+  { label: 'Gbps', value: 'Gbps' },
+  { label: 'Tbps', value: 'Tbps' }
+]
