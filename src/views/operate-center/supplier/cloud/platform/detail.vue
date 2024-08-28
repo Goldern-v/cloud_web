@@ -27,7 +27,6 @@ import publicZenlayer from './public/zenlayer.vue'
 import resourcePool from './components/resource-pool.vue'
 import type { TabsPaneContext } from 'element-plus'
 
-
 // 标签页组件
 const tabs = shallowRef<any>({
   publicAliyun,
@@ -46,15 +45,20 @@ const cloudCategory = route.query.cloudCategory as string
 const cloudType = route.query.cloudType as string
 const initComponents = () => {
   // 公有云 阿里云
-  const isPublicAliyun = RegExp(/ALI/).test(cloudType) && RegExp(/PUBLIC/).test(cloudCategory)
+  const isPublicAliyun =
+    RegExp(/ALI/).test(cloudType) && RegExp(/PUBLIC/).test(cloudCategory)
   // 公有云 亚马逊
-  const isPublicAmazon = RegExp(/AWS/).test(cloudType) && RegExp(/PUBLIC/).test(cloudCategory)
+  const isPublicAmazon =
+    RegExp(/AWS/).test(cloudType) && RegExp(/PUBLIC/).test(cloudCategory)
   // 公有云 微软云
-  const isPublicAzure = RegExp(/AZURE/).test(cloudType) && RegExp(/PUBLIC/).test(cloudCategory)
+  const isPublicAzure =
+    RegExp(/AZURE/).test(cloudType) && RegExp(/PUBLIC/).test(cloudCategory)
   // 公有云 谷歌云
-  const isPublicGoogle = RegExp(/GOOGLE/).test(cloudType) && RegExp(/PUBLIC/).test(cloudCategory)
+  const isPublicGoogle =
+    RegExp(/GOOGLE/).test(cloudType) && RegExp(/PUBLIC/).test(cloudCategory)
   // 公有云 zenlayer
-  const isPublicZenlayer = RegExp(/ZENLAYER/).test(cloudType) && RegExp(/PUBLIC/).test(cloudCategory)
+  const isPublicZenlayer =
+    RegExp(/ZENLAYER/).test(cloudType) && RegExp(/PUBLIC/).test(cloudCategory)
 
   if (isPublicAliyun) {
     activeName.value = 'publicAliyun'
@@ -80,8 +84,8 @@ const initComponents = () => {
 }
 
 const tabControllers = ref([
-  { label: '概览', name: 'publicAliyun' },
-  { label: '资源池', name: 'resourcePool' }
+  { label: '概览', name: 'publicAliyun' }
+  // { label: '资源池', name: 'resourcePool' }  //2.0不展示资源池
 ])
 
 const activeName = ref('publicAliyun')
