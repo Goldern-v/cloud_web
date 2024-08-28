@@ -13,7 +13,8 @@ export const typeFormat: { [key: string]: any } = {
 
 export const resourceTypeFormat: { [key: string]: any } = {
   LINE: '线路',
-  PORT: '端口'
+  PORT: '端口',
+  ZGA: 'ZGA'
 }
 
 export let statusFormat: any = {}
