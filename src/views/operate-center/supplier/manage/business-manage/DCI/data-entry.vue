@@ -164,7 +164,10 @@
               <template #default="props">
                 <el-row :gutter="2" style="align-items: center">
                   <el-col :span="11">
-                    <el-input v-model.number="props.row.minBandwidth">
+                    <el-input
+                      v-model.number="props.row.minBandwidth"
+                      v-input.int
+                    >
                       <template #append>
                         <el-select
                           v-model="props.row.minBandwidthUnit"
@@ -185,7 +188,10 @@
                     ><span>--</span></el-col
                   >
                   <el-col :span="11"
-                    ><el-input v-model.number="props.row.maxBandwidth">
+                    ><el-input
+                      v-model.number="props.row.maxBandwidth"
+                      v-input.int
+                    >
                       <template #append>
                         <el-select
                           v-model="props.row.maxBandwidthUnit"
