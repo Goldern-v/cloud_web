@@ -189,7 +189,6 @@
                 :label="item.label"
                 :value="item.value"
               />
-              >
             </el-select>
           </template>
         </el-input>
