@@ -98,7 +98,9 @@ const onLogin = () => {
 
     // 用户登录
     store.userStore.mobileLoginAction(loginForm).then(() => {
-      router.push({ path: '/home/index' })
+      router.push({
+        path: '/operate-center/supplier/manage/information-manage/index'
+      }) // 2.0首页不展示
     })
   })
 }

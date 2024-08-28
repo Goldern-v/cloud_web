@@ -69,7 +69,7 @@ const constantRoutes: RouteRecordRaw[] = [
 const asyncRoutes: RouteRecordRaw = {
   path: '/',
   component: () => import('../layout/index.vue'),
-  redirect: '/home/index',
+  redirect: '/operate-center/supplier/manage/information-manage/index',
   children: [
     {
       path: '/home/index',

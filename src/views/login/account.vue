@@ -87,7 +87,9 @@ const onLogin = () => {
     store.userStore
       .accountLoginAction(loginForm)
       .then(() => {
-        router.push({ path: '/home/index' })
+        router.push({
+          path: '/operate-center/supplier/manage/information-manage/index'
+        }) // /home/index  2.0首页不应该展示
       })
       .catch(() => {
         onCaptcha()
