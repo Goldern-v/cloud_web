@@ -6,7 +6,7 @@
 import * as echarts from 'echarts'
 // 属性值
 interface PortProps {
-  barData?: any // 行数据
+  barData?: any
 }
 const props = withDefaults(defineProps<PortProps>(), {
   barData: null
@@ -34,6 +34,20 @@ const initEchart = () => {
   }
   myChart = echarts.init(echartDom)
   let option = {
+    dataZoom: [
+      {
+        type: 'slider',
+        show: true,
+        height: 15
+      }
+    ],
+    tooltip: {
+      show: true,
+      trigger: 'item',
+      formatter(param: any) {
+        return param.name + '<br/>' + '数据 ' + param.value
+      }
+    },
     xAxis: {
       type: 'category',
       data: xData.value
