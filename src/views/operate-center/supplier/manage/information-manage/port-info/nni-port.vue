@@ -250,9 +250,24 @@ const form: { [key: string]: any } = reactive({
   bandwidthUnit: 'Mbps'
 })
 
+const validatorID = (rule: any, value: any, callback: (e?: Error) => any) => {
+  // const regex = /^[A-Za-z][A-Za-z0-9_/]*[A-Za-z0-9]$/
+  callback()
+  // if (!regex.test(value)) {
+  //   callback(
+  //     new Error(
+  //       '仅支持英文字母 特殊符号_（下划线）-（中划线）/ （斜杠）进行命名，不支持用特殊符号，数字作为命名开头，也不支持特殊符号作为命名结尾'
+  //     )
+  //   )
+  // } else callback()
+}
+
 const rules = reactive<FormRules>({
   name: [{ required: true, message: '请输入端口名称', trigger: 'blur' }],
-  uuid: [{ required: true, message: '请输入端口ID', trigger: 'blur' }],
+  uuid: [
+    { required: true, message: '请输入端口ID', trigger: 'blur' },
+    { validator: validatorID, trigger: 'blur' }
+  ],
   portId: [{ required: true, message: '请输入端口名称', trigger: 'blur' }],
   vendorId: [{ required: true, message: '请选择供应商', trigger: 'change' }],
   nodeId: [{ required: true, message: '请选择所属节点', trigger: 'change' }],
