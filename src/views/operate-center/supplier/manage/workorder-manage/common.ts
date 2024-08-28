@@ -21,7 +21,6 @@ export let statusFormat: any = {}
 export let statusList: any = []
 
 export const initStatusInfo = (keys: string[], keysWords: string[] = []) => {
-  console.log(JSON.parse(JSON.stringify(statusFormat)), 'asdadas')
   statusList = []
   statusFormat = {}
   const UN_DEALObj = {
@@ -52,7 +51,6 @@ export const initStatusInfo = (keys: string[], keysWords: string[] = []) => {
       }
     }, [])
   )
-  console.log(statusFormat, statusList)
 }
 
 export const typeList: any = [
@@ -153,9 +151,9 @@ const cloudList = [
 ]
 
 const SPECIALIZEDList = [
-  { label: '线路带宽：', prop: 'portBandwidth' },
+  { label: '线路带宽：', prop: 'lineBandwidth' },
   { label: '端口名称：', prop: 'portName' },
-  { label: '端口ID：', prop: 'portNniID' }
+  { label: '端口ID：', prop: 'portId' }
 ]
 
 const assetsArr1 = (dataInfo: any) => {
@@ -169,20 +167,31 @@ const assetsArr1 = (dataInfo: any) => {
   const ZportType = portTypeList[dataInfo.endpointZDetail.portType]
   const Alist = obj[AportType]
   const Zlist = obj[ZportType]
-  const length = Alist.length + Zlist.length,
-    arr: any[] = []
+  const arr: any[] = []
   let Aindex = 0,
     Zindex = 0
-  Array.from(length).forEach((index: any) => {
+
+  Array.from(
+    { length: Math.max(Alist.length, Zlist.length) * 2 },
+    (_, index) => index
+  ).forEach((index: any) => {
     if ((index + 1) % 2 === 1) {
       const pushObj = Alist[Aindex]
-        ? { ...Alist[Aindex], prop: `endpointADetail.${Alist[Aindex]['prop']}` }
+        ? {
+            ...Alist[Aindex],
+            prop: `endpointADetail.${Alist[Aindex]['prop']}`,
+            computedValue: true
+          }
         : emptyObj
       arr.push(pushObj)
       Aindex++
     } else {
       const pushObj = Zlist[Zindex]
-        ? { ...Zlist[Zindex], prop: `endpointZDetail.${Zlist[Zindex]['prop']}` }
+        ? {
+            ...Zlist[Zindex],
+            prop: `endpointZDetail.${Zlist[Zindex]['prop']}`,
+            computedValue: true
+          }
         : emptyObj
       arr.push(pushObj)
       Zindex++
@@ -191,35 +200,36 @@ const assetsArr1 = (dataInfo: any) => {
   const defaultArr = [
     { label: 'A端', prop: 'A端' },
     { label: 'Z端', prop: 'Z端' },
-    { label: '端口类型：', prop: 'endpointADetailPortType' },
-    { label: '端口类型：', prop: 'endpointZDetailPortType' }
+    { label: '端口类型：', prop: 'endpointADetailPortType', useSlot: true },
+    { label: '端口类型：', prop: 'endpointZDetailPortType', useSlot: true }
   ]
+
   return [...defaultArr, ...arr]
 }
 
 const assetsArr2 = (dataInfo: any) => {
   const ifShowKeys = [
-    'nodeName2',
-    'portBandwidth2',
-    'equipmentName2',
-    'portNmae2'
+    'monitorVlan',
+    'monitorBandwidth',
+    'customerIp',
+    'telecomIp'
   ]
   const arr = [
     { label: '端口类型：', prop: 'portType' },
-    { label: '是否延伸监控：', prop: 'portType2' },
+    { label: '是否延伸监控：', prop: 'isMonitor' },
     { label: '端口带宽：', prop: 'portBandwidth' },
-    { label: '监控vlan：', prop: 'nodeName2' },
+    { label: '监控vlan：', prop: 'monitorVlan' },
     { label: '端口名称：', prop: 'portNmae' },
-    { label: '监控带宽：', prop: 'portBandwidth2' },
+    { label: '监控带宽：', prop: 'monitorBandwidth' },
     { label: '端口ID：', prop: 'portId' },
-    { label: '您的路由器IP：', prop: 'equipmentName2' },
+    { label: '您的路由器IP：', prop: 'customerIp' },
     { label: '所属节点：', prop: 'nodeName' },
-    { label: 'CTG路由器IP：', prop: 'portNmae2' },
+    { label: 'CTG路由器IP：', prop: 'telecomIp' },
     { label: '所属设备：', prop: 'equipmentName' },
     { label: '', prop: '' },
     { label: '接入地址：', prop: 'accessAddress' }
   ]
-  if (!dataInfo['portType2']) {
+  if (!dataInfo['isMonitor']) {
     return arr.filter(item => !ifShowKeys.includes(item.prop) && item.label)
   } else {
     return arr

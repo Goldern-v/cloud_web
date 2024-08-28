@@ -42,7 +42,7 @@ const handleFloat = (value: string, decimal: number): string => {
   return arr?.length ? arr[0] : ''
 }
 
-export const numberOnly = (app: App) => {
+export const numberFloat = (app: App) => {
   app.directive('number-float', {
     beforeMount(el, binding) {
       const obj = binding.value.obj
@@ -68,6 +68,38 @@ export const numberOnly = (app: App) => {
       }
       const compositionend = (e: any) => {
         console.log(e, 'compositionend')
+        const str = e.data
+        const regex = new RegExp(str, 'g')
+        obj[key] = obj[key].replace(regex, '')
+      }
+      el.__inputHandler = inputHandler // 将处理函数保存在元素的属性中
+      el.__compositionend = compositionend // 将处理函数保存在元素的属性中
+
+      el.addEventListener('input', inputHandler)
+      el.addEventListener('compositionend', compositionend)
+    },
+    beforeUnmount(el) {
+      if (el.__inputHandler) {
+        el.removeEventListener('input', el.__inputHandler)
+        delete el.__inputHandler // 清除保存的处理函数引用
+      }
+      if (el.__compositionend) {
+        el.removeEventListener('compositionend', el.__compositionend)
+        delete el.__compositionend // 清除保存的处理函数引用
+      }
+    }
+  })
+}
+export const numberOnly = (app: App) => {
+  app.directive('number-only', {
+    beforeMount(el, binding) {
+      const obj = binding.value.obj
+      const key = binding.value.key
+
+      const inputHandler = e => {
+        obj[key] = e.target.value.replace(/[^0-9]/g, '')
+      }
+      const compositionend = (e: any) => {
         const str = e.data
         const regex = new RegExp(str, 'g')
         obj[key] = obj[key].replace(regex, '')

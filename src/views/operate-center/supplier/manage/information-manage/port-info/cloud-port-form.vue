@@ -98,6 +98,10 @@
       <el-form-item label="端口ID" prop="uuid">
         <el-input
           v-model="form.uuid"
+          v-number-only="{
+            obj: form,
+            key: 'uuid'
+          }"
           class="custom-input"
           placeholder="请输入端口ID"
           :disabled="isForbidden || isApproved"
@@ -123,6 +127,10 @@
       <el-form-item v-if="isALi" label="实例ID" prop="instanceId">
         <el-input
           v-model="form.instanceId"
+          v-number-only="{
+            obj: form,
+            key: 'instanceId'
+          }"
           class="custom-input"
           placeholder="请输入实例ID"
           :disabled="isApproved"
@@ -172,11 +180,25 @@
 
       <el-form-item label="端口速度" prop="speed">
         <el-input
-          v-model="form.speed"
+          v-model.number="form.speed"
           class="custom-input"
           placeholder="请输入端口速度"
           :disabled="isForbidden || isApproved"
         >
+          <template #append>
+            <el-select
+              v-model="form.speedUnit"
+              placeholder="Select"
+              style="width: 115px"
+            >
+              <el-option
+                v-for="(item, index) in unitList"
+                :key="index + 'asd'"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </template>
         </el-input>
       </el-form-item>
 
@@ -293,7 +315,7 @@ import {
   getPortGroup,
   getSupplierList
 } from '@/api/java/operate-center'
-import { clearForm, portStatusList } from '../common'
+import { clearForm, portStatusList, unitList } from '../common'
 
 interface CloudPortProps {
   cloudPortForm?: any
@@ -319,6 +341,7 @@ let form: { [key: string]: any } = reactive({
   connectionId: '',
   area: '',
   speed: '',
+  speedUnit: 'Mbps',
   accessPoint: '',
   aliPortType: '',
   logicalDevice: '',
@@ -402,6 +425,13 @@ onMounted(() => {
     Object.keys(form).forEach((key: string) => {
       if (key !== 'vendorId') {
         form[key] = props.cloudPortForm[key]
+        if (key === 'speed') {
+          form[key] = parseInt(props.cloudPortForm.speed)
+        } else if (key === 'speedUnit') {
+          form[key] = props.cloudPortForm.speed.match(/[A-Za-z]+$/)
+            ? props.cloudPortForm.speed.match(/[A-Za-z]+$/)[0]
+            : 'Mbps'
+        }
       } else {
         form.vendorId = parseInt(props.cloudPortForm.vendorId)
       }
@@ -534,6 +564,11 @@ defineExpose({ formRef, form })
 
   .ideal-table-list__container {
     padding: 0;
+  }
+  :deep(.el-select__suffix) {
+    .el-input__validateIcon {
+      display: none;
+    }
   }
 }
 </style>
