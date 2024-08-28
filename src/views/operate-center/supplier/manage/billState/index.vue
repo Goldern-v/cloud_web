@@ -23,7 +23,6 @@
           end-placeholder="结束日期"
           format="YYYY-MM-DD"
           value-format="YYYY-MM-DD"
-          @change="dateChange"
         />
       </div>
     </div>
@@ -144,11 +143,6 @@ watch(
   { immediate: true }
 )
 
-const dateChange = (val: any) => {
-  timeSelect.value = 0
-  overViewType.value = 5 // 自定义时间  要求参数传5
-}
-
 watch(
   () => dateRange,
   val => {
@@ -156,7 +150,9 @@ watch(
       ;(state.queryForm.supplier = supplierId.value),
         (state.queryForm.startTime = dateRange.value?.[0]),
         (state.queryForm.endTime = dateRange.value?.[1]),
-        queryRevenue() //收入总览卡片数据
+        (timeSelect.value = 0)
+      overViewType.value = 5
+      queryRevenue() //收入总览卡片数据
       queryPie()
       getDataList()
     }
