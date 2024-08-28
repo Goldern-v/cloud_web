@@ -2,7 +2,7 @@
   <div v-for="(item, index) in list" :key="index + 'li'" class="infoBox">
     <div class="tltie">
       <div class="title-container">
-        <img :src="getImageUrl(imgList[index])" />
+        <img :src="getImageUrl(index)" />
         {{ item.title }}
       </div>
       <div class="dashed"></div>
@@ -24,14 +24,19 @@ const props = withDefaults(defineProps<{ list: any[] }>(), {
   list: () => []
 })
 
-const imgList = reactive([
-  '../../../assets/department.png',
-  '../../../assets/department-second.png'
-])
-
-const getImageUrl = (src: string) => {
-  const img = new URL(src, import.meta.url).href
-  return img
+const getImageUrl = (index: any) => {
+  let imgUrl = ''
+  switch (index) {
+    case 0:
+      imgUrl = new URL('@/assets/department.png', import.meta.url).href
+      break
+    case 1:
+      imgUrl = new URL('@/assets/department-second.png', import.meta.url).href
+      break
+    default:
+      imgUrl = new URL('@/assets/department.png', import.meta.url).href
+  }
+  return imgUrl
 }
 </script>
 
@@ -41,7 +46,7 @@ const getImageUrl = (src: string) => {
   &:first-of-type {
     .tltie .title-container img {
       position: relative;
-      top: 4px;
+      top: 2px;
       height: 28px;
     }
   }
