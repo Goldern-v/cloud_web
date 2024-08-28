@@ -13,6 +13,7 @@ export const getCloudPortParams = () => {
       instanceId,
       area,
       accessPoint,
+      speedUnit,
       aliPortType
     } = form
     const params: { [key: string]: any } = {
@@ -22,7 +23,7 @@ export const getCloudPortParams = () => {
       nodeId,
       uuid,
       equipmentId,
-      speed,
+      speed: speed + speedUnit,
       instanceId,
       area,
       accessPoint,
@@ -42,6 +43,7 @@ export const getCloudPortParams = () => {
       instanceId,
       area,
       accessPoint,
+      speedUnit,
       aliPortType
     } = form
     const params: { [key: string]: any } = {
@@ -52,7 +54,7 @@ export const getCloudPortParams = () => {
       address,
       uuid,
       equipmentId,
-      speed,
+      speed: speed + speedUnit,
       instanceId,
       area,
       accessPoint,
@@ -72,6 +74,7 @@ export const getCloudPortParams = () => {
       speed,
       connectionId,
       area,
+      speedUnit,
       address,
       logicalDevice
     } = form
@@ -82,7 +85,7 @@ export const getCloudPortParams = () => {
       uuid,
       nodeId,
       equipmentId,
-      speed,
+      speed: speed + speedUnit,
       connectionId,
       area,
       address,
@@ -93,8 +96,10 @@ export const getCloudPortParams = () => {
 
   //创建Azure端口参数
   const createAzurePortParams = () => {
-    const port1 = filterEmptyValues(cloudFormRef.value[0].form)
-    const port2 = filterEmptyValues(cloudFormRef.value[1].form)
+    const port1: any = filterEmptyValues(cloudFormRef.value[0].form)
+    const port2: any = filterEmptyValues(cloudFormRef.value[1].form)
+    port1.speed = port1.speed + port1.speedUnit
+    port2.speed = port2.speed + port2.speedUnit
     const params: { [key: string]: any } = {
       portType: 'CLOUD',
       cloudPortType: 'azure',
@@ -119,6 +124,7 @@ export const getCloudPortParams = () => {
       logicalDevice,
       circuitId,
       demarcId,
+      speedUnit,
       zone,
       location
     } = form
@@ -129,9 +135,9 @@ export const getCloudPortParams = () => {
       uuid,
       nodeId,
       equipmentId,
-      speed,
       connectionId,
       area,
+      speed: speed + speedUnit,
       address,
       logicalDevice,
       circuitId,
@@ -144,7 +150,8 @@ export const getCloudPortParams = () => {
 
   //更新Azure端口参数
   const updateAzurePortParams = () => {
-    const params = filterEmptyValues(cloudFormRef.value[0].form)
+    const params: any = filterEmptyValues(cloudFormRef.value[0].form)
+    params.speed = params.speed + params.speedUnit
     return params
   }
 

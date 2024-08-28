@@ -35,7 +35,7 @@
       </template>
 
       <template #operation>
-        <el-table-column label="操作" width="180" fixed="right">
+        <el-table-column label="操作" width="100" fixed="right">
           <template #default="props">
             <ideal-table-operate
               :buttons="props.row.operate"
@@ -142,11 +142,11 @@ const clickLeftEvent = (command: string | number | object) => {
 
 const operateButtons: IdealTableColumnOperate[] = [
   { title: '编辑', prop: 'edit', authority: 'supplier:specific:port:edit' },
-  {
-    title: '专线申请',
-    prop: 'privateApplication',
-    authority: 'supplier:specific:private:apply'
-  },
+  // {
+  //   title: '专线申请',
+  //   prop: 'privateApplication',
+  //   authority: 'supplier:specific:private:apply'
+  // },
   { title: '删除', prop: 'delete', authority: 'supplier:specific:port:delete' }
 ]
 

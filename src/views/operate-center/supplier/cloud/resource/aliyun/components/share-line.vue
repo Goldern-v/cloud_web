@@ -66,8 +66,8 @@ import { shareConStatus } from '../../common'
 
 // 搜索
 const typeArray = ref<IdealSearch[]>([
-  { label: '连接名称', prop: 'connectionName', type: FiltrateEnum.input },
-  { label: '连接ID', prop: 'interconnectId', type: FiltrateEnum.input }
+  { label: '名称', prop: 'connectionName', type: FiltrateEnum.input },
+  { label: '实例ID', prop: 'interconnectId', type: FiltrateEnum.input }
 ])
 const onClickSearch = (v: IdealSearchResult[]) => {
   state.queryForm = {}
@@ -169,7 +169,7 @@ const loopUpdateStatus = () => {
 }
 
 const tableHeaders: IdealTableColumnHeaders[] = [
-  { label: '实例ID/名称', prop: 'name', useSlot: true },
+  { label: '名称/实例ID', prop: 'name', useSlot: true },
   { label: '接入点', prop: 'accessPointId' },
   { label: 'VLAN ID', prop: 'vlanId' },
   { label: '共享专线带宽(Mbps)', prop: 'bandwidth' },

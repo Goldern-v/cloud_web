@@ -160,17 +160,49 @@
           :show-pagination="false"
         >
           <template #bandwidth>
-            <el-table-column label="带宽大小" width="200px">
+            <el-table-column label="带宽大小" width="340px">
               <template #default="props">
                 <el-row :gutter="2" style="align-items: center">
-                  <el-col :span="7"
-                    ><el-input v-model="props.row.minBandwidth"
-                  /></el-col>
-                  <el-col :span="6"><span>M --</span></el-col>
-                  <el-col :span="7"
-                    ><el-input v-model="props.row.maxBandwidth"
-                  /></el-col>
-                  <el-col :span="4"><span>M</span></el-col>
+                  <el-col :span="11">
+                    <el-input v-model.number="props.row.minBandwidth">
+                      <template #append>
+                        <el-select
+                          v-model="props.row.minBandwidthUnit"
+                          placeholder="Select"
+                          style="width: 80px"
+                        >
+                          <el-option
+                            v-for="(item, index) in unitList"
+                            :key="index + 'asd'"
+                            :label="item.label"
+                            :value="item.value"
+                          />
+                        </el-select>
+                      </template>
+                    </el-input>
+                  </el-col>
+                  <el-col :span="2" style="text-align: center"
+                    ><span>--</span></el-col
+                  >
+                  <el-col :span="11"
+                    ><el-input v-model.number="props.row.maxBandwidth">
+                      <template #append>
+                        <el-select
+                          v-model="props.row.maxBandwidthUnit"
+                          placeholder="Select"
+                          style="width: 80px"
+                        >
+                          <el-option
+                            v-for="(item, index) in unitList"
+                            :key="index + 'asd12'"
+                            :label="item.label"
+                            :value="item.value"
+                          />
+                        </el-select>
+                      </template>
+                    </el-input>
+                  </el-col>
+                  <!-- <el-col :span="4"><span>M</span></el-col> -->
                 </el-row>
               </template>
             </el-table-column>
@@ -215,7 +247,7 @@
           <template #delayTime>
             <el-table-column label="延时/ms">
               <template #default="props">
-                <el-input v-model="props.row.delayTime" />
+                <el-input v-model="props.row.delayTime" v-input.int />
               </template>
             </el-table-column>
           </template>
@@ -224,7 +256,7 @@
             <el-table-column label="交付工期">
               <template #default="props">
                 <div class="flex-row" style="align-items: center">
-                  <el-input v-model="props.row.deliveryDuration" />
+                  <el-input v-model="props.row.deliveryDuration" v-input.int />
                   <div style="margin-left: 2px">天</div>
                 </div>
               </template>
@@ -291,6 +323,7 @@ import {
 } from '@/api/java/operate-center'
 import { hideLoading, showLoading } from '@/utils/tool'
 import { ElMessage } from 'element-plus'
+import { unitList } from '../common'
 
 // 属性值
 interface DCIProps {
@@ -314,7 +347,12 @@ const form: { [key: string]: any } = reactive({
   zEquipmentId: [],
   zPortId: [],
   dataResource: 'static',
-  data: [{}] as any[],
+  data: [
+    {
+      minBandwidthUnit: 'Mbps',
+      maxBandwidthUnit: 'Mbps'
+    }
+  ] as any[],
   url: ''
 })
 
@@ -341,7 +379,27 @@ const validatePort = (rule: any, value: any, callback: (e?: Error) => any) => {
   const flag = value.some((item: any) => {
     return hasEmptyProperty(item)
   })
-
+  const multiVal = (val: string) => {
+    const index = unitList.findIndex(unit => unit.value === val)
+    return Math.pow(1000, index + 1)
+  }
+  const valThan = value.find((item: any) => {
+    if (item.minBandwidth && item.maxBandwidth) {
+      if (
+        item.minBandwidth * multiVal(item.minBandwidthUnit) >
+        item.maxBandwidth * multiVal(item.maxBandwidthUnit)
+      ) {
+        return true
+      } else {
+        return false
+      }
+    } else {
+      return false
+    }
+  })
+  if (valThan) {
+    callback(new Error('请选择合适的带宽范围'))
+  }
   if (flag && value.length === 1) {
     callback(new Error('请至少输入一条端口信息'))
   } else {
@@ -414,7 +472,24 @@ onMounted(() => {
       if (key !== 'data') {
         form[key] = props.rowData[key]
       } else {
-        form.data = [props.rowData]
+        const minBandwidthUnit = props.rowData.minBandwidth.match(/[A-Za-z]+$/)
+          ? props.rowData.minBandwidth.match(/[A-Za-z]+$/)[0]
+          : 'Mbps'
+        const maxBandwidthUnit = props.rowData.maxBandwidth.match(/[A-Za-z]+$/)
+          ? props.rowData.maxBandwidth.match(/[A-Za-z]+$/)[0]
+          : 'Mbps'
+        const maxBandwidth = parseInt(props.rowData.maxBandwidth)
+        const minBandwidth = parseInt(props.rowData.minBandwidth)
+
+        form.data = [
+          {
+            ...props.rowData,
+            minBandwidth,
+            maxBandwidth,
+            minBandwidthUnit,
+            maxBandwidthUnit
+          }
+        ]
       }
     })
   }
@@ -574,6 +649,8 @@ const submitForm = (formEl: FormInstance | undefined) => {
           nrc,
           mrc,
           mtu,
+          maxBandwidthUnit,
+          minBandwidthUnit,
           delayTime,
           deliveryDuration
         } = form.data[0]
@@ -585,8 +662,8 @@ const submitForm = (formEl: FormInstance | undefined) => {
           zNodeId: form.zNodeId,
           zEquipmentId: form.zEquipmentId,
           zPortId: form.zPortId,
-          minBandwidth,
-          maxBandwidth,
+          minBandwidth: minBandwidth + minBandwidthUnit,
+          maxBandwidth: maxBandwidth + maxBandwidthUnit,
           nrc,
           mrc,
           mtu,
@@ -609,9 +686,16 @@ const submitForm = (formEl: FormInstance | undefined) => {
             hideLoading()
           })
       } else {
-        const { url, ...resetObject } = form
+        const { url, data, ...resetObject } = form
+        data.forEach((item: any) => {
+          item.maxBandwidth += item.maxBandwidthUnit
+          item.minBandwidth += item.minBandwidthUnit
+          delete item.maxBandwidthUnit
+          delete item.minBandwidthUnit
+        })
         params = {
-          ...resetObject
+          ...resetObject,
+          data
         }
         showLoading('创建中...')
         dciDataEntry(params)
@@ -651,6 +735,11 @@ defineExpose({ formRef, form })
   :deep(.el-row) {
     justify-content: space-between;
     width: 100%;
+  }
+  :deep(.el-select__suffix) {
+    .el-input__validateIcon {
+      display: none;
+    }
   }
 }
 </style>

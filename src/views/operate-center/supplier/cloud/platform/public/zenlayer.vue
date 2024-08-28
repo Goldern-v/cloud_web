@@ -34,11 +34,11 @@
               label="SECRET_KEY_REGISTER"
               >密钥</el-radio-button
             >
-            <el-radio-button
+            <!-- <el-radio-button
               v-if="useThisType('PASSWORD_REGISTER')"
               label="PASSWORD_REGISTER"
               >密码</el-radio-button
-            >
+            > -->
           </el-radio-group>
         </el-form-item>
 

@@ -51,18 +51,21 @@ const getContactInfo = () => {
     getContact().then(res => {
       if (res.code == '200') {
         const { data: list } = res
-        showInfoList[0].listData = list.reduce((preLi: any, nextLi: any) => {
-          return [
-            ...preLi,
-            {
-              title: nextLi.vdcFirst,
-              children: nextLi.contacts.map((item: any) => {
-                const { vdcSecond, name, email } = item
-                return `${vdcSecond}：${name} ${email}`
-              })
-            }
-          ]
-        }, [])
+        showInfoList[0].listData = list.reduce(
+          (preLi: any, nextLi: any, index: any) => {
+            return [
+              ...preLi,
+              {
+                title: nextLi.vdcFirst,
+                children: nextLi.contacts.map((item: any) => {
+                  const { vdcSecond, name, email } = item
+                  return `${vdcSecond}：${name} ${email}`
+                })
+              }
+            ]
+          },
+          []
+        )
         resolve(true)
       }
     })

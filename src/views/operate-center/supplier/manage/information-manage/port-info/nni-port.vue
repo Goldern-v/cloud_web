@@ -96,7 +96,7 @@
       <el-form-item label="端口状态" prop="portStatus">
         <el-select
           v-model="form.portStatus"
-          placeholder="请选择速率"
+          placeholder="请选择端口状态"
           class="custom-input"
           :disabled="isApproved || isSelect"
         >
@@ -127,11 +127,25 @@
 
       <el-form-item label="线路带宽" prop="bandwidth">
         <el-input
-          v-model="form.bandwidth"
+          v-model.number="form.bandwidth"
           class="custom-input"
           placeholder="请输入带宽"
           :disabled="isApproved || isSelect"
         >
+          <template #append>
+            <el-select
+              v-model="form.bandwidthUnit"
+              placeholder="Select"
+              style="width: 115px"
+            >
+              <el-option
+                v-for="(item, index) in unitList"
+                :key="index + 'asd'"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </template>
         </el-input>
       </el-form-item>
 
@@ -194,7 +208,7 @@ import {
   portEdit,
   getSupplierList
 } from '@/api/java/operate-center'
-import { speedList, portStatusList } from '../common'
+import { speedList, portStatusList, unitList } from '../common'
 
 interface PortProps {
   type?: undefined | string
@@ -232,7 +246,8 @@ const form: { [key: string]: any } = reactive({
   bandwidth: '',
   remotePort: '',
   remoteDevice: '',
-  vlan: ''
+  vlan: '',
+  bandwidthUnit: 'Mbps'
 })
 
 const rules = reactive<FormRules>({
@@ -271,6 +286,13 @@ onMounted(() => {
     Object.keys(form).forEach((key: string) => {
       if (key !== 'vendorId') {
         form[key] = props.rowData[key]
+        if (key === 'bandwidth') {
+          form[key] = parseInt(props.rowData.bandwidth)
+        } else if (key === 'bandwidthUnit') {
+          form[key] = props.rowData.bandwidth.match(/[A-Za-z]+$/)
+            ? props.rowData.bandwidth.match(/[A-Za-z]+$/)[0]
+            : 'Mbps'
+        }
       } else {
         form.vendorId = parseInt(props.rowData.vendorId)
       }
@@ -358,12 +380,15 @@ watch(
       isSelect.value = isSupplierEntry.value
       form.name = portInfo.name
       form.speed = portInfo.speed
-      form.bandwidth = portInfo.bandwidth
+      form.bandwidth = parseInt(portInfo.bandwidth)
       form.remotePort = portInfo.remotePort
       form.remoteDevice = portInfo.remoteDevice
       form.vlan = JSON.parse(portInfo.vlan)
       form.uuid = portInfo.uuid
       form.portStatus = portInfo.portStatus
+      form.bandwidthUnit = portInfo.bandwidth.match(/[A-Za-z]+$/)
+        ? portInfo.bandwidth.match(/[A-Za-z]+$/)[0]
+        : 'Mbps'
     } else {
       form.name = ''
       form.speed = ''
@@ -374,6 +399,7 @@ watch(
       isSelect.value = false
       form.uuid = ''
       form.portStatus = ''
+      form.bandwidthUnit = 'Mbps'
     }
   }
 )
@@ -401,6 +427,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
     if (valid) {
       const params: { [key: string]: any } = {
         ...form,
+        bandwidth: form.bandwidth + form.bandwidthUnit,
         portType: 'NNI'
       }
       if (isEdit.value) {
@@ -452,6 +479,11 @@ defineExpose({ formRef, form })
   }
   .ideal-table-list__container {
     padding: 0;
+  }
+  :deep(.el-select__suffix) {
+    .el-input__validateIcon {
+      display: none;
+    }
   }
 }
 </style>
