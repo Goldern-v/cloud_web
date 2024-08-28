@@ -3,11 +3,7 @@
     <!-- 搜索框 -->
     <div class="flex-row">
       <div class="select_text">筛选条件</div>
-      <el-radio-group
-        v-model="timeSelect"
-        class="ideal-default-margin-right"
-        @change="timeChange"
-      >
+      <el-radio-group v-model="timeSelect" class="ideal-default-margin-right">
         <el-radio-button
           v-for="(item, index) in timeList"
           :key="index"
@@ -20,11 +16,11 @@
       <div class="ideal-default-margin-right">
         <el-date-picker
           v-model="dateRange"
-          type="datetimerange"
+          type="daterange"
           range-separator="-"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
-          format="YYYY-MM-DD HH:mm:ss"
+          format="YYYY-MM-DD"
           @change="dateChange"
         />
       </div>
@@ -40,19 +36,22 @@
                 <el-select
                   v-if="!isSupplierManager"
                   v-model="supplierId"
-                  placeholder="请选择供应商"
+                  placeholder="请选择供应商类型"
                   style="width: 20%"
                 >
                   <el-option
-                    v-for="(item, index) in supplierList"
+                    v-for="(item, index) in supplierType"
                     :key="index"
-                    :label="item.username"
-                    :value="item.id"
+                    :label="item.key"
+                    :value="item.value"
                   />
                 </el-select>
               </div>
               <!-- 柱形图 -->
-              <bar-charts ref="incomeReviewRatio"></bar-charts>
+              <bar-charts
+                ref="incomeReviewRatio"
+                :bar-data="barData"
+              ></bar-charts>
             </div>
           </div>
         </el-col>
@@ -84,7 +83,6 @@
           :pagination-type="PaginationTypeEnum.totalSizes"
           :total="state.total"
           :page="state.page"
-          :max-height="maxHeight"
           @clickSizeChange="sizeChangeHandle"
           @clickCurrentChange="currentChangeHandle"
         >
@@ -104,68 +102,143 @@ import { useCrud } from '@/hooks'
 import barCharts from './barCharts.vue'
 import pieCharts from './pieCharts.vue'
 import supplierIndex from './supplierIndex.vue'
-import { supplierInfoList, getSupplierList } from '@/api/java/operate-center'
-const timeSelect = ref<number | null>()
-const dateRange = ref<[Date, Date]>() //时间范围
+import {
+  supplierBillList,
+  supplierTypeList,
+  supplierBillOverview
+} from '@/api/java/operate-center'
+const timeSelect = ref(7)
+const dateRange = ref<[any, any]>() //时间范围
 const timeList = [
-  { label: '近7天', type: 'd', value: 7 },
-  { label: '近30天', type: 'd', value: 30 },
-  { label: '近半年', type: 'm', value: 6 },
-  { label: '近一年', type: 'm', value: 12 }
+  { label: '近7天', type: 'd', value: 7, paramType: 1 },
+  { label: '近30天', type: 'd', value: 30, paramType: 2 },
+  { label: '近半年', type: 'm', value: 6, paramType: 3 },
+  { label: '近一年', type: 'm', value: 12, paramType: 4 }
 ]
+import { typeFormat, resourceTypeFormat } from './common'
+import { timeFormatByCondition } from '@/utils/time-format'
 
-const timeChange = (time: any) => {
-  const obj = timeList.find(item => item.value === time)
-  if (obj) {
-    const to = new Date()
-    const from =
-      obj?.type === 'd'
-        ? new Date(to.getTime() - obj.value * 24 * 3600000)
-        : new Date(to.getTime() - obj.value * 24 * 30 * 3600000)
-    dateRange.value = [from, to]
-  }
-}
+const overViewType = ref()
+watch(
+  () => timeSelect.value,
+  val => {
+    const obj = timeList.find(item => item.value === val)
+    if (obj) {
+      overViewType.value = obj.paramType
+      const to = new Date()
+      const from =
+        obj?.type === 'd'
+          ? new Date(to.getTime() - obj.value * 24 * 3600000)
+          : new Date(to.getTime() - obj.value * 24 * 30 * 3600000)
+      const fromFormat = timeFormatByCondition(from, 'YYYY-MM-DD')
+      const toFormat = timeFormatByCondition(to, 'YYYY-MM-DD')
+      dateRange.value = [fromFormat, toFormat]
+    }
+  },
+  { immediate: true }
+)
 
 const dateChange = (val: any) => {
-  timeSelect.value = null
+  timeSelect.value = 0
+  overViewType.value = 5 // 自定义时间  要求参数传5
 }
 
 watch(
   () => dateRange,
   val => {
-    // queryRevenue()   收入总览卡片数据
+    if (val) {
+      ;(state.queryForm.supplier = supplierId.value),
+        (state.queryForm.startTime = dateRange.value?.[0]),
+        (state.queryForm.endTime = dateRange.value?.[1]),
+        queryRevenue() //收入总览卡片数据
+      getDataList()
+    }
   },
   { deep: true }
 )
 const supplierId = ref()
-const supplierList: any = ref([])
+const supplierType: any = ref([])
 
 const querySupplier = async () => {
   try {
-    const res = await getSupplierList()
-    supplierList.value = res.data
+    const res = await supplierTypeList()
+    supplierType.value = res.data
   } catch (err: any) {
     ElMessage.error(err)
   }
 }
 
+watch(
+  () => supplierId.value,
+  val => {
+    if (val) {
+      ;(state.queryForm.supplier = supplierId.value),
+        (state.queryForm.startTime = dateRange.value?.[0]),
+        (state.queryForm.endTime = dateRange.value?.[1]),
+        queryRevenue() //收入总览卡片数据
+      getDataList()
+    }
+  }
+)
+
+const barData = ref({})
+
+// 收入总览柱状图
+const queryRevenue = () => {
+  let params = {
+    supplier: supplierId.value,
+    startTime: dateRange.value?.[0],
+    endTime: dateRange.value?.[1],
+    type: overViewType.value
+  }
+  supplierBillOverview(params).then((res: any) => {
+    if (res.code === 200) {
+      barData.value = res.data
+      nextTick(() => {
+        incomeReviewRatio?.value.initEchart()
+        incomeScaleRatio?.value.initEchart()
+      })
+    } else {
+      barData.value = {}
+    }
+  })
+}
+
 const incomeReviewRatio = ref()
 const incomeScaleRatio = ref()
-nextTick(() => {
-  incomeReviewRatio?.value.initEchart()
-  incomeScaleRatio?.value.initEchart()
-})
+// nextTick(() => {
+//   incomeReviewRatio?.value.initEchart()
+//   incomeScaleRatio?.value.initEchart()
+// })
 
 const state: IHooksOptions = reactive({
-  dataListUrl: supplierInfoList,
+  dataListUrl: supplierBillList,
   dataList: [] as any[],
-  queryForm: {}
+  queryForm: {
+    supplier: supplierId.value,
+    startTime: dateRange.value?.[0],
+    endTime: dateRange.value?.[1]
+  }
 })
 
 const { sizeChangeHandle, currentChangeHandle, getDataList } = useCrud(state)
 
+watch(
+  () => state.dataList,
+  (arr: any) => {
+    if (arr.length) {
+      arr.forEach((item: any) => {
+        item.businessTypeFormat = resourceTypeFormat[item.businessType]
+        item.orderType = typeFormat[item.workOrderType]
+      })
+    }
+  },
+  { immediate: true }
+)
+
 onMounted(() => {
   querySupplier()
+  queryRevenue()
   //平台管理员角色
   if (!isSupplierManager.value) {
     tableHeaders.value = headerArray
@@ -175,17 +248,17 @@ onMounted(() => {
     tableHeaders.value = headerArray.filter((item: any) => item.prop !== 'name')
   }
 })
-const maxHeight = ref(210)
+// const maxHeight = ref(300)
 const tableHeaders = ref<IdealTableColumnHeaders[]>()
 const headerArray: IdealTableColumnHeaders[] = [
-  { label: '供应商名称', prop: 'name', width: '120' },
-  { label: '产品名称', prop: 'status', width: '120' },
-  { label: '业务类型', prop: 'node', width: '100' },
-  { label: '工单号', prop: 'area', width: '200' },
-  { label: '工单类型', prop: 'country', width: '200' },
-  { label: '带宽', prop: 'city' },
-  { label: '价格（$)', prop: 'creator.username', width: '100' },
-  { label: '账单生成时间', prop: 'createTime.date', width: '180' }
+  { label: '供应商名称', prop: 'supplierName', width: '120' },
+  { label: '产品名称', prop: 'productName', width: '120' },
+  { label: '业务类型', prop: 'businessTypeFormat', width: '100' },
+  { label: '工单号', prop: 'workOrderId', width: '200' },
+  { label: '工单类型', prop: 'orderType', width: '200' },
+  { label: '带宽', prop: 'bandwidth' },
+  { label: '价格（$)', prop: 'income', width: '100' },
+  { label: '账单生成时间', prop: 'billTime', width: '180' }
 ]
 </script>
 

@@ -4,6 +4,27 @@
 
 <script lang="ts" setup>
 import * as echarts from 'echarts'
+// 属性值
+interface PortProps {
+  barData?: any // 行数据
+}
+const props = withDefaults(defineProps<PortProps>(), {
+  barData: null
+})
+
+const xData = ref()
+const seriesData = ref()
+
+watch(
+  () => props.barData,
+  val => {
+    if (Object.keys(val).length > 0) {
+      xData.value = val.dates
+      seriesData.value = val.incomes
+    }
+  },
+  { immediate: true }
+)
 
 let myChart: any
 const initEchart = () => {
@@ -15,14 +36,14 @@ const initEchart = () => {
   let option = {
     xAxis: {
       type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+      data: xData.value
     },
     yAxis: {
       type: 'value'
     },
     series: [
       {
-        data: [120, 200, 150, 80, 70, 110, 130],
+        data: seriesData.value,
         type: 'bar'
       }
     ]

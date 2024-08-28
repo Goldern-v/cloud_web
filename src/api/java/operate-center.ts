@@ -159,7 +159,9 @@ const Api = {
   CLOUD_RESOURCE_LIST: `${api}/public-cloud/management/physical-connections/page`, // 资源管理列表
   CLOUD_RESOURCE_DETAIL: `${api}/public-cloud/management/physical-connection/detail`, // 资源管理详情
   CLOUD_RESOURCE_UPDATE: `${api}/public-cloud/management/physical-connections/update`, // 资源管理修改
-  CLOUD_RESOURCE_SHARE_LIST: `${api}/public-cloud/management/share-connections/page` // 资源管理共享连接
+  CLOUD_RESOURCE_SHARE_LIST: `${api}/public-cloud/management/share-connections/page`, // 资源管理共享连接
+  SUPPLIER_BILL_LIST: `${api}/supplier/bill/page`, // 账单报表明细
+  SUPPLIER_BILL_OVERVIEW: `${api}/supplier/bill/overview` // 账单报表明细
 }
 
 /**
@@ -937,4 +939,11 @@ export const cloudResourceUpdate = (data: any) => {
 // 资源管理-共享连接列表
 export const cloudResourceShareList = (params: any) => {
   return service.get(Api.CLOUD_RESOURCE_SHARE_LIST, { params })
+}
+// 账单报表-账单明细
+export const supplierBillList = Api.SUPPLIER_BILL_LIST
+
+// 账单报表-收入总览
+export const supplierBillOverview = (params: any) => {
+  return service.get(Api.SUPPLIER_BILL_OVERVIEW, { params })
 }
