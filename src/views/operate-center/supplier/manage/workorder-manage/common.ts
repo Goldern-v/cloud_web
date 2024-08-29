@@ -25,12 +25,16 @@ export const initStatusInfo = (keys: string[], keysWords: string[] = []) => {
   statusList = []
   statusFormat = {}
   const UN_DEALObj = {
-    UN_DEAL: keys.includes('delivery') ? '待交付' : '待处理'
+    UN_DEAL: '待处理'
   }
   Object.assign(statusFormat, {
     DEAL_ING: '审批中',
     COMPLETED: '已完成',
     REJECT: '已驳回',
+    DELIVERED: '已交付',
+    ZGA_SUCCESS: 'zga开通成功',
+    ZGA_FAIL: 'zga退租成功',
+    UN_DELIVERED: '待交付',
     UN_APPROVED: '待审批',
     PASSED: '已通过',
     TIMEOUT_UN_DEAL: '超时未交付',
