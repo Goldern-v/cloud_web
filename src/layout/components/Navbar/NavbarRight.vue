@@ -5,7 +5,7 @@
     <!-- <Fullscreen /> -->
     <!-- <ResourcePool/> -->
     <!-- <Message /> -->
-    <stationMessage />
+    <!-- <stationMessage /> -->
     <User />
     <!-- <ThemeSettings /> -->
   </div>
@@ -18,7 +18,7 @@
 // import ResourcePool from './components/ResourcePool.vue'
 import Message from './components/Message.vue'
 import User from './components/User.vue'
-import stationMessage from './components/stationMessage.vue'
+// import stationMessage from './components/stationMessage.vue'  830暂不上线
 // import ThemeSettings from './components/ThemeSettings.vue'
 </script>
 
