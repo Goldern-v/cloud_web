@@ -286,6 +286,7 @@ const aliHeaders: IdealTableColumnHeaders[] = [
 const zgaHeaders: IdealTableColumnHeaders[] = [
   { label: '端口名称', prop: 'name' },
   { label: '数据来源', prop: 'originType' },
+  { label: '端口状态', prop: 'portStatus' },
   { label: '审批状态', prop: 'status', useSlot: true },
   { label: '端口速度', prop: 'speed' },
   { label: '区域', prop: 'area' },

@@ -32,7 +32,8 @@ export const cloudTypeList = [
   { label: '阿里云', value: 'aliyun' },
   { label: 'AWS', value: 'aws' },
   { label: 'Azure', value: 'Azure' },
-  { label: 'Google', value: 'GOOGLE_CLOUD' }
+  { label: 'Google', value: 'GOOGLE_CLOUD' },
+  { label: 'ZGA', value: 'zga' }
 ]
 
 //清空form表单

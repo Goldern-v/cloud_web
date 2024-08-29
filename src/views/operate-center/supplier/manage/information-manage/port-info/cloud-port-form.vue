@@ -109,11 +109,12 @@
         </el-input>
       </el-form-item>
 
-      <el-form-item v-if="!isZga" label="端口状态" prop="portStatus">
+      <el-form-item label="端口状态" prop="portStatus">
         <el-select
           v-model="form.portStatus"
-          placeholder="请选择速率"
+          placeholder="请选择端口状态"
           class="custom-input"
+          :disabled="isForbidden || isApproved"
         >
           <el-option
             v-for="(item, index) of portStatusList"

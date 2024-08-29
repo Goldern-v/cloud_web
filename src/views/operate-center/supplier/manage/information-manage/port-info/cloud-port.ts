@@ -14,7 +14,8 @@ export const getCloudPortParams = () => {
       area,
       accessPoint,
       speedUnit,
-      aliPortType
+      aliPortType,
+      portStatus
     } = form
     const params: { [key: string]: any } = {
       portType: 'CLOUD',
@@ -27,7 +28,8 @@ export const getCloudPortParams = () => {
       instanceId,
       area,
       accessPoint,
-      aliPortType
+      aliPortType,
+      portStatus
     }
     return params
   }
@@ -44,7 +46,8 @@ export const getCloudPortParams = () => {
       area,
       accessPoint,
       speedUnit,
-      aliPortType
+      aliPortType,
+      portStatus
     } = form
     const params: { [key: string]: any } = {
       portType: 'CLOUD',
@@ -58,7 +61,8 @@ export const getCloudPortParams = () => {
       instanceId,
       area,
       accessPoint,
-      aliPortType
+      aliPortType,
+      portStatus
     }
     return params
   }
@@ -76,7 +80,8 @@ export const getCloudPortParams = () => {
       area,
       speedUnit,
       address,
-      logicalDevice
+      logicalDevice,
+      portStatus
     } = form
     const params: { [key: string]: any } = {
       portType: 'CLOUD',
@@ -89,7 +94,8 @@ export const getCloudPortParams = () => {
       connectionId,
       area,
       address,
-      logicalDevice
+      logicalDevice,
+      portStatus
     }
     return params
   }
@@ -126,7 +132,8 @@ export const getCloudPortParams = () => {
       demarcId,
       speedUnit,
       zone,
-      location
+      location,
+      portStatus
     } = form
     const params: { [key: string]: any } = {
       portType: 'CLOUD',
@@ -143,7 +150,8 @@ export const getCloudPortParams = () => {
       circuitId,
       demarcId,
       zone,
-      location
+      location,
+      portStatus
     }
     return params
   }

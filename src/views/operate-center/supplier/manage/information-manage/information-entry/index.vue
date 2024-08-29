@@ -425,14 +425,16 @@ const getParams = () => {
         return {
           portId: item.id,
           portName: item.portName,
-          portSpeed: item.portSpeed
+          portSpeed: item.portSpeed,
+          portStatus: item.portStatus
         }
       }
       //录入新增的专用端口
       else {
         return {
           portName: item.portName,
-          portSpeed: item.portSpeed
+          portSpeed: item.portSpeed,
+          portStatus: item.portStatus
         }
       }
     })
@@ -444,7 +446,15 @@ const getParams = () => {
     }
   } else if (form.type === 'NNI') {
     const nniForm = nniPortRef.value.form
-    const { name, speed, bandwidth, remotePort, remoteDevice, vlan } = nniForm
+    const {
+      name,
+      speed,
+      bandwidth,
+      remotePort,
+      remoteDevice,
+      vlan,
+      portStatus
+    } = nniForm
     const nniObj = {
       portType: form.type,
       nodeId,
@@ -453,7 +463,8 @@ const getParams = () => {
       bandwidth,
       remotePort,
       remoteDevice,
-      vlan
+      vlan,
+      portStatus
     }
     //信息录入时通过下拉选择已存在的nni端口
     if (nniForm.name) {
@@ -485,7 +496,8 @@ const getParams = () => {
       location,
       zone,
       address,
-      portGroup
+      portGroup,
+      portStatus
     } = cloudForm
     const cloudObj = {
       portType: form.type, //端口类型
@@ -496,7 +508,8 @@ const getParams = () => {
       instanceId,
       area,
       accessPoint,
-      aliPortType
+      aliPortType,
+      portStatus
     }
     const azureObj = {
       portType: form.type, //端口类型
@@ -508,7 +521,8 @@ const getParams = () => {
       location,
       zone,
       address,
-      portGroup
+      portGroup,
+      portStatus
     }
     //信息录入时通过下拉选择已存在的云端口
     if (cloudForm.name) {

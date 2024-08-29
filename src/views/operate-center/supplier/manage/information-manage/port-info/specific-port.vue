@@ -389,6 +389,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
         params.speed = form.portData[0].portSpeed
         params.uuid = form.portData[0].uuid
         params.id = props.rowData.id
+        params.portStatus = form.portData[0].portStatus
         portEdit(params)
           .then((res: any) => {
             if (res.code === 200) {
@@ -407,9 +408,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
           return {
             portName: item.portName,
             portSpeed: item.portSpeed,
-            portUuid: item.uuid
+            portUuid: item.uuid,
+            portStatus: form.portData[0].portStatus
           }
         })
+        params.portStatus = form.portData[0].portStatus
         showLoading('创建中...')
         portAdd(params)
           .then((res: any) => {
