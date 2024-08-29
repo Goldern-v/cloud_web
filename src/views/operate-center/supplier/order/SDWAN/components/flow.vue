@@ -31,7 +31,7 @@ const flowTableVisible = ref(false)
 const open = (row: any) => {
   const { orderItemId, siteId } = row
   sdwanProcess({ orderItemId, siteId }).then((res: any) => {
-    if (res.code === '200') {
+    if (res.code === 200) {
       state.dataList = res.data
     }
     flowTableVisible.value = true
