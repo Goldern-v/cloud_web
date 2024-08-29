@@ -5,20 +5,47 @@
         <img src="@/assets/income_top.png" alt="" />
         <div class="flex_column">
           <span class="font_size">端口收入</span>
-          <span>1000￥</span>
+          <span>{{ portData }}￥</span>
         </div>
       </div>
       <div class="flex_between">
         <img src="@/assets/income_bot.png" alt="" />
         <div class="flex_column">
           <span class="font_size">线路收入</span>
-          <span>2000￥</span>
+          <span>{{ lineData }}￥</span>
         </div>
       </div>
     </div>
   </div>
 </template>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+// 属性值
+interface PortProps {
+  pieData?: any
+}
+const props = withDefaults(defineProps<PortProps>(), {
+  pieData: null
+})
+
+const portData = ref(0)
+const lineData = ref(0)
+
+watch(
+  () => props.pieData,
+  val => {
+    if (val.length > 0) {
+      val.forEach((item: any) => {
+        if (item.key === 'LINE') {
+          lineData.value = item.value
+        } else if (item.key === 'LINE') {
+          portData.value = item.value
+        }
+      })
+    }
+  },
+  { immediate: true }
+)
+</script>
 <style lang="scss" scoped>
 .index_container {
   margin: 20px 0;

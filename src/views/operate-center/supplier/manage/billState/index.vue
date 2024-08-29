@@ -17,11 +17,12 @@
         <el-date-picker
           v-model="dateRange"
           type="daterange"
+          :clearable="false"
           range-separator="-"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
           format="YYYY-MM-DD"
-          @change="dateChange"
+          value-format="YYYY-MM-DD"
         />
       </div>
     </div>
@@ -60,11 +61,14 @@
             <div class="padding_ten">
               <div v-if="!isSupplierManager">
                 <div>收入占比</div>
-                <pie-charts ref="incomeScaleRatio"></pie-charts>
+                <pie-charts
+                  ref="incomeScaleRatio"
+                  :pie-data="pieData"
+                ></pie-charts>
               </div>
               <div v-else>
                 <div>相关指标</div>
-                <supplier-index></supplier-index>
+                <supplier-index :pie-data="pieData"></supplier-index>
               </div>
             </div>
           </div>
@@ -105,7 +109,8 @@ import supplierIndex from './supplierIndex.vue'
 import {
   supplierBillList,
   supplierTypeList,
-  supplierBillOverview
+  supplierBillOverview,
+  supplierBillPieChart
 } from '@/api/java/operate-center'
 const timeSelect = ref(7)
 const dateRange = ref<[any, any]>() //时间范围
@@ -138,11 +143,6 @@ watch(
   { immediate: true }
 )
 
-const dateChange = (val: any) => {
-  timeSelect.value = 0
-  overViewType.value = 5 // 自定义时间  要求参数传5
-}
-
 watch(
   () => dateRange,
   val => {
@@ -150,7 +150,10 @@ watch(
       ;(state.queryForm.supplier = supplierId.value),
         (state.queryForm.startTime = dateRange.value?.[0]),
         (state.queryForm.endTime = dateRange.value?.[1]),
-        queryRevenue() //收入总览卡片数据
+        (timeSelect.value = 0)
+      overViewType.value = 5
+      queryRevenue() //收入总览卡片数据
+      queryPie()
       getDataList()
     }
   },
@@ -176,10 +179,14 @@ watch(
         (state.queryForm.startTime = dateRange.value?.[0]),
         (state.queryForm.endTime = dateRange.value?.[1]),
         queryRevenue() //收入总览卡片数据
+      queryPie()
       getDataList()
     }
   }
 )
+
+const incomeReviewRatio = ref()
+const incomeScaleRatio = ref()
 
 const barData = ref({})
 
@@ -191,12 +198,12 @@ const queryRevenue = () => {
     endTime: dateRange.value?.[1],
     type: overViewType.value
   }
+  barData.value = {}
   supplierBillOverview(params).then((res: any) => {
     if (res.code === 200) {
       barData.value = res.data
       nextTick(() => {
         incomeReviewRatio?.value.initEchart()
-        incomeScaleRatio?.value.initEchart()
       })
     } else {
       barData.value = {}
@@ -204,12 +211,27 @@ const queryRevenue = () => {
   })
 }
 
-const incomeReviewRatio = ref()
-const incomeScaleRatio = ref()
-// nextTick(() => {
-//   incomeReviewRatio?.value.initEchart()
-//   incomeScaleRatio?.value.initEchart()
-// })
+const pieData = ref([])
+
+// 收入占比饼状图
+const queryPie = () => {
+  let params = {
+    supplier: supplierId.value,
+    startTime: dateRange.value?.[0],
+    endTime: dateRange.value?.[1]
+  }
+  pieData.value = []
+  supplierBillPieChart(params).then((res: any) => {
+    if (res.code === 200) {
+      pieData.value = res.data
+      nextTick(() => {
+        incomeScaleRatio?.value.initEchart()
+      })
+    } else {
+      pieData.value = []
+    }
+  })
+}
 
 const state: IHooksOptions = reactive({
   dataListUrl: supplierBillList,
@@ -239,6 +261,7 @@ watch(
 onMounted(() => {
   querySupplier()
   queryRevenue()
+  queryPie()
   //平台管理员角色
   if (!isSupplierManager.value) {
     tableHeaders.value = headerArray
@@ -258,7 +281,7 @@ const headerArray: IdealTableColumnHeaders[] = [
   { label: '工单类型', prop: 'orderType', width: '200' },
   { label: '带宽', prop: 'bandwidth' },
   { label: '价格（$)', prop: 'income', width: '100' },
-  { label: '账单生成时间', prop: 'billTime', width: '180' }
+  { label: '账单生成时间', prop: 'billTime.date', width: '180' }
 ]
 </script>
 

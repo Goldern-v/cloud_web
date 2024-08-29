@@ -4,6 +4,32 @@
 
 <script lang="ts" setup>
 import * as echarts from 'echarts'
+// 属性值
+interface PortProps {
+  pieData?: any
+}
+const props = withDefaults(defineProps<PortProps>(), {
+  pieData: null
+})
+
+const seriesData = ref()
+
+watch(
+  () => props.pieData,
+  val => {
+    seriesData.value = val.map((item: any) => {
+      if (item.key === 'LINE') {
+        item.name = '线路'
+      } else if (item.key === 'PORT') {
+        item.name = '端口'
+      } else {
+        item.name = item.key
+      }
+      return item
+    })
+  },
+  { immediate: true }
+)
 
 let myChart: any
 const initEchart = () => {
@@ -18,9 +44,12 @@ const initEchart = () => {
       left: 'right',
       y: 'center'
     },
+    tooltip: {
+      show: true,
+      trigger: 'item'
+    },
     series: [
       {
-        name: 'Access From',
         type: 'pie',
         radius: '50%',
         center: ['30%', '50%'], // 调整图位置，[0]左右，[1]上下
@@ -34,13 +63,7 @@ const initEchart = () => {
             show: false
           }
         },
-        data: [
-          { value: 1048, name: 'Search Engine' },
-          { value: 735, name: 'Direct' },
-          { value: 580, name: 'Email' },
-          { value: 484, name: 'Union Ads' },
-          { value: 300, name: 'Video Ads' }
-        ],
+        data: seriesData.value,
         emphasis: {
           itemStyle: {
             shadowBlur: 10,
