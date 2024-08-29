@@ -203,8 +203,16 @@ const assetsArr1 = (dataInfo: any) => {
     }
   })
   const defaultArr = [
-    { label: 'A端', prop: 'A端' },
-    { label: 'Z端', prop: 'Z端' },
+    {
+      label: 'A端',
+      prop: 'A端',
+      labelStyle: 'font-weight: bold;font-size: 14px;'
+    },
+    {
+      label: 'Z端',
+      prop: 'Z端',
+      labelStyle: 'font-weight: bold;font-size: 14px;'
+    },
     { label: '端口类型：', prop: 'endpointADetailPortType', useSlot: true },
     { label: '端口类型：', prop: 'endpointZDetailPortType', useSlot: true }
   ]
