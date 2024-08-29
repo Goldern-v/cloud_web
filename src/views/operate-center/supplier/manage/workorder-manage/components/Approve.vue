@@ -66,7 +66,7 @@ const clickOperateEvent = (command: string, row: any) => {
 }
 
 const defaultQuery = {
-  workerOrderTabType: 'approve'
+  workerOrderTabType: 'approval'
 }
 const state: IHooksOptions = reactive({
   dataListUrl: supplierWorkorderList,
