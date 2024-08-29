@@ -339,6 +339,10 @@ interface DCIProps {
 const props = withDefaults(defineProps<DCIProps>(), {
   rowData: null
 })
+const defaultData = {
+  minBandwidthUnit: 'Mbps',
+  maxBandwidthUnit: 'Mbps'
+}
 
 const { t } = useI18n()
 
@@ -353,12 +357,7 @@ const form: { [key: string]: any } = reactive({
   zEquipmentId: [],
   zPortId: [],
   dataResource: 'static',
-  data: [
-    {
-      minBandwidthUnit: 'Mbps',
-      maxBandwidthUnit: 'Mbps'
-    }
-  ] as any[],
+  data: [{ ...defaultData }] as any[],
   url: ''
 })
 
@@ -464,7 +463,7 @@ const sourceList = [
   // { label: 'api', name: 'API对接' }
 ]
 const handleAdd = () => {
-  form.data.push({})
+  form.data.push({ ...defaultData })
 }
 const handleDelete = (index: number) => {
   form.data.splice(index, 1)
