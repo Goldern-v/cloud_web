@@ -111,7 +111,7 @@ const headerArr1 = [
 const headerArr3 = (resourceTypeStr: string) => {
   const showConnect = resourceTypeStr === '线路' ? '线路编号：' : '端口编号：'
   return [
-    { label: showConnect, prop: 'privateConnectId' },
+    { label: showConnect, prop: 'orderNumber' },
     { label: '创建时间：', prop: 'createTime', useSlot: true },
     { label: '交付时间：', prop: 'updateTime', useSlot: true },
     { label: '交付工期：', prop: 'deliveryDuration' }
