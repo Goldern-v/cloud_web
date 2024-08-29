@@ -43,17 +43,25 @@ export const tabControllersData: tabControllersDataType[] = [
 ]
 
 export const typeArray: IdealSearch[] = [
+  { label: '订单编号', prop: 'orderItemId', type: FiltrateEnum.input },
   { label: '客户名称', prop: 'customerName', type: FiltrateEnum.input },
-  { label: 'BSS Order No', prop: 'bssOrder', type: FiltrateEnum.input },
-  { label: '客户经理邮箱', prop: 'accountMaEmail', type: FiltrateEnum.input }
+  { label: '客户经理', prop: 'accountMaEmail', type: FiltrateEnum.input }
 ]
 
-export const tableHeaders: IdealTableColumnHeaders[] = [
+export const processingTableHeaders: IdealTableColumnHeaders[] = [
+  { label: '订单编号', prop: 'orderItemId' },
   { label: '客户名称', prop: 'customerName' },
-  { label: 'BSS Order No', prop: 'bssOrder' },
-  { label: '业务类型', prop: 'productName' },
-  { label: '创建时间', prop: 'createTime' },
-  { label: '客户经理邮箱', prop: 'accountMaEmail' }
+  { label: '客户经理', prop: 'accountMaEmail' },
+  // { label: '订单流程', prop: '' },
+  { label: '创建时间', prop: 'createTime' }
+]
+export const finishTableHeaders: IdealTableColumnHeaders[] = [
+  { label: '订单编号', prop: 'orderItemId' },
+  { label: '客户名称', prop: 'customerName' },
+  { label: '客户经理', prop: 'accountMaEmail' },
+  // { label: '订单流程', prop: '' },
+  { label: '创建时间', prop: 'createTime' }
+  // { label: '订单完成时间', prop: '' },
 ]
 export const flowTableHeaders: IdealTableColumnHeaders[] = [
   { label: '流程环节', prop: 'taskName' },

@@ -13,7 +13,7 @@
     <ideal-table-list
       :loading="state.dataListLoading"
       :table-data="state.dataList"
-      :table-headers="tableHeaders"
+      :table-headers="finishTableHeaders"
       :pagination-type="PaginationTypeEnum.totalSizes"
       :total="state.total"
       :page="state.page"
@@ -42,7 +42,7 @@ import {
   operateButtons,
   finishQuery,
   stateData,
-  tableHeaders,
+  finishTableHeaders,
   typeArray
 } from '../utils/data'
 import { IHooksOptions } from '@/hooks/interface'
