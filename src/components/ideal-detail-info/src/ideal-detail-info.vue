@@ -11,6 +11,7 @@
       <div
         :class="labelPosition === 'right' ? 'alignRight' : ''"
         style="width: 150px; color: #8b8b8b"
+        :style="item.labelStyle"
         class="ideal-default-margin-right"
       >
         {{ item.label }}
@@ -101,6 +102,7 @@ interface TextProp extends IdealTextProp {
   icon?: any
   tip?: string
   computedValue?: boolean //是否遍历.渲染值
+  labelStyle?: string //label的额外样式
 }
 
 interface IdealDetailInfo {
