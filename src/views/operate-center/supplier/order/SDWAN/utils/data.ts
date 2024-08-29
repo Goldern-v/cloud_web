@@ -62,7 +62,7 @@ export const flowTableHeaders: IdealTableColumnHeaders[] = [
 ]
 
 const defaultQuery: defaultQuery = {
-  productName: 'SDWAN'
+  productName: 'SD-WAN'
 }
 
 export const progressingQuery: defaultQuery & othertQuery = {
