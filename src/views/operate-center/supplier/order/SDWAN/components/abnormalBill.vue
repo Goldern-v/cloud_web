@@ -53,7 +53,7 @@ import flow from './flow.vue'
 stateData.queryForm = {
   ...abnormalBillQuery
 }
-const state: IHooksOptions = reactive(stateData)
+const state: IHooksOptions = reactive({ ...stateData })
 const { sizeChangeHandle, currentChangeHandle, getDataList } = useCrud(state)
 const flowRef = ref()
 
