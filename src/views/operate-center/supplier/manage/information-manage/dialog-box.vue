@@ -137,7 +137,9 @@ const initDialog = () => {
       ? '60%'
       : props.type?.includes('Specific')
         ? '45%'
-        : '30%'
+        : props.type?.includes('Google')
+          ? '450px'
+          : '30%'
   }
 }
 
