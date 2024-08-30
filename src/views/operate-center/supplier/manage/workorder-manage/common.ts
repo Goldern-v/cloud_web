@@ -113,7 +113,7 @@ const headerArr3 = (resourceTypeStr: string) => {
   return [
     { label: showConnect, prop: 'orderNumber' },
     { label: '创建时间：', prop: 'createTime', useSlot: true },
-    { label: '交付时间：', prop: 'updateTime', useSlot: true },
+    { label: '交付时间：', prop: 'deliveryTime' },
     { label: '交付工期：', prop: 'deliveryDuration' }
   ]
 }
