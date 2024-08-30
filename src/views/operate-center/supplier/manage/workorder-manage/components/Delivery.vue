@@ -81,7 +81,7 @@ const { sizeChangeHandle, currentChangeHandle, getDataList } = useCrud(state)
 const operateButtons = ref<IdealTableColumnOperate[]>([])
 const tableHeaders = ref<IdealTableColumnHeaders[]>()
 
-initStatusInfo(['delivery'], ['待交付', '交付中', '已完成'])
+initStatusInfo(['delivery'], ['待交付', '已完成'])
 
 const typeArray = ref<IdealSearch[]>([
   { label: '工单号', prop: 'orderNo', type: FiltrateEnum.input },

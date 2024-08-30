@@ -4,7 +4,8 @@
       <el-form-item label="可接受价格" prop="acceptablePrice">
         <el-input
           v-model="form.acceptablePrice"
-          v-number-float="{
+          v-input.float.noChinese="{
+            decimal: 2,
             obj: form,
             key: 'acceptablePrice'
           }"

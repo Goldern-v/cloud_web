@@ -166,7 +166,10 @@
                   <el-col :span="11">
                     <el-input
                       v-model.number="props.row.minBandwidth"
-                      v-input.int
+                      v-input.int.noChinese="{
+                        obj: props.row,
+                        key: 'minBandwidth'
+                      }"
                     >
                       <template #append>
                         <el-select
@@ -190,7 +193,10 @@
                   <el-col :span="11"
                     ><el-input
                       v-model.number="props.row.maxBandwidth"
-                      v-input.int
+                      v-input.int.noChinese="{
+                        obj: props.row,
+                        key: 'maxBandwidth'
+                      }"
                     >
                       <template #append>
                         <el-select
@@ -220,7 +226,11 @@
                 <div class="flex-row" style="align-items: center">
                   <el-input
                     v-model="props.row.nrc"
-                    v-input.float="{ decimal: 4 }"
+                    v-input.float.noChinese="{
+                      decimal: 4,
+                      obj: props.row,
+                      key: 'nrc'
+                    }"
                   />
                   <div style="margin-left: 5px">$</div>
                 </div>
@@ -234,7 +244,11 @@
                 <div class="flex-row" style="align-items: center">
                   <el-input
                     v-model="props.row.mrc"
-                    v-input.float="{ decimal: 4 }"
+                    v-input.float.noChinese="{
+                      decimal: 4,
+                      obj: props.row,
+                      key: 'mrc'
+                    }"
                   />
                   <div style="margin-left: 5px">$</div>
                 </div>
@@ -253,7 +267,13 @@
           <template #delayTime>
             <el-table-column label="延时/ms">
               <template #default="props">
-                <el-input v-model="props.row.delayTime" v-input.int />
+                <el-input
+                  v-model="props.row.delayTime"
+                  v-input.int.noChinese="{
+                    obj: props.row,
+                    key: 'delayTime'
+                  }"
+                />
               </template>
             </el-table-column>
           </template>
@@ -262,7 +282,13 @@
             <el-table-column label="交付工期">
               <template #default="props">
                 <div class="flex-row" style="align-items: center">
-                  <el-input v-model="props.row.deliveryDuration" v-input.int />
+                  <el-input
+                    v-model="props.row.deliveryDuration"
+                    v-input.int.noChinese="{
+                      obj: props.row,
+                      key: 'deliveryDuration'
+                    }"
+                  />
                   <div style="margin-left: 2px">天</div>
                 </div>
               </template>

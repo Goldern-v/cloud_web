@@ -98,7 +98,7 @@
       <el-form-item label="端口ID" prop="uuid">
         <el-input
           v-model="form.uuid"
-          v-number-only="{
+          v-input.noChinese="{
             obj: form,
             key: 'uuid'
           }"
@@ -127,7 +127,7 @@
       <el-form-item v-if="isALi" label="实例ID" prop="instanceId">
         <el-input
           v-model="form.instanceId"
-          v-number-only="{
+          v-input.noChinese="{
             obj: form,
             key: 'instanceId'
           }"
@@ -141,6 +141,10 @@
       <el-form-item v-if="isAws" label="互连ID" prop="connectionId">
         <el-input
           v-model="form.connectionId"
+          v-input.noChinese="{
+            obj: form,
+            key: 'connectionId'
+          }"
           class="custom-input"
           placeholder="请输入互连ID"
           :disabled="isApproved"
@@ -524,6 +528,13 @@ watch(
         const arr = ['vendorId', 'portId', 'nodeId', 'equipmentId', 'portGroup']
         if (!arr.includes(key)) {
           form[key] = portInfo[key]
+          if (key === 'speedUnit') {
+            form[key] = portInfo.speed.match(/[A-Za-z]+$/)
+              ? portInfo.speed.match(/[A-Za-z]+$/)[0]
+              : 'Mbps'
+          } else if (key === 'speed') {
+            form[key] = parseInt(portInfo.speed)
+          }
         }
       })
     } else {
