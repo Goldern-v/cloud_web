@@ -11,7 +11,7 @@
         <el-input v-model="form.realName" placeholder="请输入供应商名称" />
       </el-form-item>
 
-      <el-form-item v-show="!isEdit" prop="code" label="供应商编码">
+      <el-form-item v-if="!isEdit" prop="code" label="供应商编码">
         <el-input v-model="form.code" placeholder="请输入供应商BSS编码" />
       </el-form-item>
 
