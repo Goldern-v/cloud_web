@@ -166,7 +166,7 @@ const leftButtons = ref<IdealButtonEventProp[]>([
     iconColor: 'white',
     authority: 'supplier:manage:approvalBatchReject',
     disabled: true,
-    disabledText: '请至少选择一个用户'
+    disabledText: '请至少选择一个供应商账号'
   },
   {
     title: '驳回',
