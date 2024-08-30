@@ -185,7 +185,8 @@ import {
   initPriceHeaders,
   initPriceInfo,
   resourceTypeFormat,
-  initStatusInfo
+  initStatusInfo,
+  initResource
 } from './common'
 import { ElMessage, ElMessageBox } from 'element-plus'
 const detailInfo: any = ref({})
@@ -205,13 +206,7 @@ const initInfoList = () => {
         resourceTypeFormat[detailInfo.value.resourceType]
       )
     },
-    {
-      title: '资源概览',
-      labelArray: initAssetsArray(
-        resourceTypeFormat[detailInfo.value.resourceType],
-        detailInfo.value
-      )
-    }
+    initResource(detailInfo.value)
   ]
 }
 

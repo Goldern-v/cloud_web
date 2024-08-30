@@ -162,20 +162,23 @@ const SPECIALIZEDList = [
 ]
 
 const assetsArr1 = (dataInfo: any) => {
-  const obj = {
+  const obj: { [key: string]: any } = {
     专用端口: SPECIALIZEDList,
     云端口: cloudList,
     NNI端口: NNIList
   }
   const emptyObj = { label: '', prop: '' }
-  const AportType = portTypeList[dataInfo.endpointADetail.portType]
-  const ZportType = portTypeList[dataInfo.endpointZDetail.portType]
-  const Alist = obj[AportType]
-  const Zlist = obj[ZportType]
+  let Alist = []
+  let Zlist = []
+  if (dataInfo.endpointADetail && dataInfo.endpointADetail.portType) {
+    Alist = obj[portTypeList[dataInfo.endpointADetail.portType]]
+  }
+  if (dataInfo.endpointZDetail && dataInfo.endpointZDetail.portType) {
+    Zlist = obj[portTypeList[dataInfo.endpointZDetail.portType]]
+  }
   const arr: any[] = []
   let Aindex = 0,
     Zindex = 0
-
   Array.from(
     { length: Math.max(Alist.length, Zlist.length) * 2 },
     (_, index) => index
@@ -202,19 +205,34 @@ const assetsArr1 = (dataInfo: any) => {
       Zindex++
     }
   })
-  const defaultArr = [
+  let defaultArr = []
+  let defaultAList: any[] = [
     {
       label: 'A端',
       prop: 'A端',
       labelStyle: 'font-weight: bold;font-size: 14px;'
     },
+    { label: '端口类型：', prop: 'endpointADetailPortType', useSlot: true }
+  ]
+  let defaultZList: any[] = [
     {
       label: 'Z端',
       prop: 'Z端',
       labelStyle: 'font-weight: bold;font-size: 14px;'
     },
-    { label: '端口类型：', prop: 'endpointADetailPortType', useSlot: true },
     { label: '端口类型：', prop: 'endpointZDetailPortType', useSlot: true }
+  ]
+  if (!dataInfo.endpointADetail || !dataInfo.endpointADetail.portType) {
+    defaultAList = [{}, {}]
+  }
+  if (!dataInfo.endpointZDetail || !dataInfo.endpointZDetail.portType) {
+    defaultZList = [{}, {}]
+  }
+  defaultArr = [
+    defaultAList[0],
+    defaultZList[0],
+    defaultAList[1],
+    defaultZList[1]
   ]
 
   return [...defaultArr, ...arr]
@@ -252,6 +270,29 @@ export const initAssetsArray = (resourceTypeStr: string, dataInfo: any) => {
   return resourceTypeStr === '线路'
     ? assetsArr1(dataInfo)
     : assetsArr2(dataInfo)
+}
+
+export const initResource = (detailInfo: any) => {
+  const { resourceType } = detailInfo
+  const resourceTypeStr = resourceTypeFormat[resourceType]
+  if (resourceTypeStr === '线路') {
+    if (!detailInfo.endpointADetail && !detailInfo.endpointZDetail) {
+      return {}
+    } else {
+      return {
+        title: '资源概览',
+        labelArray: initAssetsArray(resourceTypeStr, detailInfo)
+      }
+    }
+  } else {
+    return {
+      title: '资源概览',
+      labelArray: initAssetsArray(
+        resourceTypeFormat[detailInfo.value.resourceType],
+        detailInfo.value
+      )
+    }
+  }
 }
 
 const priceHeaders1 = [
