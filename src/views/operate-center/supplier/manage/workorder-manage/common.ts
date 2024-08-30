@@ -29,9 +29,9 @@ export const initStatusInfo = (keys: string[], keysWords: string[] = []) => {
   }
   Object.assign(statusFormat, {
     DEAL_ING: '审批中',
-    COMPLETED: '已完成',
+    // COMPLETED: '已完成',
     REJECT: '已驳回',
-    DELIVERED: '已交付',
+    DELIVERED: '已完成',
     ZGA_SUCCESS: 'zga开通成功',
     ZGA_FAIL: 'zga退租成功',
     UN_DELIVERED: '待交付',
