@@ -43,7 +43,7 @@ export const tabControllersData: tabControllersDataType[] = [
 ]
 
 export const typeArray: IdealSearch[] = [
-  { label: '订单编号', prop: 'orderItemId', type: FiltrateEnum.input },
+  // { label: '订单编号', prop: 'orderItemId', type: FiltrateEnum.input },
   { label: '客户名称', prop: 'customerName', type: FiltrateEnum.input },
   { label: '客户经理', prop: 'accountMaEmail', type: FiltrateEnum.input }
 ]

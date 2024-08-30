@@ -244,7 +244,6 @@ const checkForm = (formEl: FormInstance | undefined) => {
     if (!valid) {
       return
     }
-    console.log('submit!')
     if (stepsIndex.value < 3) {
       stepsIndex.value++
     } else {
@@ -453,13 +452,14 @@ const getParams = () => {
       remotePort,
       remoteDevice,
       vlan,
-      portStatus
+      portStatus,
+      speedUnit
     } = nniForm
     const nniObj = {
       portType: form.type,
       nodeId,
       equipmentId,
-      speed,
+      speed: speed + speedUnit,
       bandwidth,
       remotePort,
       remoteDevice,
@@ -489,6 +489,7 @@ const getParams = () => {
     const {
       name,
       speed,
+      speedUnit,
       instanceId,
       area,
       accessPoint,
@@ -504,7 +505,7 @@ const getParams = () => {
       cloudPortType: form.cloudType, //云类型
       nodeId,
       equipmentId,
-      speed,
+      speed: speed + speedUnit,
       instanceId,
       area,
       accessPoint,
@@ -517,7 +518,7 @@ const getParams = () => {
       nodeId,
       equipmentId,
       area,
-      speed,
+      speed: speed + speedUnit,
       location,
       zone,
       address,

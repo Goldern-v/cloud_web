@@ -27,7 +27,7 @@
       @clickCurrentChange="currentChangeHandle"
     >
       <template #operation>
-        <el-table-column label="操作" width="200" fixed="right">
+        <el-table-column label="操作" width="120" fixed="right">
           <template #default="props">
             <ideal-table-operate
               :buttons="props.row.operate"
@@ -147,12 +147,12 @@ const operateButtons: IdealTableColumnOperate[] = [
     title: '删除',
     prop: 'delete',
     authority: 'supplier:manage:specificDelete'
-  },
-  {
-    title: 'Service Token',
-    prop: 'serviceToken',
-    authority: 'supplier:manage:serviceToken'
   }
+  // {
+  //   title: 'Service Token',
+  //   prop: 'serviceToken',
+  //   authority: 'supplier:manage:serviceToken'
+  // }
 ]
 const newOperate = (ele: any): IdealTableColumnOperate[] => {
   let resultArr: IdealTableColumnOperate[] = []
