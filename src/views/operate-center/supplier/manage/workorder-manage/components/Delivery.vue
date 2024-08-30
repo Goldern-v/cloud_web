@@ -41,6 +41,7 @@ import {
   deliveryHeaderArray,
   initListDataDefaultVal,
   initStatusInfo,
+  resourceTypeFormat,
   sourceList,
   statusFormat,
   statusList,
@@ -149,6 +150,9 @@ watch(
       val.forEach((item: any) => {
         item.operate = newOperate(item)
         item.typeText = item.type ? typeFormat[item.type] : ''
+        item.resourceTypeText = item.resourceType
+          ? resourceTypeFormat[item.resourceType]
+          : '-'
         item.statusText = item.status ? statusFormat[item.status] : ''
         item.bandwidthUnit = item.bandwidth ? item.bandwidth + 'Mbps' : ''
         initListDataDefaultVal(deliveryHeaderArray, val)
