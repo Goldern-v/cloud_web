@@ -36,7 +36,7 @@
       <el-main class="main-container">
         <Main />
       </el-main>
-      <fix-info></fix-info>
+      <fix-info v-if="isAdmin"></fix-info>
     </el-container>
   </el-container>
 </template>
@@ -73,6 +73,10 @@ watch(route, () => {
 onMounted(() => {
   initSubMenu()
 })
+
+const isAdmin = computed(
+  () => !store.userStore.user.roleTypeList?.includes('3')
+)
 
 const menuPath = ref<string>('')
 const initSubMenu = () => {
