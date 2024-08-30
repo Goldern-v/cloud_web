@@ -145,12 +145,12 @@ const operateButtons: IdealTableColumnOperate[] = [
     title: '删除',
     prop: 'delete',
     authority: 'supplier:manage:specificDelete'
-  },
-  {
-    title: 'Service Token',
-    prop: 'serviceToken',
-    authority: 'supplier:manage:serviceToken'
   }
+  // {
+  //   title: 'Service Token',
+  //   prop: 'serviceToken',
+  //   authority: 'supplier:manage:serviceToken'
+  // }
 ]
 const newOperate = (ele: any): IdealTableColumnOperate[] => {
   let resultArr: IdealTableColumnOperate[] = []
