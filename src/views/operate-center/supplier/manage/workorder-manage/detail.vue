@@ -52,6 +52,11 @@
             {{ detailInfo.bandwidth ? detailInfo.bandwidth + 'Mbps' : '-' }}
           </div>
         </template>
+        <template #isMonitor>
+          <div>
+            {{ detailInfo.isMonitor ? '是' : '否' }}
+          </div>
+        </template>
         <template #createTime>
           <div>
             {{ detailInfo.createTime ? detailInfo.createTime : '-' }}

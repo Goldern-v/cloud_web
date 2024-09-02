@@ -105,7 +105,7 @@ export const tabControllersData: tabControllersDataType[] = [
 ]
 
 const headerArr1 = [
-  { label: '资源类型：', prop: 'resourceTypeText' },
+  { label: '资源类型：', prop: 'resourceTypeText', useSlot: true },
   { label: '创建时间：', prop: 'createTime', useSlot: true }
 ]
 const headerArr3 = (resourceTypeStr: string) => {
@@ -119,7 +119,7 @@ const headerArr3 = (resourceTypeStr: string) => {
 }
 const headerArr2 = [
   // { label: '端口编号：', prop: 'privateConnectId' },
-  { label: '资源类型：', prop: 'resourceTypeText' },
+  { label: '资源类型：', prop: 'resourceTypeText', useSlot: true },
   { label: '创建时间：', prop: 'createTime', useSlot: true }
 ]
 export const initHeaderArray = (type: string, resourceTypeStr: string) => {
@@ -246,8 +246,8 @@ const assetsArr2 = (dataInfo: any) => {
     'telecomIp'
   ]
   const arr = [
-    { label: '端口类型：', prop: 'portType' },
-    { label: '是否延伸监控：', prop: 'isMonitor' },
+    { label: '端口类型：', prop: 'portType', useSlot: true },
+    { label: '是否延伸监控：', prop: 'isMonitor', useSlot: true },
     { label: '端口带宽：', prop: 'portBandwidth' },
     { label: '监控vlan：', prop: 'monitorVlan' },
     { label: '端口名称：', prop: 'portNmae' },
@@ -287,10 +287,7 @@ export const initResource = (detailInfo: any) => {
   } else {
     return {
       title: '资源概览',
-      labelArray: initAssetsArray(
-        resourceTypeFormat[detailInfo.value.resourceType],
-        detailInfo.value
-      )
+      labelArray: initAssetsArray(resourceTypeStr, detailInfo)
     }
   }
 }
