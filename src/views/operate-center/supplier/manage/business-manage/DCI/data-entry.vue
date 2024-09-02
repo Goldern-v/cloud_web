@@ -443,7 +443,7 @@ const validatePort = (rule: any, value: any, callback: (e?: Error) => any) => {
     }
   })
   if (bandWidthFlag.value) {
-    callback(new Error('下一条数据的最小带宽要大于上一条数据的最大带宽'))
+    callback(new Error('新一条数据的最小带宽应满足：大于上一条数据的最大带宽'))
   }
   if (valThan) {
     callback(new Error('请选择合适的带宽范围'))
