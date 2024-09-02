@@ -48,7 +48,8 @@ export const bandwidthFormat: { [key: string]: any } = {
     '10Gbps',
     '20Gbps',
     '50Gbps'
-  ]
+  ],
+  ZGA: ['10Gbps']
 }
 
 export const unitList = [
