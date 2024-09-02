@@ -186,6 +186,10 @@
       <el-form-item label="端口速度" prop="speed">
         <el-input
           v-model.number="form.speed"
+          v-input.int="{
+            obj: form,
+            key: 'speed'
+          }"
           class="custom-input"
           placeholder="请输入端口速度"
           :disabled="isForbidden || isApproved"
