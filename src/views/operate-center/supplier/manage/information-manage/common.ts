@@ -29,11 +29,11 @@ export const portStatusList = [
 ]
 
 export const cloudTypeList = [
-  { label: '阿里云', value: 'aliyun' },
-  { label: 'AWS', value: 'aws' },
-  { label: 'Azure', value: 'Azure' },
+  { label: '阿里云', value: 'ALI_CLOUD' },
+  { label: 'AWS', value: 'AWS' },
+  { label: 'Azure', value: 'AZURE' },
   { label: 'Google', value: 'GOOGLE_CLOUD' },
-  { label: 'ZGA', value: 'zga' }
+  { label: 'ZGA', value: 'ZGA' }
 ]
 
 //清空form表单

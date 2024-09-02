@@ -165,7 +165,7 @@ const queryDetail = async () => {
     detailInfo.value = res.data.supplierNodeDetail?.ports
     form.type = detailInfo.value[0].portType || 'SPECIALIZED'
     if (form.type === 'CLOUD') {
-      form.cloudType = detailInfo.value[0].cloudPortType || 'aliyun'
+      form.cloudType = detailInfo.value[0].cloudPortType || 'ALI_CLOUD'
     }
     //当节点和设备未更改时
     if (
@@ -178,7 +178,7 @@ const queryDetail = async () => {
     } else {
       isForbidden.value = false
       form.type = 'SPECIALIZED'
-      form.cloudType = 'aliyun'
+      form.cloudType = 'ALI_CLOUD'
       entryPorts.value = []
     }
   } catch (err: any) {
@@ -189,7 +189,7 @@ const queryDetail = async () => {
 const formRef = ref<FormInstance>() // 校验表单
 const form = reactive({
   type: 'SPECIALIZED',
-  cloudType: 'aliyun'
+  cloudType: 'ALI_CLOUD'
 })
 
 const rules = reactive<FormRules>({
@@ -547,7 +547,7 @@ const getParams = () => {
       }
     } else {
       //录入新增的云端口
-      if (form.cloudType === 'aliyun' || form.cloudType === 'aws') {
+      if (form.cloudType === 'ALI_CLOUD' || form.cloudType === 'AWS') {
         port = { ...cloudObj, name: cloudForm.portId }
       } else {
         port = { ...azureObj, name: cloudForm.portId }

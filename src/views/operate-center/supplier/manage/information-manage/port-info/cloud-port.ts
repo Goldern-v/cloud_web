@@ -19,7 +19,7 @@ export const getCloudPortParams = () => {
     } = form
     const params: { [key: string]: any } = {
       portType: 'CLOUD',
-      cloudPortType: 'aliyun',
+      cloudPortType: 'ALI_CLOUD',
       name,
       nodeId,
       uuid,
@@ -51,7 +51,7 @@ export const getCloudPortParams = () => {
     } = form
     const params: { [key: string]: any } = {
       portType: 'CLOUD',
-      cloudPortType: 'zga',
+      cloudPortType: 'ZGA',
       name,
       nodeId,
       address,
@@ -85,7 +85,7 @@ export const getCloudPortParams = () => {
     } = form
     const params: { [key: string]: any } = {
       portType: 'CLOUD',
-      cloudPortType: 'aws',
+      cloudPortType: 'AWS',
       name,
       uuid,
       nodeId,
@@ -108,7 +108,7 @@ export const getCloudPortParams = () => {
     port2.speed = port2.speed + port2.speedUnit
     const params: { [key: string]: any } = {
       portType: 'CLOUD',
-      cloudPortType: 'azure',
+      cloudPortType: 'AZURE',
       port1,
       port2
     }
