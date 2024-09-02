@@ -64,7 +64,7 @@ import {
 import store from '@/store'
 
 const typeArray = ref<IdealSearch[]>([
-  { label: '名称', prop: 'vendorName', type: FiltrateEnum.input }
+  { label: '供应商名称', prop: 'vendorName', type: FiltrateEnum.input }
 ])
 
 const onClickSearch = (v: IdealTextProp[]) => {
