@@ -15,7 +15,7 @@
           :rows="2"
           type="textarea"
           class="custom-input"
-          placeholder="请输入设备名称"
+          placeholder="请输入备注"
         >
         </el-input>
       </el-form-item>
