@@ -330,7 +330,7 @@ export const processingHeaderArray: IdealTableColumnHeaders[] = [
 ]
 export const approveHeaderArray: IdealTableColumnHeaders[] = [
   { label: '供应商名称', prop: 'supplierName' },
-  { label: '订单号', prop: 'orderId' },
+  // { label: '订单号', prop: 'orderId' },  // 一站式那边非必传，我们这边没有，暂时屏蔽
   { label: '工单号', prop: 'orderNo' },
   { label: '资源类型', prop: 'resourceTypeText' },
   { label: '工单类型', prop: 'typeText' },
