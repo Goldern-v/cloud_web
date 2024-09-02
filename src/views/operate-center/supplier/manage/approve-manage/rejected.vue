@@ -69,6 +69,7 @@ const typeArray = ref<IdealSearch[]>([
 
 const onClickSearch = (v: IdealTextProp[]) => {
   state.queryForm = {}
+  state.queryForm.approvalStatus = 'reject,offShelves'
   if (v.length) {
     v.forEach((item: IdealTextProp) => {
       const temp = item.label.split('：')

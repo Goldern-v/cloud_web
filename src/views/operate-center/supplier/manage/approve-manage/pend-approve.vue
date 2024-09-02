@@ -77,7 +77,10 @@ import type {
   IdealTextProp
 } from '@/types'
 import dialogBox from './dialog-box.vue'
-import { supplierInfoList } from '@/api/java/operate-center'
+import {
+  supplierInfoList,
+  supplierInfoQueryList
+} from '@/api/java/operate-center'
 import store from '@/store'
 
 const typeArray = ref<IdealSearch[]>([
@@ -93,6 +96,9 @@ const onClickSearch = (v: IdealTextProp[]) => {
       const temp = item.label.split('：')
       state.queryForm[item.prop] = temp[1]
     })
+    state.dataListUrl = supplierInfoQueryList
+  } else {
+    state.dataListUrl = supplierInfoList
   }
   getDataList()
 }
