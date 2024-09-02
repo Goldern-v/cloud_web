@@ -77,6 +77,7 @@
           </el-form-item>
           <cloud-port-form
             ref="cloudPortRef"
+            :key="formKey"
             :type="form.cloudType"
             :exit-ports="exitPorts"
             :entry-ports="entryPorts"
@@ -198,10 +199,14 @@ const rules = reactive<FormRules>({
     { required: true, message: '请至少添加一条端口信息', trigger: 'change' }
   ]
 })
+const formKey = ref(0)
 //查询不同云端口类型下已存在的端口
 const changeType = () => {
   if (deviceForm.value.name) {
     queryExitPorts()
+  }
+  if (form.type === 'CLOUD') {
+    formKey.value++
   }
 }
 //查询已选择节点设备下存在的端口
