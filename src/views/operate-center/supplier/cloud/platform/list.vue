@@ -216,7 +216,7 @@ const tableHeaders: IdealTableColumnHeaders[] = [
   { label: '名称', prop: 'name', useSlot: true },
   { label: '云平台类别', prop: 'category' },
   { label: '云平台类型', prop: 'platformType', useSlot: true },
-  { label: '属性', prop: 'attribute', useSlot: true }, // secret有值则显示密钥 password有值则显示账户
+  // { label: '属性', prop: 'attribute', useSlot: true }, // secret有值则显示密钥 password有值则显示账户
   { label: '状态', prop: 'statusText', useSlot: true },
   { label: '创建者', prop: 'creator.name' },
   { label: '创建时间', prop: 'createTime.date' }
