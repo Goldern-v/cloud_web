@@ -168,17 +168,36 @@ const assetsArr1 = (dataInfo: any) => {
     NNI端口: NNIList
   }
   const emptyObj = { label: '', prop: '' }
-  let Alist = []
-  let Zlist = []
+  const arr: any[] = []
+  let Aindex = 0,
+    Zindex = 0,
+    defaultArr = [],
+    Alist = [],
+    Zlist = [],
+    defaultAList: any[] = [{}, {}],
+    defaultZList: any[] = [{}, {}]
   if (dataInfo.endpointADetail && dataInfo.endpointADetail.portType) {
     Alist = obj[portTypeList[dataInfo.endpointADetail.portType]]
+    defaultAList = [
+      {
+        label: 'A端',
+        prop: 'A端',
+        labelStyle: 'font-weight: bold;font-size: 14px;'
+      },
+      { label: '端口类型：', prop: 'endpointADetailPortType', useSlot: true }
+    ]
   }
   if (dataInfo.endpointZDetail && dataInfo.endpointZDetail.portType) {
     Zlist = obj[portTypeList[dataInfo.endpointZDetail.portType]]
+    defaultZList = [
+      {
+        label: 'Z端',
+        prop: 'Z端',
+        labelStyle: 'font-weight: bold;font-size: 14px;'
+      },
+      { label: '端口类型：', prop: 'endpointZDetailPortType', useSlot: true }
+    ]
   }
-  const arr: any[] = []
-  let Aindex = 0,
-    Zindex = 0
   Array.from(
     { length: Math.max(Alist.length, Zlist.length) * 2 },
     (_, index) => index
@@ -205,29 +224,6 @@ const assetsArr1 = (dataInfo: any) => {
       Zindex++
     }
   })
-  let defaultArr = []
-  let defaultAList: any[] = [
-    {
-      label: 'A端',
-      prop: 'A端',
-      labelStyle: 'font-weight: bold;font-size: 14px;'
-    },
-    { label: '端口类型：', prop: 'endpointADetailPortType', useSlot: true }
-  ]
-  let defaultZList: any[] = [
-    {
-      label: 'Z端',
-      prop: 'Z端',
-      labelStyle: 'font-weight: bold;font-size: 14px;'
-    },
-    { label: '端口类型：', prop: 'endpointZDetailPortType', useSlot: true }
-  ]
-  if (!dataInfo.endpointADetail || !dataInfo.endpointADetail.portType) {
-    defaultAList = [{}, {}]
-  }
-  if (!dataInfo.endpointZDetail || !dataInfo.endpointZDetail.portType) {
-    defaultZList = [{}, {}]
-  }
   defaultArr = [
     defaultAList[0],
     defaultZList[0],
@@ -276,7 +272,10 @@ export const initResource = (detailInfo: any) => {
   const { resourceType } = detailInfo
   const resourceTypeStr = resourceTypeFormat[resourceType]
   if (resourceTypeStr === '线路') {
-    if (!detailInfo.endpointADetail && !detailInfo.endpointZDetail) {
+    if (
+      (!detailInfo.endpointADetail || !detailInfo.endpointADetail.portType) &&
+      (!detailInfo.endpointZDetail || !detailInfo.endpointZDetail.portType)
+    ) {
       return {}
     } else {
       return {
