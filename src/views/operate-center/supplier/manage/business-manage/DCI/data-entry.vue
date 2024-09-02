@@ -428,6 +428,23 @@ const validatePort = (rule: any, value: any, callback: (e?: Error) => any) => {
       return false
     }
   })
+  const bandWidthFlag = ref(false)
+  value.forEach((item: any, index: number) => {
+    if (index > 0) {
+      if (
+        value[index - 1].maxBandwidth *
+          multiVal(value[index - 1].maxBandwidthUnit) >=
+        value[index].minBandwidth * multiVal(value[index].minBandwidthUnit)
+      ) {
+        bandWidthFlag.value = true
+      } else {
+        bandWidthFlag.value = false
+      }
+    }
+  })
+  if (bandWidthFlag.value) {
+    callback(new Error('下一条数据的最小带宽要大于上一条数据的最大带宽'))
+  }
   if (valThan) {
     callback(new Error('请选择合适的带宽范围'))
   }
