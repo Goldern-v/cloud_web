@@ -185,8 +185,8 @@
 
       <el-form-item label="端口速度" prop="speed">
         <el-input
-          v-model.number="form.speed"
-          v-input.int="{
+          v-model="form.speed"
+          v-input.int.noChinese="{
             obj: form,
             key: 'speed'
           }"
