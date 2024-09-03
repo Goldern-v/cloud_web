@@ -165,7 +165,7 @@
                 <el-row :gutter="2" style="align-items: center">
                   <el-col :span="11">
                     <el-input
-                      v-model.number="props.row.minBandwidth"
+                      v-model="props.row.minBandwidth"
                       v-input.int.noChinese="{
                         obj: props.row,
                         key: 'minBandwidth'
@@ -192,7 +192,7 @@
                   >
                   <el-col :span="11"
                     ><el-input
-                      v-model.number="props.row.maxBandwidth"
+                      v-model="props.row.maxBandwidth"
                       v-input.int.noChinese="{
                         obj: props.row,
                         key: 'maxBandwidth'
