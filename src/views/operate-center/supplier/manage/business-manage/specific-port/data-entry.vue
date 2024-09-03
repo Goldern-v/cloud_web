@@ -72,7 +72,13 @@
           <template #deliveryDuration>
             <el-table-column label="交付工期">
               <template #default="props">
-                <el-input v-model="props.row.deliveryDuration" />
+                <el-input
+                  v-model="props.row.deliveryDuration"
+                  v-input.int.noChinese="{
+                    obj: props.row,
+                    key: 'deliveryDuration'
+                  }"
+                />
               </template>
             </el-table-column>
           </template>
