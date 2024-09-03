@@ -274,7 +274,7 @@ export const customMenu = [
       ),
     name: 'supplier-resource-aliyun-detail',
     meta: {
-      title: '阿里云资源详情',
+      title: '资源管理详情',
       // useDefaultBreadcrumb:"公有云管理"
       fatherTlt: '资源管理'
       // breadcrumb: ['公有云管理', '资源管理', '阿里云资源详情']
@@ -299,7 +299,7 @@ export const customMenu = [
       import('@/views/operate-center/supplier/account/role/auth.vue'),
     name: 'supplier-account-role-auth',
     meta: {
-      title: '阿里云资源详情',
+      title: '角色授权',
       fatherTlt: '角色管理'
       // breadcrumb: ['供应商账号管理', '角色管理', '授权']
     }
