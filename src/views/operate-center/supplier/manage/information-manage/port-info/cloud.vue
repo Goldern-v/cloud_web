@@ -301,7 +301,7 @@ const awsHeaders: IdealTableColumnHeaders[] = [
   { label: '数据来源', prop: 'originType' },
   { label: '端口状态', prop: 'portStatus' },
   { label: '状态', prop: 'status', useSlot: true },
-  { label: '互连ID', prop: 'id' },
+  { label: '互连ID', prop: 'connectionId' },
   { label: '端口速度', prop: 'speed' },
   { label: '区域', prop: 'area' },
   { label: '位置', prop: 'address' },
