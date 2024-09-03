@@ -27,7 +27,7 @@
       @clickCurrentChange="currentChangeHandle"
     >
       <template #name>
-        <el-table-column label="供应商名称" width="200">
+        <el-table-column label="供应商名称" min-width="200">
           <template #default="props">
             <div class="ideal-theme-text" @click="toDetail(props.row)">
               {{ props.row.vendorName }}
@@ -37,7 +37,7 @@
       </template>
 
       <template #status>
-        <el-table-column label="申请信息状态" width="200">
+        <el-table-column label="申请信息状态" width="120">
           <template #default="props">
             <el-tag :type="props.row.type">{{ props.row.status }}</el-tag>
           </template>
@@ -171,9 +171,9 @@ const headerArray: IdealTableColumnHeaders[] = [
   { label: '国家', prop: 'country', width: '200' },
   { label: '城市', prop: 'city', width: '200' },
   { label: '申请账号', prop: 'creator.username', width: '200' },
-  { label: '申请时间', prop: 'createTime.date', width: '200' },
+  { label: '申请时间', prop: 'createTime.date', width: '160' },
   { label: '审批人', prop: 'approvalUserName', width: '200' },
-  { label: '审批理由', prop: 'approvalDesc', width: '200' },
+  { label: '审批理由', prop: 'approvalDesc', minWidth: '200' },
   { label: '审批时间', prop: 'approvalTime', width: '200' }
 ]
 

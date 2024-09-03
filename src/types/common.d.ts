@@ -11,6 +11,7 @@ export interface IdealTableColumnHeaders {
   disabled?: boolean // 自定义表头时 多选框是否禁用
   check?: boolean // 自定义表头时 多选框是否选择
   defaultVal?: string //没值时展示默认值
+  minWidth?: string // 最小宽度
 }
 
 // 点击事件按钮属性

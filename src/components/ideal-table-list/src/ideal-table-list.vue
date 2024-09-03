@@ -49,6 +49,7 @@
           :key="item.prop"
           :prop="item.prop"
           :label="item.label"
+          :min-width="item.minWidth"
           :width="item.width"
           show-overflow-tooltip
           :align="item.align ? item.align : 'left'"
