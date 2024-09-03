@@ -19,14 +19,13 @@
             ></svg-icon>
           </div>
         </template>
-        <component :is="item.component" :list="item.listData"> </component>
+        <component :is="item.component"> </component>
       </el-popover>
     </template>
   </div>
 </template>
 
 <script setup lang="ts">
-import { getContact } from '@/api/java/operate-center'
 import infoBox from '@/layout/components/Info-box/index.vue'
 
 const showInfoList = reactive([
@@ -36,41 +35,10 @@ const showInfoList = reactive([
     height: '20px',
     width: '20px',
     usePopover: true,
-    popverWidth: 360,
-    listData: [],
+    popverWidth: 'auto',
     component: infoBox
   }
 ])
-
-onMounted(async () => {
-  await getContactInfo()
-})
-
-const getContactInfo = () => {
-  return new Promise((resolve, reject) => {
-    getContact().then(res => {
-      if (res.code == '200') {
-        const { data: list } = res
-        showInfoList[0].listData = list.reduce(
-          (preLi: any, nextLi: any, index: any) => {
-            return [
-              ...preLi,
-              {
-                title: nextLi.vdcFirst,
-                children: nextLi.contacts.map((item: any) => {
-                  const { vdcSecond, name, email } = item
-                  return `${vdcSecond}：${name} ${email}`
-                })
-              }
-            ]
-          },
-          []
-        )
-        resolve(true)
-      }
-    })
-  })
-}
 </script>
 
 <style lang="scss" scoped>

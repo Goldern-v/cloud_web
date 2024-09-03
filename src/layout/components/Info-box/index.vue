@@ -12,17 +12,18 @@
         v-for="(li, liIn) in item.children"
         :key="liIn + 'lili'"
         class="infoItem"
-      >
-        {{ li }}
-      </div>
+        v-html="li"
+      ></div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const props = withDefaults(defineProps<{ list: any[] }>(), {
-  list: () => []
-})
+import { getContact } from '@/api/java/operate-center'
+
+// const props = withDefaults(defineProps<{ list: any[] }>(), {
+//   list: () => []
+// })
 
 const getImageUrl = (index: any) => {
   let imgUrl = ''
@@ -37,6 +38,40 @@ const getImageUrl = (index: any) => {
       imgUrl = new URL('@/assets/department.png', import.meta.url).href
   }
   return imgUrl
+}
+
+onMounted(async () => {
+  await getContactInfo()
+})
+
+const list = ref<
+  {
+    title: string
+    children: string[]
+  }[]
+>([])
+
+const getContactInfo = () => {
+  return new Promise((resolve, reject) => {
+    getContact().then((res: any) => {
+      if (res.code == '200') {
+        const { data: listData } = res
+        list.value = listData.reduce((preLi: any, nextLi: any, index: any) => {
+          return [
+            ...preLi,
+            {
+              title: nextLi.vdcFirst,
+              children: nextLi.contacts.map((item: any) => {
+                const { vdcSecond, name, email } = item
+                return `${vdcSecond}：${name} &nbsp;&nbsp;${email}`
+              })
+            }
+          ]
+        }, [])
+        resolve(true)
+      }
+    })
+  })
 }
 </script>
 
