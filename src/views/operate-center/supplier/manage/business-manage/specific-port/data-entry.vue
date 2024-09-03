@@ -28,7 +28,7 @@
           :show-pagination="false"
         >
           <template #portSpeed>
-            <el-table-column label="端口类型" width="200px">
+            <el-table-column label="带宽" width="200px">
               {{ speedValue }}
             </el-table-column>
           </template>

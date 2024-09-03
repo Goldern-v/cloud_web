@@ -14,7 +14,7 @@ export const input = (app: App) => {
       const inputHandler = (event: any) => {
         // 整数
         if (binding.modifiers.int) {
-          obj[key] = obj[key].replace(/\D/, '')
+          obj[key] = (obj[key] as string).replace(/\D/, '')
         }
         // 小数
         if (binding.modifiers.float) {
@@ -29,7 +29,7 @@ export const input = (app: App) => {
         const inputText = e.data
         if (binding.modifiers.noChinese) {
           const regex = new RegExp(inputText, 'g')
-          obj[key] = obj[key].replace(regex, '')
+          obj[key] = (obj[key] as string).replace(regex, '')
         }
       }
       el.__inputHandler = inputHandler // 将处理函数保存在元素的属性中
