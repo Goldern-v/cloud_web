@@ -288,7 +288,7 @@ export const customMenu = [
       ),
     name: 'supplier-resource-amazon-detail',
     meta: {
-      title: '阿里云资源详情',
+      title: '资源管理详情',
       fatherTlt: '资源管理'
       // breadcrumb: ['公有云管理', '资源管理', '阿里云资源详情']
     }
