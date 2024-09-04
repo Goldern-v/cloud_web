@@ -70,7 +70,6 @@ export const userStore = defineStore('userStore', {
       // 移除 token
       Cookies.remove(CacheKey.CookieKey)
       this.setToken(null)
-      Storage.removeItem(CacheKey.SidebarOpenedKey)
       if (data) {
         window.open(data, '_self')
       } else {

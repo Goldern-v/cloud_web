@@ -17,8 +17,8 @@ export const appStore = defineStore('appStore', {
     theme: cache.getTheme()
   }),
   actions: {
-    setSidebarOpened() {
-      this.sidebarOpened = !this.sidebarOpened
+    setSidebarOpened(show: boolean) {
+      this.sidebarOpened = show || !this.sidebarOpened
       cache.setSidebarOpened(this.sidebarOpened)
     },
     setLanguage(locale: string) {

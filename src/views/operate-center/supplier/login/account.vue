@@ -190,7 +190,7 @@ const onLogin = () => {
             ? `该账号已被锁定，请${data.remainTime / 60}分钟后重试`
             : `用户名或密码错误，再输错${data.remainNum}次用户将被锁定`
         } else if (code === 200 && !store.userStore.firstLogin) {
-          store.appStore.setSidebarOpened()
+          store.appStore.setSidebarOpened(true)
           tip.value = ''
           router.push({
             path: '/operate-center/supplier/manage/information-manage/index'
