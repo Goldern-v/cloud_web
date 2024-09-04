@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { useAccountLoginApi, useMobileLoginApi, useLogoutApi } from '@/api/auth'
 import { useUserInfoApi } from '@/api/sys/user'
 import cache from '@/utils/cache'
+import { Storage } from '@/utils/storage'
 import { useAuthorityListApi } from '@/api/sys/menu'
 import Cookies from 'js-cookie'
 import CacheKey from '@/utils/cache/key'
@@ -69,7 +70,7 @@ export const userStore = defineStore('userStore', {
       // 移除 token
       Cookies.remove(CacheKey.CookieKey)
       this.setToken(null)
-
+      Storage.removeItem(CacheKey.SidebarOpenedKey)
       if (data) {
         window.open(data, '_self')
       } else {
