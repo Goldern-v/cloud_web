@@ -195,7 +195,7 @@ const sideMenuWidth = computed(() =>
   width: 49px;
 }
 // 调整收起菜单
-:deep(.el-sub-menu__title) {
+:deep(.el-tooltip__trigger) {
   padding: 0 15px;
 }
 </style>
