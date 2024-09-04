@@ -44,19 +44,14 @@
         </el-form-item>
 
         <template v-if="form.registerType === 'SECRET_KEY_REGISTER'">
+          <el-form-item label="区域" prop="region">
+            <el-input v-model="form.region" style="width: 20%"></el-input>
+          </el-form-item>
           <el-form-item label="访问密钥ID" prop="ak">
-            <el-input
-              v-model="form.ak"
-              :disabled="isEdit"
-              style="width: 20%"
-            ></el-input>
+            <el-input v-model="form.ak" style="width: 20%"></el-input>
           </el-form-item>
           <el-form-item label="访问密钥" prop="sk">
-            <el-input
-              v-model="form.sk"
-              :disabled="isEdit"
-              style="width: 20%"
-            ></el-input>
+            <el-input v-model="form.sk" style="width: 20%"></el-input>
           </el-form-item>
         </template>
         <template v-else>
@@ -129,6 +124,7 @@ const form = reactive({
   name: '',
   registerType: 'SECRET_KEY_REGISTER', // 接入方式
   ak: '', // 访问密钥ID
+  region: '', //区域
   sk: '', // 访问密钥
   username: '',
   password: '',
@@ -157,6 +153,7 @@ const baseRules: FormRules = {
 //秘钥规则
 const secretKeyRules: FormRules = {
   ak: [{ required: true, message: '请输入访问密钥ID', trigger: 'blur' }],
+  region: [{ required: true, message: '请输入区域', trigger: 'blur' }],
   sk: [{ required: true, message: '请输入访问密钥', trigger: 'blur' }]
 }
 //密码规则
@@ -202,7 +199,7 @@ const initEditData = () => {
       form.name = data?.name
       form.ak = data?.ak
       form.sk = data?.sk
-
+      form.region = data?.secret?.region
       originDic.value = Object.assign({}, form)
     }
   })
@@ -254,6 +251,9 @@ const clickSave = (formEl: FormInstance | undefined) => {
 const handleCreate = () => {
   const params: any = {
     ...unref(form),
+    secret: {
+      region: unref(form)?.region
+    },
     ctgCloudType: props.cloudType, // 云类型 华为云、阿里云
     supplierCloudCategory: props.cloudCategory // 云类别 私有云、公有云
   }
@@ -263,6 +263,7 @@ const handleCreate = () => {
   } else {
     delete params?.sk
     delete params?.ak
+    delete params?.secret
   }
   delete params?.confirmPassword
   cloudPlatformCreate(params).then((res: any) => {
@@ -280,23 +281,27 @@ const handleCreate = () => {
 const handleEdit = () => {
   // 筛选表单修改项, 编辑时只传修改项
   const tempDic = compareDiffDictionary(originDic.value, form)
-
   const params: { [key: string]: any } = { id }
 
-  // const secret: { [key: string]: any } = {}
+  const secret: { [key: string]: any } = {}
   for (const key in tempDic) {
     // if (key === 'accessKeyId') {
     //   secret.ak = form.accessKeyId
     // } else if (key === 'secretAccessKey') {
     //   secret.sk = form.secretAccessKey
     // } else {
-    params[key] = tempDic[key]
+    // params[key] = tempDic[key]
     // }
+    if (key === 'region') {
+      secret.region = tempDic[key]
+    } else {
+      params[key] = tempDic[key]
+    }
   }
   // ak、sk修改则传参
-  // if (!isEmpty(secret)) {
-  //   params.secret = secret
-  // }
+  if (!isEmpty(secret)) {
+    params.secret = secret
+  }
 
   cloudPlatformEdit(params).then((res: any) => {
     const { code } = res
