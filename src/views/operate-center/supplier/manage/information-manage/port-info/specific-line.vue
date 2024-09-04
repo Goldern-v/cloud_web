@@ -6,7 +6,7 @@
           <div class="flex-row">
             <el-input
               v-model="form.nrc"
-              v-input.float.noChinese="{
+              v-input.float="{
                 decimal: 4,
                 obj: form,
                 key: 'nrc'
@@ -16,7 +16,7 @@
           <div class="flex-row">
             <el-input
               v-model="form.mrc"
-              v-input.float.noChinese="{
+              v-input.float="{
                 decimal: 4,
                 obj: form,
                 key: 'mrc'

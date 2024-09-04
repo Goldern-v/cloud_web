@@ -166,7 +166,7 @@
                   <el-col :span="11">
                     <el-input
                       v-model="props.row.minBandwidth"
-                      v-input.int.noChinese="{
+                      v-input.int="{
                         obj: props.row,
                         key: 'minBandwidth'
                       }"
@@ -193,7 +193,7 @@
                   <el-col :span="11"
                     ><el-input
                       v-model="props.row.maxBandwidth"
-                      v-input.int.noChinese="{
+                      v-input.int="{
                         obj: props.row,
                         key: 'maxBandwidth'
                       }"
@@ -226,7 +226,7 @@
                 <div class="flex-row" style="align-items: center">
                   <el-input
                     v-model="props.row.nrc"
-                    v-input.float.noChinese="{
+                    v-input.float="{
                       decimal: 4,
                       obj: props.row,
                       key: 'nrc'
@@ -244,7 +244,7 @@
                 <div class="flex-row" style="align-items: center">
                   <el-input
                     v-model="props.row.mrc"
-                    v-input.float.noChinese="{
+                    v-input.float="{
                       decimal: 4,
                       obj: props.row,
                       key: 'mrc'
@@ -269,7 +269,7 @@
               <template #default="props">
                 <el-input
                   v-model="props.row.delayTime"
-                  v-input.int.noChinese="{
+                  v-input.int="{
                     obj: props.row,
                     key: 'delayTime'
                   }"
@@ -284,7 +284,7 @@
                 <div class="flex-row" style="align-items: center">
                   <el-input
                     v-model="props.row.deliveryDuration"
-                    v-input.int.noChinese="{
+                    v-input.int="{
                       obj: props.row,
                       key: 'deliveryDuration'
                     }"

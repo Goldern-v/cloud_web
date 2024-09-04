@@ -39,7 +39,7 @@
                 <div class="flex-row" style="align-items: center">
                   <el-input
                     v-model="props.row.nrc"
-                    v-input.float.noChinese="{
+                    v-input.float="{
                       decimal: 4,
                       obj: props.row,
                       key: 'nrc'
@@ -57,7 +57,7 @@
                 <div class="flex-row" style="align-items: center">
                   <el-input
                     v-model="props.row.mrc"
-                    v-input.float.noChinese="{
+                    v-input.float="{
                       decimal: 4,
                       obj: props.row,
                       key: 'mrc'
@@ -74,7 +74,7 @@
               <template #default="props">
                 <el-input
                   v-model="props.row.deliveryDuration"
-                  v-input.int.noChinese="{
+                  v-input.int="{
                     obj: props.row,
                     key: 'deliveryDuration'
                   }"

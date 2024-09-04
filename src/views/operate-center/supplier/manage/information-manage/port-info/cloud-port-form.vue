@@ -98,10 +98,6 @@
       <el-form-item label="端口ID" prop="uuid">
         <el-input
           v-model="form.uuid"
-          v-input.noChinese="{
-            obj: form,
-            key: 'uuid'
-          }"
           class="custom-input"
           placeholder="请输入端口ID"
           :disabled="isForbidden || isApproved"
@@ -128,10 +124,6 @@
       <el-form-item v-if="isALi" label="实例ID" prop="instanceId">
         <el-input
           v-model="form.instanceId"
-          v-input.noChinese="{
-            obj: form,
-            key: 'instanceId'
-          }"
           class="custom-input"
           placeholder="请输入实例ID"
           :disabled="isApproved"
@@ -142,10 +134,6 @@
       <el-form-item v-if="isAws" label="互连ID" prop="connectionId">
         <el-input
           v-model="form.connectionId"
-          v-input.noChinese="{
-            obj: form,
-            key: 'connectionId'
-          }"
           class="custom-input"
           placeholder="请输入互连ID"
           :disabled="isApproved"
@@ -186,7 +174,7 @@
       <el-form-item label="端口速度" prop="speed">
         <el-input
           v-model="form.speed"
-          v-input.int.noChinese="{
+          v-input.int="{
             obj: form,
             key: 'speed'
           }"
