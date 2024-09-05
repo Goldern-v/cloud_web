@@ -24,7 +24,7 @@
           <template #uuid>
             <el-table-column label="端口ID" width="180px">
               <template #default="props">
-                <el-form-item prop="uuidVail">
+                <el-form-item :prop="'uuidVail' + (props.$index + 1)">
                   <el-input
                     v-model="props.row.uuid"
                     class="inputId"
@@ -221,11 +221,16 @@ const form: { [key: string]: any } = reactive({
   equipmentId: ''
 })
 
-const validatorID = (rule: any, value: any, callback: any, key: string) => {
+const validatorID = (
+  rule: any,
+  value: any,
+  callback: any,
+  key: string,
+  index: number
+) => {
   const pattern = /^[a-zA-Z0-9][a-zA-Z0-9 _\/-]*[a-zA-Z0-9]$/
-  const flag = value?.portData.find(
-    (port: any) => port[key] && !pattern.test(port[key])
-  )
+  const flag =
+    value?.portData[index][key] && !pattern.test(value?.portData[index][key])
   if (flag) {
     callback(
       new Error(
@@ -252,15 +257,16 @@ const validatePort = (rule: any, value: any, callback: (e?: Error) => any) => {
   }
 }
 
+const IDVail = (index: number) => [
+  {
+    trigger: 'blur',
+    validator: (rule: any, value: any, callback: any) =>
+      validatorID(rule, form, callback, 'uuid', index)
+  }
+]
+
 const rules = reactive<FormRules>({
   portData: [{ required: true, validator: validatePort, trigger: 'change' }],
-  uuidVail: [
-    {
-      trigger: 'blur',
-      validator: (rule, value, callback) =>
-        validatorID(rule, form, callback, 'uuid')
-    }
-  ],
   vendorId: [
     { required: true, message: '请选择所属供应商', trigger: 'change' }
   ],
@@ -287,6 +293,17 @@ const state = reactive(defaultOptions)
 const handleAdd = () => {
   form.portData.push({})
 }
+
+watch(
+  () => form.portData.length,
+  length => {
+    Array.from({ length }, (_, index) => index + 1).forEach(item => {
+      rules['uuidVail' + item] = IDVail(item - 1)
+    })
+  },
+  { immediate: true }
+)
+
 const handleDelete = (row: any, index: number) => {
   multipleTableRef.value.IdealTableList.toggleRowSelection(row, false)
   form.portData.splice(index, 1)
