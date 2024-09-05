@@ -22,13 +22,26 @@
           </template>
 
           <template #uuid>
-            <el-table-column label="端口ID" width="150px">
+            <el-table-column label="端口ID" width="180px">
               <template #default="props">
-                <el-input
-                  v-model="props.row.uuid"
-                  placeholder="请输入端口ID"
-                  :disabled="props.row.disabled"
-                />
+                <el-form-item prop="uuidVail">
+                  <el-input
+                    v-model="props.row.uuid"
+                    class="inputId"
+                    placeholder="请输入端口ID"
+                    :disabled="props.row.disabled"
+                  />
+
+                  <template #error="{ error }">
+                    <div
+                      v-if="error.slice(0, 3) === '请输入'"
+                      class="el-form-item__error"
+                    >
+                      {{ error }}
+                    </div>
+                    <error-warning v-else :content="error" />
+                  </template>
+                </el-form-item>
               </template>
             </el-table-column>
           </template>
@@ -164,6 +177,7 @@ import type { FormInstance, FormRules } from 'element-plus'
 import type { IdealTableColumnHeaders } from '@/types'
 import { speedList, portStatusList } from '../common'
 import { PortBasic } from '../information-entry/interface'
+import errorWarning from './error-warning.vue'
 import { EventEnum } from '@/utils/enum'
 import store from '@/store'
 import { showLoading, hideLoading } from '@/utils/tool'
@@ -207,6 +221,22 @@ const form: { [key: string]: any } = reactive({
   equipmentId: ''
 })
 
+const validatorID = (rule: any, value: any, callback: any, key: string) => {
+  const pattern = /^[a-zA-Z0-9][a-zA-Z0-9 _\/-]*[a-zA-Z0-9]$/
+  const flag = value?.portData.find(
+    (port: any) => port[key] && !pattern.test(port[key])
+  )
+  if (flag) {
+    callback(
+      new Error(
+        '仅支持英文字母、数字、特殊符号_(下划线) -(中划线) /(斜杠)  (空格)进行命名，不支持用特殊符号作为命名开头或结尾'
+      )
+    )
+  } else {
+    callback()
+  }
+}
+
 const validatePort = (rule: any, value: any, callback: (e?: Error) => any) => {
   const flag = value.some((item: any) => {
     return !item.portSpeed || !item.portName || !item.uuid || !item.portStatus
@@ -224,6 +254,13 @@ const validatePort = (rule: any, value: any, callback: (e?: Error) => any) => {
 
 const rules = reactive<FormRules>({
   portData: [{ required: true, validator: validatePort, trigger: 'change' }],
+  uuidVail: [
+    {
+      trigger: 'blur',
+      validator: (rule, value, callback) =>
+        validatorID(rule, form, callback, 'uuid')
+    }
+  ],
   vendorId: [
     { required: true, message: '请选择所属供应商', trigger: 'change' }
   ],
@@ -450,6 +487,9 @@ defineExpose({ formRef, form, multipleTableRef })
   .add_table {
     cursor: pointer;
     color: var(--el-color-primary);
+  }
+  .inputId {
+    width: 90%;
   }
 }
 </style>

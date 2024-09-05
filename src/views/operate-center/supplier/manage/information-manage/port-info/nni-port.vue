@@ -38,6 +38,15 @@
           :disabled="isApproved || isSelect"
         >
         </el-input>
+        <template #error="{ error }">
+          <div
+            v-if="error.slice(0, 3) === '请输入'"
+            class="el-form-item__error"
+          >
+            {{ error }}
+          </div>
+          <error-warning v-else :content="error" />
+        </template>
       </el-form-item>
 
       <template v-if="portOnly">
@@ -197,6 +206,7 @@
 import type { FormInstance, FormRules } from 'element-plus'
 import { PortBasic } from '../information-entry/interface'
 import { EventEnum } from '@/utils/enum'
+import errorWarning from './error-warning.vue'
 import { isSupplierManager } from '@/utils/role'
 import { ElMessage } from 'element-plus'
 import store from '@/store'
@@ -250,16 +260,17 @@ const form: { [key: string]: any } = reactive({
   bandwidthUnit: 'Mbps'
 })
 
-const validatorID = (rule: any, value: any, callback: (e?: Error) => any) => {
-  // const regex = /^[A-Za-z][A-Za-z0-9_/]*[A-Za-z0-9]$/
-  callback()
-  // if (!regex.test(value)) {
-  //   callback(
-  //     new Error(
-  //       '仅支持英文字母 特殊符号_（下划线）-（中划线）/ （斜杠）进行命名，不支持用特殊符号，数字作为命名开头，也不支持特殊符号作为命名结尾'
-  //     )
-  //   )
-  // } else callback()
+const validatorID = (rule: any, value: any, callback: any) => {
+  const pattern = /^[a-zA-Z0-9][a-zA-Z0-9 _\/-]*[a-zA-Z0-9]$/
+  if (!pattern.test(value)) {
+    callback(
+      new Error(
+        '仅支持英文字母、数字、特殊符号_(下划线) -(中划线) /(斜杠)  (空格)进行命名，不支持用特殊符号作为命名开头或结尾'
+      )
+    )
+  } else {
+    callback()
+  }
 }
 
 const rules = reactive<FormRules>({
@@ -499,6 +510,12 @@ defineExpose({ formRef, form })
     .el-input__validateIcon {
       display: none;
     }
+  }
+  :deep(.error-warning) {
+    position: absolute;
+    right: -15px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 }
 </style>
