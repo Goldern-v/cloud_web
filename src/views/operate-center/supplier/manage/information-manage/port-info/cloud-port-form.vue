@@ -107,6 +107,15 @@
           :disabled="isForbidden || isApproved"
         >
         </el-input>
+        <template #error="{ error }">
+          <div
+            v-if="error.slice(0, 3) === '请输入'"
+            class="el-form-item__error"
+          >
+            {{ error }}
+          </div>
+          <error-warning v-else :content="error" />
+        </template>
       </el-form-item>
 
       <el-form-item label="端口状态" prop="portStatus">
@@ -137,6 +146,15 @@
           :disabled="isApproved"
         >
         </el-input>
+        <template #error="{ error }">
+          <div
+            v-if="error.slice(0, 3) === '请输入'"
+            class="el-form-item__error"
+          >
+            {{ error }}
+          </div>
+          <error-warning v-else :content="error" />
+        </template>
       </el-form-item>
 
       <el-form-item v-if="isAws" label="互连ID" prop="connectionId">
@@ -151,6 +169,15 @@
           :disabled="isApproved"
         >
         </el-input>
+        <template #error="{ error }">
+          <div
+            v-if="error.slice(0, 3) === '请输入'"
+            class="el-form-item__error"
+          >
+            {{ error }}
+          </div>
+          <error-warning v-else :content="error" />
+        </template>
       </el-form-item>
 
       <el-form-item v-if="isGoogle" label="Google circuit ID" prop="circuitId">
@@ -161,6 +188,15 @@
           :disabled="isApproved"
         >
         </el-input>
+        <template #error="{ error }">
+          <div
+            v-if="error.slice(0, 3) === '请输入'"
+            class="el-form-item__error"
+          >
+            {{ error }}
+          </div>
+          <error-warning v-else :content="error" />
+        </template>
       </el-form-item>
 
       <el-form-item v-if="isGoogle" label="Google demarc ID" prop="demarcId">
@@ -171,6 +207,15 @@
           :disabled="isApproved"
         >
         </el-input>
+        <template #error="{ error }">
+          <div
+            v-if="error.slice(0, 3) === '请输入'"
+            class="el-form-item__error"
+          >
+            {{ error }}
+          </div>
+          <error-warning v-else :content="error" />
+        </template>
       </el-form-item>
 
       <el-form-item label="区域" prop="area">
@@ -314,6 +359,7 @@
 <script setup lang="ts">
 import type { FormInstance, FormRules } from 'element-plus'
 import { PortBasic } from '../information-entry/interface'
+import errorWarning from './error-warning.vue'
 import { EventEnum } from '@/utils/enum'
 import { isSupplierManager } from '@/utils/role'
 import store from '@/store'
@@ -365,6 +411,19 @@ let form: { [key: string]: any } = reactive({
 
 const formRef = ref<FormInstance>() // 校验表单
 
+const validatorID = (rule: any, value: any, callback: any) => {
+  const pattern = /^[a-zA-Z0-9][a-zA-Z0-9 _\/-]*[a-zA-Z0-9]$/
+  if (!pattern.test(value)) {
+    callback(
+      new Error(
+        '仅支持英文字母、数字、特殊符号_(下划线) -(中划线) /(斜杠)  (空格)进行命名，不支持用特殊符号作为命名开头或结尾'
+      )
+    )
+  } else {
+    callback()
+  }
+}
+
 const rules = reactive<FormRules>({
   vendorId: [
     { required: true, message: '请选择所属供应商', trigger: 'change' }
@@ -375,9 +434,18 @@ const rules = reactive<FormRules>({
   ],
   name: [{ required: true, message: '请输入端口名称', trigger: 'blur' }],
   portId: [{ required: true, message: '请输入或选择端口ID', trigger: 'blur' }],
-  uuid: [{ required: true, message: '请输入端口ID', trigger: 'blur' }],
-  instanceId: [{ required: true, message: '请输入实例ID', trigger: 'blur' }],
-  connectionId: [{ required: true, message: '请输入互连ID', trigger: 'blur' }],
+  uuid: [
+    { required: true, message: '请输入端口ID', trigger: 'blur' },
+    { validator: validatorID, trigger: 'blur' }
+  ],
+  instanceId: [
+    { required: true, message: '请输入实例ID', trigger: 'blur' },
+    { validator: validatorID, trigger: 'blur' }
+  ],
+  connectionId: [
+    { required: true, message: '请输入互连ID', trigger: 'blur' },
+    { validator: validatorID, trigger: 'blur' }
+  ],
   area: [{ required: true, message: '请输入区域', trigger: 'blur' }],
   speed: [{ required: true, message: '请输入端口速度', trigger: 'blur' }],
   accessPoint: [{ required: true, message: '请输入接入点', trigger: 'blur' }],
@@ -390,10 +458,12 @@ const rules = reactive<FormRules>({
   location: [{ required: true, message: '请输入location', trigger: 'blur' }],
   portGroup: [{ required: true, message: '请选择端口组序号', trigger: 'blur' }],
   circuitId: [
-    { required: true, message: '请输入Google circuit ID', trigger: 'blur' }
+    { required: true, message: '请输入Google circuit ID', trigger: 'blur' },
+    { validator: validatorID, trigger: 'blur' }
   ],
   demarcId: [
-    { required: true, message: '请输入Google demarcId ID', trigger: 'blur' }
+    { required: true, message: '请输入Google demarcId ID', trigger: 'blur' },
+    { validator: validatorID, trigger: 'blur' }
   ],
   portStatus: [{ required: true, message: '请选择端口状态', trigger: 'change' }]
 })
